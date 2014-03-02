@@ -103,11 +103,13 @@
   float: left;
   margin-right: 1rem;
   margin-top: -.33rem;
+  width: 2.5rem;
+  height: 2.7rem;
 }
 
 .Header-title {
   margin: 0;
-  font-size: 2.4em;
+  font-size: 2.0em;
   line-height: 1.5em;
   word-spacing: .08em;
   float: left;
@@ -233,6 +235,11 @@
 
   .Header {
     padding: 1rem 1rem .5rem 4rem;
+  }
+
+  .Header-logo {
+    width: 35px;
+    height: 38px;
   }
 
   .Header--cozy, .Header--cozy .Header-titles {
