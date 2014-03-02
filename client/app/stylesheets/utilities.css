@@ -1,0 +1,269 @@
+/* Utilities */
+
+/* Text */
+
+.u-serif {
+  font-family: 'Georgia', serif;
+  font-style: normal;
+  font-weight: normal;
+}
+
+.u-textLeft {
+  text-align: left!important;
+}
+
+.u-sansSerif {
+  font-family: 'outageregular', sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  -webkit-font-kerning: normal;
+}
+
+.u-textCenter {
+  text-align: center!important;
+}
+
+.u-whiteTxt,
+.u-whiteTxt a,
+.u-whiteTxt a:active,
+.u-whiteTxt a:hover {
+  color: white;
+}
+.u-whiteTxt a {
+  border-bottom: 1px dashed rgba(255, 255, 255, .5);
+}
+
+.u-blackTxt,
+.u-blackTxt a,
+.u-blackTxt a:active,
+.u-blackTxt a:hover {
+  color: black;
+}
+.u-blackTxt a {
+  border-bottom: 1px dashed rgba(0, 0, 0, .5);
+}
+
+.u-grayTxt,
+.u-grayTxt a,
+.u-grayTxt a:active,
+.u-grayTxt a:hover {
+  color: #d2d2d2;
+}
+.u-grayText a {
+  border-bottom: 1px dashed #d2d2d2;
+}
+
+.u-medGrayTxt,
+.u-medGrayTxt a,
+.u-medGrayTxt a:active,
+.u-medGrayTxt a:hover {
+  color: #777777;
+}
+.u-medGrayText a {
+  border-bottom: 1px dashed #777777;
+}
+
+.u-yellowTxt,
+.u-yellowTxt a,
+.u-yellowTxt a:active,
+.u-yellowTxt a:hover {
+  color: #f39f2b;
+}
+.u-yellowTxt a {
+  border-bottom: 1px dashed #f39f2b;
+}
+
+.u-greenTxt,
+.u-greenTxt a,
+.u-greenTxt a:active,
+.u-greenTxt a:hover {
+  color: #39af4c;
+}
+.u-greenTxt a {
+  border-bottom: 1px dashed #39af4c;
+}
+
+.u-blueTxt,
+.u-blueTxt a,
+.u-blueTxt a:active,
+.u-blueTxt a:hover {
+  color: #0082be;
+}
+.u-blueTxt a {
+  border-bottom: 1px dashed #0082be;
+}
+
+.u-redTxt,
+.u-redTxt a,
+.u-redTxt a:active,
+.u-redTxt a:hover {
+  color: #e81e25;
+}
+.u-redTxt a {
+  border-bottom: 1px dashed #e81e25;
+}
+
+/* Borders */
+
+.u-offWhiteLtBorder {
+  border-left: 2px dotted #eeeeee;
+}
+
+.u-grayTopBorder {
+  border-top: 2px dotted #d2d2d2;
+}
+
+.u-grayLtBorder {
+  border-left: 2px dotted #d2d2d2;
+}
+
+.u-grayRtBorder {
+  border-right: 2px dotted #d2d2d2;
+}
+
+.u-grayBotBorder {
+  border-bottom: 2px dotted #d2d2d2;
+}
+
+
+/* Backgrounds */
+
+.u-offWhiteBkg {
+  background-color: #eeeeee;
+}
+
+.u-grayBkg {
+  background-color: #d2d2d2;
+}
+
+.u-ltBlueBkg {
+  background-color: #E3EAF1;
+}
+
+.u-blueBkg {
+  background-color: #0082be;
+}
+
+.u-whiteBkg {
+  background-color: #ffffff;
+}
+
+.u-blackBkg {
+  background-color: #000000;
+}
+
+/* Boxes */
+
+.u-rounded {
+  -webkit-border-radius: 1rem;
+  -moz-border-radius: 1rem;
+  border-radius: 1rem;
+}
+
+/* Button */
+
+.u-button {
+  font-size: 1.25rem;
+  font-weight: normal;
+  font-family: 'outageregular', sans-serif;
+  background: #d2d2d2;
+  display: inline-block;
+  padding: .4em .8em;
+  margin-right: .5em;
+  margin-top: .5em;
+  text-decoration: none;
+  color: #444444;
+  border: none;
+  -webkit-transition: background-color 0.5s;
+  -moz-transition: background-color 0.5s;
+  -o-transition: background-color 0.5s;
+  transition: background-color 0.5s;
+
+  -webkit-border-radius: 1rem;
+  -moz-border-radius: 1rem;
+  border-radius: 1rem;
+}
+a.u-button {
+  border: none;
+}
+
+.u-button:hover {
+  background: #0082be;
+  text-shadow: none;
+  color: #ffffff!important;
+}
+
+.u-button--sm {
+  font-size: 1rem;
+  padding: .5rem;
+  line-height: 1em;
+}
+
+.u-button--reverse,
+a.u-button--reverse {
+  color: #ffffff;
+  background: #777777;
+}
+
+.u-button--wide {
+  text-align: center;
+  width: 100%;
+  margin-top: 5rem;
+  padding: 1rem;
+}
+
+.u-button--desktop {
+  display: none;
+}
+
+
+.u-save, .u-edit, a.u-edit, .u-save, .u-cancel, .u-destroy {
+  color: #ffffff;
+}
+
+.u-edit, a.u-edit {
+  background-color: #777777;
+}
+
+.u-save {
+  background-color: #39af4c;
+}
+
+.u-cancel {
+  background-color: #e81e25;
+}
+
+.u-destroy {
+  background-color: #e81e25;
+}
+
+/* Misc */
+.u-clickable {
+  cursor: pointer;
+  display: inline;
+}
+
+/* Clear fix */
+.u-cf:before,
+.u-cf:after {
+  content: " ";
+  display: table;
+}
+.u-cf:after {
+  clear: both;
+}
+
+@media (min-width: 48em) {
+
+  .u-button, a.u-button {
+    font-size: 1.25rem;
+  }
+  .u-button--sm, a.u-button--sm {
+    font-size: 1rem;
+    line-height: 1rem;
+  }
+  .u-button--desktop {
+    display: block;
+  }
+
+}

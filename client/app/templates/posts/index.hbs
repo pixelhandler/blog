@@ -1,0 +1,10 @@
+<h3>Posts Archive</h3>
+<dl class="Blog-list">
+  {{#each model}}
+    <dt class="Blog-list-date u-greenTxt">{{format-date date}}</dt>
+    <dd class="Blog-list-link u-cf">
+      {{#link-to 'post' this}}{{title}}{{/link-to}}
+    </dd>
+  {{/each}}
+</dl>
+{{partial "has-more-button"}}

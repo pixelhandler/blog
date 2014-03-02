@@ -1,0 +1,40 @@
+{
+  "name": "pixelhandler-blog",
+  "summary": "Bill Heaton's Blog website",
+  "description": "Pixelhandler.com - Pushin' & pullin' pixels on the web",
+  "homepage": "http://pixelhandler.com",
+  "author": [
+    "Bill Heaton"
+  ],
+  "version": "3.0.0",
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "engines": {
+    "node": "~0.10"
+  },
+  "scripts": {
+    "build": "brunch b",
+    "test": "testem"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "bower": ">= 1.2.8",
+    "testem": ">= 0.6.2",
+    "brunch": ">= 1.7.0",
+    "css-brunch": "~1.7.0",
+    "ember-handlebars-brunch": "~1.2.0",
+    "javascript-brunch": "~1.7.0",
+    "uglify-js-brunch": "~1.7.0",
+    "auto-reload-brunch": "~1.7.1",
+    "chokidar": "~0.8.1",
+    "jshint": ">= 2.4.0",
+    "yuidocjs": ">= 0.3.46",
+    "blanket": "~1.1.5",
+    "grunt": "~0.4.2",
+    "grunt-cli": ">= 0.1.11",
+    "grunt-blanket-qunit": "~0.2.0",
+    "node-static": "~0.7.3"
+  }
+}
