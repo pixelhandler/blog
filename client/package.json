@@ -24,6 +24,7 @@
     "testem": ">= 0.6.2",
     "brunch": ">= 1.7.0",
     "css-brunch": "~1.7.0",
+    "clean-css-brunch": "~1.7.1",
     "ember-handlebars-brunch": "~1.2.0",
     "javascript-brunch": "~1.7.0",
     "uglify-js-brunch": "~1.7.0",

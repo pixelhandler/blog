@@ -11,9 +11,6 @@ This is the toolset for server-side application development.
 * Execute `make install` to fetch dependendies.
 * Commands to start up: `make db` and `make server`
 
-## Env
-
-* See [env.json](env.json)
 
 ## Makefile
 
@@ -27,6 +24,11 @@ This is the toolset for server-side application development.
 * [lib](lib) - has adapter for db
 * [routes](routes) - Map HTTP verbs to resoures
 * [tests](tests) - has mocha test files
+
+
+## Environment
+
+* Copy [env-example.json](env-example.json) to `env.json` and edit per env needs.
 
 
 ## Database

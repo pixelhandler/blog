@@ -48,11 +48,11 @@ copy_file handlebars.min.js $src $PROD_DIR
 
 src=$BOWER_DIR"/ember"
 copy_file ember.js $src $DEV_DIR
-copy_file ember.prod.js $src $PROD_DIR
+copy_file ember.min.js $src $PROD_DIR
 
 src=$BOWER_DIR"/ember-data"
 copy_file ember-data.js $src $DEV_DIR
-copy_file ember-data.prod.js $src $PROD_DIR
+copy_file ember-data.min.js $src $PROD_DIR
 
 src=$BOWER_DIR"/showdown"
 copy_file showdown.js $src"/src" $DEV_DIR

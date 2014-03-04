@@ -24,10 +24,6 @@ Source files use CommonJS `module.exports = ` which are converted into
 AMD modules for use in the browser. Use `require()` for loading
 dependent modules as needed.
 
-## Env
-
-* See [app/env.js](app/env.js)
-
 ### Templates
 
 The [app/templates](app/templates) directory is not flexible, as the
@@ -52,6 +48,11 @@ See [Makefile](Makefile) for tasks
 * `make build` = Build app using Brunch.io
 * `make server` - Starts server for client app
 * `make test` - Launch Testem to execute tests, see testem.json
+
+
+## Environment
+
+* Copy [app/env-example.js](app/env-example.js) to `app/env.js` and edit per env needs.
 
 
 ## Build
@@ -113,10 +114,12 @@ vendor file for Ember and Ember Data.
 
 ## Thanks
 
-... for providing examples of building with Ember.js:
+For providing examples of building with Ember.js:
 
 * [mutewinter/tapas-with-ember]
 * [gcollazo/ember-bloggr]
+* [tildeio/bloggr-client]
 
 [mutewinter/tapas-with-ember]: https://github.com/mutewinter/tapas-with-ember
 [gcollazo/ember-bloggr]: https://github.com/gcollazo/ember-bloggr
+[tildeio/bloggr-client]: https://github.com/tildeio/bloggr-client

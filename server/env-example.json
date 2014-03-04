@@ -1,0 +1,12 @@
+{
+  "development": {
+    "admin": {
+      "username": "admin",
+      "password": "XXXXX"
+    },
+    "allowed": [
+      "http://localhost:8000",
+      "http://domain.com"
+    ]
+  }
+}

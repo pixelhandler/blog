@@ -45,7 +45,7 @@ var app = express();
 
 app.use(express.cookieParser('secret'));
 app.use(express.cookieSession());
-
+app.use(express.compress());
 app.use(express.bodyParser());
 app.use(express.methodOverride());
 app.use(app.router);

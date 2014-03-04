@@ -50,6 +50,7 @@ module.exports = function(app, cors, restrict) {
         debug(err);
         res.send(500);
       } else {
+        res.header('Cache-Control', 'public, max-age=' + (30 * 24 * 60 * 60));
         res.send(payload);
       }
     });
@@ -67,6 +68,7 @@ module.exports = function(app, cors, restrict) {
         debug(err);
         res.send(500);
       } else {
+        res.header('Cache-Control', 'public, max-age=' + (30 * 24 * 60 * 60));
         res.send(payload);
       }
     });
