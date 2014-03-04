@@ -9,6 +9,6 @@ window.EmberENV = {
     "API_HOST": "http://api.domain.com",
     "GOOGLE_ANALYTICS": "UA-XXXXXXX-1"
   }
-}[window.location.hostname]
+}[window.location.hostname];
 
 module.exports = window.EmberENV;

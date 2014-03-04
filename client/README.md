@@ -52,7 +52,7 @@ See [Makefile](Makefile) for tasks
 
 ## Environment
 
-* Copy [app/env-example.js](app/env-example.js) to `app/env.js` and edit per env needs.
+* Copy [env-example.js](env-example.js) to `app/env.js` and edit per env needs.
 
 
 ## Build

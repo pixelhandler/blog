@@ -38,7 +38,7 @@ function copy_file() {
   find $3 -name "*"$1 -type f | xargs echo
 }
 
-src=$BOWER_DIR"/jquery"
+src=$BOWER_DIR"/jquery/dist"
 copy_file jquery.js $src $DEV_DIR
 copy_file jquery.min.js $src $PROD_DIR
 

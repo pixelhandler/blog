@@ -1,6 +1,7 @@
 {
   "framework": "qunit",
   "src_files": [
+    "app/env.js",
     "public/vendor.js",
     "public/app.js",
     "tests/support/test-helpers.js",
