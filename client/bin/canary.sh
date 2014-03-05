@@ -20,18 +20,13 @@ function update_file_via_curl() {
   remove_file $1
   echo "Download "$2" to "$1
   curl -o $1 $2
-
-  echo "Downloaded... "
-  find $3 -name '*canary*' -type f | xargs echo
 }
 
-remove_file $DEV_DIR/ember.js
-file=$DEV_DIR"/ember-canary.js"
+file=$DEV_DIR"/ember.js"
 src="http://builds.emberjs.com/canary/ember.js"
 update_file_via_curl $file $src $DEV_DIR
 
-remove_file $DEV_DIR/ember-data.js
-file=$DEV_DIR"/ember-data-canary.js"
+file=$DEV_DIR"/ember-data.js"
 src="http://builds.emberjs.com/canary/ember-data.js"
 update_file_via_curl $file $src $DEV_DIR
 
