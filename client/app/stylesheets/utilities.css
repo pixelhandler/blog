@@ -253,8 +253,7 @@ a.u-button--reverse {
   clear: both;
 }
 
-@media (min-width: 48em) {
-
+@media only screen and (min-width: 768px) {
   .u-button, a.u-button {
     font-size: 1.25rem;
   }
@@ -262,8 +261,10 @@ a.u-button--reverse {
     font-size: 1rem;
     line-height: 1rem;
   }
+}
+
+@media only screen and (min-width: 1024px) {
   .u-button--desktop {
     display: block;
   }
-
 }
