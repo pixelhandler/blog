@@ -46,7 +46,10 @@ module.exports = App.RecordChunksMixin = Ember.Mixin.create({
         collection.push(model);
       }
     }.bind(this));
-    controller.set('hasMore', this.get('hasMore'));
+    controller.setProperties({
+      'hasMore': this.get('hasMore'),
+      'loadingMore': false
+    });
     this._super(controller, collection);
   },
 

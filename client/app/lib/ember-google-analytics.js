@@ -1,5 +1,7 @@
 /*global ga*/
-Ember.GoogleAnalyticsTrackingMixin = Ember.Mixin.create({
+'use-strict';
+
+module.exports = App.GoogleAnalyticsTrackingMixin = Ember.Mixin.create({
   pageHasGa: function() {
     return window.ga && typeof window.ga === "function";
   },
@@ -21,6 +23,7 @@ Ember.GoogleAnalyticsTrackingMixin = Ember.Mixin.create({
     }
   }
 });
+
 Ember.Application.initializer({
   name: "googleAnalytics",
 
@@ -31,4 +34,5 @@ Ember.Application.initializer({
     });
   }
 });
-Ember.Router.reopen(Ember.GoogleAnalyticsTrackingMixin);
+
+Ember.Router.reopen(App.GoogleAnalyticsTrackingMixin);
