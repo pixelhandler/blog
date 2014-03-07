@@ -6,7 +6,7 @@ module.exports = App.AdminIndexRoute = Ember.Route.extend({
   },
   actions: {
     destroy: function (model) {
-      model.destroyRecord();
+      model.destroyRecord();//.then(function () { model.unloadRecord(); });
     }
   }
 });

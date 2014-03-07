@@ -59,7 +59,11 @@ function deleteError(err, connection, callback) {
 
 function firstResultId(cursor, callback) {
   cursor.toArray(function(err, results) {
-    callback(err, results[0].id);
+    if (!results || !results[0] || !results[0].id) {
+      callback('Results missing, empty or missing id', results);
+    } else {
+      callback(err, results[0].id);
+    }
   });
 }
 
