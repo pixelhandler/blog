@@ -2,8 +2,10 @@
 
 module.exports = App.PostView = Ember.View.extend({
   didInsertElement: function () {
-    this.configureDisqus();
-    this.setupDisqus();
+    if (!Ember.testing && window.location.search.match(/_escaped_fragment_/) === null) {
+      this.configureDisqus();
+      this.setupDisqus();
+    }
   },
 
   disqusShortName: 'pixelhandler',
