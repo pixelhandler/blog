@@ -3,7 +3,6 @@
 module('Application', {
   setup: function () {
     window.showdown = new Showdown.converter();
-    window.sessionStorage.removeItem('admin_key');
     route('posts.index').setProperties({'offset': -20, 'loadedIds': []});
     controller('postsIndex').get('content').length = 0;
   },
