@@ -2,7 +2,10 @@
 
 module.exports = App.PostView = Ember.View.extend({
   didInsertElement: function () {
-    if (!Ember.testing && window.location.search.match(/_escaped_fragment_/) === null) {
+    var notTesting = !Ember.testing;
+    var notPrerendering = window.location.search.match(/_escaped_fragment_/) === null;
+    var notLocal = window.location.hostname.match(/localhost/) === null;
+    if (notTesting && notPrerendering && notLocal) {
       this.configureDisqus();
       this.setupDisqus();
     }
