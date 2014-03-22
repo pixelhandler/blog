@@ -11,4 +11,5 @@ module.exports = App.Router.map(function () {
     this.route('create');
     this.route('edit', { path: ':edit_id' });
   });
+  this.route('not-found', { path: '/*path' });
 });
