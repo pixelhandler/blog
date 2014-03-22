@@ -249,8 +249,12 @@
         <lastmod>2014-03-02T08:00:00.000Z</lastmod>
     </url>
     <url>
+        <loc>http://pixelhandler.com/posts/end-to-end-javascript-testing-integration-tests-using-emberjs-test-helpers</loc>
+        <lastmod>2014-03-13T07:00:00.000Z</lastmod>
+    </url>
+    <url>
         <loc>http://pixelhandler.com</loc>
-        <lastmod>2014-03-02T08:00:00.000Z</lastmod>
+        <lastmod>2014-03-13T07:00:00.000Z</lastmod>
     </url>
     <url>
         <loc>http://pixelhandler.com/about</loc>
@@ -258,6 +262,6 @@
     </url>
     <url>
         <loc>http://pixelhandler.com/posts</loc>
-        <lastmod>2014-03-02T08:00:00.000Z</lastmod>
+        <lastmod>2014-03-13T07:00:00.000Z</lastmod>
     </url>
 </urlset>
