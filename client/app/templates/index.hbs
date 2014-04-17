@@ -1,0 +1,13 @@
+{{#each model}}
+  <div class="Blog-excerpt">
+    <h2 class="Blog-excerpt-title u-yellowTxt">
+      {{#link-to 'post' this}}{{title}}{{/link-to}}
+    </h2>
+    <section class="Blog-excerpt-summary">
+      {{format-markdown excerpt}}
+    </section>
+    {{#link-to "post" this class="u-button"}}Read on →{{/link-to}}
+  </div>
+{{/each}}
+{{partial "has-more-button"}}
+{{outlet}}

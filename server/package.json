@@ -1,0 +1,29 @@
+{
+  "name": "api",
+  "namespace": "api",
+  "version": "0.0.1",
+  "private": true,
+  "directories": {},
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "author": "",
+  "license": "",
+  "dependencies": {
+    "express": "~3.5.0",
+    "cors": "*",
+    "rethinkdb": "*",
+    "debug": "*",
+    "inflect": "~0.3.0",
+    "socket.io": "~0.9.16"
+  },
+  "devDependencies": {
+    "mocha": "*",
+    "supertest": "*",
+    "superagent": "*",
+    "request": "*",
+    "async": "*"
+  }
+}

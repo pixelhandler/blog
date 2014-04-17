@@ -1,0 +1,16 @@
+{
+  "development": {
+    "admin": {
+      "username": "admin",
+      "password": "XXXXX"
+    },
+    "allowed": [
+      "http://localhost:8000",
+      "http://domain.com"
+    ],
+    "session": {
+      "cookieName": "express.sid",
+      "secret": "super secret string"
+    }
+  }
+}

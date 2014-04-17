@@ -1,0 +1,40 @@
+<header class="Header Header--cozy u-sansSerif u-grayBotBorder u-blackBkg">
+  <div class="Box u-cf">
+    <div class="Header-title u-whiteTxt">
+      {{#link-to 'index'}}Site <span="u-lightText">X</span>{{/link-to}}
+    </div>
+    <div class="Header-subTitle u-medGrayTxt">
+    </div>
+  </div>
+</header>
+
+<div {{bind-attr class=":Blog-body isTwoColumns:Blog-body--two-col"}}>
+  <main {{bind-attr class=":Blog-content isTwoColumns:Blog-content--two-col :u-blackTxt :u-offWhiteBkg"}}>
+    <article class="Box">
+      {{outlet}}
+    </article>
+  </main>
+
+  <nav {{bind-attr class=":Blog-nav isTwoColumns:Blog-nav--two-col :u-blackTxt :u-grayBkg :u-offWhiteLtBorder"}}>
+    {{render "recent" this}}
+    {{partial "links"}}
+    {{#if isLoggedIn}}
+      {{partial "admin/menu"}}
+    {{/if}}
+    <button class="u-button u-button--sm u-button--reverse u-button--desktop" {{action toggleAside}}>{{asideDisplayButton}}</button>
+  </nav>
+</div>
+
+<footer class="Footer u-sansSerif u-medGrayTxt u-textCenter u-blackBkg u-grayTopBorder">
+  <p class="Footer-credits">
+    {{#unless showLogin}}
+      <small>Copyright ©2014 |
+        <span {{action "enableAdmin"}} class="u-grayTxt u-clickable u-enableAdmin">Admin</span>
+      </small>
+    {{else}}
+      <small>
+        {{partial "login-form"}}
+      </small>
+    {{/unless}}
+  </p>
+</footer>
