@@ -26,25 +26,25 @@ Ember.Application.initializer({
 });
 
 
-var MemorySource = require('lib/memory-source');
+var DataSource = require('lib/data_source');
 
 Ember.Application.initializer({
-  name: 'memory-source',
+  name: 'data-source',
 
   initialize: function (container, application) {
-    container.register('memorySource:main', MemorySource, {singleton: true});
-    application.inject('controller', 'memorySource', 'memorySource:main');
-    application.inject('route', 'memorySource', 'memorySource:main');
+    container.register('dataSource:main', DataSource, {singleton: true});
+    application.inject('controller', 'dataSource', 'dataSource:main');
+    application.inject('route', 'dataSource', 'dataSource:main');
   }
 });
 
 
 Ember.Application.initializer({
-  name: 'store-meta',
+  name: 'data-source-meta',
 
   initialize: function (container, application) {
-    container.register('storeMeta:main', Ember.Map, {singleton: true});
-    application.inject('route', 'meta', 'storeMeta:main');
+    container.register('dataSource:meta', Ember.Map, {singleton: true});
+    application.inject('route', 'meta', 'dataSource:meta');
   }
 });
 

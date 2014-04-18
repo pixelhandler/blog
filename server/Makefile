@@ -1,4 +1,4 @@
-makinstall: brew
+install: brew
 	@npm install
 
 brew:

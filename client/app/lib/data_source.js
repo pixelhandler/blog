@@ -12,30 +12,31 @@ OC.MemorySource.prototype._filter = function (type, query) {
   }
 };
 
-function MemorySource() {}
+function DataSource() {}
 
-MemorySource.create = function () {
+DataSource.create = function () {
   if (typeof window.OC === 'undefined') {
     throw new Error('Orbit Common client library not loaded');
   }
   var schema = new OC.Schema({ idField: 'id', models: SCHEMA });
+
   var memorySource = new OC.MemorySource(schema);
-  //var localSource = new OC.LocalStorageSource(schema);
+  var localSource = new OC.LocalStorageSource(schema);
   var socketSource = new OC.SocketSource(schema);
 
-  // Connect memorySource -> localSource (using the default blocking strategy)
+  // Connect socketSource -> memorySource (using the default blocking strategy)
   var socketToMemoryConnector = new Orbit.TransformConnector(socketSource, memorySource);
 
-  // Connect memorySource -> localSource (using the default blocking strategy)
-  //var memToLocalConnector = new Orbit.TransformConnector(memorySource, localSource);
+  // Connect memorySource <-> localSource (using the default blocking strategy)
+  var memToLocalConnector = new Orbit.TransformConnector(memorySource, localSource);
+  var localToMemConnector = new Orbit.TransformConnector(localSource, memorySource);
 
-  // Check local storage before making a remote call
-  //socketSource.on('assistFind', localSource.find);
-
-  // If the in-memory source can't find the record, query our rest server
+  // Strategy to find records
   memorySource.on('rescueFind', socketSource.find);
+  //localSource.on('rescueFind', socketSource.find);
+  //socketSource.on('assistFind', localSource.find);
 
   return memorySource;
 };
 
-module.exports = MemorySource;
+module.exports = DataSource;

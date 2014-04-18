@@ -2,7 +2,7 @@
 
 module.exports = App.PostRoute = Ember.Route.extend({
   model: function (params) {
-    return this.memorySource.find('post', params.post_id);
+    return this.dataSource.find('post', params.post_id);
   },
 
   setupController: function (controller, model) {

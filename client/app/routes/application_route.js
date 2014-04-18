@@ -25,7 +25,7 @@ module.exports = App.ApplicationRoute = Ember.Route.extend({
 
   model: function () {
     var query = queryFactory(this);
-    return this.memorySource.find('post', query);
+    return this.dataSource.find('post', query);
   },
 
   afterModel: function (collection) {

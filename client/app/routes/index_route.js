@@ -3,7 +3,7 @@
 module.exports = App.IndexRoute = Ember.Route.extend({
 
   model: function () {
-    return this.memorySource.find('post');
+    return this.dataSource.find('post');
   },
 
   actions: {

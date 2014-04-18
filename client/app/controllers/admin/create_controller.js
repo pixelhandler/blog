@@ -3,6 +3,7 @@
 module.exports = App.AdminCreateController = Ember.ObjectController.extend({
 
   isPreviewing: false,
+  isNew: true,
 
   createSlug: function () {
     var slug = this.get('slug');

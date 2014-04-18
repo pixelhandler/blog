@@ -2,11 +2,12 @@
 
 module.exports = App.AdminIndexRoute = Ember.Route.extend({
   model: function () {
-    return this.memorySource.find('post');
+    return this.dataSource.find('post');
   },
   actions: {
     destroy: function (model) {
-      model.destroyRecord();//.then(function () { model.unloadRecord(); });
+      //model.destroyRecord();//.then(function () { model.unloadRecord(); });
+      // TODO remove record
     }
   }
 });
