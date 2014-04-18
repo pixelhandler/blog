@@ -30,6 +30,8 @@ This is the toolset for server-side application development.
 
 * Copy [env-example.json](env-example.json) to `env.json` and edit per env needs.
 
+Use `make config`, this is called during `make install`
+
 
 ## Database
 

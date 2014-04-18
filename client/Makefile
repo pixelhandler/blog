@@ -12,13 +12,16 @@ doc:
 docfiles: lint
 	@yuidoc ./app/* -c yuidoc.json
 
-install:
+install: config
 	@npm install
 	@npm install grunt-blanket-qunit --save-dev
 	@bower install
 	@bin/patches.sh
 	@bin/vendor.sh
 	@bin/canary.sh
+
+config:
+	@bin/config.sh
 
 canary:
 	@bin/canary.sh
@@ -43,4 +46,4 @@ server: lint
 	@brunch watch --server
 	@open http://localhost:8000/
 
-.PHONY: build clean dist doc docfiles install lint prod test coverage ci server
+.PHONY: build clean dist doc docfiles config install lint prod test coverage ci server

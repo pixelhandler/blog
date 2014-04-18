@@ -44,6 +44,7 @@ A module used to initialize the application.
 
 See [Makefile](Makefile) for tasks
 
+* `make config` - copies example-env.js to app/env.js
 * `make install` - fetch dependencies and setup
 * `make build` = Build app using Brunch.io
 * `make server` - Starts server for client app
@@ -53,6 +54,8 @@ See [Makefile](Makefile) for tasks
 ## Environment
 
 * Copy [env-example.js](env-example.js) to `app/env.js` and edit per env needs.
+
+Use `make config`, this is called during `make install`
 
 
 ## Build

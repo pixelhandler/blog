@@ -1,5 +1,8 @@
-install: brew
+install: config brew
 	@npm install
+
+config:
+	@bin/config.sh
 
 brew:
 	@./bin/install_rethinkdb.sh
@@ -22,4 +25,4 @@ test: lint seed
 server:
 	@DEBUG=* node app.js
 
-.PHONY: install db lint test server
+.PHONY: config install db lint test server

@@ -2,13 +2,25 @@
 
 var fs = require('fs');
 
-// Add missing main property to showdown's bower.json
+// Add missing main property to showdown bower.json
 updateFileContent('./bower_components/showdown/.bower.json', null, [
   {
     matcher: /name/,
     replacers: [
       function (line) {
         return line + '\n  "main": "src/showdown.js",';
+      }
+    ]
+  }
+]);
+
+// Add missing main property to socket.io client bower.json
+updateFileContent('./bower_components/socket.io-client/.bower.json', null, [
+  {
+    matcher: /name/,
+    replacers: [
+      function (line) {
+        return line + '\n  "main": "dist/socket.io.js",';
       }
     ]
   }
