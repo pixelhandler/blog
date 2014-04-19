@@ -131,6 +131,19 @@ Emit, with last argument as callback function to receive data.
     }
 
 
+## ROADMAP
+
+1. Sync data stores memory -> localStorage -> socket
+2. Assist/rescue memory.find w/ strategy: if not in memory, check localStorage and if not there ask socket to find.
+3. Finish SocketSource need to handle add (create record), remove (delete record), update (patch record) for admin tasks (may need a replace action too)
+4. Add Stats collection and track stats for each post record
+5. Add ‘trends’ link in nav to list trending posts (most viewed by month)
+6. Sync index of records w/ remote storage via socket to get missing records (receive new resources not in memory or localStorage)
+7. Using index chuck load of records for index pages like blog index (home) and archives (this already works on master via REST, but tabled to re-implement after transition to sockets/orbit.js)
+8. Add middleware to socket for authenticated message (cookie session) for add, remove, update, patch, replace actions
+
+Note: 2 and 3 above may require work in orbit.js or perhaps a transform method
+
 
 ## Thanks
 
@@ -139,7 +152,9 @@ For providing examples of building with Ember.js:
 * [mutewinter/tapas-with-ember]
 * [gcollazo/ember-bloggr]
 * [tildeio/bloggr-client]
+* [orbitjs/orbit.js]
 
 [mutewinter/tapas-with-ember]: https://github.com/mutewinter/tapas-with-ember
 [gcollazo/ember-bloggr]: https://github.com/gcollazo/ember-bloggr
 [tildeio/bloggr-client]: https://github.com/tildeio/bloggr-client
+[orbitjs/orbit.js]: https://github.com/orbitjs/orbit.js
