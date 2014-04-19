@@ -21,16 +21,29 @@ DataSource.create = function () {
   var schema = new OC.Schema({ idField: 'id', models: SCHEMA });
 
   var memorySource = new OC.MemorySource(schema);
-  //var localSource = new OC.LocalStorageSource(schema);
+  var localSource = new OC.LocalStorageSource(schema);
   var socketSource = new OC.SocketSource(schema);
+
+  //var memoryToLocalRequestConnector = new Orbit.RequestConnector(
+      //memorySource, localSource, {
+        //actions: ['find'], mode: 'rescue'
+      //}
+  //);
+  //var localToSocketRequestConnector = new Orbit.RequestConnector(
+      //localSource, socketSource, {
+        //actions: ['find'], mode: 'rescue'
+      //}
+  //);
 
   // Connect socketSource -> memorySource (using the default blocking strategy)
   var socketToMemoryConnector = new Orbit.TransformConnector(socketSource, memorySource);
-  //var socketToLocalStorageConnector = new Orbit.TransformConnector(socketSource, localSource);
+  //var localToMemoryConnector = new Orbit.TransformConnector(localSource, memorySource);
+  //var socketToLocalConnector = new Orbit.TransformConnector(socketSource, localSource);
 
   // Strategy to find records
-  //socketSource.on('assistFind', localSource.find);
   memorySource.on('rescueFind', socketSource.find);
+  //socketSource.on('assistFind', localSource.find);
+  //localSource.on('rescueFind', socketSource.find);
 
   return memorySource;
 };
