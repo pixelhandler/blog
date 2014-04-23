@@ -2,9 +2,6 @@
 
 module.exports = App.AdminCreateRoute = Ember.Route.extend({
   model: function (params) {
-    //var post = this.store.createRecord('post');
-    //post.set('author', { name: 'pixelhandler' });
-    //return post;
     return {
       slug: '',
       title: '',
@@ -22,10 +19,11 @@ module.exports = App.AdminCreateRoute = Ember.Route.extend({
 
   actions: {
     save: function () {
-      //this.modelFor(this.get('routeName')).save().then(function (model) {
-      //  this.transitionTo('admin');
-      //}.bind(this));
-      // TODO add to store
+      var model = this.modelFor(this.get('routeName'));
+      var operation = model.id ? 'replace' : 'add';
+      this.dataSource[operation]('post', model).then(function (model) {
+        this.transitionTo('admin');
+      }.bind(this));
     },
 
     cancel: function () {

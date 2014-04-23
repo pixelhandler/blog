@@ -15,6 +15,10 @@ SocketService.create = function () {
     socket.on('connect_failed', function () {
       socket = undefined;
     });
+    socket.on('error', function (e) {
+      console.log('Socket Error!', e);
+      throw new Error('Socket Error!', e);
+    });
     //}
   } catch (e) {
     if (typeof window.io === 'undefined') {

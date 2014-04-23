@@ -34,8 +34,12 @@ module.exports = function(server) {
 
     socket.on('find', findById);
 
-    socket.on('add', function () {
-      io.sockets.emit('error', 'Add not implemented.');
+    socket.on('add', function (payload, callback) {
+      var _callback = function (_payload) {
+        callback(_payload);
+        io.sockets.emit('didAdd', _payload);
+      };
+      createRecord(payload, _callback);
     });
 
     socket.on('update', function () {
@@ -72,7 +76,7 @@ function findQuery(query, callback) {
   }
   var resource = query.resource;
   delete query.resource;
-  _cb = callback;
+  var _cb = callback;
   db.findQuery(resource, query, function (err, payload) {
     if (err) {
       console.log(payload);
@@ -99,7 +103,7 @@ function findById(query, callback) {
   delete query.resource;
   var id = query.id;
   delete query.id;
-  _cb = callback;
+  var _cb = callback;
   db.find(resource, id, function (err, payload) {
     if (err) {
       console.log(payload);
@@ -108,4 +112,28 @@ function findById(query, callback) {
     }
     _cb(payload);
   });
+}
+
+function createRecord(payload, callback) {
+  console.log('createRecord...', payload);
+  if (typeof payload === 'string') {
+    payload = JSON.parse(payload);
+  }
+  var resource = payload.resource;
+  var type = singularize(resource);
+  delete payload.resource;
+  var _cb = callback;
+  db.createRecord(resource, payload[type], function (err, payload) {
+    if (err) {
+      console.log(payload);
+      console.error(err);
+      payload = { errors: { code: 500, error: 'Server failure' } };
+    }
+    _cb(payload);
+  });
+}
+
+function singularize(name) {
+  // TODO Implement/borrow an inflector, for now removes last character, i.e "s"
+  return name.slice(0, name.length - 1);
 }

@@ -35,6 +35,25 @@ module.exports = App.ApplicationRoute = Ember.Route.extend({
 
   sessionUrl: Ember.ENV.API_HOST + '/sessions',
 
+  onDidAdd: function () {
+    try {
+      this.socket.on('didAdd', this.addToCollections.bind(this));
+    } catch (e) {
+      console.log(e);
+    }
+  }.on('init'),
+
+  addToCollections: function (payload) {
+    var routeNames = 'application postsIndex';
+    routeNames.w().forEach(function (name) {
+      try {
+        this.modelFor(name).addObject(payload.posts[0]);
+      } catch (e) {
+        console.log(e);
+      }
+    }.bind(this));
+  },
+
   actions: {
     login: function () {
       var controller = this.get('controller');

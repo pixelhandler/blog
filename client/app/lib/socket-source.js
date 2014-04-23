@@ -28,9 +28,23 @@ Orbit.extend(OC.SocketSource.prototype, OC.Source.prototype, {
   },
 
   _transform: function(operation) {
-    // TODO actually implement the transform interface for PATCH'g
-    var inverse = this._cache.transform(operation, true);
-    this.didTransform(operation, inverse);
+    var path   = operation.path,
+        data   = operation.value,
+        type   = path[0],
+        id     = path[1];
+
+    if (path.length > 2) {
+      path = path.slice(2);
+      throw new Error('Nested path not supported.');
+    } else {
+      var methodName = '_transform' + operation.op.capitalize();
+      if (typeof this[methodName] === 'function') {
+        delete data.id;
+        this[methodName](type, id, data);
+      } else {
+        throw new Error(methodName + ' not implmented');
+      }
+    }
   },
 
   _find: function(type, id) {
@@ -46,19 +60,8 @@ Orbit.extend(OC.SocketSource.prototype, OC.Source.prototype, {
     var query = {resource: type + 's', id: id};
 
     return new Orbit.Promise(function (resolve, reject) {
-      var didFind = function (payload) {
-        if (payload.errors || !payload.posts) {
-          reject(payload.errors);
-        } else {
-          resolve(payload.posts[0]);
-        }
-      };
       try {
-        socket.on('error', function (e) {
-          var msg = 'SocketSource#_find Error!';
-          console.log(msg, e);
-          throw new Error(msg, e);
-        });
+        var didFind = responseHandlerFactory(resolve, reject);
         socket.emit('find', JSON.stringify(query), didFind);
       } catch (e) {
         var msg = 'SocketSource#_find Socket Messaging Error';
@@ -71,23 +74,12 @@ Orbit.extend(OC.SocketSource.prototype, OC.Source.prototype, {
   _findQuery: function (type, query) {
     var socket = this._socket;
     query = query || {};
-    query.resource = query.resource || type + 's';
+    query.resource = query.resource || pluralize(type);
     query = this._queryFactory(query);
 
     return new Orbit.Promise(function (resolve, reject) {
-      var didFindQuery = function (payload) {
-        if (payload.errors || !payload.posts) {
-          reject(payload.errors);
-        } else {
-          resolve(payload.posts);
-        }
-      };
       try {
-        socket.on('error', function (e) {
-          var msg = 'SocketSource#_findQuery Error!';
-          console.log(msg, e);
-          throw new Error(msg, e);
-        });
+        var didFindQuery = responseHandlerFactory(resolve, reject);
         socket.emit('findQuery', JSON.stringify(query), didFindQuery);
       } catch (e) {
         var msg = 'SocketSource#_findQuery Socket Messaging Error';
@@ -107,13 +99,42 @@ Orbit.extend(OC.SocketSource.prototype, OC.Source.prototype, {
     return query;
   },
 
-  _add: function () { throw new Error('Add not implemented.'); },
+  _transformAdd: function (type, id, data) {
+    var socket = this._socket;
+    var payload = { resource: pluralize(type) };
+    payload[type] = data;
+    id = void 0;
 
-  _update: function () { throw new Error('Update not implemented.'); },
+    return new Orbit.Promise(function (resolve, reject) {
+      try {
+        var didAdd = responseHandlerFactory(resolve, reject);
+        socket.emit('add', JSON.stringify(payload), didAdd);
+      } catch (e) {
+        var msg = 'SocketSource#tranform (op:add) Socket Messaging Error';
+        console.log(msg, e);
+        throw new Error(msg, e);
+      }
+    });
+  }
 
-  _patch: function () { throw new Error('Patch not implemented.'); },
-
-  _remove: function () { throw new Error('Remove not implemented.'); }
+  //_add: function () {},
+  //_update: function () {},
+  //_patch: function () {},
+  //_remove: function () {}
 });
+
+var responseHandlerFactory = function (resolve, reject) {
+  return function (payload) {
+    if (payload.errors || !payload.posts) {
+      reject(payload.errors);
+    } else {
+      resolve(payload.posts);
+    }
+  };
+};
+
+var pluralize = function (name) {
+  return name + 's';
+};
 
 module.exports = OC.SocketSource;
