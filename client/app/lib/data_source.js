@@ -21,7 +21,7 @@ DataSource.create = function () {
   var schema = new OC.Schema({ idField: 'id', models: SCHEMA });
 
   var memorySource = new OC.MemorySource(schema);
-  var localSource = new OC.LocalStorageSource(schema);
+  //var localSource = new OC.LocalStorageSource(schema);
   var socketSource = new OC.SocketSource(schema);
 
   //var memoryToLocalRequestConnector = new Orbit.RequestConnector(
@@ -46,9 +46,9 @@ DataSource.create = function () {
   //socketSource.on('assistFind', localSource.find);
   //localSource.on('rescueFind', socketSource.find);
 
-  socketSource.on('didFind', function(type, id, record) {
+  //socketSource.on('didFind', function(type, id, record) {
     //debugger;
-  });
+  //});
 
   return memorySource;
 };

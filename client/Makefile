@@ -1,5 +1,5 @@
 build: lint clean 
-	@brunch b
+	@./node_modules/.bin/brunch b
 
 clean:
 	@rm -fr ./public/*
@@ -7,10 +7,10 @@ clean:
 dist: clean build prod
 
 doc:
-	@yuidoc ./app/* -c yuidoc.json --server 3333
+	@./node_modules/.bin/yuidoc ./app/* -c yuidoc.json --server 3333
 
 docfiles: lint
-	@yuidoc ./app/* -c yuidoc.json
+	@./node_modules/.bin/yuidoc ./app/* -c yuidoc.json
 
 install: config
 	@npm install
@@ -27,23 +27,23 @@ canary:
 	@bin/canary.sh
 
 lint:
-	@jshint app/*
+	@./node_modules/.bin/jshint app/*
 
 prod: lint
-	@brunch build --production
+	@./node_modules/.bin/brunch build --production
 
 test: lint
-	@testem
+	@./node_modules/.bin/testem
 
 coverage: lint
 	@open http://localhost:8989/tests/coverage.html?coverage=true
 	@python -m SimpleHTTPServer 8989
 
 ci: dist
-	@grunt blanket_qunit --verbose
+	@./node_modules/.bin/grunt blanket_qunit --verbose
 
 server: lint
-	@brunch watch --server
+	@./node_modules/.bin/brunch watch --server
 	@open http://localhost:8000/
 
 .PHONY: build clean dist doc docfiles config install lint prod test coverage ci server

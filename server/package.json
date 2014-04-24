@@ -20,6 +20,7 @@
     "socket.io": "~0.9.16"
   },
   "devDependencies": {
+    "jshint": ">= 2.4.0",
     "mocha": "*",
     "supertest": "*",
     "superagent": "*",

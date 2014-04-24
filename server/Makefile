@@ -17,7 +17,7 @@ seed: setup
 	@./bin/seed_blog_db.js
 
 lint:
-	@jshint lib/* app.js tests/*
+	@./node_modules/.bin/jshint lib/* app.js tests/*
 
 test: lint seed
 	@./node_modules/.bin/mocha --reporter spec tests/*
