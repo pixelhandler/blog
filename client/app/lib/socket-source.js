@@ -128,7 +128,13 @@ var responseHandlerFactory = function (resolve, reject) {
     if (payload.errors || !payload.posts) {
       reject(payload.errors);
     } else {
-      resolve(payload.posts);
+      if (payload.posts.length > 1) {
+        resolve(payload.posts.map(function (post) {
+          return App.PostModel.create(post);
+        }));
+      } else {
+        resolve(App.PostModel.create(payload.posts[0]));
+      }
     }
   };
 };

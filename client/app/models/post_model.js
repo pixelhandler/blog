@@ -1,13 +1,10 @@
-/*'use-strict';
+'use-strict';
 
-var attr = DS.attr;
-
-module.exports = App.PostModel = DS.Model.extend({
-  slug: attr('string'),
-  title: attr('string'),
-  author: attr(),
-  date: attr('date'),
-  excerpt: attr('string'),
-  body: attr('string')
+module.exports = App.PostModel = Ember.Model.extend({
+  slug: void 0,
+  title: void 0,
+  author: void 0,
+  date: void 0,
+  excerpt: void 0,
+  body: void 0
 });
-*/

@@ -47,7 +47,7 @@ app.use(express.cookieParser(config.session.secret));
 //app.use(express.cookieSession());
 app.use(express.session({
   store: new express.session.MemoryStore(),
-  cookie: { httpOnly: true },
+  cookie: { httpOnly: true, maxAge: 60 * 30 },
   key: config.session.cookieName
 }));
 app.use(express.compress());
