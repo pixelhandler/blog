@@ -1,6 +1,7 @@
 'use-strict';
 
 module.exports = App.PostModel = Ember.Model.extend({
+  __type__: 'post',
   slug: void 0,
   title: void 0,
   author: void 0,

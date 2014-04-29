@@ -13,6 +13,17 @@ Ember.Application.initializer({
 });
 
 
+var Model = require('lib/model');
+
+Ember.Application.initializer({
+  name: 'model',
+
+  initialize: function(container, application) {
+    application.register('model:main', Model, { singleton: false });
+  }
+});
+
+
 var SocketService = require('lib/socket-service');
 
 Ember.Application.initializer({
@@ -22,6 +33,8 @@ Ember.Application.initializer({
     container.register('socket:main', SocketService, { singleton: false });
     application.inject('controller', 'socket', 'socket:main');
     application.inject('route', 'socket', 'socket:main');
+    var model = container.lookup('model:main');
+    model.constructor.prototype.socket = container.lookup('socket:main');
   }
 });
 
@@ -35,6 +48,8 @@ Ember.Application.initializer({
     container.register('dataSource:main', DataSource, {singleton: true});
     application.inject('controller', 'dataSource', 'dataSource:main');
     application.inject('route', 'dataSource', 'dataSource:main');
+    var model = container.lookup('model:main');
+    model.constructor.prototype.dataSource = container.lookup('dataSource:main');
   }
 });
 

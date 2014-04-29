@@ -28,23 +28,61 @@ Orbit.extend(OC.SocketSource.prototype, OC.Source.prototype, {
   },
 
   _transform: function(operation) {
-    var path   = operation.path,
-        data   = operation.value,
-        type   = path[0],
-        id     = path[1];
-
-    if (path.length > 2) {
-      path = path.slice(2);
-      throw new Error('Nested path not supported.');
+    var methodName = '_transform' + operation.op.capitalize();
+    if (typeof this[methodName] === 'function') {
+      return this[methodName](operation);
     } else {
-      var methodName = '_transform' + operation.op.capitalize();
-      if (typeof this[methodName] === 'function') {
-        delete data.id;
-        this[methodName](type, id, data);
-      } else {
-        throw new Error(methodName + ' not implmented');
-      }
+      throw new Error(methodName + ' not implmented');
     }
+  },
+
+  _transformAdd: function (operation) {
+    var path = operation.path,
+      data   = operation.value,
+      type   = path[0],
+      id     = path[1];
+
+    var socket = this._socket;
+    var payload = { resource: pluralize(type) };
+    delete data.id;
+    payload[type] = data;
+
+    return new Orbit.Promise(function (resolve, reject) {
+      try {
+        var didAdd = responseHandlerFactory(resolve, reject);
+        socket.emit('add', JSON.stringify(payload), didAdd);
+      } catch (e) {
+        var msg = 'SocketSource#transform (op:add) Socket Messaging Error';
+        console.log(msg, e);
+        throw new Error(msg, e);
+      }
+    });
+  },
+
+  _transformReplace: function (operation) {
+    return this._transformPatch(operation);
+  },
+
+  _transformRemove: function (operation) {
+    return this._transformPatch(operation);
+  },
+
+  _transformPatch: function (operation) {
+    var socket = this._socket;
+
+    return new Orbit.Promise(function (resolve, reject) {
+      try {
+        var didPatch = responseHandlerFactory(resolve, reject);
+        if (Array.isArray(operation.path)) { // REVIEW why is this needed?
+          operation.path = '/' + operation.path.join('/');
+        }
+        socket.emit('patch', JSON.stringify(operation), didPatch);
+      } catch (e) {
+        var msg = 'SocketSource#transform (op:patch) Socket Messaging Error';
+        console.log(msg, e);
+        throw new Error(msg, e);
+      }
+    });
   },
 
   _find: function(type, id) {
@@ -99,28 +137,14 @@ Orbit.extend(OC.SocketSource.prototype, OC.Source.prototype, {
     return query;
   },
 
-  _transformAdd: function (type, id, data) {
-    var socket = this._socket;
-    var payload = { resource: pluralize(type) };
-    payload[type] = data;
-    id = void 0;
+  _patch: function (type, id, property, value) {
+    return OC.Source.prototype._patch.call(this, type, id, property, value);
+  },
 
-    return new Orbit.Promise(function (resolve, reject) {
-      try {
-        var didAdd = responseHandlerFactory(resolve, reject);
-        socket.emit('add', JSON.stringify(payload), didAdd);
-      } catch (e) {
-        var msg = 'SocketSource#tranform (op:add) Socket Messaging Error';
-        console.log(msg, e);
-        throw new Error(msg, e);
-      }
-    });
+  _remove: function () {
+    return OC.Source.prototype._remove.apply(this, Array.prototype.slice.call(arguments));
   }
 
-  //_add: function () {},
-  //_update: function () {},
-  //_patch: function () {},
-  //_remove: function () {}
 });
 
 var responseHandlerFactory = function (resolve, reject) {

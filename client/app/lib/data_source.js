@@ -34,15 +34,22 @@ DataSource.create = function () {
         //actions: ['find'], mode: 'rescue'
       //}
   //);
+  var socketToMemoryReqstCon = new Orbit.RequestConnector(
+    socketSource, memorySource, { actions: ['find', 'patch'], model: 'rescue'}
+  );
+  var memoryToSocketReqstCon = new Orbit.RequestConnector(
+    memorySource, socketSource, { actions: ['find', 'patch'], model: 'rescue'}
+  );
 
   // Connect socketSource -> memorySource (using the default blocking strategy)
-  var socketToMemoryConnector = new Orbit.TransformConnector(socketSource, memorySource);
-  var memoryToSocketConnector = new Orbit.TransformConnector(memorySource, socketSource);
+  var socketToMemoryTransCon = new Orbit.TransformConnector(socketSource, memorySource);
+  var memoryToSocketTransCon = new Orbit.TransformConnector(memorySource, socketSource);
   //var localToMemoryConnector = new Orbit.TransformConnector(localSource, memorySource);
   //var socketToLocalConnector = new Orbit.TransformConnector(socketSource, localSource);
 
   // Strategy to find records
-  memorySource.on('rescueFind', socketSource.find);
+  //memorySource.on('rescueFind', socketSource.find);
+  //memorySource.on('assistPatch', socketSource.patch);
   //socketSource.on('assistFind', localSource.find);
   //localSource.on('rescueFind', socketSource.find);
 

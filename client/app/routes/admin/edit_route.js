@@ -7,10 +7,9 @@ module.exports = App.AdminEditRoute = Ember.Route.extend({
 
   actions: {
     save: function () {
-      //this.modelFor(this.get('routeName')).save().then(function (model) {
-      //  this.transitionTo('admin');
-      //}.bind(this));
-      // TODO add method for updating
+      this.modelFor(this.get('routeName')).save().then(function (model) {
+        this.transitionTo('admin');
+      }.bind(this));
     },
 
     cancel: function () {

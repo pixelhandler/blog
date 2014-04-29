@@ -42,17 +42,23 @@ module.exports = function(server) {
       createRecord(payload, _callback);
     });
 
-    socket.on('update', function () {
-      io.sockets.emit('error', 'Update not implemented.');
+    socket.on('patch', function (operation, callback) {
+      var _callback = function (error, _payload) {
+        if (error) {
+          console.log('Patch Error!', error);
+          callback({errors: error});
+        } else {
+          console.log('didPatch...', _payload);
+          callback(_payload);
+          io.sockets.emit('didPatch', _payload);
+        }
+      };
+      patch(operation, _callback);
     });
 
-    socket.on('patch', function () {
-      io.sockets.emit('error', 'Patch not implemented.');
-    });
-
-    socket.on('remove', function () {
-      io.sockets.emit('error', 'Remove not implemented.');
-    });
+    //socket.on('remove', function () {
+      //io.sockets.emit('error', 'Remove not implemented.');
+    //});
 
     socket.on('disconnect', function () {
       io.sockets.emit('error', 'User disconnected');
@@ -133,7 +139,25 @@ function createRecord(payload, callback) {
   });
 }
 
+function patch(operation, callback) {
+  console.log('patch...', operation);
+  if (typeof operation === 'string') {
+    operation = JSON.parse(operation);
+  }
+  var path = operation.path.split('/');
+  var type = pluralize(path[1]);
+  var id = path[2];
+  var prop = path[3]; // TODO support sub-path
+  var payload = {};
+  payload[prop] = operation.value;
+  db.updateRecord(type, id, payload, callback);
+}
+
+// TODO Implement/borrow an inflector
 function singularize(name) {
-  // TODO Implement/borrow an inflector, for now removes last character, i.e "s"
   return name.slice(0, name.length - 1);
+}
+
+function pluralize(name) {
+  return name + 's';
 }
