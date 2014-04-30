@@ -6,8 +6,9 @@ module.exports = App.AdminIndexRoute = Ember.Route.extend({
   },
   actions: {
     destroy: function (model) {
-      //model.destroyRecord();//.then(function () { model.unloadRecord(); });
-      // TODO remove record
+      this.dataSource.remove('post', model.id).then(function (model) {
+        this.transitionTo('admin');
+      }.bind(this));
     }
   }
 });

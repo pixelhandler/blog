@@ -20,8 +20,7 @@ module.exports = App.AdminCreateRoute = Ember.Route.extend({
   actions: {
     save: function () {
       var model = this.modelFor(this.get('routeName'));
-      var operation = model.id ? 'replace' : 'add';
-      this.dataSource[operation]('post', model).then(function (model) {
+      this.dataSource.add('post', model).then(function (model) {
         this.transitionTo('admin');
       }.bind(this));
     },
