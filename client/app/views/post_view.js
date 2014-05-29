@@ -11,6 +11,12 @@ module.exports = App.PostView = Ember.View.extend({
     }
   },
 
+  modelIdDidChange: function () {
+    Ember.run.scheduleOnce('afterRender', function () {
+      window.scroll(0, 0);
+    });
+  }.observes('controller.model.id'),
+
   disqusShortName: 'pixelhandler',
 
   disqusIdChanged: function () {

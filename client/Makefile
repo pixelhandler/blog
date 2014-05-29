@@ -1,5 +1,5 @@
 build: lint clean 
-	@brunch b
+	@export BRUNCH_ENV=development; brunch b
 
 clean:
 	@rm -fr ./public/*
@@ -27,7 +27,7 @@ lint:
 	@jshint app/*
 
 prod: lint
-	@brunch build --production
+	@export BRUNCH_ENV=production; brunch build --production
 
 test: lint
 	@testem

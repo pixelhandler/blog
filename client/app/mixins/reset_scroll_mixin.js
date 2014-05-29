@@ -3,6 +3,6 @@
 module.exports = App.ResetScroll = Ember.Mixin.create({
   activate: function() {
     this._super();
-    window.scrollTo(0,0);
+    window.scroll(0, 0);
   }
 });

@@ -33,7 +33,7 @@ exports.config = {
     },
     stylesheets: {
       joinTo: {
-        'stylesheets/normalize.css': /^app\/stylesheets\/normalize\.css$/,
+        'stylesheets/normalize.css': new RegExp('vendor/'+ environment +'/normalize.css'),
         'stylesheets/app.css': /^app\/stylesheets\/(app|components|elements|utilities|fonts)\.css$/,
       }
     },
