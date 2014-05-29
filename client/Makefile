@@ -29,6 +29,9 @@ lint:
 prod: lint
 	@export BRUNCH_ENV=production; brunch build --production
 
+fingerprint:
+	@bin/fingerprint.sh --use-cdn
+
 test: lint
 	@testem
 
