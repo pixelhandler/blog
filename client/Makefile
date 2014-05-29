@@ -43,4 +43,8 @@ server: lint
 	@brunch watch --server
 	@open http://localhost:8000/
 
+static_server: lint
+	@node -e "require('./server.js').startServer()"
+	@open http://localhost:8000/
+
 .PHONY: build clean dist doc docfiles install lint prod test coverage ci server
