@@ -1,6 +1,8 @@
 'use-strict';
 
-module.exports = App.AdminCreateRoute = Ember.Route.extend({
+require('../../mixins/reset_scroll_mixin');
+
+module.exports = App.AdminCreateRoute = Ember.Route.extend(App.ResetScroll, {
   model: function (params) {
     var post = this.store.createRecord('post');
     post.set('author', { name: 'pixelhandler' });

@@ -1,6 +1,8 @@
 'use-strict';
 
-module.exports = App.AdminIndexRoute = Ember.Route.extend({
+require('../../mixins/reset_scroll_mixin');
+
+module.exports = App.AdminIndexRoute = Ember.Route.extend(App.ResetScroll, {
   model: function () {
     return this.store.find('post');
   },
