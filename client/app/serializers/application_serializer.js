@@ -1,6 +1,6 @@
 'use-strict';
 
-module.exports = App.ApplicationSerializer = DS.RESTSerializer.extend({
+module.exports = Ember.Object.create({
   /**
     @method normalize - swap id w/ slug
   **/

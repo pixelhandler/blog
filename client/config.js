@@ -23,7 +23,11 @@ exports.config = {
           'vendor/'+ environment +'/jquery.js',
           'vendor/'+ environment +'/handlebars.js',
           'vendor/'+ environment +'/ember.js',
-          'vendor/'+ environment +'/ember-data.js',
+          //'vendor/'+ environment +'/loader.js',
+          //'vendor/'+ environment +'/orbit.js',
+          //'vendor/'+ environment +'/orbit-common.js',
+          //'vendor/'+ environment +'/orbit-common-jsonapi.js',
+          //'vendor/'+ environment +'/ember-orbit.js',
           'app/app.js'
         ],
         after: [
@@ -80,7 +84,11 @@ exports.config = {
               'vendor/'+ environment +'/jquery.min.js',
               'vendor/'+ environment +'/handlebars.min.js',
               'vendor/'+ environment +'/ember.min.js',
-              'vendor/'+ environment +'/ember-data.min.js',
+              //'vendor/'+ environment +'/loader.js',
+              //'vendor/'+ environment +'/orbit.amd.min.js',
+              //'vendor/'+ environment +'/orbit-common.amd.min.js',
+              //'vendor/'+ environment +'/orbit-common-jsonapi.amd.min.js',
+              //'vendor/'+ environment +'/ember-orbit.amd.minjs',
               'app/app.js'
             ],
             after: [

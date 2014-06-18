@@ -38,6 +38,10 @@ function copy_file() {
   find $3 -name "*"$1 -type f | xargs echo
 }
 
+src=$BOWER_DIR"/loader.js"
+copy_file loader.js $src $DEV_DIR
+copy_file loader.js $src $PROD_DIR
+
 src=$BOWER_DIR"/jquery/dist"
 copy_file jquery.js $src $DEV_DIR
 copy_file jquery.min.js $src $PROD_DIR
@@ -50,9 +54,17 @@ src=$BOWER_DIR"/ember"
 copy_file ember.js $src $DEV_DIR
 copy_file ember.min.js $src $PROD_DIR
 
-src=$BOWER_DIR"/ember-data"
-copy_file ember-data.js $src $DEV_DIR
-copy_file ember-data.min.js $src $PROD_DIR
+src=$BOWER_DIR"/orbit.js"
+copy_file orbit.js $src $DEV_DIR
+copy_file orbit.min.js $src $PROD_DIR
+copy_file orbit-common.js $src $DEV_DIR
+copy_file orbit-common.min.js $src $PROD_DIR
+copy_file orbit-common-jsonapi.js $src $DEV_DIR
+copy_file orbit-common-jsonapi.min.js $src $PROD_DIR
+
+src=$BOWER_DIR"/ember-orbit/dist"
+copy_file ember-orbit.js $src $DEV_DIR
+copy_file ember-orbit.min.js $src $PROD_DIR
 
 src=$BOWER_DIR"/showdown"
 copy_file showdown.js $src"/src" $DEV_DIR

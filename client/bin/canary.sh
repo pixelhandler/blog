@@ -15,8 +15,7 @@ function remove_file() {
 }
 
 function update_file_via_curl() {
-  # $1 - filename, $2 - url, $3 - directory
-
+  # $1 - filename, $2 - url
   remove_file $1
   echo "Download "$2" to "$1
   curl -o $1 $2
@@ -24,11 +23,7 @@ function update_file_via_curl() {
 
 file=$DEV_DIR"/ember.js"
 src="http://builds.emberjs.com/canary/ember.js"
-update_file_via_curl $file $src $DEV_DIR
-
-file=$DEV_DIR"/ember-data.js"
-src="http://builds.emberjs.com/canary/ember-data.js"
-update_file_via_curl $file $src $DEV_DIR
+update_file_via_curl $file $src
 
 unset CLIENT_DIR
 unset VENDOR_DIR

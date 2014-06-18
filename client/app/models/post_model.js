@@ -1,8 +1,8 @@
 'use-strict';
 
-var attr = DS.attr;
+var attr = EO.attr;
 
-module.exports = App.PostModel = DS.Model.extend({
+module.exports = App.PostModel = EO.Model.extend({
   slug: attr('string'),
   title: attr('string'),
   author: attr(),
