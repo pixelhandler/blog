@@ -19,11 +19,11 @@ exports.config = {
       },
       order: {
         before: [
-          'app/env.js',
           'vendor/'+ environment +'/jquery.js',
           'vendor/'+ environment +'/handlebars.js',
           'vendor/'+ environment +'/ember.js',
           'vendor/'+ environment +'/ember-data.js',
+          'app/env.js',
           'app/app.js'
         ],
         after: [
@@ -81,6 +81,7 @@ exports.config = {
               'vendor/'+ environment +'/handlebars.min.js',
               'vendor/'+ environment +'/ember.min.js',
               'vendor/'+ environment +'/ember-data.min.js',
+              'app/env.js',
               'app/app.js'
             ],
             after: [
