@@ -1,10 +1,35 @@
-build: lint clean 
-	@export BRUNCH_ENV=development; brunch b
+server: lint
+	@ember server
+	@open http://localhost:4200/
+
+install:
+	@npm install
+	@bower install
+	@bin/canary.sh
+
+canary:
+	@bin/canary.sh
+
+build: lint clean
+	@export BROCCOLI_ENV=development; ember build --environment=development
+
+prod: lint clean
+	@export BROCCOLI_ENV=production; ember build --environment=production
+
+lint:
+	@jshint app/**/*.js
 
 clean:
-	@rm -fr ./public/*
+	@rm -fr ./dist/*
 
-dist: clean build prod
+dist: prod
+
+dist_server: lint
+	@node -e "require('./dist-server.js').startServer()"
+	@open http://localhost:8000/
+
+fingerprint:
+	@bin/fingerprint.sh --use-cdn
 
 doc:
 	@yuidoc ./app/* -c yuidoc.json --server 3333
@@ -12,42 +37,7 @@ doc:
 docfiles: lint
 	@yuidoc ./app/* -c yuidoc.json
 
-install:
-	@npm install
-	@npm install grunt-blanket-qunit --save-dev
-	@bower install
-	@bin/patches.sh
-	@bin/vendor.sh
-	@bin/canary.sh
-
-canary:
-	@bin/canary.sh
-
-lint:
-	@jshint app/*
-
-prod: lint
-	@export BRUNCH_ENV=production; brunch build --production
-
-fingerprint:
-	@bin/fingerprint.sh --use-cdn
-
 test: lint
-	@testem
+	@ember test
 
-coverage: lint
-	@open http://localhost:8989/tests/coverage.html?coverage=true
-	@python -m SimpleHTTPServer 8989
-
-ci: dist
-	@grunt blanket_qunit --verbose
-
-server: lint
-	@brunch watch --server
-	@open http://localhost:8000/
-
-static_server: lint
-	@node -e "require('./server.js').startServer()"
-	@open http://localhost:8000/
-
-.PHONY: build clean dist doc docfiles install lint prod test coverage ci server
+.PHONY: server install canary build lint clean dist dist_server fingerprint doc docfiles test

@@ -1,8 +1,13 @@
-'use-strict';
+import Ember from 'ember';
+import GoogleAnalyticsMixin from './mixins/google-analytics';
 
-App.Router.reopen({ location: 'history' });
+var Router = Ember.Router.extend({
+  location: PixelhandlerBlogENV.locationType
+});
 
-module.exports = App.Router.map(function () {
+Ember.Router.reopen(GoogleAnalyticsMixin);
+
+Router.map(function () {
   this.route('about');
   this.resource('posts', function () {
     this.resource('post', { path: ':post_id' });
@@ -13,3 +18,5 @@ module.exports = App.Router.map(function () {
   });
   this.route('not-found', { path: '/*path' });
 });
+
+export default Router;

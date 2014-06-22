@@ -1,7 +1,7 @@
-'use-strict';
+import Ember from 'ember';
 
-Ember.Handlebars.helper('format-markdown', function(input) {
-  if (!input) return '';
+export default Ember.Handlebars.makeBoundHelper(function(input/*, options*/) {
+  if (!input) { return ''; }
   var html = window.showdown.makeHtml(input);
   return new Handlebars.SafeString(html);
 });

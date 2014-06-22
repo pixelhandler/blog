@@ -2,8 +2,12 @@
 
 CLIENT_DIR="$(dirname `pwd`)/client"
 VENDOR_DIR=$CLIENT_DIR"/vendor"
-DEV_DIR=$VENDOR_DIR"/development"
-PROD_DIR=$VENDOR_DIR"/production"
+EMBER_DIR=$VENDOR_DIR"/ember-canary"
+
+if [ ! -d $EMBER_DIR ]; then
+  echo "Creating "$EMBER_DIR" directory"
+  mkdir -p $EMBER_DIR
+fi
 
 function remove_file() {
   # $1 - filename
@@ -22,18 +26,17 @@ function update_file_via_curl() {
   curl -o $1 $2
 }
 
-file=$DEV_DIR"/ember.js"
+file=$EMBER_DIR"/ember.js"
 src="http://builds.emberjs.com/canary/ember.js"
-update_file_via_curl $file $src $DEV_DIR
+update_file_via_curl $file $src $EMBER_DIR
 
-file=$DEV_DIR"/ember-data.js"
+file=$EMBER_DIR"/ember-data.js"
 src="http://builds.emberjs.com/canary/ember-data.js"
-update_file_via_curl $file $src $DEV_DIR
+update_file_via_curl $file $src $EMBER_DIR
 
 unset CLIENT_DIR
 unset VENDOR_DIR
-unset DEV_DIR
-unset PROD_DIR
+unset EMBER_DIR
 unset file
 unset src
 unset update_file_via_curl

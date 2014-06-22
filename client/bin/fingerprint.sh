@@ -1,10 +1,5 @@
 #!/bin/bash
 
-CLIENT_DIR="$(dirname `pwd`)/client"
-PUBLIC_DIR=$CLIENT_DIR"/public"
-STYLES_DIR=$PUBLIC_DIR"/stylesheets"
-INDEX_FILE=$PUBLIC_DIR"/index.html"
-
 # For dry run... add option -d or --dry-run
 # `bin/fingerprint.sh -d`
 # `bin/fingerprint.sh --dry-run`
@@ -12,6 +7,16 @@ INDEX_FILE=$PUBLIC_DIR"/index.html"
 # To skip changes to index.html... add option -s or --skip-index
 # `bin/fingerprint.sh -s`
 # `bin/fingerprint.sh --skip-index`
+
+# To use CDN links in index.html... add option -c or --use-cdn
+# `bin/fingerprint.sh -c`
+# `bin/fingerprint.sh --use-cdn`
+
+CLIENT_DIR="$(dirname `pwd`)/client"
+DIST_DIR=$CLIENT_DIR"/dist"
+ASSETS_DIR=$DIST_DIR"/assets"
+INDEX_FILE=$DIST_DIR"/index.html"
+
 
 dry_run=false
 skip_index=false
@@ -27,18 +32,11 @@ if [ $skip_index = false -a $dry_run = false ]; then
   cp $INDEX_FILE $INDEX_FILE"~"
 fi
 
-# To use CDN links in index.html... add option -c or --use-cdn
-# `bin/fingerprint.sh -c`
-# `bin/fingerprint.sh --use-cdn`
-
 use_cdn=false
 if [ "$1" == "--use-cdn" -o "$1" == "-c" ]; then
   echo "Using CDN..."
   use_cdn=true
 fi
-
-cdn_path="\/\/s3.amazonaws.com\/cdn.pixelhandler.com\/stylesheets"
-stylesheets="\/stylesheets"
 
 function fingerprint() {
   file_name=$1
@@ -81,30 +79,32 @@ function fingerprint() {
   fi
 }
 
-fingerprint $PUBLIC_DIR"/app.js"
-fingerprint $PUBLIC_DIR"/env.js"
-fingerprint $PUBLIC_DIR"/vendor.js"
-fingerprint $STYLES_DIR"/normalize.css"
-fingerprint $STYLES_DIR"/app.css"
+fingerprint $ASSETS_DIR"/vendor.js"
+fingerprint $ASSETS_DIR"/pixelhandler-blog.js"
 
+fingerprint $ASSETS_DIR"/vendor.css"
+fingerprint $ASSETS_DIR"/pixelhandler-blog.css"
 
+stylesheet='rel="stylesheet" href="assets'
+stylesheet_cdn_path='rel="stylesheet" href="\/\/s3.amazonaws.com\/cdn.pixelhandler.com\/stylesheets'
 if [ -e $INDEX_FILE ]; then
   if [ $dry_run = false -a $skip_index = false ]; then
     if [ $use_cdn = true ]; then
-      sed -i.bak -e "s/$stylesheets/$cdn_path/g" $INDEX_FILE
+      sed -i.bak -e "s/$stylesheet/$stylesheet_cdn_path/g" $INDEX_FILE
     fi
   fi
   if [ $dry_run = true -a $use_cdn = true ]; then
-    echo "Changed ${stylesheets} link to use ${cdn_path}"
+    echo "Changed ${stylesheet} link to use ${stylesheet}${cdn_path}"
   fi
 fi
+
 
 unset dry_run
 unset skip_index
 unset CLIENT_DIR
-unset PUBLIC_DIR
-unset STYLES_DIR
+unset DIST_DIR
+unset ASSETS_DIR
 unset INDEX_FILE
 unset fingerprint
-unset cdn_path
-unset stylesheets
+unset stylesheet
+unset stylesheet_cdn_path

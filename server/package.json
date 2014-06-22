@@ -1,28 +1,40 @@
 {
-  "name": "api",
+  "name": "pixelhandler-blog-api",
+  "summary": "API for Bill Heaton's Blog website",
   "namespace": "api",
-  "version": "0.0.1",
-  "private": true,
-  "directories": {},
+  "homepage": "http://pixelhandler.com",
+  "version": "v3.1.0",
+  "private": false,
+  "directories": {
+    "bin": "bin"
+  },
   "scripts": {},
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "https://github.com/pixelhandler/blog"
   },
-  "author": "",
-  "license": "",
+  "author": "Bill Heaton",
+  "license": "MIT",
+  "main": "app.js",
+  "config" : {
+    "port" : "8888"
+  },
+  "engines": {
+    "node": ">= 0.10.0"
+  },
   "dependencies": {
     "express": "~3.4.2",
-    "cors": "*",
-    "rethinkdb": "*",
-    "debug": "*",
+    "cors": "~2.2.0",
+    "rethinkdb": "~1.12.0",
+    "debug": "~0.8.0",
     "inflect": "~0.3.0"
   },
   "devDependencies": {
-    "mocha": "*",
-    "supertest": "*",
-    "superagent": "*",
-    "request": "*",
-    "async": "*"
+    "mocha": "~1.18.2",
+    "supertest": "~0.11.0",
+    "superagent": "~0.17.0",
+    "request": "~2.34.0",
+    "async": "~0.7.0",
+    "jshint": "~2.5.0"
   }
 }

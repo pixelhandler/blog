@@ -3,39 +3,42 @@
   "summary": "Bill Heaton's Blog website",
   "description": "Pixelhandler.com - Pushin' & pullin' pixels on the web",
   "homepage": "http://pixelhandler.com",
+  "version": "v3.1.0",
   "author": [
     "Bill Heaton"
   ],
-  "version": "3.0.0",
+  "license": "MIT",
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "https://github.com/pixelhandler/blog"
   },
-  "engines": {
-    "node": "~0.10"
+  "private": false,
+  "directories": {
+    "bin": "bin",
+    "doc": "doc",
+    "test": "tests"
   },
   "scripts": {
-    "build": "brunch b",
-    "test": "testem"
+    "start": "ember server",
+    "build": "ember build",
+    "test": "ember test"
   },
-  "dependencies": {},
+  "engines": {
+    "node": ">= 0.10.0"
+  },
   "devDependencies": {
-    "auto-reload-brunch": "~1.7.1",
-    "blanket": "~1.1.5",
-    "bower": ">= 1.2.8",
-    "brunch": ">= 1.7.14",
-    "chokidar": "~0.8.1",
-    "clean-css-brunch": "~1.7.1",
-    "css-brunch": "~1.7.0",
-    "ember-handlebars-brunch": "~1.2.0",
-    "grunt": "~0.4.2",
-    "grunt-blanket-qunit": "^0.2.0",
-    "grunt-cli": ">= 0.1.11",
-    "javascript-brunch": "~1.7.0",
-    "jshint": ">= 2.4.0",
+    "body-parser": "~1.2.0",
+    "broccoli-ember-hbs-template-compiler": "~1.5.0",
+    "broccoli-merge-trees": "~0.1.4",
+    "broccoli-sass": "~0.1.4",
+    "broccoli-static-compiler": "~0.1.4",
+    "broccoli-env": "0.0.1",
+    "ember-cli": "0.0.36",
+    "ember-cli-ember-data": "0.0.4",
+    "ember-cli-ic-ajax": "0.0.3",
+    "express": "~4.1.1",
     "node-static": "~0.7.3",
-    "testem": ">= 0.6.2",
-    "uglify-js-brunch": "~1.7.0",
-    "yuidocjs": ">= 0.3.46"
+    "glob": "^3.2.9",
+    "originate": "0.1.5"
   }
 }
