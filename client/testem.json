@@ -1,14 +1,6 @@
 {
   "framework": "qunit",
-  "src_files": [
-    "app/env.js",
-    "public/vendor.js",
-    "public/app.js",
-    "tests/support/test-helpers.js",
-    "seeds/posts.js",
-    "tests/**/*_test.js"
-  ],
-  "css_files" : [ "public/app.css" ],
-  "launch_in_dev": ["safari"],
-  "launch_in_ci": ["phantomjs"]
+  "test_page": "tests/index.html",
+  "launch_in_ci": ["PhantomJS"],
+  "launch_in_dev": ["Safari"]
 }

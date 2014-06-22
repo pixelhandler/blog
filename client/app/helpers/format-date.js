@@ -1,5 +1,5 @@
-'use-strict';
+import Ember from 'ember';
 
-Ember.Handlebars.helper('format-date', function(date) {
-  return moment(date).format('YYYY-MM-DD');
+export default Ember.Handlebars.makeBoundHelper(function(date/*, options*/) {
+  return window.moment(date).format('YYYY-MM-DD');
 });

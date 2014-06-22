@@ -1,5 +1,5 @@
-'use-strict';
+import Ember from 'ember';
 
-Ember.Handlebars.helper('format-date-from-now', function(date) {
-  return moment(date).fromNow();
+export default Ember.Handlebars.makeBoundHelper(function(date/*, options*/) {
+  return window.moment(date).fromNow();
 });

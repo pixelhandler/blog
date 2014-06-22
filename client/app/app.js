@@ -1,14 +1,14 @@
-'use-strict';
+import Ember from 'ember';
+import Resolver from 'ember/resolver';
+import loadInitializers from 'ember/load-initializers';
 
-Ember.Application.initializer({
-  name: 'ajax-defaults',
+Ember.MODEL_FACTORY_INJECTIONS = true;
 
-  initialize: function() {
-    // Use credentials for session cookies & CORS
-    Ember.$.ajaxPrefilter(function(options) {
-      options.xhrFields = { withCredentials: true };
-    });
-  }
+var App = Ember.Application.extend({
+  modulePrefix: 'pixelhandler-blog', // TODO: loaded via config
+  Resolver: Resolver
 });
 
-module.exports = Ember.Application.create();
+loadInitializers(App, 'pixelhandler-blog');
+
+export default App;

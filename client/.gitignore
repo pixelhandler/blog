@@ -1,5 +1,22 @@
-lib-cov
-lcov.info
+# See http://help.github.com/ignore-files/ for more about ignoring files.
+
+# compiled output
+/dist
+/tmp
+
+# dependencies
+/node_modules
+/vendor/*
+/bower_components
+
+# misc
+/.sass-cache
+/connect.lock
+/coverage/*
+/libpeerconnection.log
+npm-debug.log
+testem.log
+
 *.seed
 *.log
 *.csv
@@ -12,15 +29,13 @@ lcov.info
 *.bak
 *.DS_Store
 .grunt
-bower_components
+app/stylesheets/normalize.css
 build
 docs
+env.js
+lcov.info
+lib-cov
 logs
-node_modules
-npm-debug.log
 pids
 public
 tags
-vendor
-app/stylesheets/normalize.css
-env.js
