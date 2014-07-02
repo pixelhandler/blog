@@ -15,6 +15,8 @@
     "ember-cli-test-loader": "rjackson/ember-cli-test-loader#0.0.2",
     "momentjs": "~2.5.1",
     "showdown": "~v0.3.1",
-    "normalize-css": "~3.0.0"
+    "normalize-css": "~3.0.0",
+    "orbit.js": "/Users/bheaton/code/orbitjs/orbit.js/dist",
+    "ember-orbit": "/Users/bheaton/code/orbitjs/ember-orbit/dist"
   }
 }

@@ -1,8 +1,8 @@
-import DS from "ember-data";
+//import EO from "ember-orbit";
 
-var attr = DS.attr;
+var attr = EO.attr;
 
-export default DS.Model.extend({
+export default EO.Model.extend({
   slug: attr('string'),
   title: attr('string'),
   author: attr(),
