@@ -34,15 +34,18 @@ module.exports = function(adapter, connect) {
       collection.count().run(connection, function (err, results) {
         if (err) logerror(err);
         var meta = metaPartial(results);
-        collection.orderBy(r[meta.order](meta.sortBy)).skip(meta.offset).limit(meta.limit)
-          .run(connection, function (err, cursor) {
-            if (err) {
-              findError(err, connection, callback);
-            } else {
-              findQuerySuccess(type, cursor, meta, connection, callback);
-            }
-            connection.close();
-          });
+        var criteria = collection.orderBy(r[meta.order](meta.sortBy)).skip(meta.offset).limit(meta.limit);
+        if (query.withFields) {
+          criteria = criteria.withFields.apply(criteria, query.withFields);
+        }
+        criteria.run(connection, function (err, cursor) {
+          if (err) {
+            findError(err, connection, callback);
+          } else {
+            findQuerySuccess(type, cursor, meta, connection, callback);
+          }
+          connection.close();
+        });
       });
     });
   };

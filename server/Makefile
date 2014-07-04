@@ -1,5 +1,6 @@
 install: brew
 	@npm install
+	@./bin/config.sh
 
 brew:
 	@./bin/install_rethinkdb.sh
