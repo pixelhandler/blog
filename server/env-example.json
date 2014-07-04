@@ -2,11 +2,16 @@
   "development": {
     "admin": {
       "username": "admin",
-      "password": "XXXXX"
+      "password": "admin"
     },
     "allowed": [
       "http://localhost:8000",
-      "http://domain.com"
-    ]
+      "http://localhost:4200"
+    ],
+    "session": {
+      "cookieName": "blog.sid",
+      "secret": "everything is awesome"
+    },
+    "port": 8888
   }
 }
