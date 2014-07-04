@@ -6,7 +6,7 @@
     "jquery": "^1.11.1",
     "qunit": "~1.12.0",
     "ember-qunit": "~0.1.5",
-    "ember": "1.5.1",
+    "ember": "components/ember#canary",
     "ember-resolver": "~0.1.1",
     "loader": "stefanpenner/loader.js#1.0.0",
     "ember-cli-shims": "stefanpenner/ember-cli-shims#0.0.2",
@@ -15,8 +15,12 @@
     "ember-cli-test-loader": "rjackson/ember-cli-test-loader#0.0.2",
     "momentjs": "~2.5.1",
     "showdown": "~v0.3.1",
+    "orbit.js": "/Volumes/devbox/blog-cli/local/orbit.js/dist",
+    "ember-orbit": "/Volumes/devbox/blog-cli/local/ember-orbit/dist",
     "normalize-css": "~3.0.0",
-    "orbit.js": "/Users/bheaton/code/orbitjs/orbit.js/dist",
-    "ember-orbit": "/Users/bheaton/code/orbitjs/ember-orbit/dist"
+    "socket.io-client": "~1.0.6"
+  },
+  "resolutions": {
+    "ember": "canary"
   }
 }

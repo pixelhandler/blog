@@ -3,7 +3,9 @@ import ResetScroll from '../../mixins/reset-scroll';
 
 export default Ember.Route.extend(ResetScroll, {
   model: function () {
-    return this.store.find('post');
+    // TODO FIX Orbit initializer, 
+    // return this.store.find('post');
+    return Ember.$.get(PixelhandlerBlogENV.API_HOST + '/posts');
   },
   actions: {
     destroy: function (model) {

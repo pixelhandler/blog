@@ -1,12 +1,7 @@
-//import Ember from 'ember';
-//import Orbit from 'orbit';
-//import OC from 'orbit_common';
-//import JSONAPISource from 'orbit_common/jsonapi_source';
-//import EO from 'ember_orbit';
-
 Orbit.Promise = Ember.RSVP.Promise;
 Orbit.ajax = Ember.$.ajax;
 
+/* TODO FIX Error: Assertion Failed: Source.orbitSourceClass must be initialized with an instance of an `OC.Source`
 var JSONAPIStore = EO.Store.extend({
   orbitSourceClass: OC.JSONAPISource,
   orbitSourceOptions: {
@@ -20,16 +15,17 @@ var JSONAPIStore = EO.Store.extend({
     //namespace: PixelhandlerBlogENV.API_PATH
   //}),
 });
-
+*/
 export default {
   name: 'ember-orbit',
 
-  initialize: function(container, application) {
+  initialize: function(/*container, application*/) {
+    /* TODO FIX Error: Assertion Failed: Source.orbitSourceClass must be initialized with an instance of an `OC.Source`
     application.register('schema:main', EO.Schema);
-
     //application.register('store:main', EO.Store);
     application.register('store:main', JSONAPIStore);
     application.inject('controller', 'store', 'store:main');
     application.inject('route', 'store', 'store:main');
+    */
   }
 };

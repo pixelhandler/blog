@@ -22,7 +22,12 @@ export default Ember.Mixin.create({
 
   model: function () {
     var query = { offset: this.get('offset'), limit: this.get('limit') };
-    return this.store.find(this.get('resourceName'), query);
+    // TODO fix Orbit initializer, 
+    // return this.store.find(this.get('resourceName'), query);
+    var path = this.get('resourceName');
+    var params = decodeURIComponent(Ember.$.param(query));
+    var uri = PixelhandlerBlogENV.API_HOST + '/' + path + '?' + params;
+    return Ember.$.get(uri);
   },
 
   afterModel: function (collection) {

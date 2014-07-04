@@ -2,7 +2,9 @@ import Ember from 'ember';
 
 var ApplicationRoute = Ember.Route.extend({
   model: function () {
-    return this.store.find('post');
+    // TODO FIX Orbit initializer, 
+    // return this.store.find('post');
+    return Ember.$.get(PixelhandlerBlogENV.API_HOST + '/posts');
   },
 
   sessionUrl: (function() {

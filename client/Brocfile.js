@@ -81,5 +81,6 @@ app.import({
   production: 'vendor/ember-orbit/ember-orbit.amd.min.js'
 });
 
+app.import('vendor/socket.io-client/socket.io.js');
 
 module.exports = app.toTree();
