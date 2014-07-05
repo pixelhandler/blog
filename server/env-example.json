@@ -4,10 +4,6 @@
       "username": "admin",
       "password": "admin"
     },
-    "allowed": [
-      "http://localhost:8000",
-      "http://localhost:4200"
-    ],
     "session": {
       "cookieName": "blog.sid",
       "secret": "everything is awesome"

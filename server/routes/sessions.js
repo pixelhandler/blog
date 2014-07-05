@@ -6,18 +6,18 @@ var loginfo = require('debug')('session:info');
 var config = require('../config')();
 
 /**
-  Exports {Function} ping route, responds with 'pong'
+  Exports {Function} Sessions route
 
   @main routes/pong
   @param {Object} app - express application instance
-  @param {Function} options - middleware callback (cors options)
+  @param {Function} restrict - middleware, for protected routes
 **/
-module.exports = function(app, cors, restrict) {
+module.exports = function(app, restrict) {
 
   /**
     Route: (verb) POST /sessions
   **/
-  app.post('/sessions', cors, function(req, res) {
+  app.post('/sessions', function(req, res) {
     var uname = req.body.username;
     var pword = req.body.password;
 
@@ -34,7 +34,7 @@ module.exports = function(app, cors, restrict) {
   /**
     Route: (verb) DELETE /sessions
   **/
-  app.del('/sessions', cors, restrict, function(req, res){
+  app.del('/sessions', restrict, function(req, res){
     req.session = null;
     res.send(204);
   });
@@ -42,7 +42,7 @@ module.exports = function(app, cors, restrict) {
   /**
     Route (verb) GET /restricted
   **/
-  app.post('/restricted', cors, restrict, function(req, res){
+  app.post('/restricted', restrict, function(req, res){
     res.send(204);
   });
 

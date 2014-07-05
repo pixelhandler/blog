@@ -10,13 +10,13 @@
   @param {Object} app - express application instance
   @param {Function} options - middleware callback (cors options)
 **/
-module.exports = function(app, options) {
+module.exports = function(app) {
 
   /**
     Route: (verb) GET /ping
     - Used for test to confirm simple response
   **/
-  app.get('/ping', options, function (req, res) {
+  app.get('/ping', function (req, res) {
     res.send('pong');
   });
 

@@ -5,7 +5,6 @@
 var express = require('express');
 var env = process.env.NODE_ENV || 'development';
 var config = require('./config')();
-var loginfo = require('debug')('app:info');
 
 
 /**
@@ -31,35 +30,14 @@ function restrict(req, res, callback) {
 **/
 var app = express();
 
-/**
-  enable CORs pre-flighting, include before other routes
-**/
-var cors = require('cors');
-
-/**
-  Cors settings, https://www.npmjs.org/package/cors
-**/
-var options = {
-  origin: function(origin, callback){
-    var allowed = config.allowed;
-    var isAllowed = allowed.indexOf(origin) !== -1;
-    //loginfo('[cors] config allows: ' + allowed.join(', '));
-    //loginfo('[cors] origin: ' + origin + ' isAllowed: ' + isAllowed);
-    callback(null, isAllowed);
-  },
-  credentials: true,
-  methods: ['POST', 'PUT', 'GET', 'DELETE']
-};
-app.options('*', cors(options));
-
 
 /**
   Load application routes [when using express 4 setup routes before middlewares]
 **/
 //app.use(app.router); // **this line will be removed when running express ver. 4+ **
-require('./routes/ping')(app, cors(options));
-require('./routes/posts')(app, cors(options), restrict);
-require('./routes/sessions')(app, cors(options), restrict);
+require('./routes/ping')(app);
+require('./routes/posts')(app, restrict);
+require('./routes/sessions')(app, restrict);
 
 
 /**
