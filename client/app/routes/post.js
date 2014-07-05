@@ -33,7 +33,7 @@ function getUrl(route/*, model*/) {
   var loc = window.location;
   return [
     loc.protocol, '//', loc.host, '/',
-    route.routeName.pluralize(), '/',
+    'posts/',
     route.router.router.state.params[name][name + '_id']
   ].join('');
 }
