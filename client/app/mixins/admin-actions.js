@@ -8,7 +8,7 @@ export default Ember.Mixin.create({
         //this.transitionTo('admin');
       //}.bind(this));
       var model = this.modelFor(this.get('routeName'));
-      debugger;
+      //debugger;
       Ember.$.ajax({
         url: PixelhandlerBlogENV.API_HOST + '/posts/' + model.id, 
         type: "PUT",

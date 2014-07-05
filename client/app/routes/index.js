@@ -7,6 +7,7 @@ export default Ember.Route.extend(RecordChunksMixin, ResetScroll, {
   resourceName: 'post',
 
   beforeModel: function () {
+    /* TODO
     // Sanity check, is socket working? check output browser console.
     var socket = this.socket;
     socket.on('hello', function (data) {
@@ -15,6 +16,7 @@ export default Ember.Route.extend(RecordChunksMixin, ResetScroll, {
         console.log('back talk', msg);
       });
     });
+    */
     this._super();
   },
 

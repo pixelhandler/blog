@@ -4,7 +4,15 @@ var ApplicationRoute = Ember.Route.extend({
   model: function () {
     // TODO FIX Orbit initializer, 
     // return this.store.find('post');
-    return Ember.$.get(PixelhandlerBlogENV.API_HOST + '/posts');
+    // then pitch below...
+    return new Ember.RSVP.Promise(function (resolve, reject) {
+      var uri = PixelhandlerBlogENV.API_HOST + '/posts';
+      Ember.$.get(uri).then(function (payload) {
+        resolve(payload.posts);
+      }, function(error) {
+        reject(error);
+      });
+    });
   },
 
   sessionUrl: (function() {

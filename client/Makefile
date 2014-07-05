@@ -1,8 +1,9 @@
 server: lint
-	@ember server
+	@ember server --proxy http://localhost:8888
 	@open http://localhost:4200/
 
 install:
+	@rm -rf node_modules vendor
 	@npm install
 	@bower install
 	@bin/canary.sh

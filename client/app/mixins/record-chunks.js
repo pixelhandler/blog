@@ -22,16 +22,34 @@ export default Ember.Mixin.create({
 
   model: function () {
     var query = { offset: this.get('offset'), limit: this.get('limit') };
-    // TODO fix Orbit initializer, 
+    // TODO fix Orbit initializer,
     // return this.store.find(this.get('resourceName'), query);
-    var path = this.get('resourceName');
-    var params = decodeURIComponent(Ember.$.param(query));
-    var uri = PixelhandlerBlogENV.API_HOST + '/' + path + '?' + params;
-    return Ember.$.get(uri);
+    // then pitch below...
+    var _this = this;
+    return new Ember.RSVP.Promise(function (resolve, reject) {
+      var path = _this.get('resourceName') + 's'; // TODO .pluralize or pilfer inflector
+      var uri = PixelhandlerBlogENV.API_HOST + '/' + path + '?' + params;
+      var params = decodeURIComponent(Ember.$.param(query));
+      Ember.$.get(uri).then(function (payload) {
+        _this.set('meta', payload.meta);
+        resolve(payload.posts);
+      }, function(error) {
+        reject(error);
+      });
+    });
   },
 
   afterModel: function (collection) {
-    this.set('meta', this.store.metadataFor(this.get('resourceName')));
+    // TODO set meta somewhere in ember-orbit model?
+    // var meta = this.store.metadataFor(this.get('resourceName'));
+    // this.set('meta', meta);
+    // begin: remove after FIXUP
+    collection = collection.posts || collection;
+    this._store = this._store || Ember.Map.create();
+    collection.forEach(function(item) {
+      this._store.set(item.id, item);
+    }.bind(this));
+    // end: removal
     var loaded = this.get('loadedIds');
     collection.mapBy('id').forEach(function (id) {
       loaded.push(id);
@@ -46,7 +64,11 @@ export default Ember.Mixin.create({
   setupController: function (controller) {
     var collection = [];
     this.get('loadedIds').forEach(function (id) {
-      var model = this.store.getById(this.get('resourceName'), id);
+      // TODO fix Orbit initializer
+      // var model = this.store.getById(this.get('resourceName'), id);
+      // begin: remove after FIXUP
+      var model = this._store.get(id);
+      // end: removal
       if (model) {
         collection.push(model);
       }

@@ -5,15 +5,25 @@ var PostRoute = Ember.Route.extend(ResetScroll, {
   model: function (params) {
     // TODO FIX Orbit initializer, 
     // return this.store.find('post', params.post_id);
-    return Ember.$.get(PixelhandlerBlogENV.API_HOST + '/posts/' + params.post_id);
+    // then pitch below...
+    var _this = this;
+    return new Ember.RSVP.Promise(function (resolve, reject) {
+      var uri = PixelhandlerBlogENV.API_HOST + '/posts/' + params.post_id;
+      Ember.$.get(uri).then(function (payload) {
+        _this.set('meta', payload.meta);
+        resolve(payload.posts[0]);
+      }, function(error) {
+        reject(error);
+      });
+    });
   },
 
   setupController: function (controller, model) {
     this._super(controller, model);
     controller.setProperties({
-      'disqusId': model.get('id'),
+      'disqusId': model.slug || model.get('id'), // TODO use getter after Orbit FIXUP
       'disqusUrl': getUrl(this/*, model*/),
-      'disqusTitle': model.get('title')
+      'disqusTitle': model.title || model.get('title') // TODO use getter after Orbit FIXUP
     });
   }
 });
