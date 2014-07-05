@@ -66,7 +66,7 @@ module.exports = function(app, restrict) {
     @async
   **/
   app.get('/posts/:slug', function (req, res) {
-    db.findBySlug('posts', req.params.slug, function (err, payload) {
+    db.find('posts', req.params.slug, function (err, payload) {
       if (err) {
         debug(err);
         res.send(500);
@@ -86,7 +86,7 @@ module.exports = function(app, restrict) {
     @async
   **/
   app.put('/posts/:slug', restrict, function (req, res) {
-    db.updateRecordBySlug('posts', req.params.slug, req.body.post, function (err, payload) {
+    db.updateRecord('posts', req.params.slug, req.body.post, function (err, payload) {
       if (err) {
         debug(err);
         res.send(500);
@@ -103,7 +103,7 @@ module.exports = function(app, restrict) {
     @async
   **/
   app.del('/posts/:slug', restrict, function (req, res) {
-    db.deleteRecordBySlug('posts', req.params.slug, function (err) {
+    db.deleteRecord('posts', req.params.slug, function (err) {
       if (err) {
         debug(err);
         res.send(500);
