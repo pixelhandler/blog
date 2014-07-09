@@ -3,12 +3,11 @@ import Ember from 'ember';
 export default Ember.Mixin.create({
   actions: {
     save: function () {
-      // TODO FIX Orbit initializer, 
+      // TODO FIXUP use ember-orbit / JSONAPISource
       //this.modelFor(this.get('routeName')).save().then(function() {
         //this.transitionTo('admin');
       //}.bind(this));
       var model = this.modelFor(this.get('routeName'));
-      //debugger;
       Ember.$.ajax({
         url: PixelhandlerBlogENV.API_HOST + '/posts/' + model.id, 
         type: "PUT",
@@ -19,7 +18,7 @@ export default Ember.Mixin.create({
     },
 
     cancel: function () {
-      // TODO rollback
+      // TODO FIXUP rollback, how to do with ember-orbit ?
       // this.modelFor(this.get('routeName')).rollback();
       this.transitionTo('admin.index');
     }

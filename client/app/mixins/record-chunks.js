@@ -22,9 +22,8 @@ export default Ember.Mixin.create({
 
   model: function () {
     var query = { offset: this.get('offset'), limit: this.get('limit') };
-    // TODO fix Orbit initializer,
-    // return this.store.find(this.get('resourceName'), query);
-    // then pitch below...
+    return this.store.find(this.get('resourceName'), query);
+    /* or with plain ajax...
     var _this = this;
     return new Ember.RSVP.Promise(function (resolve, reject) {
       var path = _this.get('resourceName') + 's'; // TODO .pluralize or pilfer inflector
@@ -37,6 +36,7 @@ export default Ember.Mixin.create({
         reject(error);
       });
     });
+    */
   },
 
   afterModel: function (collection) {
