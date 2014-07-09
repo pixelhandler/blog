@@ -4,8 +4,7 @@ import AdminActions from '../../mixins/admin-actions';
 
 export default Ember.Route.extend(ResetScroll, AdminActions, {
   model: function (/*params*/) {
-    // TODO fixup need to use a new EO.Model instance
-
+    // TODO FIXUP need to use a new EO.Model instance?
     // var post = this.store.createRecord('post');
     // post.set('author', { name: 'pixelhandler' });
     // return post;

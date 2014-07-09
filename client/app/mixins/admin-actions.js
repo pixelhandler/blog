@@ -3,7 +3,7 @@ import Ember from 'ember';
 export default Ember.Mixin.create({
   actions: {
     save: function () {
-      // TODO FIXUP use ember-orbit / JSONAPISource
+      // TODO FIXUP use ember-orbit store.add ?
       //this.modelFor(this.get('routeName')).save().then(function() {
         //this.transitionTo('admin');
       //}.bind(this));
@@ -18,7 +18,7 @@ export default Ember.Mixin.create({
     },
 
     cancel: function () {
-      // TODO FIXUP rollback, how to do with ember-orbit ?
+      // TODO FIXUP rollback, how to do with ember-orbit, set as empty object?
       // this.modelFor(this.get('routeName')).rollback();
       this.transitionTo('admin.index');
     }

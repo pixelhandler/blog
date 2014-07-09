@@ -72,11 +72,6 @@ app.import({
 });
 
 app.import({
-  development: 'vendor/orbit.js/orbit-common-jsonapi.amd.js',
-  production: 'vendor/orbit.js/orbit-common-jsonapi.amd.min.js'
-});
-
-app.import({
   development: 'vendor/ember-orbit/ember-orbit.amd.js',
   production: 'vendor/ember-orbit/ember-orbit.amd.min.js'
 });

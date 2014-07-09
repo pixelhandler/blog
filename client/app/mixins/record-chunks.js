@@ -23,31 +23,17 @@ export default Ember.Mixin.create({
   model: function () {
     var query = { offset: this.get('offset'), limit: this.get('limit') };
     return this.store.find(this.get('resourceName'), query);
-    /* or with plain ajax...
-    var _this = this;
-    return new Ember.RSVP.Promise(function (resolve, reject) {
-      var path = _this.get('resourceName') + 's'; // TODO .pluralize or pilfer inflector
-      var uri = PixelhandlerBlogENV.API_HOST + '/' + path + '?' + params;
-      var params = decodeURIComponent(Ember.$.param(query));
-      Ember.$.get(uri).then(function (payload) {
-        _this.set('meta', payload.meta);
-        resolve(payload.posts);
-      }, function(error) {
-        reject(error);
-      });
-    });
-    */
   },
 
   afterModel: function (collection) {
-    // TODO set meta somewhere in ember-orbit model?
+    // TODO FIXUP set meta somewhere in ember-orbit model?
     // var meta = this.store.metadataFor(this.get('resourceName'));
     // this.set('meta', meta);
     // begin: remove after FIXUP
     collection = collection.posts || collection;
-    this._store = this._store || Ember.Map.create();
+    this._map = this._map || Ember.Map.create();
     collection.forEach(function(item) {
-      this._store.set(item.id, item);
+      this._map.set(item.id, item);
     }.bind(this));
     // end: removal
     var loaded = this.get('loadedIds');
@@ -64,10 +50,10 @@ export default Ember.Mixin.create({
   setupController: function (controller) {
     var collection = [];
     this.get('loadedIds').forEach(function (id) {
-      // TODO fix Orbit initializer
-      // var model = this.store.getById(this.get('resourceName'), id);
+      var model = this.store.retrieve(this.get('resourceName'), id);
+      // TODO REVIEW any meta data needed
       // begin: remove after FIXUP
-      var model = this._store.get(id);
+      // var model = this._map.get(id);
       // end: removal
       if (model) {
         collection.push(model);

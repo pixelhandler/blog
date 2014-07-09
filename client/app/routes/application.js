@@ -1,18 +1,42 @@
 import Ember from 'ember';
 
+var get = Ember.get;
+var set = Ember.set;
+var w = Ember.String.w;
+var post = Ember.$.post;
+var ajax = Ember.$.ajax;
+var postIds = 'postIds';
+
 var ApplicationRoute = Ember.Route.extend({
+
+  resource: 'posts',
+  total: null,
+  limit: 10,
+  offset: -10,
+  sortBy: 'date',
+  order: 'desc',
+  //withFields: ['date', 'title', 'slug']
+
+  meta: Ember.Map.create(),
+
+  beforeModel: function () {
+    var offset = get(this, 'offset') + get(this, 'limit');
+    set(this, 'offset', offset);
+
+    var meta = this.meta;
+    if (!meta.get(postIds)) {
+      meta.set(postIds, []);
+    }
+  },
+
   model: function () {
-    return this.store.find('post');
-    /* or with plain ajax...
-    return new Ember.RSVP.Promise(function (resolve, reject) {
-      var uri = PixelhandlerBlogENV.API_HOST + '/posts';
-      Ember.$.get(uri).then(function (payload) {
-        resolve(payload.posts);
-      }, function(error) {
-        reject(error);
-      });
-    });
-    */
+    var query = queryFactory(this);
+    return this.store.find('post', query);
+  },
+
+  afterModel: function (collection) {
+    var ids = collection.mapBy('id');
+    this.meta.set(postIds, ids);
   },
 
   sessionUrl: (function() {
@@ -22,10 +46,30 @@ var ApplicationRoute = Ember.Route.extend({
     return uri.join('/');
   }()),
 
+  onDidAdd: function () {
+    try {
+      this.socket.on('didAdd', this.addToCollections.bind(this));
+    } catch (e) {
+      console.log(e);
+    }
+  }.on('init'),
+
+  addToCollections: function (payload) {
+    var resource = get(this, 'resource');
+    var routeNames = 'application postsIndex';
+    w(routeNames).forEach(function (name) {
+      try {
+        this.modelFor(name).addObject(payload[resource][0]);
+      } catch (e) {
+        console.log(e);
+      }
+    }.bind(this));
+  },
+
   actions: {
     login: function () {
       var controller = this.get('controller');
-      Ember.$.post(this.get('sessionUrl'), {
+      post(this.get('sessionUrl'), {
         username: controller.get('username'),
         password: controller.get('password')
       })
@@ -34,12 +78,23 @@ var ApplicationRoute = Ember.Route.extend({
     },
 
     logout: function () {
-      Ember.$.ajax({ url: this.get('sessionUrl'), type: 'DELETE' })
+      ajax({ url: this.get('sessionUrl'), type: 'DELETE' })
         .done(logoutSuccess.bind(this))
         .fail(logoutFailure.bind(this));
     }
   }
 });
+
+var queryAttrs = 'limit offset sortBy order';
+
+function queryFactory(route, query) {
+  var attrs = w(queryAttrs + ' resource withFields');
+  query = query || {};
+  attrs.forEach(function (attr) {
+    query[attr] = get(route, attr);
+  });
+  return query;
+}
 
 function loginSuccess(/*data, status, xhr*/) {
   var controller = this.get('controller');

@@ -4,18 +4,6 @@ import ResetScroll from '../mixins/reset-scroll';
 var PostRoute = Ember.Route.extend(ResetScroll, {
   model: function (params) {
     return this.store.find('post', params.post_id);
-    /* or with plain ajax...
-    var _this = this;
-    return new Ember.RSVP.Promise(function (resolve, reject) {
-      var uri = PixelhandlerBlogENV.API_HOST + '/posts/' + params.post_id;
-      Ember.$.get(uri).then(function (payload) {
-        _this.set('meta', payload.meta);
-        resolve(payload.posts[0]);
-      }, function(error) {
-        reject(error);
-      });
-    });
-    */
   },
 
   setupController: function (controller, model) {

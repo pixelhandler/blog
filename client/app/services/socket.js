@@ -1,4 +1,3 @@
-/* TODO
 function SocketService() {
   return this;
 }
@@ -31,18 +30,5 @@ SocketService.create = function () {
 
   return instance;
 };
-*/
 
-export default {
-  name: 'socket-service',
-
-  initialize: function (/*container, application*/) {
-    //container.register('socket:main', SocketService, { singleton: false });
-    //application.inject('controller', 'socket', 'socket:main');
-    //application.inject('route', 'socket', 'socket:main');
-    /* TODO
-    var model = container.lookup('model:main');
-    model.constructor.prototype.socket = container.lookup('socket:main');
-    */
-  }
-};
+export default SocketService;
