@@ -38,10 +38,10 @@ Orbit.extend(SocketSource.prototype, OC.Source.prototype, {
     var payload = { resource: pluralize(type) };
     delete data.id;
     payload[type] = data;
-
+    var _this = this;
     return new Orbit.Promise(function (resolve, reject) {
       try {
-        var didAdd = responseHandlerFactory(type, resolve, reject);
+        var didAdd = responseHandlerFactory(_this, type, resolve, reject);
         socket.emit('add', JSON.stringify(payload), didAdd);
       } catch (e) {
         var msg = 'SocketSource#transform (op:add) Socket Messaging Error';
@@ -63,10 +63,10 @@ Orbit.extend(SocketSource.prototype, OC.Source.prototype, {
     var socket = this._socket;
     var path = operation.path;
     var type = path[0];
-
+    var _this = this;
     return new Orbit.Promise(function (resolve, reject) {
       try {
-        var didPatch = responseHandlerFactory(type, resolve, reject);
+        var didPatch = responseHandlerFactory(_this, type, resolve, reject);
         if (Array.isArray(operation.path)) { // REVIEW why is this needed?
           operation.path = '/' + operation.path.join('/');
         }
@@ -90,10 +90,10 @@ Orbit.extend(SocketSource.prototype, OC.Source.prototype, {
   _findOne: function (type, id) {
     var socket = this._socket;
     var query = {resource: type + 's', id: id};
-
+    var _this = this;
     return new Orbit.Promise(function (resolve, reject) {
       try {
-        var didFind = responseHandlerFactory(type, resolve, reject);
+        var didFind = responseHandlerFactory(_this, type, resolve, reject);
         socket.emit('find', JSON.stringify(query), didFind);
       } catch (e) {
         var msg = 'SocketSource#_find Socket Messaging Error';
@@ -108,10 +108,10 @@ Orbit.extend(SocketSource.prototype, OC.Source.prototype, {
     query = query || {};
     query.resource = query.resource || pluralize(type);
     query = this._queryFactory(query);
-
+    var _this = this;
     return new Orbit.Promise(function (resolve, reject) {
       try {
-        var didFindQuery = responseHandlerFactory(type, resolve, reject);
+        var didFindQuery = responseHandlerFactory(_this, type, resolve, reject);
         socket.emit('findQuery', JSON.stringify(query), didFindQuery);
       } catch (e) {
         var msg = 'SocketSource#_findQuery Socket Messaging Error';
@@ -140,17 +140,22 @@ Orbit.extend(SocketSource.prototype, OC.Source.prototype, {
   }
 });
 
-var responseHandlerFactory = function (type, resolve, reject) {
+var responseHandlerFactory = function (source, type, resolve, reject) {
   return function (payload) {
     var root = pluralize(type);
     if (payload.errors || !payload[root]) {
       reject(payload.errors);
     } else {
+      var data;
       if (payload[root].length > 1) {
-        resolve(payload[root]);
+        data = payload[root].map(function (record) {
+          return source.normalize(type, record);
+        });
       } else {
-        resolve(payload[root][0]);
+        var record = payload[root][0];
+        data = source.normalize(type, record);
       }
+      resolve(data);
     }
   };
 };

@@ -24,9 +24,9 @@
     <script src="assets/pixelhandler-blog.js"></script>
     <script>
       window.showdown = new Showdown.converter();
-      window.Orbit = require('orbit');
-      window.OC = require('orbit_common');
-      window.EO = require('ember_orbit');
+      window.Orbit = require('orbit').default;
+      window.OC = require('orbit-common').default;
+      window.EO = require('ember-orbit').default;
       window.PixelhandlerBlog = require('pixelhandler-blog/app')['default'].create(PixelhandlerBlogENV.APP);
 
       if (PixelhandlerBlogENV.GOOGLE_ANALYTICS) {

@@ -15,8 +15,8 @@
     "ember-cli-test-loader": "rjackson/ember-cli-test-loader#0.0.2",
     "momentjs": "~2.5.1",
     "showdown": "~v0.3.1",
-    "orbit.js": "/Volumes/devbox/blog-cli/local/orbit.js/dist",
-    "ember-orbit": "/Volumes/devbox/blog-cli/local/ember-orbit/dist",
+    "orbit.js": "~0.3.0",
+    "ember-orbit": "~0.2.0",
     "normalize-css": "~3.0.0",
     "socket.io-client": "~1.0.6"
   },

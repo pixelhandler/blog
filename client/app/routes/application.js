@@ -31,7 +31,11 @@ var ApplicationRoute = Ember.Route.extend({
 
   model: function () {
     var query = queryFactory(this);
-    return this.store.find('post', query);
+    var promise = this.store.find('post', query);
+    promise.then(function (model) {
+      console.log(model);
+    });
+    return promise;
   },
 
   afterModel: function (collection) {
