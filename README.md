@@ -1,7 +1,7 @@
 # Pixelhandler's Blog
 
 * [Pixelhandler.com](http://pixelhandler.com)
-* (Local) server runs on port 8888, client on 8000 (using CORS)
+* (Local) server runs on port 8888, client on 8000 (in dev, uses ember-cli proxy helper to access api on same domain)
 
 [![Code Climate](https://codeclimate.com/github/pixelhandler/blog.png)](https://codeclimate.com/github/pixelhandler/blog)
 
