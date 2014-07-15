@@ -1,7 +1,5 @@
 # Pixelhandler's Blog
 
-Build on top of https://github.com/pixelhandler/ember-app-builder
-
 * [Pixelhandler.com](http://pixelhandler.com)
 * (Local) server runs on port 8888, client on 8000 (using CORS)
 
