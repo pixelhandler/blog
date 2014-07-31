@@ -1,4 +1,4 @@
-//import EO from "ember-orbit";
+import EO from "ember-orbit";
 
 var attr = EO.attr;
 

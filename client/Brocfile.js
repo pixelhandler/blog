@@ -61,24 +61,21 @@ app.import({
   production: 'vendor/showdown/compressed/showdown.js'
 });
 
-app.import({
-  development: 'vendor/orbit.js/orbit.amd.js',
-  production: 'vendor/orbit.js/orbit.amd.min.js'
+app.import('vendor/orbit.js/orbit.amd.js', {
+  exports: {'orbit': ['default']}
 });
 
-app.import({
-  development: 'vendor/orbit.js/orbit-common.amd.js',
-  production: 'vendor/orbit.js/orbit-common.amd.min.js'
+app.import('vendor/orbit.js/orbit-common.amd.js', {
+  exports: {'orbit-common': ['default']}
 });
 
-app.import({
-  development: 'vendor/orbit.js/orbit-common-jsonapi.amd.js',
-  production: 'vendor/orbit.js/orbit-common-jsonapi.amd.min.js'
+app.import('vendor/orbit.js/orbit-common-jsonapi.amd.js', {
+  exports: {'orbit-common/jsonapi-source': ['default'],
+            'orbit-common/jsonapi-serializer': ['default']}
 });
 
-app.import({
-  development: 'vendor/ember-orbit/ember-orbit.amd.js',
-  production: 'vendor/ember-orbit/ember-orbit.amd.min.js'
+app.import('vendor/ember-orbit/ember-orbit.amd.js', {
+  exports: {'ember-orbit': ['default']}
 });
 
 app.import('vendor/socket.io-client/socket.io.js');

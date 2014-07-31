@@ -3,7 +3,7 @@ import ResetScroll from '../mixins/reset-scroll';
 
 var PostRoute = Ember.Route.extend(ResetScroll, {
   model: function (params) {
-    return this.store.find('post', params.post_id);
+    return this.store.find('post', {id: params.post_id});
     /* or with plain ajax...
     var _this = this;
     return new Ember.RSVP.Promise(function (resolve, reject) {
@@ -16,6 +16,10 @@ var PostRoute = Ember.Route.extend(ResetScroll, {
       });
     });
     */
+  },
+
+  serialize: function(model) {
+    return { post_id: model.get('slug') };
   },
 
   setupController: function (controller, model) {
