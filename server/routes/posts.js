@@ -60,13 +60,13 @@ module.exports = function(app, restrict) {
   });
 
   /**
-    (Read) Find a post by slug
+    (Read) Find a post by id
 
-    Route: (verb) GET /posts/:slug
+    Route: (verb) GET /posts/:id
     @async
   **/
-  app.get('/posts/:slug', function (req, res) {
-    db.find('posts', req.params.slug, function (err, payload) {
+  app.get('/posts/:id', function (req, res) {
+    db.find('posts', req.params.id, function (err, payload) {
       if (err) {
         debug(err);
         res.send(500);
@@ -80,13 +80,13 @@ module.exports = function(app, restrict) {
   });
 
   /**
-    Update a post by slug
+    Update a post by id
 
-    Route: (verb) PUT /posts/:slug
+    Route: (verb) PUT /posts/:id
     @async
   **/
-  app.put('/posts/:slug', restrict, function (req, res) {
-    db.updateRecord('posts', req.params.slug, req.body.post, function (err, payload) {
+  app.put('/posts/:id', restrict, function (req, res) {
+    db.updateRecord('posts', req.params.id, req.body.post, function (err, payload) {
       if (err) {
         debug(err);
         res.send(500);
@@ -97,13 +97,31 @@ module.exports = function(app, restrict) {
   });
 
   /**
-    Delete a post by slug
+    Patch a post by id
 
-    Route: (verb) DELETE /posts/:slug
+    Route: (verb) PATCH /posts/:id
     @async
   **/
-  app.del('/posts/:slug', restrict, function (req, res) {
-    db.deleteRecord('posts', req.params.slug, function (err) {
+  app.patch('/posts/:id', restrict, function (req, res) {
+    db.patchRecord('posts', req.params.id, req.body, function (err, payload) {
+      if (err) {
+        debug(err);
+        res.status(500).end();
+      } else {
+        res.status(204).end();
+      }
+    });
+  });
+
+
+  /**
+    Delete a post by id
+
+    Route: (verb) DELETE /posts/:id
+    @async
+  **/
+  app.del('/posts/:id', restrict, function (req, res) {
+    db.deleteRecord('posts', req.params.id, function (err) {
       if (err) {
         debug(err);
         res.send(500);

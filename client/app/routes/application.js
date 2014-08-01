@@ -3,16 +3,6 @@ import Ember from 'ember';
 var ApplicationRoute = Ember.Route.extend({
   model: function () {
     return this.store.find('post');
-    /* or with plain ajax...
-    return new Ember.RSVP.Promise(function (resolve, reject) {
-      var uri = PixelhandlerBlogENV.API_HOST + '/posts';
-      Ember.$.get(uri).then(function (payload) {
-        resolve(payload.posts);
-      }, function(error) {
-        reject(error);
-      });
-    });
-    */
   },
 
   sessionUrl: (function() {
@@ -25,16 +15,25 @@ var ApplicationRoute = Ember.Route.extend({
   actions: {
     login: function () {
       var controller = this.get('controller');
-      Ember.$.post(this.get('sessionUrl'), {
-        username: controller.get('username'),
-        password: controller.get('password')
+      Ember.$.ajax({
+        url: this.get('sessionUrl'),
+        type: 'POST',
+        data: JSON.stringify({
+          username: controller.get('username'),
+          password: controller.get('password')
+        }),
+        dataType: 'json',
+        contentType: 'application/json'
       })
         .done(loginSuccess.bind(this))
         .fail(loginFailure.bind(this));
     },
 
     logout: function () {
-      Ember.$.ajax({ url: this.get('sessionUrl'), type: 'DELETE' })
+      Ember.$.ajax({
+        url: this.get('sessionUrl'),
+        type: 'DELETE'
+      })
         .done(logoutSuccess.bind(this))
         .fail(logoutFailure.bind(this));
     }

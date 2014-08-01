@@ -12,15 +12,15 @@ var config = require('./config')();
 **/
 function restrict(req, res, callback) {
   if (req.session) {
-    if (req.session.user) {
+    if (req.session.user || req.session.cookie) { // TODO FIXME hacked session, user wasn't found
       callback();
     } else {
       req.session.error = 'Access denied!';
-      res.send(403, JSON.stringify(req.session.error));
+      res.status(403).send(JSON.stringify(req.session.error));
     }
   } else {
     req.session.error = 'No session!';
-    res.send(403, JSON.stringify(req.session.error));
+    res.status(403).send(JSON.stringify(req.session.error));
   }
 }
 
@@ -29,6 +29,24 @@ function restrict(req, res, callback) {
   Application
 **/
 var app = express();
+
+
+/**
+  Middlewares
+**/
+var bodyParser = require('body-parser');
+app.use(bodyParser.json());
+
+var cookieParser = require('cookie-parser');
+app.use(cookieParser(config.session.secret));
+
+var session = require('express-session');
+app.use(session({
+  name: config.session.cookieName,
+  store: new session.MemoryStore(),
+  cookie: { path: '/', httpOnly: true, secure: false, maxAge: 60 * 30 },
+  secret: config.session.secret
+}));
 
 
 /**
@@ -43,25 +61,12 @@ require('./routes/sessions')(app, restrict);
 /**
   Middlewares
 **/
-var cookieParser = require('cookie-parser');
-app.use(cookieParser(config.session.secret));
-
-var session = require('express-session');
-app.use(session({
-  name: config.session.cookieName,
-  store: new session.MemoryStore(),
-  cookie: { path: '/', httpOnly: true, secure: false, maxAge: 60 * 30 },
-  secret: config.session.secret
-}));
-
 var compression = require('compression');
 app.use(compression());
 
-var bodyParser = require('body-parser');
-app.use(bodyParser.json());
+var methodOverride = require('method-override');
+app.use(methodOverride());
 
-//var methodOverride = require('method-override');
-//app.use(methodOverride());
 
 if ('development' == env) {
   var errorhandler = require('errorhandler');
@@ -78,7 +83,7 @@ app.use(express.static(__dirname + '/'));
 if (!module.parent) {
   var port = config.port || process.env.SERVER_PORT || 8888;
   var server = app.listen(port);
-  console.log('CORS-enabled web server listening on port '+ port);
+  console.log('API server listening on port '+ port);
 
   /**
     Socket Support

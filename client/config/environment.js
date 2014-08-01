@@ -30,7 +30,7 @@ module.exports = function(environment) {
     ENV.APP.LOG_TRANSITIONS_INTERNAL = true;
     ENV.APP.LOG_VIEW_LOOKUPS = true;
 
-    ENV.API_HOST = '';//"http://localhost:8888";
+    ENV.API_HOST = '';
     ENV.API_PATH = null;
     ENV.SOCKET_URL = "http://localhost:8888";
     ENV.GOOGLE_ANALYTICS = null;

@@ -24,10 +24,11 @@ module.exports = function(app, restrict) {
     if (uname === config.admin.username && pword === config.admin.password) {
       req.session.user = uname;
       loginfo('login: %s', req.session.user);
+      req.session.save();
       res.send(204);
     }
     else {
-      res.send(401);
+      res.status(401).end();
     }
   });
 

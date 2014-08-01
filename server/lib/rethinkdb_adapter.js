@@ -66,6 +66,12 @@ module.exports.updateRecord = require(path('update_record'))(adapter, onConnect)
 module.exports.updateRecordBySlug = require(path('update_record_by_slug'))(adapter, onConnect);
 
 /**
+  Export {Function} patchRecord
+  @method patchRecord
+**/
+module.exports.patchRecord = require(path('patch_record'))(adapter, onConnect);
+
+/**
   Export {Function} deleteRecord
   @method deleteRecord
 **/

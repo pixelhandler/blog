@@ -54,7 +54,7 @@ function findSuccess(type, json, connection, callback) {
   json = transform(json);
   var payload = {};
   var rootKey = inflect.pluralize(type);
-  payload[rootKey] = [ json ];
+  payload[rootKey] = json;
   if (json && json.id) {
     loginfo("Success find %s id: %s, connection id: %s", type, json.id, connection._id);
   }
