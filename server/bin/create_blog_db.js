@@ -29,6 +29,10 @@ r.connect(settings, function (err, conn) {
     function (callback) {
       r.db(name).tableCreate('catalogs').run(conn, callback);
     },
+    // authors table
+    function (callback) {
+      r.db(name).tableCreate('authors').run(conn, callback);
+    },
     // posts table
     function (callback) {
       r.db(name).tableCreate('posts').run(conn, callback);

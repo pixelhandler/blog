@@ -50,10 +50,17 @@ app.use(session({
 
 
 /**
+  Setup database
+**/
+var db = require('./lib/rethinkdb_adapter');
+db.setup('blog', { catalogs: 'id', posts: 'id', authors: 'id' });
+
+/**
   Load application routes [when using express 4 setup routes before middlewares]
 **/
 //app.use(app.router); // **this line will be removed when running express ver. 4+ **
 require('./routes/ping')(app);
+require('./routes/authors')(app, restrict);
 require('./routes/posts')(app, restrict);
 require('./routes/sessions')(app, restrict);
 
