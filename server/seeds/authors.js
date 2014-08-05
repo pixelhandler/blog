@@ -3,8 +3,9 @@ var testData = [
   "name": "pixelhandler",
   "email": "pixelhandler@gmail.com",
   "id": "5c9b62ec-1569-448b-912a-97e6d62f493e",
-  "links": {
-    "posts": [
+  //"links": {
+    //"posts": [
+    "post_ids": [
       "7e163fe2-21fb-4cf9-9764-d3df2001fff5",
       "327fc99b-f471-497c-9bfd-50c43110d309",
       "65d42214-3a7b-4f26-95de-528bb593ea5b",
@@ -69,7 +70,7 @@ var testData = [
       "7bba292d-d381-4c5b-a18a-2d63b9d55db1",
       "6f9dbb3c-a1a2-4031-a57a-ae1561f18d84"
     ]
-  }
+  //}
 }
 ];
 if (module && module.exports) {

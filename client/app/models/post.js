@@ -1,7 +1,7 @@
 import EO from "ember-orbit";
+import hasOneProxy from "../utils/has-one-proxy";
 
 var attr = EO.attr;
-var hasOne = EO.hasOne;
 
 export default EO.Model.extend({
   slug: attr('string'),
@@ -10,6 +10,9 @@ export default EO.Model.extend({
   excerpt: attr('string'),
   body: attr('string'),
 
-  author: hasOne('author')
-  //author: attr() // ID for related author
+  // ID for related author is expected in the JSON payload
+  author_id: attr(),
+
+  // Computed property which manages related promise proxy object
+  author: hasOneProxy('author')
 });
