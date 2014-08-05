@@ -55,23 +55,38 @@ module.exports = function(app, restrict) {
   });
 
   /**
-    (Read) Find a post by id
+    (Read) Find a post by id or list of ids (comma separated)
 
-    Route: (verb) GET /posts/:id
+    Route: (verb) GET /posts/:id[,id...]
     @async
   **/
   app.get('/posts/:id', function (req, res) {
-    db.find('posts', req.params.id, function (err, payload) {
-      if (err) {
-        debug(err);
-        res.send(500);
-      } else {
-        if (node_env != 'development') {
-          res.header('Cache-Control', 'public, max-age=' + (30 * 24 * 60 * 60));
+    var ids = req.params.id.split(',');
+    if (ids.length === 1) {
+      db.find('posts', id[0], function (err, payload) {
+        if (err) {
+          debug(err);
+          res.send(500);
+        } else {
+          if (node_env != 'development') {
+            res.header('Cache-Control', 'public, max-age=' + (30 * 24 * 60 * 60));
+          }
+          res.send(payload);
         }
-        res.send(payload);
-      }
-    });
+      });
+    } else if (ids.length > 1) {
+      db.findMany('posts', ids, function (err, payload) {
+        if (err) {
+          debug(err);
+          res.send(500);
+        } else {
+          if (node_env != 'development') {
+            res.header('Cache-Control', 'public, max-age=' + (30 * 24 * 60 * 60));
+          }
+          res.send(payload);
+        }
+      });
+    }
   });
 
   /**

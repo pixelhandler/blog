@@ -36,6 +36,12 @@ module.exports.setup = require(path('setup'))(adapter, onConnect);
 module.exports.find = require(path('find'))(adapter, onConnect);
 
 /**
+  Export {Function} findMany
+  @method findMany
+**/
+module.exports.findMany = require(path('find_many'))(adapter, onConnect);
+
+/**
   Export {Function} findBySlug
   @method findBySlug
 **/
