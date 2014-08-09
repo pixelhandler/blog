@@ -25,6 +25,7 @@ module.exports = function(app, restrict) {
       req.session.user = uname;
       loginfo('login: %s', req.session.user);
       req.session.save();
+      loginfo('session', req.session);
       res.send(204);
     }
     else {
@@ -36,6 +37,7 @@ module.exports = function(app, restrict) {
     Route: (verb) DELETE /sessions
   **/
   app.del('/sessions', restrict, function(req, res){
+    loginfo('logout', req.session.user);
     req.session = null;
     res.send(204);
   });
@@ -44,6 +46,7 @@ module.exports = function(app, restrict) {
     Route (verb) GET /restricted
   **/
   app.post('/restricted', restrict, function(req, res){
+    loginfo('restricted');
     res.send(204);
   });
 

@@ -5,24 +5,7 @@
 var express = require('express');
 var env = process.env.NODE_ENV || 'development';
 var config = require('./config')();
-
-
-/**
-  Restrict access w/ session
-**/
-function restrict(req, res, callback) {
-  if (req.session) {
-    if (req.session.user || req.session.cookie) { // TODO FIXME hacked session, user wasn't found
-      callback();
-    } else {
-      req.session.error = 'Access denied!';
-      res.status(403).send(JSON.stringify(req.session.error));
-    }
-  } else {
-    req.session.error = 'No session!';
-    res.status(403).send(JSON.stringify(req.session.error));
-  }
-}
+var debug = require('debug')('app:debug');
 
 
 /**
@@ -36,15 +19,12 @@ var app = express();
 **/
 var bodyParser = require('body-parser');
 app.use(bodyParser.json());
-
-var cookieParser = require('cookie-parser');
-app.use(cookieParser(config.session.secret));
+app.use(bodyParser.json({type: 'application/vnd.api+json'}));
+app.use(bodyParser.json({type: 'application/json-patch+json'}));
 
 var session = require('express-session');
 app.use(session({
-  name: config.session.cookieName,
-  store: new session.MemoryStore(),
-  cookie: { path: '/', httpOnly: true, secure: false, maxAge: 60 * 30 },
+  cookie: { secure: false },
   secret: config.session.secret
 }));
 
@@ -55,10 +35,31 @@ app.use(session({
 var db = require('./lib/rethinkdb_adapter');
 db.setup('blog', { catalogs: 'id', posts: 'id', authors: 'id' });
 
+
+/**
+  Restrict access with session
+**/
+function restrict(req, res, callback) {
+  if (req.session) {
+    if (req.session.user) {
+      debug('req.session.user', req.session.user);
+      callback();
+    } else {
+      req.session.error = 'Access denied!';
+      debug('req.session.error', req.session.error);
+      res.status(403).send(JSON.stringify(req.session.error));
+    }
+  } else {
+    req.session.error = 'No session!';
+    debug('req.session.error', req.session.error);
+    res.status(403).send(JSON.stringify(req.session.error));
+  }
+}
+
+
 /**
   Load application routes [when using express 4 setup routes before middlewares]
 **/
-//app.use(app.router); // **this line will be removed when running express ver. 4+ **
 require('./routes/ping')(app);
 require('./routes/authors')(app, restrict);
 require('./routes/posts')(app, restrict);
@@ -90,7 +91,7 @@ app.use(express.static(__dirname + '/'));
 if (!module.parent) {
   var port = config.port || process.env.SERVER_PORT || 8888;
   var server = app.listen(port);
-  console.log('API server listening on port '+ port);
+  debug('API server listening on port '+ port);
 
   /**
     Socket Support
