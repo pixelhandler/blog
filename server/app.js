@@ -97,6 +97,7 @@ if (!module.parent) {
     Socket Support
   **/
   var io = require('./lib/socket_adapter')(server);
+  app._io = io;
 
 } else {
   module.exports = app;

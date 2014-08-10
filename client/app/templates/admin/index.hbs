@@ -5,7 +5,7 @@
     <dd class="Blog-list-item u-cf">
       <span class="Blog-list-item-title">{{title}}</span>
       {{#link-to "admin.edit" this class="u-button u-button--sm u-button--reverse u-edit"}}Edit{{/link-to}}
-      <button class="u-button u-button--sm u-button--reverse u-destroy" {{action "destroy" id}}>Delete</button>
+      <button class="u-button u-button--sm u-button--reverse u-destroy" {{action "destroy" this}}>Delete</button>
     </dd>
   {{/each}}
 </dl>

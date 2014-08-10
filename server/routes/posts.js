@@ -24,12 +24,20 @@ module.exports = function(app, restrict) {
     @async
   **/
   app.post('/posts', restrict, function (req, res) {
-    db.createRecord('posts', req.body.posts, function (err, payload) {
+    var payload = req.body.posts;
+    if (payload.id) {
+      delete payload.id;
+    }
+    db.createRecord('posts', payload, function (err, payload) {
       if (err) {
         debug(err);
         res.send(500);
       } else {
-        res.send(payload);
+        if (app._io) {
+          debug('didAdd', payload);
+          app._io.emit('didAdd', payload);
+        }
+        res.status(201).send(payload);
       }
     });
   });
@@ -136,6 +144,11 @@ module.exports = function(app, restrict) {
         debug(err);
         res.send(500);
       } else {
+        if (app._io) {
+          var payload = {posts: {id: req.params.id}};
+          debug('didRemove', payload);
+          app._io.emit('didRemove', payload);
+        }
         res.send(204); // No Content
       }
     });

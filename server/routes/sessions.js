@@ -15,6 +15,19 @@ var config = require('../config')();
 module.exports = function(app, restrict) {
 
   /**
+    Route: (verb) GET /sessions
+  **/
+  app.get('/sessions', function(req, res) {
+    loginfo('logged in: %s', req.session.user);
+    if (req.session.user) {
+      res.status(204).end();
+    }
+    else {
+      res.status(401).end();
+    }
+  });
+
+  /**
     Route: (verb) POST /sessions
   **/
   app.post('/sessions', function(req, res) {
@@ -25,8 +38,7 @@ module.exports = function(app, restrict) {
       req.session.user = uname;
       loginfo('login: %s', req.session.user);
       req.session.save();
-      loginfo('session', req.session);
-      res.send(204);
+      res.status(201).end();
     }
     else {
       res.status(401).end();

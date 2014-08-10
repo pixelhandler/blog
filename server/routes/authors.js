@@ -29,7 +29,7 @@ module.exports = function(app, restrict) {
         debug(err);
         res.send(500);
       } else {
-        res.send(payload);
+        res.status(201).send(payload);
       }
     });
   });
