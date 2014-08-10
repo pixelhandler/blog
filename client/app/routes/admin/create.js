@@ -1,26 +1,25 @@
 import Ember from 'ember';
 import ResetScroll from '../../mixins/reset-scroll';
 import AdminActions from '../../mixins/admin-actions';
+import Post from '../../models/post';
 
 export default Ember.Route.extend(ResetScroll, AdminActions, {
-  model: function (/*params*/) {
-    // TODO fixup need to use a new EO.Model instance
+  resourceName: 'post',
 
-    // var post = this.store.createRecord('post');
-    // post.set('author', { name: 'pixelhandler' });
-    // return post;
-    return {
-      slug: '',
-      title: '',
-      author: { name: 'pixelhandler' },
-      date: null,
-      excerpt: '',
-      body: ''
-    };
+  model: function () {
+    return Post.newRecord();
+  },
+
+  afterModel: function (model) {
+    return this.store.find('author').then(function (authors) {
+      var id = authors.get('firstObject').get('id');
+      model.set('author_id', id);
+    });
   },
 
   setupController: function (controller, model) {
     this._super(controller, model);
     controller.set('dateInput', moment().format('L'));
   }
+
 });

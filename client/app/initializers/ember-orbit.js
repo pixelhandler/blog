@@ -1,19 +1,27 @@
 import Orbit from 'orbit';
 import EO from 'ember-orbit';
 import JSONAPISource from 'orbit-common/jsonapi-source';
+import ApplicationSerializer from '../serializers/application';
+import Ember from 'ember';
 
 Orbit.Promise = Ember.RSVP.Promise;
 Orbit.ajax = Ember.$.ajax;
-
-var Schema = EO.Schema.extend({
-  idField: 'id'
-});
 
 var JSONAPIStore = EO.Store.extend({
   orbitSourceClass: JSONAPISource,
   orbitSourceOptions: {
     host: PixelhandlerBlogENV.API_HOST,
-    namespace: PixelhandlerBlogENV.API_PATH
+    namespace: PixelhandlerBlogENV.API_PATH,
+    defaultSerializerClass: ApplicationSerializer
+  }
+});
+
+var Schema = EO.Schema.extend({
+  idField: 'id',
+
+  init: function (options) {
+    this._super(options);
+    this._schema.meta = Ember.Map.create();
   }
 });
 

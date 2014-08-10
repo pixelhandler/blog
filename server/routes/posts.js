@@ -24,7 +24,7 @@ module.exports = function(app, restrict) {
     @async
   **/
   app.post('/posts', restrict, function (req, res) {
-    db.createRecord('posts', req.body.post, function (err, payload) {
+    db.createRecord('posts', req.body.posts, function (err, payload) {
       if (err) {
         debug(err);
         res.send(500);
@@ -63,7 +63,7 @@ module.exports = function(app, restrict) {
   app.get('/posts/:id', function (req, res) {
     var ids = req.params.id.split(',');
     if (ids.length === 1) {
-      db.find('posts', id[0], function (err, payload) {
+      db.find('posts', ids[0], function (err, payload) {
         if (err) {
           debug(err);
           res.send(500);

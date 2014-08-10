@@ -8,13 +8,8 @@ export default Ember.ObjectController.extend({
       this.set('isEditing', true);
     },
 
-    preview: function () {
+    done: function () {
       this.set('isEditing', false);
-    },
-
-    save: function () {
-      this.set('isEditing', false);
-      return true; // bubble
     }
   }
 });

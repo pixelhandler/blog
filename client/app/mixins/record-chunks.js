@@ -23,52 +23,23 @@ export default Ember.Mixin.create({
   model: function () {
     var query = { offset: this.get('offset'), limit: this.get('limit') };
     return this.store.find(this.get('resourceName'), query);
-    /* or with plain ajax...
-    var _this = this;
-    return new Ember.RSVP.Promise(function (resolve, reject) {
-      var path = _this.get('resourceName') + 's'; // TODO .pluralize or pilfer inflector
-      var uri = PixelhandlerBlogENV.API_HOST + '/' + path + '?' + params;
-      var params = decodeURIComponent(Ember.$.param(query));
-      Ember.$.get(uri).then(function (payload) {
-        _this.set('meta', payload.meta);
-        resolve(payload.posts);
-      }, function(error) {
-        reject(error);
-      });
-    });
-    */
   },
 
   afterModel: function (collection) {
-    // TODO set meta somewhere in ember-orbit model?
-    // var meta = this.store.metadataFor(this.get('resourceName'));
-    // this.set('meta', meta);
-    // begin: remove after FIXUP
-    collection = collection.posts || collection;
-    this._store = this._store || Ember.Map.create();
-    collection.forEach(function(item) {
-      this._store.set(item.id, item);
-    }.bind(this));
-    // end: removal
+    //var meta = meta || new Ember.Set();
     var loaded = this.get('loadedIds');
     collection.mapBy('id').forEach(function (id) {
       loaded.push(id);
-    });
+    }.bind(this));
     this.set('loadedIds', loaded.uniq());
     return collection;
   },
 
-  meta: null,
-  loadedIds: [],
-
-  setupController: function (controller) {
-    var collection = [];
+  setupController: function (controller, collection) {
+    var type = this.get('resourceName');
+    collection = [];
     this.get('loadedIds').forEach(function (id) {
-      // TODO fix Orbit initializer
-      // var model = this.store.getById(this.get('resourceName'), id);
-      // begin: remove after FIXUP
-      var model = this._store.get(id);
-      // end: removal
+      var model = this.store.retrieve(type, {id: id});
       if (model) {
         collection.push(model);
       }
@@ -80,7 +51,15 @@ export default Ember.Mixin.create({
     this._super(controller, collection);
   },
 
+  loadedIds: [],
+
   hasMore: function () {
-    return this.get('loadedIds').length < this.get('meta.total');
-  }.property('meta.total').volatile()
+    return this.get('loadedIds').length < this.get('meta').get('total');
+  }.property('loadedIds', 'total').volatile(),
+
+  meta: Ember.computed(function () {
+    var type = this.get('resourceName');
+    return this.store.schema._schema.meta.get(type);
+  })
+
 });
