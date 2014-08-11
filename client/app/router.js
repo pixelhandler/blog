@@ -10,7 +10,7 @@ Ember.Router.reopen(GoogleAnalyticsMixin);
 Router.map(function () {
   this.route('about');
   this.resource('posts', function () {
-    this.resource('post', { path: ':post_id' });
+    this.resource('post', { path: ':post_slug' });
   });
   this.resource('admin', function () {
     this.route('create');

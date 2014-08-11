@@ -63,9 +63,9 @@ module.exports = function(app, restrict) {
   });
 
   /**
-    (Read) Find a post by id or list of ids (comma separated)
+    (Read) Find a post by id or list of ids (comma separated), or by slug
 
-    Route: (verb) GET /posts/:id[,id...]
+    Route: (verb) GET /posts/[:id[,id...]|:slug]
     @async
   **/
   app.get('/posts/:id', function (req, res) {
@@ -79,7 +79,26 @@ module.exports = function(app, restrict) {
           if (node_env != 'development') {
             res.header('Cache-Control', 'public, max-age=' + (30 * 24 * 60 * 60));
           }
-          res.send(payload);
+          if (payload.posts !== null) {
+            debug('/posts/:id result not null', payload.posts);
+            res.send(payload);
+          } else {
+            debug('/posts/:id result null, finding by slug');
+            db.findBySlug('posts', ids[0], function (err, payload) {
+              if (err) {
+                debug(err);
+                res.send(500);
+              } else {
+                if (payload.posts !== null) {
+                  debug('/posts/:slug result not null', payload.posts);
+                  res.send(payload);
+                } else {
+                  debug('/posts/[:id|:slug] result not found');
+                  res.status(404).end();
+                }
+              }
+            });
+          }
         }
       });
     } else if (ids.length > 1) {
