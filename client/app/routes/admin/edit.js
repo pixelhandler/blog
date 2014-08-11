@@ -7,5 +7,10 @@ export default Ember.Route.extend(ResetScroll, AdminActions, {
 
   model: function (params) {
     return this.store.find(this.get('resourceName'), params.edit_id);
+  },
+
+  setupController: function (controller, model) {
+    this._super(controller, model);
+    controller.set('isEditing', true);
   }
 });
