@@ -5,7 +5,7 @@ export default Ember.Route.extend(ResetScroll, {
   activate: function () {
     var controller = this.controllerFor('application');
     if (controller.get('isLoggedIn') !== true) {
-      this.transitionTo('index');
+      //this.transitionTo('index');
     }
   }
 });

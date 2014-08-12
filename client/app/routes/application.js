@@ -8,9 +8,9 @@ var ApplicationRoute = Ember.Route.extend({
   setupController: function (controller, model) {
     this._super(controller, model);
     this.canTransition = false;
-    Ember.$.get(this.get('sessionUrl'))
-      .done(loginSuccess.bind(this))
-      .fail(logoutFailure.bind(this));
+    //Ember.$.get(this.get('sessionUrl'))
+      //.done(loginSuccess.bind(this))
+      //.fail(logoutFailure.bind(this));
   },
 
   sessionUrl: (function() {

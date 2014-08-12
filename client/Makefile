@@ -1,5 +1,5 @@
 server: lint
-	@export BROCCOLI_ENV=development; ember server --environment=development --proxy http://localhost:8888
+	@export BROCCOLI_ENV=development; ember server --environment=development --proxy http://localhost:3000
 	@open http://localhost:4200/
 
 install:
