@@ -15,6 +15,15 @@ rails s
 
 ## See client application Makefile for starting the client
 
+### orbit.js and ember-orbit dependencies
+
+See <https://github.com/pixelhandler/blog/blob/try-ember-orbit-and-rails-api/client/bower.json#L18-L19>
+
+* Clone the repos in ../local and run `npm install` and `grunt package` in each one
+* Edit the bower.json file with the full path to the local builds
+
+### Start the client application
+
 ```
 cd ../client
 make server
