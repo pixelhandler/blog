@@ -71,8 +71,13 @@ app.import('vendor/orbit.js/orbit-common.amd.js', {
 
 app.import('vendor/orbit.js/orbit-common-jsonapi.amd.js', {
   exports: {'orbit-common/jsonapi-source': ['default'],
-            'orbit-common/jsonapi-serializer': ['default']}
+            'orbit-common/jsonapi-serializer': ['default'],
+            'orbit-common/local-storage-source': ['default']}
 });
+
+//app.import('vendor/orbit.js/orbit-common-local-storage.amd.js', {
+  //exports: {'orbit-common/local-storage-source': ['default']}
+//});
 
 app.import('vendor/ember-orbit/ember-orbit.amd.js', {
   exports: {'ember-orbit': ['default']}
