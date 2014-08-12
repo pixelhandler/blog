@@ -54,11 +54,18 @@ export default Ember.Mixin.create({
   loadedIds: [],
 
   hasMore: function () {
-    return this.get('loadedIds').length < this.get('meta').get('total');
+    var meta = this.get('meta');
+    if (!meta) {
+      return false;
+    }
+    return this.get('loadedIds').length < meta.get('total');
   }.property('loadedIds', 'total').volatile(),
 
   meta: Ember.computed(function () {
     var type = this.get('resourceName');
+    if (!this.store.schema._schema.meta) {
+      return null;
+    }
     return this.store.schema._schema.meta.get(type);
   })
 
