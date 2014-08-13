@@ -17,17 +17,6 @@
 npm-debug.log
 testem.log
 
-*.seed
-*.log
-*.csv
-*.dat
-*.out
-*.pid
-*.gz
-*.lock
-*.swp
-*.bak
-*.DS_Store
 .grunt
 app/stylesheets/normalize.css
 build

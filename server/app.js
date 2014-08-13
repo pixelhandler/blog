@@ -3,79 +3,102 @@
   @main app
 **/
 var express = require('express');
-var cors = require('cors');
+var env = process.env.NODE_ENV || 'development';
 var config = require('./config')();
+var debug = require('debug')('app:debug');
+
 
 /**
-  Cors settings
+  Application
 **/
-var options = {
-  origin: function(origin, callback){
-    var allowed = config.allowed;
-    var isAllowed = allowed.indexOf(origin) !== -1;
-    callback(null, isAllowed);
-  },
-  credentials: true,
-  methods: ['POST', 'PUT', 'GET', 'DELETE']
-};
+var app = express();
+
 
 /**
-  Restrict access w/ session
+  Middlewares
+**/
+var bodyParser = require('body-parser');
+app.use(bodyParser.json());
+app.use(bodyParser.json({type: 'application/vnd.api+json'}));
+app.use(bodyParser.json({type: 'application/json-patch+json'}));
+
+var session = require('express-session');
+app.use(session({
+  cookie: { secure: false },
+  secret: config.session.secret
+}));
+
+
+/**
+  Setup database
+**/
+var db = require('./lib/rethinkdb_adapter');
+db.setup('blog', { catalogs: 'id', posts: 'id', authors: 'id' });
+
+
+/**
+  Restrict access with session
 **/
 function restrict(req, res, callback) {
   if (req.session) {
     if (req.session.user) {
+      debug('req.session.user', req.session.user);
       callback();
     } else {
       req.session.error = 'Access denied!';
-      res.send(403, JSON.stringify(req.session.error));
+      debug('req.session.error', req.session.error);
+      res.status(403).send(JSON.stringify(req.session.error));
     }
   } else {
     req.session.error = 'No session!';
-    res.send(403, JSON.stringify(req.session.error));
+    debug('req.session.error', req.session.error);
+    res.status(403).send(JSON.stringify(req.session.error));
   }
 }
 
 
 /**
-  Configure application settings
-  @config app
+  Load application routes [when using express 4 setup routes before middlewares]
 **/
-var app = express();
-
-app.use(express.cookieParser('secret'));
-app.use(express.cookieSession());
-app.use(express.compress());
-app.use(express.bodyParser());
-app.use(express.methodOverride());
-app.use(app.router);
-
-app.configure('development', function () {
-  app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
-});
-
-/**
-  enable CORs pre-flighting, include before other routes
-**/
-app.options('*', cors(options));
-
-/**
-  Load application routes
-**/
-require('./routes/ping')(app, cors(options));
-
-require('./routes/posts')(app, cors(options), restrict);
-
-require('./routes/sessions')(app, cors(options), restrict);
+require('./routes/ping')(app);
+require('./routes/authors')(app, restrict);
+require('./routes/posts')(app, restrict);
+require('./routes/sessions')(app, restrict);
 
 
 /**
-  Listen or export if required by testing
+  Middlewares
+**/
+var compression = require('compression');
+app.use(compression());
+
+var methodOverride = require('method-override');
+app.use(methodOverride());
+
+
+if ('development' == env) {
+  var errorhandler = require('errorhandler');
+  app.use(errorhandler({ dumpExceptions: true, showStack: true }));
+}
+
+// Static server, used for socket support, serving client lib, etc.
+app.use(express.static(__dirname + '/'));
+
+
+/**
+  Listen, or export if required by testing
 **/
 if (!module.parent) {
-  var port = process.env.SERVER_PORT || 8888;
-  app.listen(port);
-  console.log('CORS-enabled web server listening on port '+ port);
+  var port = config.port || process.env.SERVER_PORT || 8888;
+  var server = app.listen(port);
+  debug('API server listening on port '+ port);
+
+  /**
+    Socket Support
+  **/
+  var io = require('./lib/socket_adapter')(server);
+  app._io = io;
+
 } else {
   module.exports = app;
 }

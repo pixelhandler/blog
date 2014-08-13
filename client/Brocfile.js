@@ -50,11 +50,6 @@ app.import({
   development: 'vendor/ember-canary/ember.js',
   production:  'vendor/ember/ember.prod.js'
 });
-
-app.import({
-  development: 'vendor/ember-data/ember-data.js',
-  production:  'vendor/ember-data/ember-data.prod.js'
-});
 */
 app.import({
   development: 'vendor/momentjs/moment.js',
@@ -65,5 +60,29 @@ app.import({
   development: 'vendor/showdown/src/showdown.js',
   production: 'vendor/showdown/compressed/showdown.js'
 });
+
+app.import('vendor/orbit.js/orbit.amd.js', {
+  exports: {'orbit': ['default']}
+});
+
+app.import('vendor/orbit.js/orbit-common.amd.js', {
+  exports: {'orbit-common': ['default']}
+});
+
+app.import('vendor/orbit.js/orbit-common-jsonapi.amd.js', {
+  exports: {'orbit-common/jsonapi-source': ['default'],
+            'orbit-common/jsonapi-serializer': ['default'],
+            'orbit-common/local-storage-source': ['default']}
+});
+
+//app.import('vendor/orbit.js/orbit-common-local-storage.amd.js', {
+  //exports: {'orbit-common/local-storage-source': ['default']}
+//});
+
+app.import('vendor/ember-orbit/ember-orbit.amd.js', {
+  exports: {'ember-orbit': ['default']}
+});
+
+app.import('vendor/socket.io-client/socket.io.js');
 
 module.exports = app.toTree();

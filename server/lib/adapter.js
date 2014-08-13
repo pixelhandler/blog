@@ -122,6 +122,19 @@ Adapter.prototype.updateRecordBySlug = function (type, id, record, callback) {
   return new NotImplementedError();
 };
 
+
+/**
+  @method patchRecord
+  @param {String} type
+  @param {String) id
+  @param {Object/Array} patchPayload
+  @param {Function} callback(err, result) - Callback args: Error, JSON Result
+**/
+Adapter.prototype.patchRecord = function (type, id, patchPayload, callback) {
+  return new NotImplementedError();
+};
+
+
 /**
   @method deleteRecord
   @param {String} type

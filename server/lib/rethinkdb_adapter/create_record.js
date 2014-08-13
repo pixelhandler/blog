@@ -52,7 +52,7 @@ function createSuccess(type, result, connection, callback) {
   var json = result.new_val;
   var rootKey = inflect.pluralize(type);
   var payload = {};
-  payload[rootKey] = [ transform(json) ];
+  payload[rootKey] = transform(json);
   loginfo("Success create %s id: %s, connection id: %s", type, json.id, connection._id);
   callback(null, payload);
 }

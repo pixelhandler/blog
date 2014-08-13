@@ -1,8 +1,9 @@
 server: lint
-	@ember server
+	@export BROCCOLI_ENV=development; ember server --environment=development --proxy http://localhost:8888
 	@open http://localhost:4200/
 
 install:
+	@rm -rf node_modules vendor
 	@npm install
 	@bower install
 	@bin/canary.sh

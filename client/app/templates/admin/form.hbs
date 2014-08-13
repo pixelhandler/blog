@@ -2,13 +2,13 @@
   <p class="Admin-form-title">
     <label>Title:</label>
     <br>
-    {{input type="text" value=title name="title"}}
+    {{input type="text" value=titleInput name="title"}}
   </p>
   {{#if isNew}}
     <p class="Admin-form-slug">
       <label>Slug:</label>
       <br>
-      {{input type="text" value=slug name="slug"}}
+      {{input type="text" value=slugInput name="slug"}}
     </p>
     <p class="Admin-form-date">
       <label>Date:</label>
@@ -19,11 +19,11 @@
   <p class="Admin-form-excerpt">
     <label>Excerpt: [Markdown]</label>
     <br>
-    {{textarea type="text" value=excerpt name="excerpt"}}
+    {{textarea type="text" value=excerptInput name="excerpt"}}
   </p>
   <p class="Admin-form-body">
     <label>Body: [Markdown]</label>
     <br>
-    {{textarea value=body name="body"}}
+    {{textarea value=bodyInput name="body"}}
   </p>
 </div>

@@ -1,0 +1,14 @@
+*.seed
+*.log
+*.csv
+*.dat
+*.out
+*.pid
+*.gz
+*.lock
+*.swp
+*.bak
+*.DS_Store
+
+/venv
+/local

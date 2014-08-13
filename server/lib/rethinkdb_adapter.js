@@ -36,6 +36,12 @@ module.exports.setup = require(path('setup'))(adapter, onConnect);
 module.exports.find = require(path('find'))(adapter, onConnect);
 
 /**
+  Export {Function} findMany
+  @method findMany
+**/
+module.exports.findMany = require(path('find_many'))(adapter, onConnect);
+
+/**
   Export {Function} findBySlug
   @method findBySlug
 **/
@@ -64,6 +70,12 @@ module.exports.updateRecord = require(path('update_record'))(adapter, onConnect)
   @method updateRecordBySlug
 **/
 module.exports.updateRecordBySlug = require(path('update_record_by_slug'))(adapter, onConnect);
+
+/**
+  Export {Function} patchRecord
+  @method patchRecord
+**/
+module.exports.patchRecord = require(path('patch_record'))(adapter, onConnect);
 
 /**
   Export {Function} deleteRecord

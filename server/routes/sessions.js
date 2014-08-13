@@ -6,35 +6,50 @@ var loginfo = require('debug')('session:info');
 var config = require('../config')();
 
 /**
-  Exports {Function} ping route, responds with 'pong'
+  Exports {Function} Sessions route
 
   @main routes/pong
   @param {Object} app - express application instance
-  @param {Function} options - middleware callback (cors options)
+  @param {Function} restrict - middleware, for protected routes
 **/
-module.exports = function(app, cors, restrict) {
+module.exports = function(app, restrict) {
+
+  /**
+    Route: (verb) GET /sessions
+  **/
+  app.get('/sessions', function(req, res) {
+    loginfo('logged in: %s', req.session.user);
+    if (req.session.user) {
+      res.status(204).end();
+    }
+    else {
+      res.status(401).end();
+    }
+  });
 
   /**
     Route: (verb) POST /sessions
   **/
-  app.post('/sessions', cors, function(req, res) {
+  app.post('/sessions', function(req, res) {
     var uname = req.body.username;
     var pword = req.body.password;
 
     if (uname === config.admin.username && pword === config.admin.password) {
       req.session.user = uname;
       loginfo('login: %s', req.session.user);
-      res.send(204);
+      req.session.save();
+      res.status(201).end();
     }
     else {
-      res.send(401);
+      res.status(401).end();
     }
   });
 
   /**
     Route: (verb) DELETE /sessions
   **/
-  app.del('/sessions', cors, restrict, function(req, res){
+  app.del('/sessions', restrict, function(req, res){
+    loginfo('logout', req.session.user);
     req.session = null;
     res.send(204);
   });
@@ -42,7 +57,8 @@ module.exports = function(app, cors, restrict) {
   /**
     Route (verb) GET /restricted
   **/
-  app.post('/restricted', cors, restrict, function(req, res){
+  app.post('/restricted', restrict, function(req, res){
+    loginfo('restricted');
     res.send(204);
   });
 

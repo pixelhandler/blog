@@ -1,6 +1,6 @@
 /**
   @module app
-  @submodule rethinkdb_adapter/find
+  @submodule rethinkdb_adapter/findMany
   @requires rethinkdb, inflect, debug
 **/
 var r = require('rethinkdb');
@@ -9,7 +9,7 @@ var loginfo = require('debug')('rdb:info');
 var logerror = require('debug')('rdb:error');
 
 /**
-  Exports {Function} - change an adapter's find method
+  Exports {Function} - change an adapter's findMany method
 
   @param {Adapter} adapter
   @param {Function} connect - wrapper for the RethinkDB API `r.connect`
@@ -19,16 +19,16 @@ module.exports = function(adapter, connect) {
   var _adapter = adapter;
   var _connect = connect;
   /**
-    @method find
+    @method findMany
     @param {String} type - name of resource
-    @param {String} id
-    @param {Function} callback that accepts arguments: {Error} err, {Object} (JSON) result
-    @async
+    @param {Array} ids
+    @param {Function} callback(err, results) - Callback args: Error, Results Array
   **/
-  adapter.find = function (type, id, callback) {
+  adapter.findMany = function (type, ids, callback) {
     var db = _adapter.db;
     _connect(function (err, connection) {
-      r.db(db).table(type).get(id)
+      var table = r.db(db).table(type);
+      table.getAll.apply(table, ids)
         .run(connection, function (err, record) {
           if (err) {
             findError(err, connection, callback);
@@ -38,7 +38,7 @@ module.exports = function(adapter, connect) {
         });
     });
   };
-  return adapter.find;
+  return adapter.findMany;
 };
 
 /**

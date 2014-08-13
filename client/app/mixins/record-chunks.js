@@ -26,22 +26,20 @@ export default Ember.Mixin.create({
   },
 
   afterModel: function (collection) {
-    this.set('meta', this.store.metadataFor(this.get('resourceName')));
+    //var meta = meta || new Ember.Set();
     var loaded = this.get('loadedIds');
     collection.mapBy('id').forEach(function (id) {
       loaded.push(id);
-    });
+    }.bind(this));
     this.set('loadedIds', loaded.uniq());
     return collection;
   },
 
-  meta: null,
-  loadedIds: [],
-
-  setupController: function (controller) {
-    var collection = [];
+  setupController: function (controller, collection) {
+    var type = this.get('resourceName');
+    collection = [];
     this.get('loadedIds').forEach(function (id) {
-      var model = this.store.getById(this.get('resourceName'), id);
+      var model = this.store.retrieve(type, {id: id});
       if (model) {
         collection.push(model);
       }
@@ -53,7 +51,22 @@ export default Ember.Mixin.create({
     this._super(controller, collection);
   },
 
+  loadedIds: [],
+
   hasMore: function () {
-    return this.get('loadedIds').length < this.get('meta.total');
-  }.property('meta.total').volatile()
+    var meta = this.get('meta');
+    if (!meta) {
+      return false;
+    }
+    return this.get('loadedIds').length < meta.get('total');
+  }.property('loadedIds', 'total').volatile(),
+
+  meta: Ember.computed(function () {
+    var type = this.get('resourceName');
+    if (!this.store.schema._schema.meta) {
+      return null;
+    }
+    return this.store.schema._schema.meta.get(type);
+  })
+
 });

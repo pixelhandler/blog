@@ -1,21 +1,16 @@
 import Ember from 'ember';
 import ResetScroll from '../../mixins/reset-scroll';
+import AdminActions from '../../mixins/admin-actions';
 
-export default Ember.Route.extend(ResetScroll, {
+export default Ember.Route.extend(ResetScroll, AdminActions, {
+  resourceName: 'post',
+
   model: function (params) {
-    return this.store.find('post', params.edit_id);
+    return this.store.find(this.get('resourceName'), params.edit_id);
   },
 
-  actions: {
-    save: function () {
-      this.modelFor(this.get('routeName')).save().then(function() {
-        this.transitionTo('admin');
-      }.bind(this));
-    },
-
-    cancel: function () {
-      this.modelFor(this.get('routeName')).rollback();
-      this.transitionTo('admin.index');
-    }
+  setupController: function (controller, model) {
+    this._super(controller, model);
+    controller.set('isEditing', true);
   }
 });

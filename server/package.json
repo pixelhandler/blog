@@ -16,25 +16,30 @@
   "author": "Bill Heaton",
   "license": "MIT",
   "main": "app.js",
-  "config" : {
-    "port" : "8888"
+  "config": {
+    "port": "8888"
   },
   "engines": {
     "node": ">= 0.10.0"
   },
   "dependencies": {
-    "express": "~3.4.2",
-    "cors": "~2.2.0",
-    "rethinkdb": "~1.12.0",
-    "debug": "~0.8.0",
-    "inflect": "~0.3.0"
+    "body-parser": "^1.5.2",
+    "compression": "^1.0.9",
+    "debug": "^1.0.4",
+    "errorhandler": "^1.1.1",
+    "express": "~4.7.2",
+    "express-session": "^1.7.2",
+    "inflect": "~0.3.0",
+    "method-override": "^2.1.2",
+    "rethinkdb": "~1.13.0-3",
+    "socket.io": "~1.0.6"
   },
   "devDependencies": {
     "mocha": "~1.18.2",
     "supertest": "~0.11.0",
     "superagent": "~0.17.0",
     "request": "~2.34.0",
-    "async": "~0.7.0",
+    "async": "~0.9.0",
     "jshint": "~2.5.0"
   }
 }

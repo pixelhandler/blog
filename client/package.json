@@ -34,8 +34,6 @@
     "broccoli-sass": "~0.1.4",
     "broccoli-static-compiler": "~0.1.4",
     "ember-cli": "0.0.37",
-    "ember-cli-ember-data": "0.0.4",
-    "ember-cli-ic-ajax": "0.0.3",
     "express": "~4.1.1",
     "glob": "^3.2.9",
     "node-static": "~0.7.3",

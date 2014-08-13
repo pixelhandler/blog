@@ -57,7 +57,7 @@ function updateSuccess(type, result, connection, callback) {
   var json = result.new_val;
   var rootKey = inflect.pluralize(type);
   var payload = {};
-  payload[rootKey] = [ transform(json) ];
+  payload[rootKey] = transform(json);
   var msg = "Success update %s: %s, connection: %s";
   loginfo(msg, type, json.id, connection._id);
   callback(null, payload);
