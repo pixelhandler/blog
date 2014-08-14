@@ -48,7 +48,7 @@ module.exports = function(app, restrict) {
   /**
     Route: (verb) DELETE /sessions
   **/
-  app.del('/sessions', restrict, function(req, res){
+  app.delete('/sessions', restrict, function(req, res){
     loginfo('logout', req.session.user);
     req.session = null;
     res.send(204);

@@ -115,7 +115,7 @@ module.exports = function(app, restrict) {
     Route: (verb) DELETE /authors/:id
     @async
   **/
-  app.del('/authors/:id', restrict, function (req, res) {
+  app.delete('/authors/:id', restrict, function (req, res) {
     db.deleteRecord('authors', req.params.id, function (err) {
       if (err) {
         debug(err);
