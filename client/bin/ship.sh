@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# ./bin/ship [username]
+# ./bin/ship.sh [username]
 # $1 - username
 
 # For dry run... add option -d or --dry-run

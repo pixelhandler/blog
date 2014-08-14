@@ -18,8 +18,8 @@ module.exports = function(server) {
 
   // options: https://github.com/Automattic/engine.io#methods-1
   var options = {
-    'transports': ['websocket', 'polling'],
-    'cookie': 'connect.sess'
+    'transports': ['websocket'],
+    'cookie': 'connect.sid'
   };
 
   var io = require('socket.io')(server, options);
