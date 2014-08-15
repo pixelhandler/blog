@@ -1,5 +1,3 @@
-import EO from 'ember-orbit';
-
 function SocketService() {
   return this;
 }
@@ -20,7 +18,6 @@ SocketService.create = function () {
     });
     socket.on('error', function (e) {
       console.log('Socket Error!', e);
-      throw new Error('Socket Error!', e);
     });
     //}
   } catch (e) {
@@ -33,17 +30,4 @@ SocketService.create = function () {
   return instance;
 };
 
-export default {
-  name: 'socket-service',
-  after: 'ember-orbit',
-
-  initialize: function (container, application) {
-    container.register('socket:main', SocketService, { singleton: false });
-    application.inject('controller', 'socket', 'socket:main');
-    application.inject('route', 'socket', 'socket:main');
-    application.inject('route', 'socket', 'socket:main');
-    EO.Model.reopenClass({
-      socket: container.lookup('socket:main')
-    });
-  }
-};
+export default SocketService;

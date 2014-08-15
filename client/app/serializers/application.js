@@ -3,12 +3,6 @@ import JSONAPISerializer from 'orbit-common/jsonapi-serializer';
 export default JSONAPISerializer.extend({
   normalize: function (type, data) {
     return this._super(type, data);
-    //if (!hash) { return hash; }
-    //this.applyTransforms(type, hash);
-    //var slug = hash.slug;
-    //hash.slug = hash.id;
-    //hash.id = slug;
-    //return hash;
   },
 
   deserialize: function(type, data) {
@@ -68,16 +62,6 @@ export default JSONAPISerializer.extend({
 
   serialize: function (type, data) {
     data = this.serializeRelations(type, data);
-    //var json = this._super.apply(this, arguments);
-    //if (!json) { return json; }
-    //if (json.id) {
-      //json.id = record.get('slug');
-    //}
-    //var id = record.get('id');
-    //if (id) {
-      //json.slug = id;
-    //}
-    //return json;
     return this._super(type, data);
   },
 
@@ -96,10 +80,12 @@ export default JSONAPISerializer.extend({
       for (var i = posts.length - 1; i >= 0; i--) {
         posts[i].links = { author: posts[i].author_id };
         delete posts[i].author_id;
+        posts(posts[i]);
       }
     } else if (typeof posts === "object") {
       posts.links = { author: posts.author_id };
       delete posts.author_id;
+      sanitize(posts);
     }
     return data;
   },
@@ -110,11 +96,25 @@ export default JSONAPISerializer.extend({
       for (var i = authors.length - 1; i >= 0; i--) {
         authors[i].links = { posts: authors[i].post_ids };
         delete authors[i].post_ids;
+        sanitize(authors[i]);
       }
     } else if (typeof posts === "object") {
       authors.links = { posts: authors.post_ids };
       delete authors.post_ids;
+      sanitize(authors);
     }
     return data;
   },
 });
+
+function sanitize(record) {
+  var keys = "meta normalized rel rev".w().map(function (key) {
+    return "__%@".fmt(key);
+  });
+  for (var i = 0; i < keys.length; i++) {
+    if (record.hasOwnProperty(keys[i])) {
+      delete record[keys[i]];
+    }
+  }
+  return record;
+}

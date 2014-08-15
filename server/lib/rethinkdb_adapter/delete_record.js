@@ -51,5 +51,6 @@ function deleteError(err, connection, callback) {
 function deleteSuccess(type, id, connection, callback) {
   var msg = "[Success][%s][delete] connection id:%s";
   loginfo(msg, type, connection._id);
-  callback(null, id || null); // may be empty
+  var payload = (id) ? { "op": "remove", "path": ["", type, id].join('/') } : null;
+  callback(null, payload);
 }

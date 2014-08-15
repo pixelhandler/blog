@@ -1,10 +1,4 @@
 import Ember from 'ember';
+import AdminInputs from '../../mixins/admin-inputs';
 
-export default  Ember.View.extend({
-  focusOut: function (evt) {
-    if (evt.target.tagName === 'INPUT') {
-      this.get('controller').send('inputDidBlur', evt.target.name, evt.target.value);
-    }
-    return false;
-  }
-});
+export default  Ember.View.extend(AdminInputs);

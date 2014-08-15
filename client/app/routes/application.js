@@ -1,6 +1,8 @@
 import Ember from 'ember';
+import PushSupport from '../mixins/push-support';
 
-var ApplicationRoute = Ember.Route.extend({
+var ApplicationRoute = Ember.Route.extend(PushSupport, {
+
   model: function () {
     return this.store.find('post');
   },
@@ -9,8 +11,7 @@ var ApplicationRoute = Ember.Route.extend({
     this._super(controller, model);
     this.canTransition = false;
     Ember.$.get(this.get('sessionUrl'))
-      .done(loginSuccess.bind(this))
-      .fail(logoutFailure.bind(this));
+      .done(loginSuccess.bind(this));
   },
 
   sessionUrl: (function() {

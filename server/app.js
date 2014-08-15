@@ -90,15 +90,17 @@ app.use(express.static(__dirname + '/'));
 **/
 if (!module.parent) {
   var port = config.port || process.env.SERVER_PORT || 8888;
-  var server = app.listen(port);
-  debug('API server listening on port '+ port);
+  var http = require('http').Server(app);
 
   /**
     Socket Support
   **/
-  var io = require('./lib/socket_adapter')(server);
+  var io = require('./lib/socket_adapter')(http);
   app._io = io;
 
+  http.listen(port, function () {
+    debug('API server listening on port '+ port);
+  });
 } else {
   module.exports = app;
 }

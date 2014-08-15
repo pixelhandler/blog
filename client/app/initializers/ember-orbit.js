@@ -1,18 +1,14 @@
 import Orbit from 'orbit';
 import EO from 'ember-orbit';
-import JSONAPISource from 'orbit-common/jsonapi-source';
 //import LocalStorageSource from 'orbit-common/local-storage-source';
 import ApplicationSerializer from '../serializers/application';
+import SocketSource from '../adapters/socket-source';
 import Ember from 'ember';
 
-Orbit.Promise = Ember.RSVP.Promise;
-Orbit.ajax = Ember.$.ajax;
-
-var JSONAPIStore = EO.Store.extend({
-  orbitSourceClass: JSONAPISource,
+var SocketStore = EO.Store.extend({
+  orbitSourceClass: SocketSource,
   orbitSourceOptions: {
     host: PixelhandlerBlogENV.API_HOST,
-    namespace: PixelhandlerBlogENV.API_PATH,
     defaultSerializerClass: ApplicationSerializer
   }
 });
@@ -32,11 +28,12 @@ var Schema = EO.Schema.extend({
 
 export default {
   name: 'ember-orbit',
+  after: 'socket',
 
   initialize: function(container, application) {
     application.register('schema:main', Schema);
     application.register('store:main', EO.Store);
-    application.register('store:jsonApi', JSONAPIStore);
+    application.register('store:socket', SocketStore);
     //application.register('store:local', LocalStore);
     connectSources(container);
 
@@ -47,21 +44,21 @@ export default {
 
 function connectSources(container) {
   var memorySource = container.lookup('store:main').orbitSource;
-  var jsonApiSource = container.lookup('store:jsonApi').orbitSource;
+  var socketSource = container.lookup('store:socket').orbitSource;
   //var localSource = container.lookup('store:local').orbitSource;
   // Connect (using default blocking strategy)
-  setupConnectors(memorySource, jsonApiSource/*, localSource*/);
+  setupConnectors(memorySource, socketSource/*, localSource*/);
 
   logTransforms(memorySource, 'store:main');
-  logTransforms(jsonApiSource, 'store:jsonApi');
+  logTransforms(socketSource, 'store:socket');
   //logTransforms(localSource, 'store:local');
 }
 
 function setupConnectors(primary, secondary/*, local*/) {
   new Orbit.TransformConnector(primary, secondary);
   new Orbit.TransformConnector(secondary, primary);
+  // TODO figure out how to add a third store for localStorage
   //new Orbit.TransformConnector(secondary, local);
-
   primary.on('assistFind', secondary.find);
 }
 

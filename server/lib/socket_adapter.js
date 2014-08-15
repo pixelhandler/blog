@@ -18,14 +18,13 @@ module.exports = function(server) {
 
   // options: https://github.com/Automattic/engine.io#methods-1
   var options = {
-    'transports': ['websocket'],
+    'transports': ['websocket', 'polling'],
     'cookie': 'connect.sid'
   };
 
   var io = require('socket.io')(server, options);
 
   io.on('connection', function (socket) {
-
     // Simple sanity check for client to confirm socket is working
     socket.emit('hello', { hello: 'world' });
     socket.on('talk-to-me', function (data, cb) {
@@ -88,7 +87,6 @@ function findQuery(query, callback) {
   var _cb = callback;
   db.findQuery(resource, query, function (err, payload) {
     if (err) {
-      console.log(payload);
       console.error(err);
       payload = { errors: { code: 500, error: 'Server failure' } };
     }
@@ -115,7 +113,6 @@ function findById(query, callback) {
   var _cb = callback;
   db.find(resource, id, function (err, payload) {
     if (err) {
-      console.log(payload);
       console.error(err);
       payload = { errors: { code: 500, error: 'Server failure' } };
     }
@@ -128,13 +125,11 @@ function createRecord(payload, callback) {
   if (typeof payload === 'string') {
     payload = JSON.parse(payload);
   }
-  var resource = payload.resource;
-  var type = singularize(resource);
-  delete payload.resource;
+  var typeKey = pluralize(payload.type);
+  delete payload.type;
   var _cb = callback;
-  db.createRecord(resource, payload[type], function (err, payload) {
+  db.createRecord(typeKey, payload[typeKey], function (err, payload) {
     if (err) {
-      console.log(payload);
       console.error(err);
       payload = { errors: { code: 500, error: 'Server failure' } };
     }
@@ -152,11 +147,15 @@ function patch(operation, callback) {
   var id = path[2];
   var prop = path[3]; // TODO support sub-path
   var payload = {};
-  payload[prop] = operation.value;
-  db.updateRecord(type, id, payload, callback);
+  if (operation.op === 'replace') {
+    payload[prop] = operation.value;
+    db.updateRecord(type, id, payload, callback);
+  } else if (operation.op === 'remove') {
+    db.deleteRecord(type, id, callback);
+  }
 }
 
-// TODO Implement or pilfer an inflector
+// TODO Use Ember.Inflector or other Inflector?
 function singularize(name) {
   return name.slice(0, name.length - 1);
 }
