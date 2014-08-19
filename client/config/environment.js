@@ -32,14 +32,14 @@ module.exports = function(environment) {
 
     ENV.API_HOST = '';
     ENV.API_PATH = null;
-    ENV.SOCKET_URL = "http://localhost:8888";
+    ENV.SOCKET_URL = "ws://localhost:8888";
     ENV.GOOGLE_ANALYTICS = null;
   }
 
   if (environment === 'production') {
     ENV.API_HOST = "http://pixelhandler.com";
     ENV.API_PATH = "api";
-    ENV.SOCKET_URL = "http://pixelhandler.com";
+    ENV.SOCKET_URL = "ws://pixelhandler.com";
     ENV.GOOGLE_ANALYTICS = "UA-2687872-1";
   }
 

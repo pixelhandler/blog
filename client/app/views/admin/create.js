@@ -1,10 +1,4 @@
 import Ember from 'ember';
+import AdminInputs from '../../mixins/admin-inputs';
 
-export default  Ember.View.extend({
-  focusOut: function (evt) {
-    if (evt.target.name === 'title') {
-      this.get('controller').send('titleChanged');
-    }
-    return false;
-  }
-});
+export default  Ember.View.extend(AdminInputs);

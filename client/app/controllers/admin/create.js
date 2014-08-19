@@ -27,6 +27,16 @@ export default Ember.ObjectController.extend({
   }.observes('dateInput'),
 
   actions: {
+    inputDidBlur: function (name, value) {
+      var prop = this.get(name);
+      if (value !== prop) {
+        this.set(name, value);
+        if (name === 'title') {
+          this.createSlug();
+        }
+      }
+    },
+
     edit: function () {
       this.set('isPreviewing', false);
     },
@@ -38,10 +48,6 @@ export default Ember.ObjectController.extend({
     save: function () {
       this.set('isEditing', false);
       return true; // bubble
-    },
-
-    titleChanged: function () {
-      this.createSlug();
     }
   }
 });

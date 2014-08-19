@@ -17,11 +17,12 @@ export default Ember.Mixin.create({
 
     destroy: function (model) {
       var type = this.get('resourceName');
-      this.store.remove(type, model.get('id')).then(function () {
-        this.preventScroll = true;
-        this.refresh();
-        this.modelFor('application').removeObject(model);
-      }.bind(this));
+      // TODO REVEIW, Not thenable ?
+      // this.store.remove(type, model.get('id')).then(function () { }.bind(this));
+      this.store.remove(type, model.get('id'));
+      this.preventScroll = true;
+      this.modelFor('application').removeObject(model);
+      this.refresh();
     }
   }
 });
