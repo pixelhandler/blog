@@ -1,17 +1,31 @@
 import Orbit from 'orbit';
 import EO from 'ember-orbit';
 //import LocalStorageSource from 'orbit-common/local-storage-source';
+import JSONAPISource from 'orbit-common/jsonapi-source';
 import ApplicationSerializer from '../serializers/application';
 import SocketSource from '../adapters/socket-source';
 import Ember from 'ember';
 
-var SocketStore = EO.Store.extend({
-  orbitSourceClass: SocketSource,
-  orbitSourceOptions: {
-    host: PixelhandlerBlogENV.API_HOST,
-    defaultSerializerClass: ApplicationSerializer
-  }
-});
+function jsonApiStore() {
+  return EO.Store.extend({
+    orbitSourceClass: JSONAPISource,
+    orbitSourceOptions: {
+      host: PixelhandlerBlogENV.API_HOST,
+      namespace: PixelhandlerBlogENV.API_PATH,
+      defaultSerializerClass: ApplicationSerializer
+    }
+  });
+}
+
+function socketStore() {
+  return EO.Store.extend({
+    orbitSourceClass: SocketSource,
+    orbitSourceOptions: {
+      host: PixelhandlerBlogENV.SOCKET_URL,
+      defaultSerializerClass: ApplicationSerializer
+    }
+  });
+}
 
 //var LocalStore = EO.Store.extend({
   //orbitSourceClass: LocalStorageSource
@@ -33,7 +47,11 @@ export default {
   initialize: function(container, application) {
     application.register('schema:main', Schema);
     application.register('store:main', EO.Store);
-    application.register('store:socket', SocketStore);
+    if (window.WebSocket && container.lookup('socket:main')) {
+      application.register('store:secondary', socketStore());
+    } else {
+      application.register('store:secondary', jsonApiStore());
+    }
     //application.register('store:local', LocalStore);
     connectSources(container);
 
@@ -43,14 +61,14 @@ export default {
 };
 
 function connectSources(container) {
-  var memorySource = container.lookup('store:main').orbitSource;
-  var socketSource = container.lookup('store:socket').orbitSource;
+  var primarySource = container.lookup('store:main').orbitSource;
+  var secondarySource = container.lookup('store:secondary').orbitSource;
   //var localSource = container.lookup('store:local').orbitSource;
   // Connect (using default blocking strategy)
-  setupConnectors(memorySource, socketSource/*, localSource*/);
+  setupConnectors(primarySource, secondarySource/*, localSource*/);
 
-  logTransforms(memorySource, 'store:main');
-  logTransforms(socketSource, 'store:socket');
+  logTransforms(primarySource, 'store:main');
+  logTransforms(secondarySource, 'store:secondary');
   //logTransforms(localSource, 'store:local');
 }
 
