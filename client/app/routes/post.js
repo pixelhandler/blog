@@ -3,9 +3,23 @@ import ResetScroll from '../mixins/reset-scroll';
 
 var PostRoute = Ember.Route.extend(ResetScroll, {
   model: function (params) {
-    return this.store.filter('post', function (post) {
-      return post.get('slug') === params.post_slug;
-    });
+    return new Ember.RSVP.Promise(function (resolve, reject) {
+      var found = this.store.filter('post', function (post) {
+        return post.get('slug') === params.post_slug;
+      });
+      if (found.get('length') > 0) {
+        resolve(found[0]);
+      } else {
+        this.store.find('post', params.post_slug).then(
+          function (post) {
+            resolve(post);
+          },
+          function (error) {
+            reject(error);
+          }
+        );
+      }
+    }.bind(this));
   },
 
   serialize: function (model) {

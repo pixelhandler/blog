@@ -33,7 +33,7 @@
     "broccoli-merge-trees": "~0.1.4",
     "broccoli-sass": "~0.1.4",
     "broccoli-static-compiler": "~0.1.4",
-    "ember-cli": "0.0.40",
+    "ember-cli": "0.0.37",
     "express": "~4.1.1",
     "glob": "^3.2.9",
     "node-static": "~0.7.3",

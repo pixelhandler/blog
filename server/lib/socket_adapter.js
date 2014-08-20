@@ -6,6 +6,7 @@
 **/
 
 var db = require('./rethinkdb_adapter');
+var debug = require('debug')('socket_adapter');
 
 
 /**
@@ -34,7 +35,7 @@ module.exports = function(server) {
 
     socket.on('findQuery', findQuery);
 
-    socket.on('find', findById);
+    socket.on('find', find);
 
     socket.on('add', function (payload, callback) {
       var _callback = function (_payload) {
@@ -57,10 +58,6 @@ module.exports = function(server) {
       };
       patch(operation, _callback);
     });
-
-    //socket.on('remove', function () {
-      //io.sockets.emit('error', 'Remove not implemented.');
-    //});
 
     socket.on('disconnect', function () {
       io.emit('error', 'User disconnected');
@@ -95,13 +92,13 @@ function findQuery(query, callback) {
 }
 
 /**
-  findById - uses query to find resources
+  find - uses query to find resources by id or slug
 
   @param {String} JSON strigified query object requires `resource`, `id` properties
   @param {Function} callback
   @private
 **/
-function findById(query, callback) {
+function find(query, callback) {
   console.log('find...', query);
   if (typeof query === 'string') {
     query = JSON.parse(query);
@@ -111,12 +108,33 @@ function findById(query, callback) {
   var id = query.id;
   delete query.id;
   var _cb = callback;
+  var errorPayload = { errors: { code: 500, error: 'Server failure' } };
   db.find(resource, id, function (err, payload) {
     if (err) {
-      console.error(err);
-      payload = { errors: { code: 500, error: 'Server failure' } };
+      debug(err);
+      _cb(errorPayload);
+    } else {
+      if (payload.posts !== null) {
+        debug('/posts/:id result not null', payload.posts);
+        _cb(payload);
+      } else {
+        debug('/posts/:id result null, finding by slug');
+        db.findBySlug('posts', id, function (err, payload) {
+          if (err) {
+            debug(err);
+            _cb(errorPayload);
+          } else {
+            if (payload.posts !== null) {
+              debug('/posts/:slug result not null', payload.posts);
+              _cb(payload);
+            } else {
+              debug('/posts/:slug result not found');
+              _cb({ errors: { code: 404, error: 'Not Found' } });
+            }
+          }
+        });
+      }
     }
-    _cb(payload);
   });
 }
 
