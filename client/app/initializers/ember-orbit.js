@@ -7,6 +7,7 @@ import SocketSource from '../adapters/socket-source';
 import Ember from 'ember';
 
 function jsonApiStore() {
+  Orbit.ajax = Ember.$.ajax;
   return EO.Store.extend({
     orbitSourceClass: JSONAPISource,
     orbitSourceOptions: {
@@ -47,7 +48,7 @@ export default {
   initialize: function(container, application) {
     application.register('schema:main', Schema);
     application.register('store:main', EO.Store);
-    if (window.WebSocket && container.lookup('socket:main')) {
+    if (notPrerenderService() && canUseSocket(container)) {
       application.register('store:secondary', socketStore());
     } else {
       application.register('store:secondary', jsonApiStore());
@@ -59,6 +60,14 @@ export default {
     application.inject('route', 'store', 'store:main');
   }
 };
+
+function notPrerenderService() {
+  return window.navigator.userAgent.match(/Prerender/) === null;
+}
+
+function canUseSocket(container) {
+  return window.WebSocket && container.lookup('socket:main');
+}
 
 function connectSources(container) {
   var primarySource = container.lookup('store:main').orbitSource;
