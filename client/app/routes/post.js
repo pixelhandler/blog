@@ -37,6 +37,13 @@ var PostRoute = Ember.Route.extend(ResetScroll, {
       'disqusUrl': getUrl(this/*, model*/),
       'disqusTitle': model.title || model.get('title') // TODO use getter after Orbit FIXUP
     });
+  },
+
+  actions: {
+    error: function (error) {
+      Ember.Logger.error(error);
+      this.transitionTo('/not-found');
+    }
   }
 });
 
