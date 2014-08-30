@@ -33,9 +33,9 @@ var PostRoute = Ember.Route.extend(ResetScroll, {
     }
     this._super(controller, model);
     controller.setProperties({
-      'disqusId': model.get('slug') || model.get('id'), // TODO use getter after Orbit FIXUP
-      'disqusUrl': getUrl(this/*, model*/),
-      'disqusTitle': model.title || model.get('title') // TODO use getter after Orbit FIXUP
+      'disqusId': model.get('slug'),
+      'disqusUrl': getUrl(),
+      'disqusTitle': model.get('title')
     });
   },
 
@@ -47,14 +47,9 @@ var PostRoute = Ember.Route.extend(ResetScroll, {
   }
 });
 
-function getUrl(route/*, model*/) {
-  var name = route.routeName;
+function getUrl() {
   var loc = window.location;
-  return [
-    loc.protocol, '//', loc.host, '/',
-    'posts/',
-    route.router.router.state.params[name][name + '_id']
-  ].join('');
+  return [ loc.protocol, '//', loc.host, loc.pathname].join('');
 }
 
 export default PostRoute;
