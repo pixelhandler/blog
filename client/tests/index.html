@@ -11,7 +11,7 @@
 
     <link rel="stylesheet" href="assets/vendor.css">
     <link rel="stylesheet" href="assets/pixelhandler-blog.css">
-    <link rel="stylesheet" href="assets/qunit.css">
+    <link rel="stylesheet" href="assets/test-support.css">
     <style>
       #ember-testing-container {
         position: absolute;
@@ -32,15 +32,13 @@
   <body>
     <div id="qunit"></div>
     <div id="qunit-fixture"></div>
-    <div id="ember-testing-container"><div id="ember-testing"></div></div>
 
     <script>
       window.PixelhandlerBlogENV = {{ENV}};
       window.EmberENV = window.PixelhandlerBlogENV.EmberENV;
     </script>
-    <script src="assets/qunit.js"></script>
-    <script src="assets/qunit-notifications.js"></script>
     <script src="assets/vendor.js"></script>
+    <script src="assets/test-support.js"></script>
     <script src="assets/pixelhandler-blog.js"></script>
     <script src="testem.js"></script>
     <script>

@@ -44,45 +44,45 @@ var app = new EmberApp(options);
 // please specify an object with the list of modules as keys
 // along with the exports of each module as its value.
 
-app.import('vendor/normalize-css/normalize.css');
+app.import('bower_components/normalize-css/normalize.css');
 /*
 app.import({
-  development: 'vendor/ember-canary/ember.js',
-  production:  'vendor/ember/ember.prod.js'
+  development: 'bower_components/ember-canary/ember.js',
+  production:  'bower_components/ember/ember.prod.js'
 });
 */
 app.import({
-  development: 'vendor/momentjs/moment.js',
-  production: 'vendor/momentjs/min/moment.min.js'
+  development: 'bower_components/momentjs/moment.js',
+  production: 'bower_components/momentjs/min/moment.min.js'
 });
 
 app.import({
-  development: 'vendor/showdown/src/showdown.js',
-  production: 'vendor/showdown/compressed/showdown.js'
+  development: 'bower_components/showdown/src/showdown.js',
+  production: 'bower_components/showdown/compressed/showdown.js'
 });
 
-app.import('vendor/orbit.js/orbit.amd.js', {
+app.import('bower_components/orbit.js/orbit.amd.js', {
   exports: {'orbit': ['default']}
 });
 
-app.import('vendor/orbit.js/orbit-common.amd.js', {
+app.import('bower_components/orbit.js/orbit-common.amd.js', {
   exports: {'orbit-common': ['default']}
 });
 
-app.import('vendor/orbit.js/orbit-common-jsonapi.amd.js', {
+app.import('bower_components/orbit.js/orbit-common-jsonapi.amd.js', {
   exports: {'orbit-common/jsonapi-source': ['default'],
             'orbit-common/jsonapi-serializer': ['default'],
             'orbit-common/local-storage-source': ['default']}
 });
 
-//app.import('vendor/orbit.js/orbit-common-local-storage.amd.js', {
+//app.import('bower_components/orbit.js/orbit-common-local-storage.amd.js', {
   //exports: {'orbit-common/local-storage-source': ['default']}
 //});
 
-app.import('vendor/ember-orbit/ember-orbit.amd.js', {
+app.import('bower_components/ember-orbit/ember-orbit.amd.js', {
   exports: {'ember-orbit': ['default']}
 });
 
-app.import('vendor/socket.io-client/socket.io.js');
+app.import('bower_components/socket.io-client/socket.io.js');
 
 module.exports = app.toTree();
