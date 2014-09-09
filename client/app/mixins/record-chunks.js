@@ -36,10 +36,11 @@ export default Ember.Mixin.create({
   },
 
   setupController: function (controller, collection) {
+    /* TODO FIXME not retrieving from store by id
     var type = this.get('resourceName');
     collection = [];
     this.get('loadedIds').forEach(function (id) {
-      var model = this.store.retrieve(type, {id: id});
+      var model = this.store.retrieve(type, {'id': id});
       if (model) {
         collection.push(model);
       }
@@ -48,6 +49,7 @@ export default Ember.Mixin.create({
       'hasMore': this.get('hasMore'),
       'loadingMore': false
     });
+    */
     this._super(controller, collection);
   },
 

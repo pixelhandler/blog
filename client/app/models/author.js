@@ -1,13 +1,13 @@
 import EO from "ember-orbit";
 //import hasManyProxy from "../utils/has-many-proxy";
-import { uuid } from "../utils/uuid";
+//import { uuid } from "../utils/uuid";
 
 var attr = EO.attr;
-var key = EO.key;
+//var key = EO.key;
 var hasMany = EO.hasMany;
 
 export default EO.Model.extend({
-  id: key({primaryKey: true, defaultValue: uuid}),
+  //id: key({primaryKey: true, defaultValue: uuid}),
   name: attr('string'),
   email: attr('string'),
 

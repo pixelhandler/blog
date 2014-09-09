@@ -1,14 +1,14 @@
 import EO from "ember-orbit";
 //import hasOneProxy from "../utils/has-one-proxy";
-import { uuid } from "../utils/uuid";
+//import { uuid } from "../utils/uuid";
 
 var attr = EO.attr;
-var key = EO.key;
+//var key = EO.key;
 var hasOne = EO.hasOne;
 
 var Post = EO.Model.extend({
-  id: key(),
-  slug: key({primaryKey: true, defaultValue: uuid}),
+  //id: key({primaryKey: true, defaultValue: uuid}),
+  slug: attr('string'),
   title: attr('string'),
   date: attr('date'),
   excerpt: attr('string'),
