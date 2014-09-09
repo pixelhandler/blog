@@ -1,20 +1,25 @@
 import EO from "ember-orbit";
-import hasOneProxy from "../utils/has-one-proxy";
+//import hasOneProxy from "../utils/has-one-proxy";
+import { uuid } from "../utils/uuid";
 
 var attr = EO.attr;
+var key = EO.key;
+var hasOne = EO.hasOne;
 
 var Post = EO.Model.extend({
-  slug: attr('string'),
+  id: key(),
+  slug: key({primaryKey: true, defaultValue: uuid}),
   title: attr('string'),
   date: attr('date'),
   excerpt: attr('string'),
   body: attr('string'),
 
   // ID for related author is expected in the JSON payload
-  author_id: attr(),
+  //author_id: attr(),
 
   // Computed property which manages related promise proxy object
-  author: hasOneProxy('author'),
+  //author: hasOneProxy('author'),
+  author: hasOne('author', {inverse: 'posts'}),
 
   resourceName: 'post'
 });

@@ -3,8 +3,10 @@ import EO from 'ember-orbit';
 //import LocalStorageSource from 'orbit-common/local-storage-source';
 import JSONAPISource from 'orbit-common/jsonapi-source';
 import ApplicationSerializer from '../serializers/application';
-import SocketSource from '../adapters/socket-source';
+//import SocketSource from '../adapters/socket-source';
 import Ember from 'ember';
+
+Orbit.Promise = Orbit.Promise || Ember.RSVP.Promise;
 
 function jsonApiStore() {
   Orbit.ajax = Ember.$.ajax;
@@ -17,7 +19,7 @@ function jsonApiStore() {
     }
   });
 }
-
+/*
 function socketStore() {
   return EO.Store.extend({
     orbitSourceClass: SocketSource,
@@ -27,7 +29,7 @@ function socketStore() {
     }
   });
 }
-
+*/
 //var LocalStore = EO.Store.extend({
   //orbitSourceClass: LocalStorageSource
 //});
@@ -48,11 +50,11 @@ export default {
   initialize: function(container, application) {
     application.register('schema:main', Schema);
     application.register('store:main', EO.Store);
-    if (notPrerenderService() && canUseSocket(container)) {
-      application.register('store:secondary', socketStore());
-    } else {
+    //if (notPrerenderService() && canUseSocket(container)) {
+      //application.register('store:secondary', socketStore());
+    //} else {
       application.register('store:secondary', jsonApiStore());
-    }
+    //}
     //application.register('store:local', LocalStore);
     connectSources(container);
 
@@ -60,7 +62,7 @@ export default {
     application.inject('route', 'store', 'store:main');
   }
 };
-
+/*
 function notPrerenderService() {
   return window.navigator.userAgent.match(/Prerender/) === null;
 }
@@ -68,7 +70,7 @@ function notPrerenderService() {
 function canUseSocket(container) {
   return window.WebSocket && container.lookup('socket:main');
 }
-
+*/
 function connectSources(container) {
   var primarySource = container.lookup('store:main').orbitSource;
   var secondarySource = container.lookup('store:secondary').orbitSource;
