@@ -1,7 +1,7 @@
 import Ember from 'ember';
 
 export default Ember.Mixin.create({
-
+/*
   beforeModel: function () {
     this.socketSanityCheck();
     this._super();
@@ -134,5 +134,5 @@ export default Ember.Mixin.create({
     var model = this.store.retrieve(type, {id: id});
     return (model) ? model : undefined;
   }
-
+*/
 });

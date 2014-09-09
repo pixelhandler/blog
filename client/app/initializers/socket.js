@@ -1,4 +1,4 @@
-import EO from 'ember-orbit';
+/*import EO from 'ember-orbit';
 import SocketService from '../services/socket';
 
 export default {
@@ -13,4 +13,10 @@ export default {
       socket: container.lookup('socket:main')
     });
   }
+};*/
+
+export default {
+  name: 'socket',
+
+  initialize: function () {}
 };

@@ -2,6 +2,9 @@ server: lint
 	@export BROCCOLI_ENV=development; ember server --environment=development --proxy http://localhost:8888
 	@open http://localhost:4200/
 
+server_proxy: lint
+	@ember server --proxy http://pixelhandler.com/api
+
 install:
 	@rm -rf node_modules vendor
 	@npm install
