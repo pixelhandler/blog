@@ -26,7 +26,6 @@ export default Ember.Mixin.create({
   },
 
   afterModel: function (collection) {
-    //var meta = meta || new Ember.Set();
     var loaded = this.get('loadedIds');
     collection.mapBy('id').forEach(function (id) {
       loaded.push(id);
@@ -36,11 +35,10 @@ export default Ember.Mixin.create({
   },
 
   setupController: function (controller, collection) {
-    /* TODO FIXME not retrieving from store by id
     var type = this.get('resourceName');
     collection = [];
     this.get('loadedIds').forEach(function (id) {
-      var model = this.store.retrieve(type, {'id': id});
+      var model = this.store.retrieve(type, id);
       if (model) {
         collection.push(model);
       }
@@ -49,7 +47,6 @@ export default Ember.Mixin.create({
       'hasMore': this.get('hasMore'),
       'loadingMore': false
     });
-    */
     this._super(controller, collection);
   },
 
