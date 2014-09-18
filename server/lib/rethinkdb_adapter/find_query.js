@@ -140,7 +140,9 @@ function transform(results) {
 
 function transformDate(payload) {
   if (payload.date) {
-    payload.date = payload.date.toISOString();
+    if (typeof payload.date.toISOString == 'function') {
+      payload.date = payload.date.toISOString();
+    }
   }
   return payload;
 }

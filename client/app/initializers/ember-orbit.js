@@ -15,7 +15,7 @@ function jsonApiStore() {
     orbitSourceOptions: {
       host: PixelhandlerBlogENV.API_HOST,
       namespace: PixelhandlerBlogENV.API_PATH,
-      defaultSerializerClass: ApplicationSerializer
+      SerializerClass: ApplicationSerializer
     }
   });
 }

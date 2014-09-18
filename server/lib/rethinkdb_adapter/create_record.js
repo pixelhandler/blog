@@ -63,7 +63,10 @@ function transform(payload) {
 
 function transformDate(payload) {
   if (payload.date) {
-    payload.date = new Date(payload.date);//.toISOString();
+    payload.date = new Date(payload.date);
+    if (typeof payload.date.toISOString == 'function') {
+      payload.date = payload.date.toISOString();
+    }
   }
   return payload;
 }

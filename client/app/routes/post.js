@@ -12,13 +12,7 @@ var PostRoute = Ember.Route.extend(ResetScroll, {
       } else {
         this.store.find('post', params.post_slug).then(
           function (post) {
-            if (Ember.isNone(post.get('author.content'))) {
-              post.get('author').reload().then(function() {
-                resolve(post);
-              });
-            } else {
-              resolve(post);
-            }
+            resolve(post);
           },
           function (error) {
             reject(error);
