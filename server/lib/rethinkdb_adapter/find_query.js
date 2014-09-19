@@ -53,7 +53,7 @@ module.exports = function(adapter, connect) {
 };
 
 /**
-  Meta factory - create {Object) `meta` data, returned w/ find responses 
+  Meta factory - create {Object) `meta` data, returned w/ find responses
   partial application, returns `meta` function which needs the count
   @method buildMeta
   @param {Object} query
@@ -91,11 +91,11 @@ var isSortByDate = (payload.meta.sortBy === 'date');
 var isDescOrder = (payload.meta.order === 'desc');
 if (isSortByDate) {
   payload.posts.sort(function (a, b) {
-    var order = 0; 
+    var order = 0;
     if (isDescOrder) {
-      order = (b > a) ? 1 : -1; 
+      order = (b > a) ? 1 : -1;
     } else {
-      order = (b > a) ? 1 : -1; 
+      order = (b > a) ? 1 : -1;
     }
     return order;
   });

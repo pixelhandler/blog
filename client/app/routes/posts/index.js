@@ -7,6 +7,8 @@ export default Ember.Route.extend(ResetScroll, RecordChunksMixin, {
 
   limit: 20,
   offset: -20,
+  sortBy: 'date',
+  order: 'desc',
 
   actions: {
     showMore: function () {

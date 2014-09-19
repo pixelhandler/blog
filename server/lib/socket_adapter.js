@@ -29,7 +29,7 @@ module.exports = function(server) {
     // Simple sanity check for client to confirm socket is working
     socket.emit('hello', { hello: 'world' });
     socket.on('talk-to-me', function (data, cb) {
-      console.log(data);
+      //debug(data);
       cb(data);
     });
 
@@ -48,10 +48,10 @@ module.exports = function(server) {
     socket.on('patch', function (operation, callback) {
       var _callback = function (error, _payload) {
         if (error) {
-          console.log('Patch Error!', error);
+          debug('Patch Error!', error);
           callback({errors: error});
         } else {
-          console.log('didPatch...', _payload);
+          //debug('didPatch...', _payload);
           callback(_payload);
           io.emit('didPatch', _payload);
         }
@@ -75,7 +75,7 @@ module.exports = function(server) {
   @private
 **/
 function findQuery(query, callback) {
-  console.log('findQuery...', query);
+  //debug('findQuery...', query);
   if (typeof query === 'string') {
     query = JSON.parse(query);
   }
@@ -84,7 +84,7 @@ function findQuery(query, callback) {
   var _cb = callback;
   db.findQuery(resource, query, function (err, payload) {
     if (err) {
-      console.error(err);
+      debug(err);
       payload = { errors: { code: 500, error: 'Server failure' } };
     }
     _cb(payload);
@@ -99,7 +99,7 @@ function findQuery(query, callback) {
   @private
 **/
 function find(query, callback) {
-  console.log('find...', query);
+  //debug('find...', query);
   if (typeof query === 'string') {
     query = JSON.parse(query);
   }
@@ -115,17 +115,17 @@ function find(query, callback) {
       _cb(errorPayload);
     } else {
       if (payload.posts !== null) {
-        debug('/posts/:id result not null', payload.posts);
+        //debug('/posts/:id result not null', payload.posts);
         _cb(payload);
       } else {
-        debug('/posts/:id result null, finding by slug');
+        //debug('/posts/:id result null, finding by slug');
         db.findBySlug('posts', id, function (err, payload) {
           if (err) {
             debug(err);
             _cb(errorPayload);
           } else {
             if (payload.posts !== null) {
-              debug('/posts/:slug result not null', payload.posts);
+              //debug('/posts/:slug result not null', payload.posts);
               _cb(payload);
             } else {
               debug('/posts/:slug result not found');
@@ -139,7 +139,7 @@ function find(query, callback) {
 }
 
 function createRecord(payload, callback) {
-  console.log('createRecord...', payload);
+  //debug('createRecord...', payload);
   if (typeof payload === 'string') {
     payload = JSON.parse(payload);
   }
@@ -148,7 +148,7 @@ function createRecord(payload, callback) {
   var _cb = callback;
   db.createRecord(typeKey, payload[typeKey], function (err, payload) {
     if (err) {
-      console.error(err);
+      debug(err);
       payload = { errors: { code: 500, error: 'Server failure' } };
     }
     _cb(payload);
@@ -156,7 +156,7 @@ function createRecord(payload, callback) {
 }
 
 function patch(operation, callback) {
-  console.log('patch...', operation);
+  //debug('patch...', operation);
   if (typeof operation === 'string') {
     operation = JSON.parse(operation);
   }
