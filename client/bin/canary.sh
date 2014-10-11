@@ -1,7 +1,7 @@
 #!/bin/bash
 
 CLIENT_DIR="$(dirname `pwd`)/client"
-VENDOR_DIR=$CLIENT_DIR"/vendor"
+VENDOR_DIR=$CLIENT_DIR"/bower_components"
 EMBER_DIR=$VENDOR_DIR"/ember-canary"
 
 if [ ! -d $EMBER_DIR ]; then

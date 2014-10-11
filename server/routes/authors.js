@@ -18,18 +18,52 @@ var db = require('../lib/rethinkdb_adapter');
 module.exports = function(app, restrict) {
 
   /**
-    Create a post
+    Create an author
 
     Route: (verb) POST /authors
     @async
   **/
   app.post('/authors', restrict, function (req, res) {
-    db.createRecord('authors', req.body.post, function (err, payload) {
+    db.createRecord('authors', req.body.authors, function (err, payload) {
       if (err) {
         debug(err);
         res.send(500);
       } else {
         res.status(201).send(payload);
+      }
+    });
+  });
+
+  /**
+    Create a post link on an author
+
+    Route: (verb) POST /authors/:id/links/posts
+    @async
+  **/
+  app.post('/authors/:id/links/posts', restrict, function (req, res) {
+    debug('/authors/:id/links/posts', req.params.id, req.body);
+    var id = req.params.id;
+    db.find('authors', id, function (err, payload) {
+      if (err) {
+        debug(err);
+        res.status(500).end();
+      } else {
+        var postId = req.body.posts;
+        payload.authors.links.posts.push(postId);
+        debug('update author', payload);
+        db.updateRecord('authors', id, payload.authors, function (err) {
+          if (err) {
+            debug(err);
+            res.status(500).end();
+          } else {
+            if (app._io) {
+              var payload = { 'authors': req.body };
+              debug('didAddLink', payload);
+              app._io.emit('didAddLink', payload);
+            }
+            res.status(204).end(); // No Content
+          }
+        });
       }
     });
   });
@@ -81,15 +115,50 @@ module.exports = function(app, restrict) {
     @async
   **/
   app.put('/authors/:id', restrict, function (req, res) {
-    db.updateRecord('authors', req.params.id, req.body.post, function (err, payload) {
+    db.updateRecord('authors', req.params.id, req.body.authors, function (err) {
       if (err) {
         debug(err);
-        res.send(500);
+        res.status(500).end();
       } else {
-        res.send(payload);
+        res.status(204).end();
       }
     });
   });
+
+  /**
+    Update a post link on an author
+
+    Route: (verb) POST /authors/:id/links/posts
+    @async
+  **/
+  app.put('/authors/:id/links/posts', restrict, function (req, res) {
+    debug('/authors/:id/links/posts', req.params.id, req.body);
+    var id = req.params.id;
+    db.find('authors', id, function (err, payload) {
+      if (err) {
+        debug(err);
+        res.status(500).end();
+      } else {
+        var postId = req.body.posts;
+        payload.authors.links.posts.push(postId);
+        debug('update author', payload);
+        db.updateRecord('authors', id, payload.authors, function (err) {
+          if (err) {
+            debug(err);
+            res.status(500).end();
+          } else {
+            if (app._io) {
+              var payload = { 'authors': req.body };
+              debug('didAddLink', payload);
+              app._io.emit('didAddLink', payload);
+            }
+            res.status(204).end(); // No Content
+          }
+        });
+      }
+    });
+  });
+
 
   /**
     Patch a post by id
@@ -119,9 +188,47 @@ module.exports = function(app, restrict) {
     db.deleteRecord('authors', req.params.id, function (err) {
       if (err) {
         debug(err);
-        res.send(500);
+        res.status(500).end();
       } else {
-        res.send(204); // No Content
+        res.status(204).end(); // No Content
+      }
+    });
+  });
+
+  /**
+    TODO Delete an post from an author
+
+    Route: (verb) DELETE /posts/:id/links/author
+    @async
+  **/
+  app.delete('/authors/:id/links/posts', restrict, function (req, res) {
+    debug('/authors/:id/links/posts', req.params, req.body);
+    var id = req.params.id;
+    db.find('authors', id, function (err, payload) {
+      if (err) {
+        debug(err);
+        res.status(500).end();
+      } else {
+        debug('author', payload);
+        payload = { links: payload.authors.links };
+        var index = payload.links.posts.indexOf(payload.id);
+        if (index > -1) {
+          payload.links.posts.splice(index, 1);
+          db.updateRecord('authors', id, payload, function (err) {
+            if (err) {
+              debug(err);
+              res.status(500).end();
+            } else {
+              if (app._io) {
+                var payload = { authors: req.body };
+                // TODO use patch format in payload ?
+                debug('didRemoveLink', payload);
+                app._io.emit('didRemoveLink', payload);
+              }
+              res.status(204).end(); // No Content
+            }
+          });
+        }
       }
     });
   });

@@ -36,7 +36,8 @@ module.exports = function(adapter, connect) {
         var meta = metaPartial(results);
         var criteria = collection.orderBy(r[meta.order](meta.sortBy)).skip(meta.offset).limit(meta.limit);
         if (query.withFields) {
-          criteria = criteria.withFields.apply(criteria, query.withFields);
+          var fields = query.withFields.split(',');
+          criteria = criteria.withFields.apply(criteria, fields);
         }
         criteria.run(connection, function (err, cursor) {
           if (err) {

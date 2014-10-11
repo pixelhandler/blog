@@ -9,7 +9,7 @@ install:
 	@rm -rf node_modules vendor
 	@npm install
 	@bower install
-	@bin/canary.sh
+	#@bin/canary.sh
 
 canary:
 	@bin/canary.sh

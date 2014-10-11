@@ -27,6 +27,7 @@ module.exports = function(adapter, connect) {
     @param {Function} callback that accepts arguments: {Error} err, {Object} (JSON) result
   **/
   adapter.patchRecord = function (type, id, patchPayload, callback) {
+    loginfo('patchPayload');
     type = type || extractType(patchPayload);
     id = id || extractId(patchPayload);
     var payload = extractPayload(patchPayload);

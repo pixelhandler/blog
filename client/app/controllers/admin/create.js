@@ -1,13 +1,13 @@
 import Ember from 'ember';
+import computedFake from '../../utils/computed-fake';
 
 export default Ember.ObjectController.extend({
 
   isPreviewing: false,
 
   createSlug: function () {
-    var slug = this.get('slug');
     var title = this.get('title');
-    if (!title || slug) { return false; }
+    if (!title || this.get('slug')) { return false; }
     this.set('slug', this.slugify(this.get('title')));
   },
 
@@ -17,6 +17,8 @@ export default Ember.ObjectController.extend({
     slug = slug.replace(/\(|\)|\[|\]|:|\./g, '');
     return slug;
   },
+
+  slugInput: computedFake('slug'),
 
   dateInput: null,
 
@@ -31,7 +33,7 @@ export default Ember.ObjectController.extend({
       var prop = this.get(name);
       if (value !== prop) {
         this.set(name, value);
-        if (name === 'title') {
+        if (name === 'title' && this.get('isNew')) {
           this.createSlug();
         }
       }
@@ -46,6 +48,11 @@ export default Ember.ObjectController.extend({
     },
 
     save: function () {
+      this.set('isEditing', false);
+      return true; // bubble
+    },
+
+    cancel: function () {
       this.set('isEditing', false);
       return true; // bubble
     }

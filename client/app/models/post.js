@@ -1,6 +1,6 @@
 import EO from "ember-orbit";
 //import hasOneProxy from "../utils/has-one-proxy";
-//import { uuid } from "../utils/uuid";
+import uuid from "../utils/uuid";
 
 var attr = EO.attr;
 //var key = EO.key;
@@ -27,19 +27,40 @@ var Post = EO.Model.extend({
 Post.reopenClass({
   newRecord: function () {
     return Ember.Object.create({
+      id: uuid(),
       slug: '',
       title: '',
       date: null,
       excerpt: '',
       body: '',
-      author_id: null,
+      links: {},
 
       toJSON: function () {
-        var props = "slug title date excerpt body author_id".w();
+        var props = "id slug title date excerpt body links".w();
         return this.getProperties(props);
       },
+      isNew: true
+    });
+  },
 
-      resourceName: 'post'
+  createRecord: function (store, newRecord, authorId) {
+    return store.add('post', newRecord.toJSON()).then(function (post) {
+      var author = store.retrieve('author', authorId);
+      post.addLink('author', author).then(function (result) {
+        Ember.Logger.info(result);
+        /*author.addLink('post', post).then(function (_result) {
+          Ember.Logger.info(_result);
+        }).catch(function (error) {
+          Ember.Logger.error(error);
+          window.alert('There was an error linking post to author.');
+        });*/
+      }).catch(function (error) {
+        Ember.Logger.error(error);
+        window.alert('There was an error linking author to post.');
+      });
+    }).catch(function (error) {
+      Ember.Logger.error(error);
+      window.alert('There was an error creating a new post.');
     });
   }
 });

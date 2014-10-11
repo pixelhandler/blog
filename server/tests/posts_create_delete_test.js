@@ -34,18 +34,18 @@ describe('Posts', function () {
           .send(credentials)
           .end(function (res) {
             assert(res.ok);
-            assert(res.noContent);
             cookie = res.headers['set-cookie'];
             assert(cookie);
             cookie = cookie[0].slice(0, cookie[0].indexOf(';'));
-
+            console.log('newPost', newPost);
             request.post(serverUrl + '/posts')
               .set('Content-Type', 'application/json; charset=UTF-8')
               .send(newPost)
               .set('Cookie', cookie)
               .end(function (res) {
+                console.log(res.body);
                 assert(res.ok);
-                var post = res.body.posts[0];
+                var post = res.body.posts;
                 assert(post);
                 assert(post.title.match(/New Post/));
 
@@ -57,7 +57,7 @@ describe('Posts', function () {
                     assert(res.noContent);
                     done();
                   });
-              });
+                });
           });
       });
     });
@@ -65,12 +65,13 @@ describe('Posts', function () {
 });
 
 var newPost = {
-  post: {
+  posts: {
+    id: "944864bd-4268-42c2-93d5-12a5078eb6b7",
     slug: "new_post",
     title: "New Post",
-    author: { name: "bot" },
-    date: Date.now,
+    date: new Date().toISOString(),
     excerpt: "Nothing special.",
-    body: "New post body content, blah, blah..."
+    body: "New post body content, blah, blah...",
+    links: { author: null }
   }
 };

@@ -24,20 +24,42 @@ module.exports = function(app, restrict) {
     @async
   **/
   app.post('/posts', restrict, function (req, res) {
-    var payload = req.body.posts;
-    if (payload.id) {
-      delete payload.id;
-    }
-    db.createRecord('posts', payload, function (err, payload) {
+    db.createRecord('posts', req.body.posts, function (err, payload) {
       if (err) {
         debug(err);
-        res.send(500);
+        res.status(500).end();
       } else {
+        debug('payload', payload.posts);
         if (app._io) {
           debug('didAdd', payload);
           app._io.emit('didAdd', payload);
         }
         res.status(201).send(payload);
+      }
+    });
+  });
+
+  /**
+    Create an author link on a post
+
+    Route: (verb) POST /posts/:id/links/author
+    @async
+  **/
+  app.post('/posts/:id/links/author', restrict, function (req, res) {
+    //debug('/posts/:id/links/author', req.params.id, req.body);
+    var id = req.params.id;
+    var links = { links: { author: req.body.authors } };
+    db.updateRecord('posts', id, links, function (err) {
+      if (err) {
+        debug(err);
+        res.status(500).end();
+      } else {
+        if (app._io) {
+          var payload = { 'posts': req.body };
+          //debug('didAddLink', payload);
+          app._io.emit('didAddLink', payload);
+        }
+        res.status(204).end(); // No Content
       }
     });
   });
@@ -80,17 +102,17 @@ module.exports = function(app, restrict) {
             res.header('Cache-Control', 'public, max-age=' + (30 * 24 * 60 * 60));
           }
           if (payload.posts !== null) {
-            debug('/posts/:id result not null', payload.posts);
+            //debug('/posts/:id result not null', payload.posts);
             res.send(payload);
           } else {
-            debug('/posts/:id result null, finding by slug');
+            //debug('/posts/:id result null, finding by slug');
             db.findBySlug('posts', ids[0], function (err, payload) {
               if (err) {
                 debug(err);
                 res.send(500);
               } else {
                 if (payload.posts !== null) {
-                  debug('/posts/:slug result not null', payload.posts);
+                  //debug('/posts/:slug result not null', payload.posts);
                   res.send(payload);
                 } else {
                   debug('/posts/[:id|:slug] result not found');
@@ -123,12 +145,67 @@ module.exports = function(app, restrict) {
     @async
   **/
   app.put('/posts/:id', restrict, function (req, res) {
-    db.updateRecord('posts', req.params.id, req.body.post, function (err, payload) {
+    db.updateRecord('posts', req.params.id, req.body.posts, function (err, payload) {
       if (err) {
         debug(err);
-        res.send(500);
+        res.status(500).end();
       } else {
-        res.send(payload);
+        res.status(204).end(); // No Content
+      }
+    });
+  });
+
+  /**
+    Create an author link on a post
+
+    Route: (verb) POST /posts/:id/links/author
+    @async
+  **/
+  app.put('/posts/:id/links/author', restrict, function (req, res) {
+    //debug('/posts/:id/links/author', req.params.id, req.body);
+    var id = req.params.id;
+    var links = { links: { author: req.body.authors } };
+    db.updateRecord('posts', id, links, function (err) {
+      if (err) {
+        debug(err);
+        res.status(500).end();
+      } else {
+        if (app._io) {
+          var payload = { 'posts': req.body };
+          //debug('didAddLink', payload);
+          app._io.emit('didAddLink', payload);
+        }
+        res.status(204).end(); // No Content
+      }
+    });
+  });
+
+
+  /**
+    Create a post using patch
+
+    Route: (verb) PATCH /posts
+    @async
+  **/
+  app.patch('/posts', restrict, function (req, res) {
+    debug(req.body);
+    if (!Array.isArray(req.body)) return;
+    // TODO actually support more than one item in the request array
+    req.body.forEach(function (patch) {
+      if (patch.op && patch.op === 'add') {
+        db.createRecord('posts', patch.value, function (err, payload) {
+          if (err) {
+            debug(err);
+            res.status(500).end();
+          } else {
+            debug('payload', payload.posts);
+            if (app._io) {
+              debug('didAdd', payload);
+              app._io.emit('didAdd', payload);
+            }
+            res.status(201).send(payload);
+          }
+        });
       }
     });
   });
@@ -150,6 +227,15 @@ module.exports = function(app, restrict) {
     });
   });
 
+  /**
+    TODO Support root level patch requests
+
+    Route: (verb) PATCH /
+    @async
+  **/
+  app.patch('/', restrict, function (req, res) {
+    debug('patch: / ', req.params, req.body);
+  });
 
   /**
     Delete a post by id
@@ -161,14 +247,40 @@ module.exports = function(app, restrict) {
     db.deleteRecord('posts', req.params.id, function (err) {
       if (err) {
         debug(err);
-        res.send(500);
+        res.status(500).end();
       } else {
         if (app._io) {
-          var payload = {posts: {id: req.params.id}};
+          var payload = { posts: req.params.id };
           debug('didRemove', payload);
           app._io.emit('didRemove', payload);
         }
-        res.send(204); // No Content
+        res.status(204).end(); // No Content
+      }
+    });
+  });
+
+  /**
+    TODO Delete an author from a post
+
+    Route: (verb) DELETE /posts/:id/links/author
+    @async
+  **/
+  app.delete('/posts/:id/links/author', restrict, function (req, res) {
+    debug('/posts/:id/links/author', req.params, req.body);
+    var id = req.params.id;
+    payload = { links: { author: null } };
+    db.updateRecord('posts', id, payload, function (err) {
+      if (err) {
+        debug(err);
+        res.status(500).end();
+      } else {
+        if (app._io) {
+          var payload = { posts: req.body };
+          // TODO use patch format in payload ?
+          debug('didRemoveLink', payload);
+          app._io.emit('didRemoveLink', payload);
+        }
+        res.status(204).end(); // No Content
       }
     });
   });

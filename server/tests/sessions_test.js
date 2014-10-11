@@ -39,7 +39,6 @@ describe('Sessions', function () {
       .send(credentials)
       .end(function (res) {
         assert(res.ok);
-        assert(res.noContent);
         cookie = res.headers['set-cookie'];
         assert(cookie);
         cookie = cookie[0].slice(0, cookie[0].indexOf(';'));

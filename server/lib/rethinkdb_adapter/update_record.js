@@ -30,18 +30,17 @@ module.exports = function(adapter, connect) {
     var payload = transform(record);
     var db = _adapter.db;
     _connect(function (err, connection) {
-      r.db(db)
-        .table(type)
-        .get(id)
-        .update(payload, {return_vals: true})
-        .run(connection, function (err, result) {
-          if (err) {
-            updateError(err, connection, callback);
-          } else {
-            updateSuccess(type, result, connection, callback);
-          }
-          connection.close();
-        });
+      // TODO use returnChanges after upgrade
+      r.db(db).table(type).filter(function(post) {
+        return post('id').eq(id).or( post('slug').eq(id) );
+      }).update(payload, {returnVals: true}).run(connection, function (err, result) {
+        if (err) {
+          updateError(err, connection, callback);
+        } else {
+          updateSuccess(type, result, connection, callback);
+        }
+        connection.close();
+      });
     });
   };
   return adapter.updateRecord;
@@ -54,9 +53,11 @@ function updateError(err, connection, callback) {
 }
 
 function updateSuccess(type, result, connection, callback) {
+  console.log('updateSuccess', result);
   var json = result.new_val;
   var rootKey = inflect.pluralize(type);
   var payload = {};
+  console.log('json', json);
   payload[rootKey] = transform(json);
   var msg = "Success update %s: %s, connection: %s";
   loginfo(msg, type, json.id, connection._id);

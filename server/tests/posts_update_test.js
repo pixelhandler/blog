@@ -5,6 +5,7 @@ var app  = require(__dirname + '/../app.js'),
 
 var config = require('../config')();
 var serverUrl = 'http://localhost:' + port;
+var testData = require('../seeds/posts.js');
 
 describe('Posts', function () {
 
@@ -22,6 +23,10 @@ describe('Posts', function () {
     this.server.close();
   });
 
+  beforeEach(function () {
+    testData.sort(compareDateDesc);
+  });
+
   describe('PUT responses:', function () {
 
     describe('/posts/:id', function () {
@@ -29,37 +34,47 @@ describe('Posts', function () {
       it('updates a "post" record, excerpt changed', function (done) {
         var cookie;
         var credentials = config.admin;
+        var randomIdx = Math.floor(Math.random() * testData.length);
+        var payload = { posts: testData[randomIdx] };
+        var change = " [updatable-" + Date.now() + "]";
+        payload.posts.excerpt += change;
+        var id = testData[randomIdx].id;
+        assert(id);
+        delete payload.posts.id;
+
         request.post(serverUrl + '/sessions')
           .send(credentials)
           .end(function (res) {
             assert(res.ok);
-            assert(res.noContent);
             cookie = res.headers['set-cookie'];
             assert(cookie);
             cookie = cookie[0].slice(0, cookie[0].indexOf(';'));
-
-            request.get(serverUrl + '/posts?order=desc')
+            request.put(serverUrl + '/posts/' + id)
               .set('Cookie', cookie)
+              .send(payload)
               .end(function (res) {
+                console.log('res.body', res.body);
                 assert(res.ok);
-                var slug = res.body.posts[0].slug;
-                assert(slug);
-                var payload = { post: res.body.posts[0] };
-                payload.post.excerpt += " [updatable]";
-                delete payload.post.id;
-                request.put(serverUrl + '/posts/' + slug)
-                  .set('Cookie', cookie)
-                  .send(payload)
-                  .end(function (res) {
-                    assert(res.ok);
-                    var post = res.body.posts[0];
-                    assert(post);
-                    assert(post.excerpt.match(/\[updatable\]/));
-                    done();
-                  });
+                var post = res.body.posts;
+                assert(post);
+                assert(post.excerpt.match(new RegExp(change)));
+                done();
               });
           });
       });
     });
   });
 });
+
+function compareDateDesc(a,b) {
+  a = new Date(a.date);
+  b = new Date(b.date);
+  // Sort desc order
+  if (a > b) {
+    return -1;
+  } else if (a < b) {
+    return 1;
+  } else {
+    return 0;
+  }
+}

@@ -12,7 +12,8 @@ Router.map(function () {
   this.resource('posts', function () {
     this.resource('post', { path: ':post_slug' });
   });
-  this.resource('admin', function () {
+  this.route('admin', function () {
+    this.route('index');
     this.route('create');
     this.route('edit', { path: ':edit_id' });
   });

@@ -28,6 +28,7 @@ module.exports = function(adapter, connect) {
     var payload = transform(record);
     var db = _adapter.db;
     _connect(function (err, connection) {
+      // TODO use returnChanges after upgrade
       r.db(db).table(type).insert(payload, {returnVals: true})
         .run(connection, function (err, result) {
           if (err) {
