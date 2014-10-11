@@ -33,7 +33,7 @@ module.exports = function(adapter, connect) {
       // TODO use returnChanges after upgrade
       r.db(db).table(type).filter(function(post) {
         return post('id').eq(id).or( post('slug').eq(id) );
-      }).update(payload, {returnVals: true}).run(connection, function (err, result) {
+      }).update(payload/*, {returnVals: true}*/).run(connection, function (err, result) {
         if (err) {
           updateError(err, connection, callback);
         } else {
@@ -53,14 +53,13 @@ function updateError(err, connection, callback) {
 }
 
 function updateSuccess(type, result, connection, callback) {
-  console.log('updateSuccess', result);
-  var json = result.new_val;
-  var rootKey = inflect.pluralize(type);
+  var json = (result) ? result.new_val : void 0;
   var payload = {};
-  console.log('json', json);
-  payload[rootKey] = transform(json);
-  var msg = "Success update %s: %s, connection: %s";
-  loginfo(msg, type, json.id, connection._id);
+  if (json) {
+    var rootKey = inflect.pluralize(type);
+    payload[rootKey] = transform(json);
+  }
+  loginfo("Success update %s %s", type, (json) ? ", id: " + json.id : '');
   callback(null, payload);
 }
 

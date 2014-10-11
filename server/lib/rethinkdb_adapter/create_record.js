@@ -29,7 +29,7 @@ module.exports = function(adapter, connect) {
     var db = _adapter.db;
     _connect(function (err, connection) {
       // TODO use returnChanges after upgrade
-      r.db(db).table(type).insert(payload, {returnVals: true})
+      r.db(db).table(type).insert(payload/*, {returnVals: true}*/)
         .run(connection, function (err, result) {
           if (err) {
             createError(err, connection, callback);
@@ -50,11 +50,13 @@ function createError(err, connection, callback) {
 }
 
 function createSuccess(type, result, connection, callback) {
-  var json = result.new_val;
-  var rootKey = inflect.pluralize(type);
+  var json = (result) ? result.new_val : void 0;
   var payload = {};
-  payload[rootKey] = transform(json);
-  loginfo("Success create %s id: %s, connection id: %s", type, json.id, connection._id);
+  if (json) {
+    var rootKey = inflect.pluralize(type);
+    payload[rootKey] = transform(json);
+  }
+  loginfo("Success create %s %s", type, (json) ? ", id: " + json.id : '');
   callback(null, payload);
 }
 
