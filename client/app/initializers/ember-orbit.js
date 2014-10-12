@@ -16,7 +16,7 @@ function jsonApiStore() {
       host: PixelhandlerBlogENV.API_HOST,
       namespace: PixelhandlerBlogENV.API_PATH,
       SerializerClass: ApplicationSerializer,
-      usePatch: false,
+      usePatch: true,
     }
   });
 }
