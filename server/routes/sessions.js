@@ -51,7 +51,7 @@ module.exports = function(app, restrict) {
   app.delete('/sessions', restrict, function(req, res){
     loginfo('logout', req.session.user);
     req.session = null;
-    res.send(204);
+    res.status(204).end();
   });
 
   /**
@@ -59,7 +59,7 @@ module.exports = function(app, restrict) {
   **/
   app.post('/restricted', restrict, function(req, res){
     loginfo('restricted');
-    res.send(204);
+    res.status(204).end();
   });
 
 };

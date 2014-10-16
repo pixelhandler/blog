@@ -90,6 +90,16 @@ module.exports.deleteRecord = require(path('delete_record'))(adapter, onConnect)
 module.exports.deleteRecordBySlug = require(path('delete_record_by_slug'))(adapter, onConnect);
 
 /**
+  Generate a UUID
+  @method uuid
+**/
+var uuid = require('node-uuid');
+module.exports.uuid = function () {
+  return uuid.v1();
+};
+
+
+/**
   @method path
   @param {string} name - name of submodule to load
 **/

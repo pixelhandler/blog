@@ -30,25 +30,54 @@ module.exports = function(adapter, connect) {
     type = type || extractType(operations);
     id = id || extractId(operations);
     // TODO multiple operations? Preflight with test operation?
-    for (var i = 0; i < operations.length; i++) {
-      operations[i] = extractPayload(operations[i]);
+    var operation = operations[0];
+    if (operation.op === 'replace') {
+      operations[0] = extractReplacePayload(operations[0]);
+      connectAndUpdate(type, id, operations[0], callback);
+    } else if (operation.op === 'remove' && operation.path === '/') {
+      connectAndRemove(type, id, callback);
     }
-    var db = _adapter.db;
+  };
+
+  var connectAndUpdate = function (type, id, payload, callback) {
     _connect(function (err, connection) {
-      r.db(db)
-        .table(type)
-        .get(id)
-        .update(operations[0]/*, {return_vals: false}*/)
-        .run(connection, function (err, result) {
-          if (err) {
-            patchError(err, connection, callback);
-          } else {
-            patchSuccess(type, result, connection, callback);
-          }
-          connection.close();
-        });
+      updateRecord(type, id, payload, connection, callback);
     });
   };
+
+  var updateRecord = function (type, id, payload, connection, callback) {
+    r.db(_adapter.db)
+      .table(type)
+      .get(id)
+      .update(payload/*, {return_vals: false}*/)
+      .run(connection, function (err, result) {
+        if (err) {
+          patchError(err, connection, callback);
+        } else {
+          patchSuccess(type, result, connection, callback);
+        }
+        connection.close();
+      });
+  };
+
+  var connectAndRemove = function (type, id, callback) {
+    _connect(function (err, connection) {
+      removeRecord(type, id, connection, callback);
+    });
+  };
+
+  var removeRecord = function (type, id, connection, callback) {
+    r.db(_adapter.db).table(type).get(id).delete()
+      .run(connection, function (err, result) {
+        if (err) {
+          patchError(err, connection, callback);
+        } else {
+          patchSuccess(type, result, connection, callback);
+        }
+        connection.close();
+      });
+  };
+
   return adapter.patchRecord;
 };
 
@@ -91,7 +120,7 @@ function extractId(patchPayload) {
   return id;
 }
 
-function extractPayload(operation) {
+function extractReplacePayload(operation) {
   var payload = {};
   // TODO support nested patch?
   var attr = operation.path.split('/').slice(1)[0];

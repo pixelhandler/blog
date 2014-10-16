@@ -182,7 +182,7 @@ module.exports = function(app, restrict) {
 
 
   /**
-    Create a post using patch
+    Create a post using patch, `add` operation
 
     Route: (verb) PATCH /posts
     @async
@@ -198,7 +198,7 @@ module.exports = function(app, restrict) {
             debug(err);
             res.status(500).end();
           } else {
-            debug('payload', payload.posts);
+            debug('patch added...', payload);
             if (app._io) {
               debug('didAdd', payload);
               app._io.emit('didAdd', payload);
@@ -211,13 +211,13 @@ module.exports = function(app, restrict) {
   });
 
   /**
-    Patch a post by id
+    Patch a post by id, supports replace and remove operations
 
     Route: (verb) PATCH /posts/:id
     @async
   **/
   app.patch('/posts/:id', restrict, function (req, res) {
-    db.patchRecord('posts', req.params.id, req.body, function (err, payload) {
+    db.patchRecord('posts', req.params.id, req.body, function (err) {
       if (err) {
         debug(err);
         res.status(500).end();
