@@ -1,29 +1,43 @@
-var app  = require(__dirname + '/../app.js'),
-  port = 8888,
-  assert = require('assert'),
-  request = require('superagent').agent(),
-  db = require('../lib/rethinkdb_adapter');
+var app  = require(__dirname + '/../app.js');
+var port = 8888;
+var assert = require('assert');
+var request = require('superagent').agent();
+var db = require('../lib/rethinkdb_adapter');
 
 var config = require('../config')();
 var serverUrl = 'http://localhost:' + port;
 var posts = 'posts';
 var testData = require('../seeds/' + posts + '.js');
+var authorData = require('../seeds/authors.js');
 
-// for now can only run one at a time - add, replace, remove
 describe('Posts', function () {
+  var sessionUrl = serverUrl + '/sessions';
+  var cookie;
 
   before(function (done) {
     this.server = app.listen(port, function (err, result) {
       if (err) {
         done(err);
       } else {
-        done();
+        var credentials = config.admin;
+        request.post(sessionUrl)
+          .send(credentials)
+          .end(function (res) {
+            assert(res.ok);
+            cookie = res.headers['set-cookie'];
+            assert(cookie, 'session cookie ok');
+            cookie = cookie[0].slice(0, cookie[0].indexOf(';'));
+            done();
+          });
       }
     });
   });
 
-  after(function () {
-    this.server.close();
+  after(function (done) {
+    request.del(sessionUrl).end(function () {
+      this.server.close();
+      done();
+    }.bind(this));
   });
 
   beforeEach(function () {
@@ -69,15 +83,13 @@ describe('Posts', function () {
           value: this.changedTitle
         }];
         var url = [serverUrl, posts, id].join('/');
-        doWithSession(this.cookie, config, function (cookie, callback) {
-          request.patch(url)
-            .set('Cookie', cookie)
-            .send(payload)
-            .end(function (res) {
-              assert(res.ok, 'patch request responded ok');
-              callback(done);
-            });
-        });
+        request.patch(url)
+          .set('Cookie', cookie)
+          .send(payload)
+          .end(function (res) {
+            assert(res.ok, 'patch request responded ok');
+            done();
+          });
       });
 
     });
@@ -88,9 +100,6 @@ describe('Posts', function () {
 
         http://localhost:4200/authors/5c9b62ec-1569-448b-912a-97e6d62f493e/links/posts
         [{"op":"add","path":"/-","value":"747ca4a7-9930-4c14-9ed5-cacb600f4443"}]
-
-        http://localhost:4200/posts/747ca4a7-9930-4c14-9ed5-cacb600f4443/links/author
-        [{"op":"replace","path":"/","value":"5c9b62ec-1569-448b-912a-97e6d62f493e"}]
       */
 
       beforeEach(function() {
@@ -128,17 +137,65 @@ describe('Posts', function () {
         var id = this.id;
         var payload = this.payload;
         var url = [serverUrl, posts].join('/');
-        doWithSession(this.cookie, config, function (cookie, callback) {
-          request.patch(url)
-            .set('Cookie', cookie)
-            .send(payload)
-            .end(function (res) {
-              assert(res.ok, 'patch request responded ok');
-              callback(done);
-            });
+        request.patch(url)
+          .set('Cookie', cookie)
+          .send(payload)
+          .end(function (res) {
+            assert(res.ok, 'patch request responded ok');
+            done();
+          });
+      });
+
+    });
+
+    describe('Author link', function () {
+      beforeEach(function(done) {
+        var uuid = this.id = db.uuid();
+        var record = {
+          "id": uuid,
+          "slug": "temp post",
+          "title": "temp post",
+          "date": "2014-10-16",
+          "excerpt": "temp post",
+          "body": "temp post",
+          "links": {
+            "author": null
+          }
+        };
+
+        db.createRecord(posts, record, function(err, payload) {
+          assert(!err, 'db createRecord did not error');
+          assert.equal(payload.posts.id, uuid, 'id of post to link author to is ok');
+          done();
         });
       });
 
+      afterEach(function(done) {
+        assert(this.id, 'id to delete ok');
+        db.deleteRecord(posts, this.id, function(err) {
+          assert(!err, 'db deleteRecord did not error');
+          done();
+        });
+      });
+
+      it('replaces an author link id', function(done) {
+        var id = this.id;
+        var payload = [
+          {
+            "op": "replace",
+            "path": "/",
+            "value": authorData[0].id
+          }
+        ];
+        var url = [serverUrl, posts, id, "links", "author"].join('/');
+        request.patch(url)
+          .set('Cookie', cookie)
+          .send(payload)
+          .end(function (res) {
+            assert(res.ok, 'patch request responded ok');
+            done();
+          });
+      });
     });
 
     describe('remove operation', function () {
@@ -191,41 +248,18 @@ describe('Posts', function () {
           }
         ];
         var url = [serverUrl, posts, id].join('/');
-        doWithSession(this.cookie, config, function (cookie, callback) {
-          request.patch(url)
-            .set('Cookie', cookie)
-            .send(payload)
-            .end(function (res) {
-              assert(res.ok, 'patch request responded ok'); // 204
-              callback(done);
-            });
-        });
+        request.patch(url)
+          .set('Cookie', cookie)
+          .send(payload)
+          .end(function (res) {
+            assert(res.ok, 'patch request responded ok'); // 204
+            done();
+          });
       });
 
     });
   });
 });
-
-function doWithSession(cookie, config, callback) {
-  var credentials = config.admin;
-  var _request = request;
-  var sessionUrl = serverUrl + '/sessions';
-  return request.post(sessionUrl)
-    .send(credentials)
-    .end(function (res) {
-      assert(res.ok);
-      cookie = cookie || res.headers['set-cookie'];
-      assert(cookie, 'session cookie ok');
-      cookie = cookie[0].slice(0, cookie[0].indexOf(';'));
-      var logout = function (done) {
-        var _done = done;
-        _request.del(sessionUrl).end(function () {
-          _done();
-        });
-      };
-      callback(cookie, logout);
-    });
-}
 
 function compareDateDesc(a,b) {
   a = new Date(a.date);

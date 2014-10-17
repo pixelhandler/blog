@@ -30,10 +30,9 @@ module.exports = function(adapter, connect) {
     var payload = transform(record);
     var db = _adapter.db;
     _connect(function (err, connection) {
-      // TODO use returnChanges after upgrade
       r.db(db).table(type).filter(function(post) {
         return post('id').eq(id).or( post('slug').eq(id) );
-      }).update(payload/*, {returnVals: true}*/).run(connection, function (err, result) {
+      }).update(payload, {return_changes: true}).run(connection, function (err, result) {
         if (err) {
           updateError(err, connection, callback);
         } else {
@@ -53,9 +52,10 @@ function updateError(err, connection, callback) {
 }
 
 function updateSuccess(type, result, connection, callback) {
-  var json = (result) ? result.new_val : void 0;
-  var payload = {};
+  var json = (result) ? result.changes[0].new_val : void 0;
+  var payload;
   if (json) {
+    payload = {};
     var rootKey = inflect.pluralize(type);
     payload[rootKey] = transform(json);
   }

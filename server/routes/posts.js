@@ -46,7 +46,7 @@ module.exports = function(app, restrict) {
     @async
   **/
   app.post('/posts/:id/links/author', restrict, function (req, res) {
-    //debug('/posts/:id/links/author', req.params.id, req.body);
+    debug('/posts/:id/links/author', req.params.id, req.body);
     var id = req.params.id;
     var links = { links: { author: req.body.authors } };
     db.updateRecord('posts', id, links, function (err) {
@@ -162,7 +162,7 @@ module.exports = function(app, restrict) {
     @async
   **/
   app.put('/posts/:id/links/author', restrict, function (req, res) {
-    //debug('/posts/:id/links/author', req.params.id, req.body);
+    debug('/posts/:id/links/author', req.params.id, req.body);
     var id = req.params.id;
     var links = { links: { author: req.body.authors } };
     db.updateRecord('posts', id, links, function (err) {
@@ -198,7 +198,7 @@ module.exports = function(app, restrict) {
             debug(err);
             res.status(500).end();
           } else {
-            debug('patch added...', payload);
+            //debug('patch added...', payload);
             if (app._io) {
               debug('didAdd', payload);
               app._io.emit('didAdd', payload);
@@ -228,13 +228,42 @@ module.exports = function(app, restrict) {
   });
 
   /**
+    Patch an author link on a post with replace/remove operations
+
+    Route: (verb) PATCH /posts/:id/links/author
+    @async
+  **/
+  app.patch('/posts/:id/links/author', restrict, function (req, res) {
+    debug('/posts/:id/links/author', req.params.id, req.body);
+    var operation = req.body[0];
+    if (operation.op.match(/(replace|remove)/) === null) {
+      res.status(400).end();
+    }
+    var id = req.params.id;
+    var authorId = /*replace*/ operation.value || /*remove*/ null;
+    var links = { links: { author: authorId } };
+    db.updateRecord('posts', id, links, function (err, payload) {
+      if (err) {
+        debug(err);
+        res.status(500).end();
+      } else {
+        if (app._io) {
+          debug('didPatchLink', payload);
+          app._io.emit('didPatchLink', payload);
+        }
+        res.status(204).end(); // No Content
+      }
+    });
+  });
+
+  /**
     TODO Support root level patch requests
 
     Route: (verb) PATCH /
     @async
   **/
   app.patch('/', restrict, function (req, res) {
-    debug('patch: / ', req.params, req.body);
+    debug('patch / unsupported', req.params, req.body);
   });
 
   /**
