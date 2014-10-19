@@ -6,11 +6,11 @@ var db = require('../lib/rethinkdb_adapter');
 
 var config = require('../config')();
 var serverUrl = 'http://localhost:' + port;
-var posts = 'posts';
-var testData = require('../seeds/' + posts + '.js');
-var authorData = require('../seeds/authors.js');
+var authors = 'authors';
+var postsData = require('../seeds/posts.js');
+var authorsData = require('../seeds/' + authors + '.js');
 
-describe('Posts', function () {
+describe('Authors', function () {
   var sessionUrl = serverUrl + '/sessions';
   var cookie;
 
@@ -41,7 +41,7 @@ describe('Posts', function () {
   });
 
   beforeEach(function () {
-    testData.sort(compareDateDesc);
+    postsData.sort(compareDateDesc);
   });
 
   describe('Request Method:PATCH', function () {
@@ -49,40 +49,40 @@ describe('Posts', function () {
     describe('replace operation', function () {
 
       beforeEach(function() {
-        var randomIdx = Math.floor(Math.random() * testData.length);
+        var randomIdx = Math.floor(Math.random() * authorsData.length);
         var record = testData[randomIdx];
         this.recordId = record.id;
-        assert(this.recordId, 'post id to patch ok');
+        assert(this.recordId, 'author id to patch ok');
         var change = " [patchable-" + Date.now() + "]";
-        this.ogTitle = record.title;
-        this.changedTitle = record.title + change;
+        this.ogName = record.name;
+        this.changedName = record.name + change;
       });
 
       afterEach(function(done) {
-        var changedTitle = this.changedTitle;
-        var ogTitle = this.ogTitle;
+        var changedName = this.changedName;
+        var ogName = this.ogName;
         var id = this.recordId;
 
-        db.find(posts, this.recordId, function (err, payload) {
+        db.find(authors, this.recordId, function (err, payload) {
           assert(!err, 'db find did not error');
-          var title = payload[posts].title;
-          assert.equal(title, changedTitle, 'title changed successfully');
-          assert.notEqual(title, ogTitle, 'title does not match original');
-          db.updateRecord(posts, id, {title: ogTitle}, function (err, payload) {
+          var name = payload[authors].name;
+          assert.equal(name, changedName, 'name changed successfully');
+          assert.notEqual(name, ogName, 'name does not match original');
+          db.updateRecord(authors, id, {name: ogName}, function (err, payload) {
             assert(!err, 'db find did not error');
             done();
           });
         });
       });
 
-      it('changes title', function (done) {
+      it('changes name', function (done) {
         var id = this.recordId;
         var payload = [{
           op: 'replace',
-          path: '/title',
-          value: this.changedTitle
+          path: '/name',
+          value: this.changedName
         }];
-        var url = [serverUrl, posts, id].join('/');
+        var url = [serverUrl, authors, id].join('/');
         request.patch(url)
           .set('Cookie', cookie)
           .send(payload)
@@ -103,13 +103,10 @@ describe('Posts', function () {
             "path": "/-",
             "value": {
               "id": this.id,
-              "slug": "add-a-post",
-              "title": "add a post",
-              "date": "2014-10-10",
-              "excerpt": "patching ",
-              "body": "add a post",
+              "email": "yo@somebody.com",
+              "name": "nobody",
               "links": {
-                "author": null
+                "posts": []
               }
             }
           }
@@ -118,7 +115,7 @@ describe('Posts', function () {
 
       afterEach(function(done) {
         assert(this.id, 'id to delete ok');
-        db.deleteRecord(posts, this.id, function(err) {
+        db.deleteRecord(authors, this.id, function(err) {
           assert(!err, 'db deleteRecord did not error');
           done();
         });
@@ -129,7 +126,7 @@ describe('Posts', function () {
       it('creates a record', function(done) {
         var id = this.id;
         var payload = this.payload;
-        var url = [serverUrl, posts].join('/');
+        var url = [serverUrl, authors].join('/');
         request.patch(url)
           .set('Cookie', cookie)
           .send(payload)
@@ -141,46 +138,43 @@ describe('Posts', function () {
 
     });
 
-    describe('Author link', function () {
+    describe('Post links', function () {
       beforeEach(function(done) {
         var uuid = this.id = db.uuid();
         var record = {
-          "id": uuid,
-          "slug": "temp post",
-          "title": "temp post",
-          "date": "2014-10-16",
-          "excerpt": "temp post",
-          "body": "temp post",
+          "id": this.id,
+          "email": "yo@somebody.com",
+          "name": "nobody",
           "links": {
-            "author": null
+            "posts": []
           }
         };
 
-        db.createRecord(posts, record, function(err, payload) {
+        db.createRecord(authors, record, function(err, payload) {
           assert(!err, 'db createRecord did not error');
-          assert.equal(payload.posts.id, uuid, 'id of post to link author to is ok');
+          assert.equal(payload.authors.id, uuid, 'id of post to link author to is ok');
           done();
         });
       });
 
       afterEach(function(done) {
         assert(this.id, 'id to delete ok');
-        db.deleteRecord(posts, this.id, function(err) {
+        db.deleteRecord(authors, this.id, function(err) {
           assert(!err, 'db deleteRecord did not error');
           done();
         });
       });
 
-      it('replaces an author link id', function(done) {
+      it('adds a post link id', function(done) {
         var id = this.id;
         var payload = [
           {
-            "op": "replace",
-            "path": "/",
-            "value": authorData[0].id
+            "op": "add",
+            "path": "/-",
+            "value": postsData[0].id
           }
         ];
-        var url = [serverUrl, posts, id, "links", "author"].join('/');
+        var url = [serverUrl, authors, id, "links", "posts"].join('/');
         request.patch(url)
           .set('Cookie', cookie)
           .send(payload)
@@ -196,19 +190,16 @@ describe('Posts', function () {
       beforeEach(function(done) {
         var uuid = db.uuid();
         var record = {
-          "id": uuid,
-          "slug": "temp post",
-          "title": "temp post",
-          "date": "2014-10-14",
-          "excerpt": "temp post",
-          "body": "temp post",
+          "id": this.id,
+          "email": "yo@somebody.com",
+          "name": "nobody",
           "links": {
-            "author": null
+            "posts": []
           }
         };
-        db.createRecord(posts, record, function(err, payload) {
+        db.createRecord(authors, record, function(err, payload) {
           assert(!err, 'db createRecord did not error');
-          assert.equal(payload.posts.id, uuid, 'id of post to delete ok');
+          assert.equal(payload.authors.id, uuid, 'id of post to delete ok');
           done();
         });
         this.id = uuid;
@@ -217,9 +208,9 @@ describe('Posts', function () {
       afterEach(function(done) {
         var id = this.id;
         assert(id, 'id to delete ok');
-        db.find(posts, id, function (err, payload) {
+        db.find(authors, id, function (err, payload) {
           if (!err) {
-            db.deleteRecord(posts, id, function (_err, result) {
+            db.deleteRecord(authors, id, function (_err, result) {
               assert(!_err, 'db deleteRecord did not error');
               assert.equal(err, null, 'db find did error, post id not found: ' + id);
               done();
@@ -240,7 +231,7 @@ describe('Posts', function () {
             "path": "/"
           }
         ];
-        var url = [serverUrl, posts, id].join('/');
+        var url = [serverUrl, authors, id].join('/');
         request.patch(url)
           .set('Cookie', cookie)
           .send(payload)

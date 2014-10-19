@@ -159,9 +159,36 @@ module.exports = function(app, restrict) {
     });
   });
 
+  /**
+    Create an author using patch, `add` operation
+
+    Route: (verb) PATCH /authors
+    @async
+  **/
+  app.patch('/authors', restrict, function (req, res) {
+    debug(req.body);
+    if (!Array.isArray(req.body)) return;
+    // TODO actually support more than one item in the request array
+    req.body.forEach(function (patch) {
+      if (patch.op && patch.op === 'add') {
+        db.createRecord('authors', patch.value, function (err, payload) {
+          if (err) {
+            debug(err);
+            res.status(500).end();
+          } else {
+            if (app._io) {
+              debug('didAdd', payload);
+              app._io.emit('didAdd', payload);
+            }
+            res.status(201).send(payload);
+          }
+        });
+      }
+    });
+  });
 
   /**
-    Patch a post by id
+    Patch an author by id
 
     Route: (verb) PATCH /authors/:id
     @async
@@ -175,6 +202,63 @@ module.exports = function(app, restrict) {
         res.status(204).end();
       }
     });
+  });
+
+  /**
+    Patch a post link on an author with add/remove operation (TODO remove)
+
+    Route: (verb) PATCH /authors/:id/links/posts
+    @async
+  **/
+  app.patch('/authors/:id/links/posts', restrict, function (req, res) {
+    debug('/authors/:id/links/posts', req.params.id, req.body);
+    var operation = req.body[0];
+    if (operation.op.match(/add/) === null) { // TODO remove
+      res.status(400).end();
+    }
+    var id = req.params.id;
+    var postId = /*add*/ operation.value; // TODO remove `path: "/:id"`
+
+    db.find('authors', id, function (err, payload) {
+      if (err) {
+        debug(err);
+        res.status(500).end();
+      } else {
+        payload.authors.links.posts.push(postId);
+        var links = { "links": payload.authors.links };
+        debug('update links', links);
+        db.updateRecord('authors', id, links, function (err) { // TODO continue here
+          if (err) {
+            debug(err);
+            res.status(500).end();
+          } else {
+            if (app._io) {
+              var payload = { 'authors': req.body };
+              debug('didAddLink', payload);
+              app._io.emit('didAddLink', payload);
+            }
+            res.status(204).end(); // No Content
+          }
+        });
+      }
+    });
+
+
+    /* TODO continue, find then mutate array
+    var links = { links: { author: authorId } };
+    db.updateRecord('posts', id, links, function (err, payload) {
+      if (err) {
+        debug(err);
+        res.status(500).end();
+      } else {
+        if (app._io) {
+          debug('didPatchLink', payload);
+          app._io.emit('didPatchLink', payload);
+        }
+        res.status(204).end(); // No Content
+      }
+    });
+    */
   });
 
 
