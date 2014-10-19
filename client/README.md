@@ -103,13 +103,18 @@ Emit, with last argument as callback function to receive data.
    (receive new resources not in memory or localStorage)
 
 
-## Local Dependencies
+## Local Development/Build Dependencies
 
 In ./local ember-orbit and orbit.js are build from source, use `npm install`
-and `grunt package`, may need to adjust path in bower.json to local folder.
+and `grunt package`, may need to adjust path in [bower.json] to local folder.
 
-* orbit.js at commit: 393eaba 2014-10-09 | Implement JSONAPISource#updateLink
+Use `git sumodule init` it setup local (development/build) dependencies
+
+* orbit.js at commit: 0115924 2014-10-16 | 0.5.3
 * ember-orbit at commit: 58d858a 2014-10-03 | Merge pull request #37 from jakecraige/patch-1
+
+You may need to checkout the above commits in orbit.js and ember-orbit
+directories prior to building, to insure compatibility with the blog app.
 
 
 ## Thanks

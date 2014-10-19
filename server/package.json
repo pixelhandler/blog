@@ -31,6 +31,7 @@
     "express-session": "^1.7.2",
     "inflect": "~0.3.0",
     "method-override": "^2.1.2",
+    "node-uuid": "^1.4.1",
     "rethinkdb": "~1.13.0-3",
     "socket.io": "~1.0.6"
   },

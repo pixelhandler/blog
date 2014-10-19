@@ -1,0 +1,6 @@
+[submodule "local/orbit.js"]
+	path = local/orbit.js
+	url = https://github.com/orbitjs/orbit.js.git
+[submodule "local/ember-orbit"]
+	path = local/ember-orbit
+	url = https://github.com/orbitjs/ember-orbit.git

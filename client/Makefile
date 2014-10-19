@@ -1,15 +1,15 @@
 server: lint
-	@export BROCCOLI_ENV=development; ember server --environment=development --proxy http://localhost:8888
+	@export BROCCOLI_ENV=development; ./node_modules/.bin/ember server --environment=development --proxy http://localhost:8888
 	@open http://localhost:4200/
 
 server_proxy: lint
-	@ember server --proxy http://pixelhandler.com/api
+	@./node_modules/.bin/ember server --proxy http://pixelhandler.com/api
 
 install:
 	@rm -rf node_modules vendor
 	@npm install
 	@bower install
-	#@bin/canary.sh
+	@./node_modules/.bin/ember init
 
 canary:
 	@bin/canary.sh
@@ -42,6 +42,6 @@ docfiles: lint
 	@yuidoc ./app/* -c yuidoc.json
 
 test: lint
-	@ember test
+	@./node_modules/.bin/ember test
 
 .PHONY: server install canary build lint clean dist dist_server fingerprint doc docfiles test
