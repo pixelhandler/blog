@@ -52,14 +52,14 @@ function updateError(err, connection, callback) {
 }
 
 function updateSuccess(type, result, connection, callback) {
-  var json = (result) ? result.changes[0].new_val : void 0;
+  var json = (result && result.changes) ? result.changes[0].new_val : void 0;
   var payload;
   if (json) {
     payload = {};
     var rootKey = inflect.pluralize(type);
     payload[rootKey] = transform(json);
   }
-  loginfo("Success update %s %s", type, (json) ? ", id: " + json.id : '');
+  loginfo("Success update %s %s", type, (json) ? "id: " + json.id : '');
   callback(null, payload);
 }
 

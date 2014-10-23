@@ -50,7 +50,7 @@ describe('Authors', function () {
 
       beforeEach(function() {
         var randomIdx = Math.floor(Math.random() * authorsData.length);
-        var record = testData[randomIdx];
+        var record = authorsData[randomIdx];
         this.recordId = record.id;
         assert(this.recordId, 'author id to patch ok');
         var change = " [patchable-" + Date.now() + "]";
@@ -165,30 +165,72 @@ describe('Authors', function () {
         });
       });
 
-      it('adds a post link id', function(done) {
-        var id = this.id;
-        var payload = [
-          {
-            "op": "add",
-            "path": "/-",
-            "value": postsData[0].id
-          }
-        ];
-        var url = [serverUrl, authors, id, "links", "posts"].join('/');
-        request.patch(url)
-          .set('Cookie', cookie)
-          .send(payload)
-          .end(function (res) {
-            assert(res.ok, 'patch request responded ok');
+      describe('add operation', function() {
+
+        it('adds a post link id', function(done) {
+          var id = this.id;
+          var payload = [
+            {
+              "op": "add",
+              "path": "/-",
+              "value": postsData[0].id
+            }
+          ];
+          var url = [serverUrl, authors, id, "links", "posts"].join('/');
+          request.patch(url)
+            .set('Cookie', cookie)
+            .send(payload)
+            .end(function (res) {
+              assert(res.ok, 'patch request responded ok');
+              done();
+            });
+        });
+      });
+
+      describe('remove operation', function() {
+
+        beforeEach(function(done) {
+          this.postId = db.uuid();
+          var payload = { links: { posts: [ this.postId ] } };
+          db.updateRecord('authors', this.id, payload, function(err, record) {
+            assert(!err, 'db updateRecord did not error');
             done();
           });
+        });
+
+        it('removes a post link id', function(done) {
+          var id = this.id;
+          var payload = [
+            {
+              "op": "remove",
+              "path": "/" + this.postId
+            }
+          ];
+          var url = [serverUrl, authors, id, "links", "posts"].join('/');
+          request.patch(url)
+            .set('Cookie', cookie)
+            .send(payload)
+            .end(function (res) {
+              assert(res.ok, 'patch request responded ok');
+              done();
+            });
+        });
+
+        afterEach(function(done) {
+          db.find('authors', this.id, function(err, record) {
+            assert(!err, 'db find did not error');
+            assert.equal(record.authors.links.posts.length, 0, "no related posts");
+            done();
+          });
+        });
+
       });
     });
 
     describe('remove operation', function () {
 
       beforeEach(function(done) {
-        var uuid = db.uuid();
+        var uuid = this.id = db.uuid();
         var record = {
           "id": this.id,
           "email": "yo@somebody.com",
@@ -202,7 +244,6 @@ describe('Authors', function () {
           assert.equal(payload.authors.id, uuid, 'id of post to delete ok');
           done();
         });
-        this.id = uuid;
       });
 
       afterEach(function(done) {

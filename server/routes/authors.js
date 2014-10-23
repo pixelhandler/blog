@@ -205,7 +205,7 @@ module.exports = function(app, restrict) {
   });
 
   /**
-    Patch a post link on an author with add/remove operation (TODO remove)
+    Patch a post link on an author with add/remove operation
 
     Route: (verb) PATCH /authors/:id/links/posts
     @async
@@ -213,54 +213,70 @@ module.exports = function(app, restrict) {
   app.patch('/authors/:id/links/posts', restrict, function (req, res) {
     debug('/authors/:id/links/posts', req.params.id, req.body);
     var operation = req.body[0];
-    if (operation.op.match(/add/) === null) { // TODO remove
+    if (operation.op.match(/^(add|remove)$/) === null) {
       res.status(400).end();
     }
     var id = req.params.id;
-    var postId = /*add*/ operation.value; // TODO remove `path: "/:id"`
-
+    var _res = res;
     db.find('authors', id, function (err, payload) {
       if (err) {
         debug(err);
         res.status(500).end();
       } else {
-        payload.authors.links.posts.push(postId);
-        var links = { "links": payload.authors.links };
-        debug('update links', links);
-        db.updateRecord('authors', id, links, function (err) { // TODO continue here
-          if (err) {
-            debug(err);
-            res.status(500).end();
-          } else {
-            if (app._io) {
-              var payload = { 'authors': req.body };
-              debug('didAddLink', payload);
-              app._io.emit('didAddLink', payload);
-            }
-            res.status(204).end(); // No Content
-          }
-        });
-      }
-    });
-
-
-    /* TODO continue, find then mutate array
-    var links = { links: { author: authorId } };
-    db.updateRecord('posts', id, links, function (err, payload) {
-      if (err) {
-        debug(err);
-        res.status(500).end();
-      } else {
-        if (app._io) {
-          debug('didPatchLink', payload);
-          app._io.emit('didPatchLink', payload);
+        var callback = function (code) {
+          code = code || 204; // No Content
+          _res.status(code).end();
+        };
+        if (operation.op === 'add') {
+          addPostLink(id, payload, operation, callback);
+        } else if (operation.op === 'remove') {
+          removePostLink(id, payload, operation, callback);
         }
-        res.status(204).end(); // No Content
       }
     });
-    */
   });
 
+  var addPostLink = function (id, payload, operation, callback) {
+    var postId = operation.value;
+    payload.authors.links.posts.push(postId);
+    var links = { links: payload.authors.links };
+    db.updateRecord('authors', id, links, function (err, result) {
+      if (err) {
+        debug(err);
+        callback(500);
+      } else {
+        if (app._io) {
+          var payload = { 'authors': result };
+          debug('didAddLink', payload);
+          app._io.emit('didAddLink', payload);
+        }
+        callback();
+      }
+    });
+  };
+
+  var removePostLink = function (id, payload, operation, callback) {
+    var postId = operation.path.split('/')[1];
+    var idx = payload.authors.links.posts.indexOf(postId);
+    if (idx === -1) {
+      callback(400);
+      return;
+    }
+    payload.authors.links.posts.shift(idx);
+    var links = { links: payload.authors.links };
+    db.updateRecord('authors', id, links, function (err, payload) {
+      if (err) {
+        debug(err);
+        callback(500);
+      } else {
+        if (app._io) {
+          debug('didRemoveLink', payload);
+          app._io.emit('didRemoveLink', payload);
+        }
+        callback();
+      }
+    });
+  };
 
   /**
     Delete a post by id
