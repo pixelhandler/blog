@@ -170,6 +170,8 @@ function patch(operation, callback) {
     db.updateRecord(type, id, payload, callback);
   } else if (operation.op === 'remove') {
     db.deleteRecord(type, id, callback);
+  } if (operation.op === 'add') {
+    db.createRecord(type, operation.value, callback);
   }
 }
 

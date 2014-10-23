@@ -2,105 +2,31 @@ import Ember from 'ember';
 import Orbit from 'orbit';
 import OC from 'orbit-common';
 import SocketService from '../services/socket';
-import JSONAPISerializer from 'orbit-common/jsonapi-serializer';
+import JSONAPISource from 'orbit-common/jsonapi-source';
 
 Orbit.Promise = Orbit.Promise || Ember.RSVP.Promise;
 
-var assert = Orbit.assert;
-var Source = OC.Source;
+var SocketSource = JSONAPISource.extend({
 
-var SocketSource = Source.extend({
-
-  init: function (schema, options) {
-    assert('SocketSource requires SocketService be defined', SocketService);
-    assert('SocketSource requires Orbit.Promise be defined', Orbit.Promise);
+  init: function (options) {
+    Orbit.assert('SocketSource requires SocketService be defined', SocketService);
+    Orbit.assert('SocketSource requires Orbit.Promise be defined', Orbit.Promise);
+    Orbit.assert('SocketSource only supports usePatch option', this.usePatch);
     this._socket = SocketService.create();
-    options = options || {};
-    if (!options.skipDefaultSerializer) {
-      var DefaultSerializerClass = options.defaultSerializerClass || JSONAPISerializer;
-      this.defaultSerializer = new DefaultSerializerClass(schema);
+
+    // See JSONAPISource
+    this.SerializerClass  = options.SerializerClass || this.SerializerClass;
+    if (this.SerializerClass && this.SerializerClass.wrappedFunction) {
+      this.SerializerClass = this.SerializerClass.wrappedFunction;
     }
+    // not calling super, instead calling template/abstract prototype init method
     return OC.Source.prototype.init.apply(this, arguments);
   },
 
-  _transform: function(operation) {
-    var methodName = '_transform' + operation.op.capitalize();
-    if (typeof this[methodName] === 'function') {
-      return this[methodName](operation);
-    } else {
-      throw new Error(methodName + ' not implmented');
-    }
-  },
+  // using JSONPatch via WebSocket
+  usePatch: true,
 
-  _transformAdd: function (operation) {
-    var path = operation.path;
-    var data = operation.value;
-    var type = path[0];
-    var socket = this._socket;
-    var payload = {};
-    var key = pluralize(type);
-    payload[key] = data;
-    payload = this.serialize(type, payload);
-    payload[key] = payload[key][key]; // TODO FIXME
-    delete payload[key].id; // Remove client ID created by Orbit.js
-    payload.type = type;
-    var _this = this;
-    return new Orbit.Promise(function (resolve, reject) {
-      try {
-        var didAdd = responseHandlerFactory(_this, type, resolve, reject);
-        socket.emit('add', JSON.stringify(payload), didAdd);
-      } catch (e) {
-        var msg = 'SocketSource#transform (op:add) Socket Messaging Error';
-        console.log(msg, e);
-        throw new Error(msg, e);
-      }
-    });
-  },
-
-  _transformReplace: function (operation) {
-    return this._transformPatch(operation);
-  },
-
-  _transformRemove: function (operation) {
-    return this._transformPatch(operation);
-  },
-
-  _transformPatch: function (operation) {
-    var socket = this._socket;
-    var path = operation.path;
-    var type = path[0];
-    var _this = this;
-    return new Orbit.Promise(function (resolve, reject) {
-      try {
-        var didPatch = responseHandlerFactory(_this, type, resolve, reject);
-        if (Array.isArray(operation.path)) { // REVIEW why is this needed?
-          operation.path = '/' + operation.path.join('/');
-        }
-        socket.emit('patch', JSON.stringify(operation), didPatch);
-      } catch (e) {
-        var msg = 'SocketSource#transform (op:patch) Socket Messaging Error';
-        console.log(msg, e);
-        throw new Error(msg, e);
-      }
-    }).then(function () {
-      _this._transformCache(operation); // REVIEW do we need to call?
-    });
-  },
-
-  _addRecordsToCache: function(type, records) {
-    var _this = this;
-    records.forEach(function(record) {
-      _this._addRecordToCache(type, record);
-    });
-  },
-
-  _addRecordToCache: function(type, record) {
-    this._transformCache({
-      op: 'add',
-      path: [type, this.getId(record)],
-      value: record
-    });
-  },
+  // Requestable interface implementation
 
   _find: function(type, id) {
     if (id && (typeof id === 'number' || typeof id === 'string')) {
@@ -110,119 +36,140 @@ var SocketSource = Source.extend({
     }
   },
 
+  _findLink: function() {
+    throw new Error('SocketSource#_findLink not supported');
+  },
+  // TODO ? _findLinked
+
+  // Requestable Internals
+
   _findOne: function (type, id) {
-    var socket = this._socket;
-    var query = {resource: type + 's', id: id};
-    var _this = this;
-    return new Orbit.Promise(function (resolve, reject) {
-      try {
-        var didFind = responseHandlerFactory(_this, type, resolve, reject);
-        socket.emit('find', JSON.stringify(query), didFind);
-      } catch (e) {
-        var msg = 'SocketSource#_find Socket Messaging Error';
-        console.log(msg, e);
-        throw new Error(msg, e);
-      }
-    });
+    var query = this._queryFactory(type, { id: id });
+
+    return this._remoteFind('find', type, query);
+  },
+
+  _findMany: function () {
+    throw new Error('SocketSource#_findMany not supported');
   },
 
   _findQuery: function (type, query) {
-    var socket = this._socket;
-    query = query || {};
-    query.resource = query.resource || pluralize(type);
-    query = this._queryFactory(query);
-    var _this = this;
-    return new Orbit.Promise(function (resolve, reject) {
-      try {
-        var didFindQuery = responseHandlerFactory(_this, type, resolve, reject);
-        socket.emit('findQuery', JSON.stringify(query), didFindQuery);
-      } catch (e) {
-        var msg = 'SocketSource#_findQuery Socket Messaging Error';
-        console.log(msg, e);
-        throw new Error(msg, e);
-      }
-    });
+    query = this._queryFactory(type, query);
+
+    return this._remoteFind('findQuery', type, query);
   },
 
-  _queryFactory: function (query) {
-    var _this = this;
-    var attrs = Ember.String.w('limit offset sortBy order resource withFields');
+  _remoteFind: function (channel, type, query) {
+    console.log('type', type, 'query', query);
+    var root = pluralize(type);
+    return new Orbit.Promise(
+      function (resolve, reject) {
+        try {
+          this._socket.emit(channel, JSON.stringify(query), function (raw) {
+            if (raw.errors || !raw[root]) {
+              reject(raw.errors);
+            } else {
+              resolve(raw);
+            }
+          });
+        } catch (e) {
+          var msg = 'SocketSource#_remoteFind channel:' + channel + ' Error';
+          console.error(msg, e);
+          reject(msg);
+        }
+      }.bind(this)
+    ).then(
+      function (raw) {
+        var data = this.deserialize(type, raw);
+        return this.settleTransforms().then(function() {
+          return data;
+        });
+      }.bind(this)
+    );
+  },
+
+  _queryFactory: function (type, query) {
     query = query || {};
+    query.resource = query.resource || pluralize(type);
+
+    var attrs = Ember.String.w('limit offset sortBy order resource withFields');
     attrs.forEach(function (attr) {
-      query[attr] = query[attr] || Ember.get(_this, attr);
-    });
+      query[attr] = query[attr] || Ember.get(this, attr);
+    }.bind(this));
+
     return query;
   },
 
-  _patch: function (type, id, property, value) {
-    return OC.Source.prototype._patch.call(this, type, id, property, value);
+  // Transformable Internals
+
+  _transformAdd: function (operation) {
+    var type = operation.path[0];
+    var id = operation.path[1];
+    var remoteOp = {
+      op: 'add',
+      path: ['/', type, (id) ? '/' + id : ''].join(''),
+      value: this.serializer.serializeRecord(type, operation.value)
+    };
+    return this._remotePatch(type, id, remoteOp);
   },
 
-  _remove: function () {
-    return OC.Source.prototype._remove.apply(this, Array.prototype.slice.call(arguments));
+  _transformReplace: function (operation) {
+    var type = operation.path[0];
+    var id = operation.path[1];
+    var remoteOp = {
+      op: 'replace',
+      path: '/' + operation.path.join('/'),
+      value: this.serializer.serializeRecord(type, operation.value)
+    };
+    return this._remotePatch(type, id, remoteOp);
   },
 
-  _transformCache: function (operation) {
-    var pathToVerify;
-    if (operation.op === 'add') {
-      pathToVerify = operation.path.slice(0, operation.path.length - 1);
-    } else {
-      pathToVerify = operation.path;
-    }
-    if (this.retrieve(pathToVerify)) {
-      this._cache.transform(operation);
-    } else {
-      this.didTransform(operation, []);
-    }
+  _transformUpdateAttribute: function (operation) {
+    return this._transformReplace(operation); // includes attr in path
   },
 
-  pathForType: function(type) {
-    return this.schema.pluralize(type);
+  _transformRemove: function (operation) {
+    var type = operation.path[0];
+    var id = operation.path[1];
+    var remoteOp = {
+      op: 'remove',
+      path: '/' + operation.path.join('/')
+    };
+    return this._remotePatch(type, id, remoteOp);
   },
 
-  serializerForType: function(/*type*/) {
-    return this.defaultSerializer;
+  _transformAddLink: function () {
+    throw new Error('SocketSource#_transformAddLink not supported');
   },
 
-  serialize: function(type, data) {
-    return this.serializerForType(type).serialize(type, data);
+  _transformRemoveLink: function () {
+    throw new Error('SocketSource#_transformRemoveLink not supported');
   },
 
-  deserialize: function(type, data) {
-    var deserialized = this.serializerForType(type).deserialize(type, data),
-        records = deserialized[type];
+  _transformReplaceLink: function () {
+    throw new Error('SocketSource#_transformReplaceLink not supported');
+  },
 
-    if (this._cache) {
-      if (Array.isArray(records)) {
-        this._addRecordsToCache(type, records);
+  _remotePatch: function (type, id, remoteOp) {
+    console.log('remoteOp', remoteOp);
+    return new Orbit.Promise(function (resolve, reject) {
+      try {
+        this._socket.emit('patch', JSON.stringify(remoteOp), resolve);
+      } catch (e) {
+        var msg = 'SocketSource#_remotePatch op:' + remoteOp.op + ' Error';
+        console.error(msg, e);
+        reject(msg);
+      }
+    }.bind(this)).then(function (raw) {
+      if (raw && Array.isArray(raw)) {
+        this.deserialize(type, id, raw[0]);
       } else {
-        this._addRecordToCache(type, records);
+        this._transformCache(remoteOp);
       }
-
-      if (deserialized.linked) {
-        Object.keys(deserialized.linked).forEach(function(relType) {
-          this._addRecordsToCache(relType, deserialized.linked[relType]);
-        }, this);
-      }
-    }
-
-    return records;
+    }.bind(this));
   }
-});
 
-var responseHandlerFactory = function (source, type, resolve, reject) {
-  return function (payload) {
-    var root = pluralize(type);
-    if (payload.errors || !payload[root]) {
-      reject(payload.errors);
-    } else {
-      var data = source.deserialize(type, payload);
-      return source.settleTransforms().then(function() {
-        return resolve(data);
-      });
-    }
-  };
-};
+});
 
 // TODO use Ember.Inflector https://github.com/stefanpenner/ember-inflector.git
 var pluralize = function (name) {

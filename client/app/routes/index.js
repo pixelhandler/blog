@@ -32,17 +32,6 @@ export default Ember.Route.extend(ResetScroll, RecordChunksMixin, {
     }
   },
 
-  //setupController: function (controller, collection) {
-    //controller.incrementProperty('page');
-    //return this._super(controller, collection);
-  //},
-
-  //resetController: function (controller, isExiting) {
-    //if (isExiting) {
-      //controller.set('page', 0);
-    //}
-  //},
-
   actions: {
     showMore: function () {
       this.preventScroll = true;

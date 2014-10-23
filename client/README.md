@@ -110,7 +110,7 @@ and `grunt package`, may need to adjust path in [bower.json] to local folder.
 
 Use `git sumodule init` it setup local (development/build) dependencies
 
-* orbit.js at commit: 0115924 2014-10-16 | 0.5.3
+* orbit.js at commit: 6c3350c 2014-10-21 | Merge pull request #66 from leejt489/master
 * ember-orbit at commit: 58d858a 2014-10-03 | Merge pull request #37 from jakecraige/patch-1
 
 You may need to checkout the above commits in orbit.js and ember-orbit

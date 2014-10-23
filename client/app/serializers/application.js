@@ -7,7 +7,7 @@ export default JSONAPISerializer.extend({
   },
 
   assignMeta: function (type, data) {
-    if (!data.meta) {
+    if (!data || !data.meta) {
       return;
     }
     var meta = this.schema.meta;
