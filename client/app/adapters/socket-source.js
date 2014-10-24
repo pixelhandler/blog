@@ -8,19 +8,23 @@ Orbit.Promise = Orbit.Promise || Ember.RSVP.Promise;
 
 var SocketSource = JSONAPISource.extend({
 
-  init: function (options) {
+  init: function (schema, options) {
     Orbit.assert('SocketSource requires SocketService be defined', SocketService);
     Orbit.assert('SocketSource requires Orbit.Promise be defined', Orbit.Promise);
     Orbit.assert('SocketSource only supports usePatch option', this.usePatch);
     this._socket = SocketService.create();
+    this.initSerializer(schema, options);
+    // not calling super, instead calling template/abstract prototype init method
+    return OC.Source.prototype.init.apply(this, arguments);
+  },
 
+  initSerializer: function (schema, options) {
     // See JSONAPISource
-    this.SerializerClass  = options.SerializerClass || this.SerializerClass;
+    this.SerializerClass = options.SerializerClass || this.SerializerClass;
     if (this.SerializerClass && this.SerializerClass.wrappedFunction) {
       this.SerializerClass = this.SerializerClass.wrappedFunction;
     }
-    // not calling super, instead calling template/abstract prototype init method
-    return OC.Source.prototype.init.apply(this, arguments);
+    this.serializer = new this.SerializerClass(schema);
   },
 
   // using JSONPatch via WebSocket
@@ -60,32 +64,27 @@ var SocketSource = JSONAPISource.extend({
   },
 
   _remoteFind: function (channel, type, query) {
-    console.log('type', type, 'query', query);
     var root = pluralize(type);
-    return new Orbit.Promise(
-      function (resolve, reject) {
-        try {
-          this._socket.emit(channel, JSON.stringify(query), function (raw) {
-            if (raw.errors || !raw[root]) {
-              reject(raw.errors);
-            } else {
-              resolve(raw);
-            }
-          });
-        } catch (e) {
-          var msg = 'SocketSource#_remoteFind channel:' + channel + ' Error';
-          console.error(msg, e);
-          reject(msg);
+    var id = query.id;
+    query = JSON.stringify(query);
+    return new Orbit.Promise(function doFind(resolve, reject) {
+      this._socket.emit(channel, query, function didFind(raw) {
+        if (raw.errors || !raw[root]) {
+          reject(raw.errors);
+        } else {
+          resolve(raw);
         }
-      }.bind(this)
-    ).then(
-      function (raw) {
-        var data = this.deserialize(type, raw);
-        return this.settleTransforms().then(function() {
-          return data;
-        });
-      }.bind(this)
-    );
+      });
+    }.bind(this))
+      .then(function doProcess(raw) {
+        var data = this.deserialize(type, id, raw);
+        this.settleTransforms();
+        return data;
+      }.bind(this))
+      .catch(function onError(error) {
+        console.error(error);
+        throw new Error('SocketSource#_remoteFind Error w/ query: ' + query);
+      });
   },
 
   _queryFactory: function (type, query) {
@@ -124,10 +123,6 @@ var SocketSource = JSONAPISource.extend({
     return this._remotePatch(type, id, remoteOp);
   },
 
-  _transformUpdateAttribute: function (operation) {
-    return this._transformReplace(operation); // includes attr in path
-  },
-
   _transformRemove: function (operation) {
     var type = operation.path[0];
     var id = operation.path[1];
@@ -138,35 +133,95 @@ var SocketSource = JSONAPISource.extend({
     return this._remotePatch(type, id, remoteOp);
   },
 
-  _transformAddLink: function () {
-    throw new Error('SocketSource#_transformAddLink not supported');
+  _transformUpdateAttribute: function (operation) {
+    var type = operation.path[0];
+    var id = operation.path[1];
+    var remoteOp = {
+      op: 'replace',
+      path: '/' + operation.path.join('/'),  // includes attr in path
+      value: operation.value
+    };
+    return this._remotePatch(type, id, remoteOp);
   },
 
-  _transformRemoveLink: function () {
-    throw new Error('SocketSource#_transformRemoveLink not supported');
+  _transformAddLink: function (operation) {
+    //throw new Error('SocketSource#_transformAddLink not supported');
+    debugger;
+    var type = operation.path[0];
+    var id = operation.path[1];
+    var link = operation.path[3];
+    var relId = operation.path[4] || operation.value;
+    var linkDef = this.schema.models[type].links[link];
+    var relType = linkDef.model;
+    var relResourceId = this.resourceId(relType, relId);
+    var remoteOp = {
+      path: operation.path,
+      op: (linkDef.type === 'hasMany') ? 'add' : 'replace',
+      value: relResourceId
+    };
+    return this._remotePatch(type, id, remoteOp);
   },
 
-  _transformReplaceLink: function () {
-    throw new Error('SocketSource#_transformReplaceLink not supported');
+  _transformRemoveLink: function (operation) {
+    //throw new Error('SocketSource#_transformRemoveLink not supported');
+    debugger;
+    var type = operation.path[0];
+    var id = operation.path[1];
+    var remoteOp = {
+      op: 'remove',
+      path: '/' + operation.path.join('/').replace(/__rel/, 'links')
+    };
+    return this._remotePatch(type, id, remoteOp);
+  },
+
+  _transformReplaceLink: function (operation) {
+    //throw new Error('SocketSource#_transformReplaceLink not supported');
+    debugger;
+    var type = operation.path[0];
+    var id = operation.path[1];
+    var link = operation.path[3];
+    var relId = operation.path[4] || operation.value;
+    // Convert a map of ids to an array
+    if (isObject(relId)) {
+      relId = Object.keys(relId);
+    }
+    var linkDef = this.schema.models[type].links[link];
+    var relType = linkDef.model;
+    var relResourceId = this.resourceId(relType, relId);
+    var remoteOp = {
+      op: 'replace',
+      path: '/' + operation.path.join('/').replace(/__rel/, 'links'),
+      value: relResourceId
+    };
+    return this._remotePatch(type, id, remoteOp);
   },
 
   _remotePatch: function (type, id, remoteOp) {
-    console.log('remoteOp', remoteOp);
-    return new Orbit.Promise(function (resolve, reject) {
-      try {
-        this._socket.emit('patch', JSON.stringify(remoteOp), resolve);
-      } catch (e) {
-        var msg = 'SocketSource#_remotePatch op:' + remoteOp.op + ' Error';
-        console.error(msg, e);
-        reject(msg);
-      }
-    }.bind(this)).then(function (raw) {
-      if (raw && Array.isArray(raw)) {
-        this.deserialize(type, id, raw[0]);
-      } else {
-        this._transformCache(remoteOp);
-      }
-    }.bind(this));
+    //console.log('remoteOp', remoteOp);
+    var root = pluralize(type);
+    return new Orbit.Promise(function doPatch(resolve, reject) {
+      this._socket.emit('patch', JSON.stringify(remoteOp), function didPatch(raw) {
+        if (raw.errors || !raw[root]) {
+          reject(raw.errors);
+        } else {
+          resolve(raw);
+        }
+      });
+    }.bind(this))
+      .then(function doProcess(raw) {
+        var data = null;
+        if (raw && Array.isArray(raw)) {
+          data = this.deserialize(type, id, raw[0]);
+          this.settleTransforms();
+        } else {
+          this._transformCache(remoteOp);
+        }
+        return data;
+      }.bind(this))
+      .catch(function onError(error) {
+        console.error(error);
+        throw new Error('SocketSource#_remotePatch op:' + remoteOp.op + ' Error');
+      });
   }
 
 });
@@ -174,6 +229,10 @@ var SocketSource = JSONAPISource.extend({
 // TODO use Ember.Inflector https://github.com/stefanpenner/ember-inflector.git
 var pluralize = function (name) {
   return name + 's';
+};
+// borrowed from 'orbit/lib/objects'
+var isObject = function(obj) {
+  return obj !== null && typeof obj === 'object';
 };
 
 export default SocketSource;
