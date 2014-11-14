@@ -1,8 +1,9 @@
 import Ember from 'ember';
+import config from './config/environment';
 import GoogleAnalyticsMixin from './mixins/google-analytics';
 
 var Router = Ember.Router.extend({
-  location: PixelhandlerBlogENV.locationType
+  location: config.locationType
 });
 
 Ember.Router.reopen(GoogleAnalyticsMixin);

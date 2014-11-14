@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import PushSupport from '../mixins/push-support';
+import config from '../config/environment';
 
 var ApplicationRoute = Ember.Route.extend(PushSupport, {
 
@@ -38,15 +39,15 @@ var ApplicationRoute = Ember.Route.extend(PushSupport, {
   },
 
   sessionUrl: (function() {
-    var uri = [ PixelhandlerBlogENV.API_HOST ];
-    if (PixelhandlerBlogENV.API_PATH) { uri.push(PixelhandlerBlogENV.API_PATH); }
+    var uri = [ config.APP.API_HOST ];
+    if (config.APP.API_PATH) { uri.push(config.APP.API_PATH); }
     uri.push('sessions');
     return uri.join('/');
   }()),
 
   pingUrl: (function() {
-    var uri = [ PixelhandlerBlogENV.API_HOST ];
-    if (PixelhandlerBlogENV.API_PATH) { uri.push(PixelhandlerBlogENV.API_PATH); }
+    var uri = [ config.APP.API_HOST ];
+    if (config.APP.API_PATH) { uri.push(config.APP.API_PATH); }
     uri.push('ping');
     return uri.join('/');
   }()),

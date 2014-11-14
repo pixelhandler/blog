@@ -1,3 +1,5 @@
+import config from '../config/environment';
+
 function SocketService() {
   return this;
 }
@@ -12,7 +14,7 @@ SocketService.create = function () {
   var socket;
   try {
     if (navigator.onLine) {
-      socket = window.io(PixelhandlerBlogENV.SOCKET_URL);
+      socket = window.io(config.APP.SOCKET_URL);
       socket.on('connect_failed', function () {
         socket = undefined;
       });
