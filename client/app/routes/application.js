@@ -3,6 +3,20 @@ import PushSupport from '../mixins/push-support';
 
 var ApplicationRoute = Ember.Route.extend(PushSupport, {
 
+  beforeModel: function (transition) {
+    if (typeof this._pingOk === 'undefined') {
+      Ember.$.get(this.get('pingUrl'))
+        .fail(function (e) {
+          transition.send('error', 'pingFailed', e);
+          this._pingOk = false;
+        }.bind(this))
+        .done(function () {
+          this._pingOk = true;
+        }.bind(this));
+    }
+    return this._super();
+  },
+
   model: function () {
     return this.store.find('post');
   },
@@ -10,8 +24,17 @@ var ApplicationRoute = Ember.Route.extend(PushSupport, {
   setupController: function (controller, model) {
     this._super(controller, model);
     this.canTransition = false;
-    Ember.$.get(this.get('sessionUrl'))
-      .done(loginSuccess.bind(this));
+    var socket = lookupSocket(this.container);
+    if (socket) {
+      socket.emit('isLoggedIn', function(isLoggedIn) {
+        if (isLoggedIn) {
+          loginSuccess.call(this);
+        }
+      }.bind(this));
+    } else {
+      Ember.$.get(this.get('sessionUrl'))
+        .done(loginSuccess.bind(this));
+    }
   },
 
   sessionUrl: (function() {
@@ -21,37 +44,111 @@ var ApplicationRoute = Ember.Route.extend(PushSupport, {
     return uri.join('/');
   }()),
 
+  pingUrl: (function() {
+    var uri = [ PixelhandlerBlogENV.API_HOST ];
+    if (PixelhandlerBlogENV.API_PATH) { uri.push(PixelhandlerBlogENV.API_PATH); }
+    uri.push('ping');
+    return uri.join('/');
+  }()),
+
+  // Push support...
+
+  onDidPatch: function () {
+    this.socket.on('didPatch', this.patchRecord.bind(this));
+  }.on('init'),
+
+  addLink: function (operation) {
+    this._addLink(operation);
+  },
+
+  removeLink: function (operation) {
+    this._removeLink(operation);
+  },
+
+  addRecord: function (operation) {
+    this._addRecord(operation);
+  },
+
+  updateAttribute: function (operation) {
+    this._updateAttribute(operation);
+  },
+
+  deleteRecord: function (operation) {
+    this._deleteRecord(operation);
+  },
+
   actions: {
     login: function () {
       var controller = this.get('controller');
       this.canTransition = true;
-      Ember.$.ajax({
-        url: this.get('sessionUrl'),
-        type: 'POST',
-        data: JSON.stringify({
-          username: controller.get('username'),
-          password: controller.get('password')
-        }),
-        dataType: 'text',
-        contentType: 'application/json'
-      })
-        .done(loginSuccess.bind(this))
-        .fail(loginFailure.bind(this));
+      var credentails = JSON.stringify({
+        username: controller.get('username'),
+        password: controller.get('password')
+      });
+      var socket = lookupSocket(this.container);
+      if (socket) {
+        socket.emit('login', credentails, function didLogin(succeed) {
+          if (succeed) {
+            loginSuccess.call(this);
+          } else {
+            loginFailure.call(this);
+          }
+        }.bind(this));
+      } else {
+        Ember.$.ajax({
+          url: this.get('sessionUrl'),
+          type: 'POST',
+          data: credentails,
+          dataType: 'text',
+          contentType: 'application/json'
+        })
+          .done(loginSuccess.bind(this))
+          .fail(loginFailure.bind(this));
+      }
       return false;
     },
 
     logout: function () {
-      Ember.$.ajax({
-        url: this.get('sessionUrl'),
-        type: 'DELETE'
-      })
-        .done(logoutSuccess.bind(this))
-        .fail(logoutFailure.bind(this));
+      var socket = lookupSocket(this.container);
+      if (socket) {
+        socket.emit('logout', function didLogout(succeed) {
+          if (succeed) {
+            logoutSuccess.call(this);
+          } else {
+            logoutFailure.call(this);
+          }
+        }.bind(this));
+      } else {
+        Ember.$.ajax({
+          url: this.get('sessionUrl'),
+          type: 'DELETE'
+        })
+          .done(logoutSuccess.bind(this))
+          .fail(logoutFailure.bind(this));
+      }
+    },
+
+    error: function (error, e) {
+      Ember.Logger.error(error, e);
+      if (error === 'pingFailed') {
+        this.transitionTo('offline');
+        window.alert('The API server is offline, perhaps tweet @pixelhandler');
+      } else {
+        this.transitionTo('not-found');
+      }
     }
   }
+
 });
 
-function loginSuccess(/*data, status, xhr*/) {
+function lookupSocket(container) {
+  if (!window.WebSocket) {
+    return false;
+  }
+  return container.lookup('socket:main');
+}
+
+function loginSuccess() {
   var controller = this.get('controller');
   Ember.run(function () {
     this.setProperties({ 'isLoggedIn': true, 'password': null, 'error': null });
@@ -70,7 +167,7 @@ function loginFailure(xhr, status, error) {
   }.bind(controller));
 }
 
-function logoutSuccess(/*data, status, xhr*/) {
+function logoutSuccess() {
   var controller = this.get('controller');
   Ember.run(function () {
     this.setProperties({ 'isLoggedIn': false, 'username': null, 'error': null, 'showLogin': false });

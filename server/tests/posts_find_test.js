@@ -1,14 +1,12 @@
-var app  = require(__dirname + '/../app.js'),
+var app = require(__dirname + '/../app.js'),
   port = 8888,
   assert = require('assert'),
   request = require('supertest');
 
 var testData = require('../seeds/posts.js');
 
-var newestDate = testData[0].date.toISOString();
-var oldestDate = testData[8].date.toISOString();
-
 describe('Posts', function () {
+  var newestDate, oldestDate;
 
   before(function (done) {
     this.server = app.listen(port, function (err, result) {
@@ -22,6 +20,16 @@ describe('Posts', function () {
 
   after(function () {
     this.server.close();
+  });
+
+  beforeEach(function () {
+    testData.sort(compareDateDesc);
+    newestDate = testData[0].date;
+    oldestDate = testData[testData.length - 1].date;
+  });
+
+  afterEach(function () {
+    testData.sort(compareDateDesc);
   });
 
   describe('GET responses:', function () {
@@ -49,8 +57,10 @@ describe('Posts', function () {
             .get('/posts')
             .expect(function (res) {
               var posts = res.body.posts;
+              var lastIdx = posts.length - 1;
+              var lastDate = testData[lastIdx].date;
               if (posts[0].date !== newestDate) throw new Error('expected desc order ('+ newestDate +')');
-              if (posts[8].date !== oldestDate) throw new Error('expected desc order ('+ oldestDate +')');
+              if (posts[lastIdx].date !== lastDate) throw new Error('expected desc order ('+ lastDate +')');
             })
             .end(handleDone(done));
         });
@@ -62,17 +72,18 @@ describe('Posts', function () {
             .expect(function (res) {
               var posts = res.body.posts;
               if (posts[0].title !== testData[0].title) throw new Error('expected first post title');
-              if (posts[8].title !== testData[8].title) throw new Error('expected last post title');
+              if (posts[posts.length - 1].title !== testData[posts.length - 1].title) throw new Error('expected last post title');
             })
             .end(handleDone(done));
         });
 
-        it('includes two ('+ testData.length +') posts (from seed data)', function (done) {
+        it('includes ten (10 of '+ testData.length +') posts (from seed data)', function (done) {
           request(app)
             .get('/posts')
             .expect(function (res) {
               var posts = res.body.posts;
-              if (posts.length !== testData.length) throw new Error('expected '+ testData.length +' posts');
+              if (posts.length !== 10) throw new Error('expected 10 posts');
+              if (res.body.meta.total !== testData.length) throw new Error('expected '+ testData.length +' total posts');
             })
             .end(handleDone(done));
         });
@@ -104,10 +115,12 @@ describe('Posts', function () {
               .get('/posts?order=desc')
               .expect(function (res) {
                 var posts = res.body.posts;
+                var lastIdx = posts.length - 1;
+                var lastDate = testData[lastIdx].date;
                 if (posts[0].title !== testData[0].title) throw new Error('expected 1st post title');
                 if (posts[0].date !== newestDate) throw new Error('expected desc order ('+ newestDate +')');
-                if (posts[8].title !== testData[8].title) throw new Error('expected 2nd post title');
-                if (posts[8].date !== oldestDate) throw new Error('expected desc order ('+ oldestDate +')');
+                if (posts[lastIdx].title !== testData[lastIdx].title) throw new Error('expected 2nd post title');
+                if (posts[lastIdx].date !== lastDate) throw new Error('expected desc order ('+ lastDate +')');
               })
               .end(handleDone(done));
           });
@@ -117,8 +130,9 @@ describe('Posts', function () {
               .get('/posts?order=asc')
               .expect(function (res) {
                 var posts = res.body.posts;
+                var secondDate = testData[testData.length - posts.length].date;
                 if (posts[0].date !== oldestDate) throw new Error('expected asc order ('+ oldestDate +')');
-                if (posts[8].date !== newestDate) throw new Error('expected asc order ('+ newestDate +')');
+                if (posts[posts.length - 1].date !== secondDate) throw new Error('expected asc order ('+ secondDate +')');
               })
               .end(handleDone(done));
           });
@@ -149,20 +163,42 @@ describe('Posts', function () {
         describe('sortBy param', function () {
 
           describe('default order is DESC', function () {
+            var sortedTestData;
+
+            beforeEach(function () {
+              sortedTestData = testData.sort(compareTitle);
+            });
 
             it('can sortBy "title" key (instead of default "date" key)', function (done) {
-              var sortedTestData = testData.sort(compareTitle);
               request(app)
                 .get('/posts?sortBy=title')
                 .expect(function (res) {
                   var posts = res.body.posts;
-                  if (posts[0].title !== testData[8].title) throw new Error('expected first post title');
-                  if (posts[8].title !== testData[0].title) throw new Error('expected last post title');
+                  if (posts[0].title !== sortedTestData[0].title) throw new Error('expected first post title');
+                  if (posts[1].title !== sortedTestData[1].title) throw new Error('expected last post title');
                 })
                 .end(handleDone(done));
             });
           });
 
+        });
+
+        describe('withFields param', function () {
+          it('it returns only a subset of fields - id,slug,date', function (done) {
+            request(app)
+              .get('/posts?withFields=id,slug,date')
+              .expect(200)
+              .expect(/id/).expect(/slug/).expect(/date/)
+              .expect(function (res) {
+                if (res.body.posts.length < 1) throw new Error('expected at least one record');
+                res.body.posts.forEach(function (post) {
+                  ['title', 'author', 'excerpt', 'body'].forEach(function (attr) {
+                    if (post.hasOwnProperty(attr)) throw new Error('expected no '+ attr +' attribute');
+                  });
+                });
+              })
+              .end(handleDone(done));
+          });
         });
       });
     });
@@ -175,6 +211,9 @@ describe('Posts', function () {
           .end(function (err, res) {
             if (err) return done(err);
             var slug = res.body.posts[0].slug;
+            var title = testData.filter(function(item) {
+              return item.slug === slug;
+            })[0].title;
             request(app)
               .get('/posts/' + slug)
               .set('Accept', 'application/json')
@@ -184,9 +223,9 @@ describe('Posts', function () {
               .expect(/author/).expect(/body/).expect(/date/).expect(/excerpt/).expect(/title/).expect(/id/).expect(/slug/)
               .expect(function (res) {
                 if (res.body.posts.length > 1) throw new Error('expected one record');
-                var post = res.body.posts[0];
+                var post = res.body.posts;
                 if (!post) throw new Error('expected post slug: ' + slug);
-                if (post.title !== testData[0].title) throw new Error('expected first post title');
+                if (post.title !== title) throw new Error('expected post title: ' + title);
               })
               .end(handleDone(done));
           });
@@ -204,11 +243,25 @@ function handleDone(done) {
 }
 
 function compareTitle(a,b) {
-  if (a.title < b.title) {
+  // Sort desc order
+  if (a.title > b.title) {
     return -1;
   }
-  if (a.title > b.title) {
+  if (a.title < b.title) {
     return 1;
   }
   return 0;
+}
+
+function compareDateDesc(a,b) {
+  a = new Date(a.date);
+  b = new Date(b.date);
+  // Sort desc order
+  if (a > b) {
+    return -1;
+  } else if (a < b) {
+    return 1;
+  } else {
+    return 0;
+  }
 }

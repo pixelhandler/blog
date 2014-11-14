@@ -69,6 +69,11 @@ vendor file for Ember and Ember Data.
 ## Links
 
 * [ember-cli]
+* [orbitjs/orbit.js]
+* [orbitjs/ember-orbit]
+
+[orbitjs/orbit.js]: https://github.com/orbitjs/orbit.js
+[orbitjs/ember-orbit]: https://github.com/orbitjs/ember-orbit
 
 
 ## Sockets
@@ -90,24 +95,34 @@ Emit, with last argument as callback function to receive data.
 ## ROADMAP
 
 1. Sync data stores memory -> localStorage -> socket
-2. Assist/rescue memory.find w/ strategy: if not in memory, check localStorage and if not there ask socket to find.
-3. Finish SocketSource need to handle add (create record), remove (delete record), update (patch record) for admin tasks (may need a replace action too)
-4. Add Stats collection and track stats for each post record
-5. Add ‘trends’ link in nav to list trending posts (most viewed by month)
-6. Sync index of records w/ remote storage via socket to get missing records (receive new resources not in memory or localStorage)
-7. Using index chuck load of records for index pages like blog index (home) and archives (this already works on master via REST, but tabled to re-implement after transition to sockets/orbit.js)
-8. Add middleware to socket for authenticated message (cookie session) for add, remove, update, patch, replace actions
+2. Assist/rescue memory.find w/ strategy: if not in memory, 
+   check localStorage and if not there ask socket to find.
+3. Add Stats collection and track stats for each post record
+4. Add ‘trends’ link in nav to list trending posts (most viewed by month)
+5. Sync index of records w/ remote storage via socket to get missing records
+   (receive new resources not in memory or localStorage)
 
-Note: 2 and 3 above may require work in orbit.js or perhaps a transform method
+
+## Local Development/Build Dependencies
+
+In ./local ember-orbit and orbit.js are build from source, use `npm install`
+and `grunt package`, may need to adjust path in [bower.json] to local folder.
+
+Use `git sumodule init` it setup local (development/build) dependencies
+
+* orbit.js at commit: 6c3350c 2014-10-21 | Merge pull request #66 from leejt489/master
+* ember-orbit at commit: 58d858a 2014-10-03 | Merge pull request #37 from jakecraige/patch-1
+
+You may need to checkout the above commits in orbit.js and ember-orbit
+directories prior to building, to insure compatibility with the blog app.
 
 
 ## Thanks
 
-For providing examples of building with Ember.js:
+For providing tools and examples of building with Ember.js:
 
 * [ember-cli]
 * [tildeio/bloggr-client]
 * [orbitjs/orbit.js]
 
 [tildeio/bloggr-client]: https://github.com/tildeio/bloggr-client
-[orbitjs/orbit.js]: https://github.com/orbitjs/orbit.js

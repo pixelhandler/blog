@@ -18,8 +18,9 @@ module.exports = function(app, restrict) {
     Route: (verb) GET /sessions
   **/
   app.get('/sessions', function(req, res) {
-    loginfo('logged in: %s', req.session.user);
-    if (req.session.user) {
+    var user = req.session.user || null;
+    loginfo('logged in: %s', user);
+    if (user) {
       res.status(204).end();
     }
     else {
@@ -51,7 +52,7 @@ module.exports = function(app, restrict) {
   app.delete('/sessions', restrict, function(req, res){
     loginfo('logout', req.session.user);
     req.session = null;
-    res.send(204);
+    res.status(204).end();
   });
 
   /**
@@ -59,7 +60,7 @@ module.exports = function(app, restrict) {
   **/
   app.post('/restricted', restrict, function(req, res){
     loginfo('restricted');
-    res.send(204);
+    res.status(204).end();
   });
 
 };

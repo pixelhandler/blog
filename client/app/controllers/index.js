@@ -1,12 +1,14 @@
 import Ember from 'ember';
 
 export default Ember.ArrayController.extend({
+  //queryParams: ['page'],
+  //page: 0,
 
-  // flag to indicate more content available
-  hasMore: null,
+  // flag to show button for more
+  hasMore: true,
 
   // flag to indicate an is loading state
-  loadingMore: null,
+  loadingMore: false,
 
   actions: {
     showMore: function () {

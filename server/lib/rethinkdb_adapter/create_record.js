@@ -28,7 +28,7 @@ module.exports = function(adapter, connect) {
     var payload = transform(record);
     var db = _adapter.db;
     _connect(function (err, connection) {
-      r.db(db).table(type).insert(payload, {returnVals: true})
+      r.db(db).table(type).insert(payload, {return_changes: true})
         .run(connection, function (err, result) {
           if (err) {
             createError(err, connection, callback);
@@ -49,11 +49,14 @@ function createError(err, connection, callback) {
 }
 
 function createSuccess(type, result, connection, callback) {
-  var json = result.new_val;
-  var rootKey = inflect.pluralize(type);
-  var payload = {};
-  payload[rootKey] = transform(json);
-  loginfo("Success create %s id: %s, connection id: %s", type, json.id, connection._id);
+  var json = (result) ? result.changes[0].new_val : void 0;
+  var payload;
+  if (json) {
+    payload = {};
+    var rootKey = inflect.pluralize(type);
+    payload[rootKey] = transform(json);
+  }
+  loginfo("Success create %s %s", type, (json) ? ", id: " + json.id : '');
   callback(null, payload);
 }
 
@@ -63,7 +66,10 @@ function transform(payload) {
 
 function transformDate(payload) {
   if (payload.date) {
-    payload.date = new Date(payload.date);//.toISOString();
+    payload.date = new Date(payload.date);
+    if (typeof payload.date.toISOString == 'function') {
+      payload.date = payload.date.toISOString();
+    }
   }
   return payload;
 }

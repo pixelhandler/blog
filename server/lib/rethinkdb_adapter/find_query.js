@@ -36,7 +36,8 @@ module.exports = function(adapter, connect) {
         var meta = metaPartial(results);
         var criteria = collection.orderBy(r[meta.order](meta.sortBy)).skip(meta.offset).limit(meta.limit);
         if (query.withFields) {
-          criteria = criteria.withFields.apply(criteria, query.withFields);
+          var fields = query.withFields.split(',');
+          criteria = criteria.withFields.apply(criteria, fields);
         }
         criteria.run(connection, function (err, cursor) {
           if (err) {
@@ -53,7 +54,7 @@ module.exports = function(adapter, connect) {
 };
 
 /**
-  Meta factory - create {Object) `meta` data, returned w/ find responses 
+  Meta factory - create {Object) `meta` data, returned w/ find responses
   partial application, returns `meta` function which needs the count
   @method buildMeta
   @param {Object} query
@@ -91,11 +92,11 @@ var isSortByDate = (payload.meta.sortBy === 'date');
 var isDescOrder = (payload.meta.order === 'desc');
 if (isSortByDate) {
   payload.posts.sort(function (a, b) {
-    var order = 0; 
+    var order = 0;
     if (isDescOrder) {
-      order = (b > a) ? 1 : -1; 
+      order = (b > a) ? 1 : -1;
     } else {
-      order = (b > a) ? 1 : -1; 
+      order = (b > a) ? 1 : -1;
     }
     return order;
   });
@@ -140,7 +141,9 @@ function transform(results) {
 
 function transformDate(payload) {
   if (payload.date) {
-    payload.date = payload.date.toISOString();
+    if (typeof payload.date.toISOString == 'function') {
+      payload.date = payload.date.toISOString();
+    }
   }
   return payload;
 }
