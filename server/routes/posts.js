@@ -56,7 +56,7 @@ module.exports = function(app, restrict) {
       } else {
         if (app._io) {
           var payload = { 'posts': req.body };
-          //debug('didAddLink', payload);
+          debug('didAddLink', payload);
           app._io.emit('didAddLink', payload);
         }
         res.status(204).end(); // No Content
@@ -102,17 +102,14 @@ module.exports = function(app, restrict) {
             res.header('Cache-Control', 'public, max-age=' + (30 * 24 * 60 * 60));
           }
           if (payload.posts !== null) {
-            //debug('/posts/:id result not null', payload.posts);
             res.send(payload);
           } else {
-            //debug('/posts/:id result null, finding by slug');
             db.findBySlug('posts', ids[0], function (err, payload) {
               if (err) {
                 debug(err);
                 res.send(500);
               } else {
                 if (payload.posts !== null) {
-                  //debug('/posts/:slug result not null', payload.posts);
                   res.send(payload);
                 } else {
                   debug('/posts/[:id|:slug] result not found');
@@ -172,7 +169,7 @@ module.exports = function(app, restrict) {
       } else {
         if (app._io) {
           var payload = { 'posts': req.body };
-          //debug('didAddLink', payload);
+          debug('didAddLink', payload);
           app._io.emit('didAddLink', payload);
         }
         res.status(204).end(); // No Content
@@ -188,7 +185,6 @@ module.exports = function(app, restrict) {
     @async
   **/
   app.patch('/posts', restrict, function (req, res) {
-    debug(req.body);
     if (!Array.isArray(req.body)) return;
     // TODO actually support more than one item in the request array
     req.body.forEach(function (patch) {
@@ -198,7 +194,6 @@ module.exports = function(app, restrict) {
             debug(err);
             res.status(500).end();
           } else {
-            //debug('patch added...', payload);
             if (app._io) {
               debug('didAdd', payload);
               app._io.emit('didAdd', payload);
@@ -234,7 +229,6 @@ module.exports = function(app, restrict) {
     @async
   **/
   app.patch('/posts/:id/links/author', restrict, function (req, res) {
-    debug('/posts/:id/links/author', req.params.id, req.body);
     var operation = req.body[0];
     if (operation.op.match(/(replace|remove)/) === null) {
       res.status(400).end();
@@ -295,7 +289,6 @@ module.exports = function(app, restrict) {
     @async
   **/
   app.delete('/posts/:id/links/author', restrict, function (req, res) {
-    debug('/posts/:id/links/author', req.params, req.body);
     var id = req.params.id;
     payload = { links: { author: null } };
     db.updateRecord('posts', id, payload, function (err) {
@@ -305,7 +298,6 @@ module.exports = function(app, restrict) {
       } else {
         if (app._io) {
           var payload = { posts: req.body };
-          // TODO use patch format in payload ?
           debug('didRemoveLink', payload);
           app._io.emit('didRemoveLink', payload);
         }

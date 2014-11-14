@@ -102,7 +102,7 @@ module.exports = function(server, sessionMiddleware) {
   @private
 **/
 function findQuery(query, callback) {
-  //debug('findQuery...', query);
+  debug('findQuery...', query);
   if (typeof query === 'string') {
     query = JSON.parse(query);
   }
@@ -160,6 +160,7 @@ function find(query, callback) {
 }
 
 function patch(operation, callback) {
+  debug('patch...', operation);
   if (typeof operation === 'string') {
     operation = JSON.parse(operation);
   }
@@ -182,6 +183,7 @@ function patch(operation, callback) {
 }
 
 function patchLinks(type, id, linkName, operation, callback) {
+  debug('patchLinks...', type, id, linkName, operation);
   find({resource: type, id: id}, function (record) {
     if (!record || record && record.errors) {
       var errors = (record) ? record.errors : [];
