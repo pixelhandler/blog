@@ -37,7 +37,6 @@ describe('Posts', function () {
             cookie = res.headers['set-cookie'];
             assert(cookie);
             cookie = cookie[0].slice(0, cookie[0].indexOf(';'));
-            console.log('newPost', newPost);
             request.post(serverUrl + '/posts')
               .set('Content-Type', 'application/json; charset=UTF-8')
               .send(newPost)
