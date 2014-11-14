@@ -67,6 +67,9 @@ var SocketSource = JSONAPISource.extend({
     var root = pluralize(type);
     var id = query.id;
     query = JSON.stringify(query);
+
+    // handle promise resolution serially, pass off return to next then handler
+    var records;
     return new Orbit.Promise(function doFind(resolve, reject) {
       this._socket.emit(channel, query, function didFind(raw) {
         if (raw.errors || !raw[root]) {
@@ -76,15 +79,21 @@ var SocketSource = JSONAPISource.extend({
         }
       });
     }.bind(this))
-      .then(function doProcess(raw) {
-        var data = this.deserialize(type, id, raw);
-        this.settleTransforms();
-        return data;
-      }.bind(this))
-      .catch(function onError(error) {
-        console.error(error);
-        throw new Error('SocketSource#_remoteFind Error w/ query: ' + query);
-      });
+    .then(function doProcess(raw) {
+      return this.deserialize(type, id, raw);
+    }.bind(this))
+    .then(function (data) {
+      records = data;
+      return this.settleTransforms();
+    }.bind(this))
+    .then(function () {
+      // finally send back the records
+      return records;
+    })
+    .catch(function onError(error) {
+      console.error('SocketSource#_remoteFind Error w/ query: ' + query);
+      console.error(error);
+    });
   },
 
   _queryFactory: function (type, query) {
@@ -106,7 +115,7 @@ var SocketSource = JSONAPISource.extend({
     var id = operation.path[1];
     var remoteOp = {
       op: 'add',
-      path: ['/', type, (id) ? '/' + id : ''].join(''),
+      path: '/' + pluralize(type) + '/-',
       value: this.serializer.serializeRecord(type, operation.value)
     };
     return this._remotePatch(type, id, remoteOp);
@@ -114,6 +123,7 @@ var SocketSource = JSONAPISource.extend({
 
   _transformReplace: function (operation) {
     var type = operation.path[0];
+    operation.path[0] = pluralize(type);
     var id = operation.path[1];
     var remoteOp = {
       op: 'replace',
@@ -125,103 +135,106 @@ var SocketSource = JSONAPISource.extend({
 
   _transformRemove: function (operation) {
     var type = operation.path[0];
+    operation.path[0] = pluralize(type);
     var id = operation.path[1];
-    var remoteOp = {
-      op: 'remove',
-      path: '/' + operation.path.join('/')
-    };
+    var path = '/' + operation.path.join('/');
+    var remoteOp = { op: 'remove', path: path };
     return this._remotePatch(type, id, remoteOp);
   },
 
   _transformUpdateAttribute: function (operation) {
     var type = operation.path[0];
+    operation.path[0] = pluralize(type);
     var id = operation.path[1];
     var remoteOp = {
       op: 'replace',
-      path: '/' + operation.path.join('/'),  // includes attr in path
+      path: '/' + operation.path.join('/'), // includes attr in path
       value: operation.value
     };
     return this._remotePatch(type, id, remoteOp);
   },
 
   _transformAddLink: function (operation) {
-    //throw new Error('SocketSource#_transformAddLink not supported');
-    debugger;
     var type = operation.path[0];
+    operation.path[0] = pluralize(type);
     var id = operation.path[1];
     var link = operation.path[3];
-    var relId = operation.path[4] || operation.value;
+    var linkId = operation.path[4] || operation.value;
     var linkDef = this.schema.models[type].links[link];
-    var relType = linkDef.model;
-    var relResourceId = this.resourceId(relType, relId);
-    var remoteOp = {
-      path: operation.path,
-      op: (linkDef.type === 'hasMany') ? 'add' : 'replace',
-      value: relResourceId
-    };
+    var path;
+    if (linkDef.type === 'hasMany') {
+      operation.path.pop();
+      path = '/' + operation.path.join('/').replace(/__rel/, 'links') + '/-';
+    } else if (linkDef.type === 'hasOne') {
+      path = '/' + operation.path.join('/').replace(/__rel/, 'links');
+    }
+    var remoteOp = { path: path, op: 'add', value: linkId };
     return this._remotePatch(type, id, remoteOp);
   },
 
   _transformRemoveLink: function (operation) {
-    //throw new Error('SocketSource#_transformRemoveLink not supported');
-    debugger;
     var type = operation.path[0];
+    operation.path[0] = pluralize(type);
     var id = operation.path[1];
-    var remoteOp = {
-      op: 'remove',
-      path: '/' + operation.path.join('/').replace(/__rel/, 'links')
-    };
+    var path = '/' + operation.path.join('/').replace(/__rel/, 'links');
+    var remoteOp = { op: 'remove', path: path };
     return this._remotePatch(type, id, remoteOp);
   },
 
   _transformReplaceLink: function (operation) {
-    //throw new Error('SocketSource#_transformReplaceLink not supported');
-    debugger;
     var type = operation.path[0];
     var id = operation.path[1];
-    var link = operation.path[3];
+    //var link = operation.path[3];
     var relId = operation.path[4] || operation.value;
+    //debugger;
     // Convert a map of ids to an array
     if (isObject(relId)) {
       relId = Object.keys(relId);
     }
-    var linkDef = this.schema.models[type].links[link];
-    var relType = linkDef.model;
-    var relResourceId = this.resourceId(relType, relId);
+    //var linkDef = this.schema.models[type].links[link];
+    //var relType = linkDef.model;
+    //var relResourceId = this.resourceId(relType, relId);
+    //debugger;
     var remoteOp = {
       op: 'replace',
       path: '/' + operation.path.join('/').replace(/__rel/, 'links'),
-      value: relResourceId
+      value: relId
     };
     return this._remotePatch(type, id, remoteOp);
   },
 
   _remotePatch: function (type, id, remoteOp) {
-    //console.log('remoteOp', remoteOp);
-    var root = pluralize(type);
+    console.log(JSON.stringify(remoteOp));
+    var records;
+    // handle promise resolution serially, pass off return to next then handler
     return new Orbit.Promise(function doPatch(resolve, reject) {
       this._socket.emit('patch', JSON.stringify(remoteOp), function didPatch(raw) {
-        if (raw.errors || !raw[root]) {
+        if (raw && raw.errors) {
           reject(raw.errors);
         } else {
-          resolve(raw);
+          resolve(raw); // doesn't matter what raw is, socket called back w/o errors
         }
       });
     }.bind(this))
-      .then(function doProcess(raw) {
-        var data = null;
-        if (raw && Array.isArray(raw)) {
-          data = this.deserialize(type, id, raw[0]);
-          this.settleTransforms();
-        } else {
-          this._transformCache(remoteOp);
-        }
-        return data;
-      }.bind(this))
-      .catch(function onError(error) {
-        console.error(error);
-        throw new Error('SocketSource#_remotePatch op:' + remoteOp.op + ' Error');
-      });
+    .then(function doProcess(raw) {
+      if (raw && Array.isArray(raw)) {
+        return this.deserialize(type, id, raw[0]);
+      }
+      return null;
+    }.bind(this))
+    .then(function (data) {
+      records = data;
+      return this.settleTransforms();
+    }.bind(this))
+    .then(function () {
+      // finally send back the records
+      return records;
+    })
+    .catch(function onError(error) {
+      console.error(error);
+      var e = "SocketSource#_remotePatch Error w/ op: %@, path: %@";
+      throw new Error(e.fmt(remoteOp.op, remoteOp.path));
+    });
   }
 
 });

@@ -27,11 +27,12 @@ module.exports = function(adapter, connect) {
     @param {Function} callback that accepts arguments: {Error} err, {Object} (JSON) result
   **/
   adapter.updateRecord = function (type, id, record, callback) {
+    loginfo('updateRecord', type, id, record);
     var payload = transform(record);
     var db = _adapter.db;
     _connect(function (err, connection) {
-      r.db(db).table(type).filter(function(post) {
-        return post('id').eq(id).or( post('slug').eq(id) );
+      r.db(db).table(type).filter(function(record) {
+        return record('id').eq(id).or( record('slug').eq(id) );
       }).update(payload, {return_changes: true}).run(connection, function (err, result) {
         if (err) {
           updateError(err, connection, callback);

@@ -4,7 +4,7 @@ export default Ember.Mixin.create({
 
   beforeModel: function () {
     this.socketSanityCheck();
-    this._super();
+    return this._super();
   },
 
   socketSanityCheck: function () {
@@ -18,121 +18,152 @@ export default Ember.Mixin.create({
     });
   },
 
-  patchableCollections: "application index postsIndex".w(),
+  // Template methods...
 
-  onDidAdd: function () {
-    try {
-      this.socket.on('didAdd', this.addToCollections.bind(this));
-    } catch (e) {
-      console.log(e);
-    }
-  }.on('init'),
+  onDidPatch: Ember.required,
 
-  addToCollections: function (payload) {
-    console.log('addToCollections', payload);
-    // if (!payload.op) { return; } TODO use JSON Patch syntax for payload?
-    var type = this._extractType(payload);
-    var typeKey = this.store.schema._schema.pluralize(type);
-    var model = this.store.retrieve(type, payload[typeKey].id);
-    if (!model) {
-      model = Ember.Object.create(payload[typeKey]);
+  patchRecord: function (operation) {
+    this._patchRecord(operation);
+  },
+
+  addLink: Ember.K,
+  replaceLink: Ember.K,
+  removeLink: Ember.K,
+  addRecord: Ember.K,
+  updateAttribute: Ember.K,
+  deleteRecord: Ember.K,
+
+  // Use in template methods...
+
+  _patchRecord: function (operation) {
+    console.log('patchRecord', operation);
+    operation = (typeof operation === 'string') ? JSON.parse(operation) : operation;
+    if (!operation.op || !operation.path) {
+      console.error('Push error! Invalid patch operation.');
+      return;
     }
-    this.get('patchableCollections').forEach(function (name) {
-      try {
-        var collection = this.modelFor(name);
-        if (collection) {
-          collection.insertAt(0, model);
-          var controller = this.controllerFor(name);
-          if (controller) {
-            controller.set('content', collection);
-          }
-        }
-      } catch (e) {
-        console.log(e);
+    if (operation.path.match('/links/') !== null) {
+      if (operation.op === 'add') {
+        Ember.run.later(this, 'addLink', operation, this._delay);
+      } else if (operation.op === 'replace') {
+        Ember.run.next(this, 'replaceLink', operation);
+      } else if (operation.op === 'remove') {
+        Ember.run.next(this, 'removeLink', operation);
       }
-    }.bind(this));
-  },
-
-  onDidPatch: function () {
-    try {
-      this.socket.on('didPatch', this.patchInCollections.bind(this));
-    } catch (e) {
-      console.log(e);
-    }
-  }.on('init'),
-
-  patchInCollections: function (payload) {
-    console.log('patchInCollections', payload);
-    if (payload.op && payload.op === 'remove') {
-      this.removeFromCollections(payload);
-    } else if (payload) {
-      this.updateInStore(payload);
+    } else {
+      if (operation.op === 'add') {
+        Ember.run.next(this, 'addRecord', operation);
+      } else if (operation.op === 'replace') {
+        Ember.run.next(this, 'updateAttribute', operation);
+      } else if (operation.op === 'remove') {
+        Ember.run.next(this, 'deleteRecord', operation);
+      }
     }
   },
 
-  removeFromCollections: function (payload) {
-    console.log('removeFromCollections', payload);
-    var model = this._retrieveModel(payload);
+  _addLink: function(operation) {
+    var model = this._retrieveModel(operation);
     if (model) {
-      this.get('patchableCollections').forEach(function (name) {
-        try {
-          var collection = this.modelFor(name);
-          if (collection) {
-            collection.removeObject(model);
-            var controller = this.controllerFor(name);
-            if (controller) {
-              controller.set('content', collection);
-            }
-          }
-        } catch (e) {
-          console.log(e);
+      var type = operation.path.split('/links/')[1];
+      var relation = this.store.retrieve(type, { primaryId: operation.value });
+      if (relation) {
+        model.addLink(type, relation);
+      }
+    }
+  },
+
+  _replaceLink: function(operation) {
+    console.error('replaceLink not supported', operation);
+  },
+
+  _removeLink: function(operation) {
+    console.log('removeLink');
+    var model = this._retrieveModel(operation);
+    if (model) {
+      var path = operation.path.split('/links/')[1].split('/');
+      var type = path[0];
+      var id = path[1];
+      var relation = null;
+      if (id) {
+        relation = this.store.retrieve(type, { primaryId: id });
+      }
+      model.removeLink(type, relation);
+    }
+  },
+
+  _addRecord: function (operation) {
+    var type = this._extractType(operation);
+    var id = operation.value.id;
+    var model = this.store.retrieve(type, { primaryId: id });
+    if (!model) {
+      this.store.add(type, operation.value);
+      this.store.then(function() {
+        model = this.store.retrieve(type, { primaryId: id });
+        var name = this.get('routeName');
+        var collection = this.modelFor(name);
+        if (collection && !collection.contains(model)) {
+          collection.insertAt(0, model);
+          this.controllerFor(name).set('model', collection);
         }
       }.bind(this));
-      if (model.constructor.typeKey) {
-        this.store.remove(model.constructor.typeKey, model.get('id'));
-      }
     }
   },
 
-  updateInStore: function (payload) {
-    console.log('updateInStore', payload);
-    var type = this._extractType(payload);
-    var typeKey = this.store.schema._schema.pluralize(type);
-    var model = this.store.retrieve(type, payload[typeKey].id);
-    // TODO perhaps need to use JSON Patch payload not model as JSON
-    var record = payload[typeKey];
-    if (model && record) {
-      delete record.id;
-      model.setProperties(payload[typeKey]);
-    }
-  },
-
-  _extractType: function (payload) {
-    var models = this.store.schema._schema.models;
-    var type;
-    for (var key in payload) {
-      if (payload.hasOwnProperty(key)) {
-        key = this.store.schema._schema.singularize(key);
-        if (models[key]) {
-          type = key;
-          continue;
-        }
-      }
-    }
+  _updateAttribute: function(operation) {
+    var type = this._extractType(operation);
     if (!type) {
-      throw new Error('Cannot extract type');
-    } else {
-      return type;
+      return;
+    }
+    var typeKey = this.store.schema._schema.pluralize(type);
+    var path = operation.path.split('/' + typeKey + '/')[1];
+    var id, attribute;
+    if (path.indexOf('/') !== -1) {
+      path = path.split('/');
+      id = path[0];
+      attribute = path[1];
+    }
+    var model = this.store.retrieve(type, {primaryId: id});
+    if (model && attribute) {
+      model.set(attribute, operation.value);
     }
   },
 
-  _retrieveModel: function (payload) {
-    if (!payload.path) { return undefined; }
-    var path = payload.path.split('/');
+  _deleteRecord: function (operation) {
+    var model = this._retrieveModel(operation);
+    if (model) {
+      var name = this.get('routeName');
+      var collection = this.modelFor(name);
+      if (collection) {
+        collection.removeObject(model);
+      }
+      var controller = this.controllerFor(name);
+      if (controller) {
+        controller.removeObject(model);
+      }
+      if (model.constructor.typeKey) {
+        var type = model.constructor.typeKey;
+        var id = model.get('primaryId');
+        Ember.run.later(this.store, 'remove', type, id, this._delay);
+      }
+    }
+  },
+
+  _extractType: function (operation) {
+    var path = operation.path.split('/');
+    var type = this.store.schema._schema.singularize(path[1]);
+    if (!this.store.schema._schema.models[type]) {
+      console.error('Cannot extract type', path);
+    }
+    return type;
+  },
+
+  _retrieveModel: function (operation) {
+    var path = operation.path.split('/');
     var type = this.store.schema._schema.singularize(path[1]);
     var id = path[2];
-    var model = this.store.retrieve(type, {id: id});
-    return (model) ? model : undefined;
-  }
+    return this.store.retrieve(type, { primaryId: id });
+  },
+
+  _delay: 1000
 
 });

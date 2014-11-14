@@ -11,15 +11,20 @@ SocketService.create = function () {
   }
   var socket;
   try {
-    //if (navigator.onLine) {
-    socket = window.io(PixelhandlerBlogENV.SOCKET_URL);
-    socket.on('connect_failed', function () {
-      socket = undefined;
-    });
-    socket.on('error', function (e) {
-      console.log('Socket Error!', e);
-    });
-    //}
+    if (navigator.onLine) {
+      socket = window.io(PixelhandlerBlogENV.SOCKET_URL);
+      socket.on('connect_failed', function () {
+        socket = undefined;
+      });
+      socket.on('connect_timeout', function () {
+        socket = undefined;
+      });
+      socket.on('error', function (e) {
+        console.error('Socket Error!', e);
+      });
+    } else {
+      window.alert('Your network is offline');
+    }
   } catch (e) {
     if (typeof window.io === 'undefined') {
       throw new Error('Socket.io client library not loaded');

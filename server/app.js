@@ -23,10 +23,11 @@ app.use(bodyParser.json({type: 'application/vnd.api+json'}));
 app.use(bodyParser.json({type: 'application/json-patch+json'}));
 
 var session = require('express-session');
-app.use(session({
+var sessionMiddleware = session({
   cookie: { secure: false },
   secret: config.session.secret
-}));
+});
+app.use(sessionMiddleware);
 
 
 /**
@@ -95,7 +96,7 @@ if (!module.parent) {
   /**
     Socket Support
   **/
-  var io = require('./lib/socket_adapter')(http);
+  var io = require('./lib/socket_adapter')(http, sessionMiddleware);
   app._io = io;
 
   http.listen(port, function () {

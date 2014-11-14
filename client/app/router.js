@@ -17,6 +17,7 @@ Router.map(function () {
     this.route('create');
     this.route('edit', { path: ':edit_id' });
   });
+  this.route('offline');
   this.route('not-found', { path: '/*path' });
 });
 

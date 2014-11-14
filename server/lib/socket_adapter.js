@@ -7,7 +7,7 @@
 
 var db = require('./rethinkdb_adapter');
 var debug = require('debug')('socket_adapter');
-
+var config = require('../config')();
 
 /**
   Exports setup function
@@ -15,7 +15,7 @@ var debug = require('debug')('socket_adapter');
   @param {Object} express server
   @return {Object} `io` socket.io instance
 **/
-module.exports = function(server) {
+module.exports = function(server, sessionMiddleware) {
 
   // options: https://github.com/Automattic/engine.io#methods-1
   var options = {
@@ -25,35 +25,62 @@ module.exports = function(server) {
 
   var io = require('socket.io')(server, options);
 
+  io.use(function(socket, next) {
+    sessionMiddleware(socket.request, socket.request.res, next);
+  });
+
   io.on('connection', function (socket) {
     // Simple sanity check for client to confirm socket is working
     socket.emit('hello', { hello: 'world' });
     socket.on('talk-to-me', function (data, cb) {
-      //debug(data);
       cb(data);
+    });
+
+    socket.on('isLoggedIn', function (callback) {
+      var user = socket.request.session.user;
+      if (!!user) { debug('isLogggedIn', user); }
+      callback(!!user);
+    });
+
+    socket.on('login', function (credentials, callback) {
+      credentials = JSON.parse(credentials);
+      if (!credentials) {
+        return callback(false);
+      }
+      var uname = credentials.username;
+      var pword = credentials.password;
+      var session = socket.request.session;
+      if (uname === config.admin.username && pword === config.admin.password) {
+        session.user = uname;
+        debug('login: %s', session.user);
+        session.save();
+        callback(true);
+      }
+    });
+
+    socket.on('logout', function (callback) {
+      socket.request.session = null;
+      callback(true);
     });
 
     socket.on('findQuery', findQuery);
 
     socket.on('find', find);
 
-    socket.on('add', function (payload, callback) {
-      var _callback = function (_payload) {
-        callback(_payload);
-        io.emit('didAdd', _payload);
-      };
-      createRecord(payload, _callback);
-    });
-
     socket.on('patch', function (operation, callback) {
-      var _callback = function (error, _payload) {
+      if (!socket.request.session.user) {
+        debug('patch tried without user session');
+        return callback(JSON.stringify({errors: ["Login Required"]}));
+      }
+      var _callback = function (error, payload) {
         if (error) {
           debug('Patch Error!', error);
           callback({errors: error});
         } else {
-          //debug('didPatch...', _payload);
-          callback(_payload);
-          io.emit('didPatch', _payload);
+          payload = payload || JSON.stringify({code: 204});
+          callback(payload);
+          debug('didPatch...', operation, payload);
+          socket.broadcast.emit('didPatch', operation);
         }
       };
       patch(operation, _callback);
@@ -99,7 +126,7 @@ function findQuery(query, callback) {
   @private
 **/
 function find(query, callback) {
-  //debug('find...', query);
+  debug('find...', query);
   if (typeof query === 'string') {
     query = JSON.parse(query);
   }
@@ -111,24 +138,18 @@ function find(query, callback) {
   var errorPayload = { errors: { code: 500, error: 'Server failure' } };
   db.find(resource, id, function (err, payload) {
     if (err) {
-      debug(err);
       _cb(errorPayload);
     } else {
-      if (payload.posts !== null) {
-        //debug('/posts/:id result not null', payload.posts);
+      if (payload[resource] !== null) {
         _cb(payload);
       } else {
-        //debug('/posts/:id result null, finding by slug');
-        db.findBySlug('posts', id, function (err, payload) {
+        db.findBySlug(resource, id, function (err, payload) {
           if (err) {
-            debug(err);
             _cb(errorPayload);
           } else {
-            if (payload.posts !== null) {
-              //debug('/posts/:slug result not null', payload.posts);
+            if (payload[resource] !== null) {
               _cb(payload);
             } else {
-              debug('/posts/:slug result not found');
               _cb({ errors: { code: 404, error: 'Not Found' } });
             }
           }
@@ -138,34 +159,19 @@ function find(query, callback) {
   });
 }
 
-function createRecord(payload, callback) {
-  //debug('createRecord...', payload);
-  if (typeof payload === 'string') {
-    payload = JSON.parse(payload);
-  }
-  var typeKey = pluralize(payload.type);
-  delete payload.type;
-  var _cb = callback;
-  db.createRecord(typeKey, payload[typeKey], function (err, payload) {
-    if (err) {
-      debug(err);
-      payload = { errors: { code: 500, error: 'Server failure' } };
-    }
-    _cb(payload);
-  });
-}
-
 function patch(operation, callback) {
-  //debug('patch...', operation);
   if (typeof operation === 'string') {
     operation = JSON.parse(operation);
   }
   var path = operation.path.split('/');
-  var type = pluralize(path[1]);
+  var type = path[1];
   var id = path[2];
-  var prop = path[3]; // TODO support sub-path
-  var payload = {};
-  if (operation.op === 'replace') {
+  var prop = path[3]; // REVIEW support sub-path?
+  if (prop === 'links') {
+    var link = path[4];
+    patchLinks(type, id, link, operation, callback);
+  } else if (operation.op === 'replace') {
+    var payload = {};
     payload[prop] = operation.value;
     db.updateRecord(type, id, payload, callback);
   } else if (operation.op === 'remove') {
@@ -173,6 +179,39 @@ function patch(operation, callback) {
   } if (operation.op === 'add') {
     db.createRecord(type, operation.value, callback);
   }
+}
+
+function patchLinks(type, id, linkName, operation, callback) {
+  find({resource: type, id: id}, function (record) {
+    if (!record || record && record.errors) {
+      var errors = (record) ? record.errors : [];
+      debug('Error finding resource for patchLinks action', errors);
+      callback(errors);
+    } else {
+      var path = operation.path.split(linkName);
+      path = (path) ? path[1] : null;
+      var value = operation.value;
+      var op = operation.op;
+      var payload = record[type];
+      payload.links = payload.links || {};
+      payload.links[linkName] = payload.links[linkName] || [];
+      if (op === 'add' && path.match(/\-$/) !== null && value) {
+        payload.links[linkName].push(value);
+      } else if (value && op === 'add' || op === 'replace') {
+        payload.links[linkName] = value;
+      } else if (op === 'remove') {
+        var linkId = path.split('/');
+        if (linkId.length > 1) {
+          linkId = linkId[1];
+          var idx = payload.links[linkName].indexOf(linkId);
+          payload.links[linkName].splice(idx, 1);
+        } else {
+          payload.links[linkName] = null;
+        }
+      }
+      db.updateRecord(type, id, {links: payload.links}, callback);
+    }
+  });
 }
 
 // TODO Use Ember.Inflector or other Inflector?
