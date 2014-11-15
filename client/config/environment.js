@@ -1,8 +1,8 @@
 /* jshint node: true */
 
 module.exports = function(environment) {
-
   var ENV = {
+    modulePrefix: 'pixelhandler-blog',
     environment: environment,
     baseURL: '/',
     locationType: 'auto',
@@ -27,21 +27,30 @@ module.exports = function(environment) {
     // ENV.APP.LOG_TRANSITIONS_INTERNAL = true;
     ENV.APP.LOG_VIEW_LOOKUPS = true;
 
-    ENV.API_HOST = '';
-    ENV.API_PATH = null;
-    ENV.SOCKET_URL = "ws://localhost:8888";
-    ENV.GOOGLE_ANALYTICS = null;
+    ENV.APP.API_HOST = '';
+    ENV.APP.API_PATH = null;
+    ENV.APP.SOCKET_URL = "ws://localhost:8888";
+    ENV.APP.GOOGLE_ANALYTICS = null;
   }
 
   if (environment === 'test') {
-    ENV.baseURL = '/'; // Testem prefers this...
+    // Testem prefers this...
+    ENV.baseURL = '/';
+    ENV.locationType = 'auto';
+
+    // keep test console output quieter
+    ENV.APP.LOG_ACTIVE_GENERATION = false;
+    ENV.APP.LOG_VIEW_LOOKUPS = false;
+
+    ENV.APP.rootElement = '#ember-testing';
   }
 
   if (environment === 'production') {
-    ENV.API_HOST = "http://pixelhandler.com";
-    ENV.API_PATH = "api";
-    ENV.SOCKET_URL = "ws://pixelhandler.com";
-    ENV.GOOGLE_ANALYTICS = "UA-2687872-1";
+
+    ENV.APP.API_HOST = "http://pixelhandler.com";
+    ENV.APP.API_PATH = "api";
+    ENV.APP.SOCKET_URL = "ws://pixelhandler.com";
+    ENV.APP.GOOGLE_ANALYTICS = "UA-2687872-1";
   }
 
   return ENV;

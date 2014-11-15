@@ -5,6 +5,7 @@ import JSONAPISource from 'orbit-common/jsonapi-source';
 import ApplicationSerializer from '../serializers/application';
 import SocketSource from '../adapters/socket-source';
 import Ember from 'ember';
+import config from '../config/environment';
 
 Orbit.Promise = Orbit.Promise || Ember.RSVP.Promise;
 
@@ -13,8 +14,8 @@ function jsonApiStore() {
   return EO.Store.extend({
     orbitSourceClass: JSONAPISource,
     orbitSourceOptions: {
-      host: PixelhandlerBlogENV.API_HOST,
-      namespace: PixelhandlerBlogENV.API_PATH,
+      host: config.APP.API_HOST,
+      namespace: config.APP.API_PATH,
       SerializerClass: ApplicationSerializer,
       usePatch: true,
     }
@@ -25,7 +26,7 @@ function socketStore() {
   return EO.Store.extend({
     orbitSourceClass: SocketSource,
     orbitSourceOptions: {
-      host: PixelhandlerBlogENV.SOCKET_URL,
+      host: config.APP.SOCKET_URL,
       SerializerClass: ApplicationSerializer,
       usePatch: true,
     }
