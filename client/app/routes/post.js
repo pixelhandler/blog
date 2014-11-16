@@ -33,7 +33,7 @@ var PostRoute = Ember.Route.extend(ResetScroll, {
     }
     this._super(controller, model);
     controller.setProperties({
-      'disqusId': model.get('slug'),
+      'disqusId': model.get('primaryId'),
       'disqusUrl': getUrl(),
       'disqusTitle': model.get('title')
     });
