@@ -22,6 +22,12 @@ var PostRoute = Ember.Route.extend(ResetScroll, {
     }.bind(this));
   },
 
+  afterModel: function(post) {
+    return post.get('author').reload().then(function () {
+      console.log('author.name', post.get('author.name'));
+    });
+  },
+
   serialize: function (model) {
     return { post_slug: model.get('slug') };
   },
