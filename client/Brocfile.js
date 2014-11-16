@@ -79,7 +79,7 @@ app.import('bower_components/orbit.js/orbit-common-jsonapi.amd.js', {
   //exports: {'orbit-common/local-storage-source': ['default']}
 //});
 
-app.import('bower_components/ember-orbit/ember-orbit.amd.js', {
+app.import('bower_components/ember-orbit/dist/ember-orbit.amd.js', {
   exports: {'ember-orbit': ['default']}
 });
 

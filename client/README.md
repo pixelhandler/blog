@@ -105,16 +105,22 @@ Emit, with last argument as callback function to receive data.
 
 ## Local Development/Build Dependencies
 
-In ./local ember-orbit and orbit.js are build from source, use `npm install`
+```
+cd ./local
+git clone git@github.com:orbitjs/ember-orbit.git
+git clone git@github.com:orbitjs/orbit.js.git
+```
+
+In ./local ember-orbit and orbit.js can be built from source, use `npm install`
 and `grunt package`, may need to adjust path in [bower.json] to local folder.
 
-Use `git sumodule init` it setup local (development/build) dependencies
-
-* orbit.js at commit: 6c3350c 2014-10-21 | Merge pull request #66 from leejt489/master
-* ember-orbit at commit: 58d858a 2014-10-03 | Merge pull request #37 from jakecraige/patch-1
+* orbit.js at commit: 1f6c1cd version 0.5.4
+* ember-orbit at commit: bd82966 in a PR#43 https://github.com/orbitjs/ember-orbit/pull/43
 
 You may need to checkout the above commits in orbit.js and ember-orbit
 directories prior to building, to insure compatibility with the blog app.
+
+See ./local/README.md
 
 
 ## Thanks

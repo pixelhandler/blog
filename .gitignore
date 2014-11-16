@@ -10,4 +10,5 @@
 *.bak
 *.DS_Store
 
+/local
 /venv

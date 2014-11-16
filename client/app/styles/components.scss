@@ -76,10 +76,10 @@
 }
 
 .Blog-list-date {
+  @extend %strong-text;
   width: 20%;
   float: left;
   margin-bottom: 1em;
-  font-weight: bold;
 }
 
 .Blog-list-item {
@@ -143,10 +143,10 @@
 .Footer-form {}
 
 .Footer-form-button {
+  @extend %display-text;
   background: none;
   border: none;
   font-size: 1em;
-  font-family: 'outageregular', sans-serif;
 }
 
 .Box {

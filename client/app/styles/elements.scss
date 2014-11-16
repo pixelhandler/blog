@@ -1,4 +1,5 @@
 /* Elements */
+
 * {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -9,14 +10,13 @@ html {
   font-size: 62.5%;
 }
 body {
-  font-family: 'Source Sans Pro', 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Geneva, Verdana, sans-serif;
+  @extend %body-text;
   font-size: 1rem;
   margin: 0;
   padding: 0;
 }
 h1, h2, h3, h4, h5, h6 {
-  font-family: 'Source Sans Pro', sans-serif;
-  font-weight: 700;
+  @extend %strong-text;
   -webkit-font-kerning: normal;
 
   color: #f39f2b; /* yellow */
@@ -47,9 +47,7 @@ p, li, dt, dd {
   line-height: 1.6em;
 }
 small {
-  font-family: 'outageregular', sans-serif;
-  font-style: normal;
-  font-weight: 400;
+  @extend %display-text;
   color: #d2d2d2;
 }
 
@@ -67,7 +65,13 @@ a, a:link, a:hover, a:visited, a:active {
 }
 
 strong {
+  @extend %strong-text;
   color: #0082be; /* blue */
+  font-weight: 500;
+}
+
+em {
+  @extend %emphasis-text;
 }
 
 small {
@@ -75,6 +79,7 @@ small {
 }
 
 pre, code {
+  @extend %mono-text;
   border: 1px solid #292929;
   border-radius: 6px;
   background-color: #292929;
@@ -86,8 +91,6 @@ pre {
 }
 
 code {
-  font-family: 'Source Code Pro', sans-serif;
-  /*font-family: Consolas, 'Andale Mono', AndaleMono, monospace;*/
   font-size: 1rem;
   padding: .25rem;
 }

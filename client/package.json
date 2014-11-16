@@ -3,7 +3,7 @@
   "summary": "Bill Heaton's Blog website",
   "description": "Pixelhandler.com - Pushin' & pullin' pixels on the web",
   "homepage": "http://pixelhandler.com",
-  "version": "v3.3.0",
+  "version": "v3.3.1",
   "private": true,
   "directories": {
     "bin": "bin",
@@ -40,6 +40,7 @@
     "broccoli-static-compiler": "~0.1.4",
     "ember-cli-qunit": "0.1.0",
     "express": "^4.8.5",
-    "glob": "^4.0.5"
+    "glob": "^4.0.5",
+    "node-static": "^0.7.6"
   }
 }

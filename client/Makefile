@@ -6,9 +6,10 @@ server_proxy: lint
 	@./node_modules/.bin/ember server --proxy http://pixelhandler.com/api
 
 install:
-	@rm -rf node_modules vendor
+	@rm -rf node_modules bower_components
 	@npm install
 	@bower install
+	@./bin/orbit.sh
 	@./node_modules/.bin/ember init
 
 canary:
