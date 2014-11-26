@@ -36,7 +36,11 @@ export default Ember.Route.extend(ResetScroll, RecordChunksMixin, PushSupport, {
   // Push support...
 
   onDidPatch: function () {
-    this.socket.on('didPatch', this.patchRecord.bind(this));
+    try {
+      this.socket.on('didPatch', this.patchRecord.bind(this));
+    } catch (e) {
+      console.warn('Push support not enabled for index route.');
+    }
   }.on('init'),
 
   addRecord: function (operation) {

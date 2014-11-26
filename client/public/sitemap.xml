@@ -253,16 +253,20 @@
         <lastmod>2014-03-13T07:00:00.000Z</lastmod>
     </url>
     <url>
-        <loc>http://pixelhandler.com/posts/real-time-data-for-an-emberjs-application-using-websockets</loc>
-        <lastmod>2014-08-20T07:00:00.000Z</lastmod>
+        <loc>http://pixelhandler.com/posts/real-time-data-in-an-emberjs-application-with-websockets</loc>
+        <lastmod>2014-11-16T07:00:00.000Z</lastmod>
     </url>
     <url>
         <loc>http://pixelhandler.com/posts/how-to-use-404-page-in-your-emberjs-application</loc>
         <lastmod>2014-08-29T07:00:00.000Z</lastmod>
     </url>
     <url>
+        <loc>http://pixelhandler.com/posts/develop-embercomponents-for-sharing-as-ember-cli-addons-a-practical-example</loc>
+        <lastmod>2014-11-25T07:00:00.000Z</lastmod>
+    </url>
+    <url>
         <loc>http://pixelhandler.com</loc>
-        <lastmod>2014-08-29T07:00:00.000Z</lastmod>
+        <lastmod>2014-11-25T07:00:00.000Z</lastmod>
     </url>
     <url>
         <loc>http://pixelhandler.com/about</loc>
@@ -270,6 +274,6 @@
     </url>
     <url>
         <loc>http://pixelhandler.com/posts</loc>
-        <lastmod>2014-08-29T07:00:00.000Z</lastmod>
+        <lastmod>2014-11-25T07:00:00.000Z</lastmod>
     </url>
 </urlset>

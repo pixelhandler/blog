@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import Orbit from 'orbit';
 import OC from 'orbit-common';
-import SocketService from '../services/socket';
+import { SocketService } from '../services/socket';
 import JSONAPISource from 'orbit-common/jsonapi-source';
 
 Orbit.Promise = Orbit.Promise || Ember.RSVP.Promise;

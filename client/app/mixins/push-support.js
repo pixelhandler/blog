@@ -2,20 +2,19 @@ import Ember from 'ember';
 
 export default Ember.Mixin.create({
 
-  beforeModel: function () {
-    this.socketSanityCheck();
-    return this._super();
-  },
-
   socketSanityCheck: function () {
-    // Sanity check, is socket working? check output browser console.
-    var socket = this.socket;
-    socket.on('hello', function (data) {
-      console.log(data);
-      socket.emit('talk-to-me', 'I like talking.', function (msg) {
-        console.log('back talk', msg);
+    try {
+      // Sanity check, is socket working? check output browser console.
+      var socket = this.socket;
+      socket.on('hello', function (data) {
+        console.log(data);
+        socket.emit('talk-to-me', 'I like talking.', function (msg) {
+          console.log('back talk', msg);
+        });
       });
-    });
+    } catch (e) {
+      console.warn('Push support socket sanity check failed.');
+    }
   },
 
   // Template methods...

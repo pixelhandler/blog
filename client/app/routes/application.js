@@ -15,6 +15,7 @@ var ApplicationRoute = Ember.Route.extend(PushSupport, {
           this._pingOk = true;
         }.bind(this));
     }
+    this.socketSanityCheck();
     return this._super();
   },
 
@@ -55,7 +56,11 @@ var ApplicationRoute = Ember.Route.extend(PushSupport, {
   // Push support...
 
   onDidPatch: function () {
-    this.socket.on('didPatch', this.patchRecord.bind(this));
+    try {
+      this.socket.on('didPatch', this.patchRecord.bind(this));
+    } catch (e) {
+      console.warn('Push support not enabled for application route.');
+    }
   }.on('init'),
 
   addLink: function (operation) {

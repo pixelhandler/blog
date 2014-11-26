@@ -1,6 +1,6 @@
 import config from '../config/environment';
 
-function SocketService() {
+export function SocketService() {
   return this;
 }
 
@@ -13,7 +13,7 @@ SocketService.create = function () {
   }
   var socket;
   try {
-    if (navigator.onLine) {
+    if (navigator.onLine && canUseSocket()) {
       socket = window.io(config.APP.SOCKET_URL);
       socket.on('connect_failed', function () {
         socket = undefined;
@@ -25,7 +25,7 @@ SocketService.create = function () {
         console.error('Socket Error!', e);
       });
     } else {
-      window.alert('Your network is offline');
+      console.warn('Your network is offline');
     }
   } catch (e) {
     if (typeof window.io === 'undefined') {
@@ -37,4 +37,10 @@ SocketService.create = function () {
   return instance;
 };
 
-export default SocketService;
+export function canUseSocket() {
+  return window.WebSocket && notPrerenderService();
+}
+
+function notPrerenderService() {
+  return window.navigator.userAgent.match(/Prerender/) === null;
+}

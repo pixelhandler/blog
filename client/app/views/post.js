@@ -3,9 +3,10 @@ import Ember from 'ember';
 export default  Ember.View.extend({
   didInsertElement: function () {
     var notTesting = !Ember.testing;
-    var notPrerendering = window.location.search.match(/_escaped_fragment_/) === null;
+    var notCrawler = window.location.search.match(/_escaped_fragment_/) === null;
+    var notPrerender = window.navigator.userAgent.match(/Prerender/) === null;
     var notLocal = window.location.hostname.match(/localhost/) === null;
-    if (notTesting && notPrerendering && notLocal) {
+    if (notTesting && notCrawler && notPrerender && notLocal) {
       this.configureDisqus();
       this.setupDisqus();
     }
