@@ -6,6 +6,13 @@ export default JSONAPISerializer.extend({
     return this._super(type, id, data);
   },
 
+  deserializeRecord: function(type, id, data) {
+    if (id && data && id === data.slug) {
+      id = data.id;
+    }
+    return this._super(type, id, data);
+  },
+
   assignMeta: function (type, data) {
     if (!data || !data.meta) {
       return;

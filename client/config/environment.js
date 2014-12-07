@@ -19,7 +19,7 @@ module.exports = function(environment) {
     },
     contentSecurityPolicy: {
       'default-src': "'none'",
-      'script-src': "'self' 'unsafe-inline' 'unsafe-eval'",
+      'script-src': "'self' 'unsafe-inline' 'unsafe-eval' a.disquscdn.com",
       'font-src': "'self' data: s3.amazonaws.com cdn.pixelhandler.com",
       'connect-src': "'self'",
       'img-src': "'self' s3.amazonaws.com cdn.pixelhandler.com",
