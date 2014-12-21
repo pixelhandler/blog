@@ -6,7 +6,8 @@
 var loginfo = require('debug')('app:info');
 var logerror = require('debug')('app:error');
 var node_env = process.env.NODE_ENV || 'development';
-var db = require('../lib/rethinkdb_adapter');
+var config = require('../config')();
+var db = require('rethinkdb_adapter');
 
 
 /**

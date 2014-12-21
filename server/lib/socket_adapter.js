@@ -3,20 +3,23 @@
   @submodule socket_adapter
 
   db adapter using Socket.io
+  - listens & replies to messages: find, findQuery, isLoggedIn, login, logout, patch
+  - emits messages: didPatch
 **/
 
-var db = require('./rethinkdb_adapter');
+var db = require('rethinkdb_adapter');
 var loginfo = require('debug')('socket:info');
 var logerror = require('debug')('socket:error');
-var config = require('../config')();
 
 /**
   Exports setup function
 
   @param {Object} express server
+  @param {Function} sessionMiddleware for session handling
+  @param {Object} config i.e. `{admin: {username: 'admin', password: 'admin'}}`
   @return {Object} `io` socket.io instance
 **/
-module.exports = function(server, sessionMiddleware) {
+module.exports = function(server, sessionMiddleware, config) {
 
   // options: https://github.com/Automattic/engine.io#methods-1
   var options = {

@@ -21,10 +21,10 @@ test: lint seed
 	@./node_modules/.bin/mocha --reporter spec tests/*
 
 server:
-	@DEBUG=app:error,rdb:error,socket:error node app.js
+	@DEBUG=app:info,app:error,rdb:info,rdb:error,socket:info,socket:error node app.js
 
 server_verbose:
-	@DEBUG=app:info,app:error,rdb:info,rdb:error,socket:info,socket:error node app.js
+	@DEBUG=* node app.js
 
 server_debug:
 	@node debug app.js

@@ -21,7 +21,7 @@ This is the toolset for server-side application development.
 ## Directories
 
 * [bin](bin) - shell scripts (bash or js)
-* [lib](lib) - has adapter for db
+* [lib](lib) - has socket adapter for db
 * [routes](routes) - Map HTTP verbs to resoures
 * [tests](tests) - has mocha test files
 

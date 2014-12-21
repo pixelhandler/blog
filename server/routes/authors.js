@@ -6,7 +6,7 @@
 var loginfo = require('debug')('app:info');
 var logerror = require('debug')('app:error');
 var node_env = process.env.NODE_ENV || 'development';
-var db = require('../lib/rethinkdb_adapter');
+var db = require('rethinkdb_adapter');
 
 
 /**
@@ -90,7 +90,7 @@ module.exports = function(app, restrict) {
   });
 
   /**
-    (Read) Find a post by id
+    (Read) Find a author by id
 
     Route: (verb) GET /authors/:id
     @async

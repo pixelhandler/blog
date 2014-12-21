@@ -34,7 +34,7 @@
     "inflect": "~0.3.0",
     "method-override": "^2.1.2",
     "node-uuid": "^1.4.1",
-    "rethinkdb": "~1.13.0-3",
+    "rethinkdb_adapter": "0.1.0",
     "socket.io": "~1.0.6"
   },
   "devDependencies": {
@@ -43,6 +43,7 @@
     "mocha": "~1.18.2",
     "node-uuid": "^1.4.1",
     "request": "~2.34.0",
+    "rethinkdb": "~1.13.0-3",
     "superagent": "~0.17.0",
     "supertest": "~0.11.0"
   }

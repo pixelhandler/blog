@@ -43,7 +43,7 @@ app.use(cors(corsOptions));
 /**
   Setup database
 **/
-var db = require('./lib/rethinkdb_adapter');
+var db = require('rethinkdb_adapter');
 db.setup('blog', { catalogs: 'id', posts: 'id', authors: 'id' });
 
 
@@ -106,7 +106,7 @@ if (!module.parent) {
   /**
     Socket Support
   **/
-  var io = require('./lib/socket_adapter')(http, sessionMiddleware);
+  var io = require('./lib/socket_adapter')(http, sessionMiddleware, config);
   app._io = io;
 
   http.listen(port, function () {
