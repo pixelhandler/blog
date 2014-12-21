@@ -8,7 +8,6 @@
 
   @main routes/pong
   @param {Object} app - express application instance
-  @param {Function} options - middleware callback (cors options)
 **/
 module.exports = function(app) {
 

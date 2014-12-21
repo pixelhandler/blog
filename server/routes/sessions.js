@@ -2,7 +2,7 @@
   @module app
   @submodule routes/sessions
 **/
-var loginfo = require('debug')('session:info');
+var loginfo = require('debug')('app:info');
 var config = require('../config')();
 
 /**

@@ -3,9 +3,10 @@
   @main app
 **/
 var express = require('express');
+var cors = require('cors');
 var env = process.env.NODE_ENV || 'development';
 var config = require('./config')();
-var debug = require('debug')('app:debug');
+var debug = require('debug')('app');
 
 
 /**
@@ -29,6 +30,15 @@ var sessionMiddleware = session({
 });
 app.use(sessionMiddleware);
 
+var corsOptions = {
+  origin: function (origin, callback) {
+    var originIsWhitelisted = config.cors.indexOf(origin) !== -1;
+    callback(null, originIsWhitelisted);
+  },
+  credentials: true,
+  methods: ['POST', 'PUT', 'GET', 'DELETE']
+};
+app.use(cors(corsOptions));
 
 /**
   Setup database
@@ -61,7 +71,7 @@ function restrict(req, res, callback) {
 /**
   Load application routes [when using express 4 setup routes before middlewares]
 **/
-require('./routes/ping')(app);
+require('./routes/ping')(app, cors(corsOptions));
 require('./routes/authors')(app, restrict);
 require('./routes/posts')(app, restrict);
 require('./routes/sessions')(app, restrict);

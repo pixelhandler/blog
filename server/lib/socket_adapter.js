@@ -6,7 +6,8 @@
 **/
 
 var db = require('./rethinkdb_adapter');
-var debug = require('debug')('socket_adapter');
+var loginfo = require('debug')('socket:info');
+var logerror = require('debug')('socket:error');
 var config = require('../config')();
 
 /**
@@ -38,7 +39,7 @@ module.exports = function(server, sessionMiddleware) {
 
     socket.on('isLoggedIn', function (callback) {
       var user = socket.request.session.user;
-      if (!!user) { debug('isLogggedIn', user); }
+      if (!!user) { loginfo('isLogggedIn', user); }
       callback(!!user);
     });
 
@@ -52,7 +53,7 @@ module.exports = function(server, sessionMiddleware) {
       var session = socket.request.session;
       if (uname === config.admin.username && pword === config.admin.password) {
         session.user = uname;
-        debug('login: %s', session.user);
+        loginfo('login: %s', session.user);
         session.save();
         callback(true);
       }
@@ -69,17 +70,17 @@ module.exports = function(server, sessionMiddleware) {
 
     socket.on('patch', function (operation, callback) {
       if (!socket.request.session.user) {
-        debug('patch tried without user session');
+        logerror('patch tried without user session');
         return callback(JSON.stringify({errors: ["Login Required"]}));
       }
       var _callback = function (error, payload) {
         if (error) {
-          debug('Patch Error!', error);
+          logerror('Patch Error!', error);
           callback({errors: error});
         } else {
           payload = payload || JSON.stringify({code: 204});
           callback(payload);
-          debug('didPatch...', operation, payload);
+          loginfo('didPatch...', operation, payload);
           socket.broadcast.emit('didPatch', operation);
         }
       };
@@ -102,7 +103,7 @@ module.exports = function(server, sessionMiddleware) {
   @private
 **/
 function findQuery(query, callback) {
-  debug('findQuery...', query);
+  loginfo('findQuery...', query);
   if (typeof query === 'string') {
     query = JSON.parse(query);
   }
@@ -111,7 +112,7 @@ function findQuery(query, callback) {
   var _cb = callback;
   db.findQuery(resource, query, function (err, payload) {
     if (err) {
-      debug(err);
+      logerror(err);
       payload = { errors: { code: 500, error: 'Server failure' } };
     }
     _cb(payload);
@@ -126,7 +127,7 @@ function findQuery(query, callback) {
   @private
 **/
 function find(query, callback) {
-  debug('find...', query);
+  loginfo('find...', query);
   if (typeof query === 'string') {
     query = JSON.parse(query);
   }
@@ -160,7 +161,7 @@ function find(query, callback) {
 }
 
 function patch(operation, callback) {
-  debug('patch...', operation);
+  loginfo('patch...', operation);
   if (typeof operation === 'string') {
     operation = JSON.parse(operation);
   }
@@ -183,11 +184,11 @@ function patch(operation, callback) {
 }
 
 function patchLinks(type, id, linkName, operation, callback) {
-  debug('patchLinks...', type, id, linkName, operation);
+  loginfo('patchLinks...', type, id, linkName, operation);
   find({resource: type, id: id}, function (record) {
     if (!record || record && record.errors) {
       var errors = (record) ? record.errors : [];
-      debug('Error finding resource for patchLinks action', errors);
+      logerror('Error finding resource for patchLinks action', errors);
       callback(errors);
     } else {
       var path = operation.path.split(linkName);

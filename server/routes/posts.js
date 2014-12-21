@@ -3,7 +3,8 @@
   @submodule routes/posts
   @requires app, rethinkdb_adapter
 **/
-var debug = require('debug')('posts');
+var loginfo = require('debug')('app:info');
+var logerror = require('debug')('app:error');
 var node_env = process.env.NODE_ENV || 'development';
 var db = require('../lib/rethinkdb_adapter');
 
@@ -26,12 +27,12 @@ module.exports = function(app, restrict) {
   app.post('/posts', restrict, function (req, res) {
     db.createRecord('posts', req.body.posts, function (err, payload) {
       if (err) {
-        debug(err);
+        logerror(err);
         res.status(500).end();
       } else {
-        debug('payload', payload.posts);
+        loginfo('payload', payload.posts);
         if (app._io) {
-          debug('didAdd', payload);
+          loginfo('didAdd', payload);
           app._io.emit('didAdd', payload);
         }
         res.status(201).send(payload);
@@ -46,17 +47,17 @@ module.exports = function(app, restrict) {
     @async
   **/
   app.post('/posts/:id/links/author', restrict, function (req, res) {
-    debug('/posts/:id/links/author', req.params.id, req.body);
+    loginfo('/posts/:id/links/author', req.params.id, req.body);
     var id = req.params.id;
     var links = { links: { author: req.body.authors } };
     db.updateRecord('posts', id, links, function (err) {
       if (err) {
-        debug(err);
+        logerror(err);
         res.status(500).end();
       } else {
         if (app._io) {
           var payload = { 'posts': req.body };
-          debug('didAddLink', payload);
+          loginfo('didAddLink', payload);
           app._io.emit('didAddLink', payload);
         }
         res.status(204).end(); // No Content
@@ -73,7 +74,7 @@ module.exports = function(app, restrict) {
   app.get('/posts', function (req, res) {
     db.findQuery('posts', req.query, function (err, payload) {
       if (err) {
-        debug(err);
+        logerror(err);
         res.send(500);
       } else {
         if (node_env != 'development') {
@@ -95,7 +96,7 @@ module.exports = function(app, restrict) {
     if (ids.length === 1) {
       db.find('posts', ids[0], function (err, payload) {
         if (err) {
-          debug(err);
+          logerror(err);
           res.send(500);
         } else {
           if (node_env != 'development') {
@@ -106,13 +107,13 @@ module.exports = function(app, restrict) {
           } else {
             db.findBySlug('posts', ids[0], function (err, payload) {
               if (err) {
-                debug(err);
+                logerror(err);
                 res.send(500);
               } else {
                 if (payload.posts !== null) {
                   res.send(payload);
                 } else {
-                  debug('/posts/[:id|:slug] result not found');
+                  loginfo('/posts/[:id|:slug] result not found');
                   res.status(404).end();
                 }
               }
@@ -123,7 +124,7 @@ module.exports = function(app, restrict) {
     } else if (ids.length > 1) {
       db.findMany('posts', ids, function (err, payload) {
         if (err) {
-          debug(err);
+          logerror(err);
           res.send(500);
         } else {
           if (node_env != 'development') {
@@ -144,7 +145,7 @@ module.exports = function(app, restrict) {
   app.put('/posts/:id', restrict, function (req, res) {
     db.updateRecord('posts', req.params.id, req.body.posts, function (err, payload) {
       if (err) {
-        debug(err);
+        logerror(err);
         res.status(500).end();
       } else {
         res.status(204).end(); // No Content
@@ -159,17 +160,17 @@ module.exports = function(app, restrict) {
     @async
   **/
   app.put('/posts/:id/links/author', restrict, function (req, res) {
-    debug('/posts/:id/links/author', req.params.id, req.body);
+    loginfo('/posts/:id/links/author', req.params.id, req.body);
     var id = req.params.id;
     var links = { links: { author: req.body.authors } };
     db.updateRecord('posts', id, links, function (err) {
       if (err) {
-        debug(err);
+        logerror(err);
         res.status(500).end();
       } else {
         if (app._io) {
           var payload = { 'posts': req.body };
-          debug('didAddLink', payload);
+          loginfo('didAddLink', payload);
           app._io.emit('didAddLink', payload);
         }
         res.status(204).end(); // No Content
@@ -191,11 +192,11 @@ module.exports = function(app, restrict) {
       if (patch.op && patch.op === 'add') {
         db.createRecord('posts', patch.value, function (err, payload) {
           if (err) {
-            debug(err);
+            logerror(err);
             res.status(500).end();
           } else {
             if (app._io) {
-              debug('didAdd', payload);
+              loginfo('didAdd', payload);
               app._io.emit('didAdd', payload);
             }
             res.status(201).send(payload);
@@ -214,7 +215,7 @@ module.exports = function(app, restrict) {
   app.patch('/posts/:id', restrict, function (req, res) {
     db.patchRecord('posts', req.params.id, req.body, function (err) {
       if (err) {
-        debug(err);
+        logerror(err);
         res.status(500).end();
       } else {
         res.status(204).end();
@@ -238,11 +239,11 @@ module.exports = function(app, restrict) {
     var links = { links: { author: authorId } };
     db.updateRecord('posts', id, links, function (err, payload) {
       if (err) {
-        debug(err);
+        logerror(err);
         res.status(500).end();
       } else {
         if (app._io) {
-          debug('didPatchLink', payload);
+          loginfo('didPatchLink', payload);
           app._io.emit('didPatchLink', payload);
         }
         res.status(204).end(); // No Content
@@ -257,7 +258,7 @@ module.exports = function(app, restrict) {
     @async
   **/
   app.patch('/', restrict, function (req, res) {
-    debug('patch / unsupported', req.params, req.body);
+    loginfo('patch / unsupported', req.params, req.body);
   });
 
   /**
@@ -269,12 +270,12 @@ module.exports = function(app, restrict) {
   app.delete('/posts/:id', restrict, function (req, res) {
     db.deleteRecord('posts', req.params.id, function (err) {
       if (err) {
-        debug(err);
+        logerror(err);
         res.status(500).end();
       } else {
         if (app._io) {
           var payload = { posts: req.params.id };
-          debug('didRemove', payload);
+          loginfo('didRemove', payload);
           app._io.emit('didRemove', payload);
         }
         res.status(204).end(); // No Content
@@ -293,12 +294,12 @@ module.exports = function(app, restrict) {
     payload = { links: { author: null } };
     db.updateRecord('posts', id, payload, function (err) {
       if (err) {
-        debug(err);
+        logerror(err);
         res.status(500).end();
       } else {
         if (app._io) {
           var payload = { posts: req.body };
-          debug('didRemoveLink', payload);
+          loginfo('didRemoveLink', payload);
           app._io.emit('didRemoveLink', payload);
         }
         res.status(204).end(); // No Content

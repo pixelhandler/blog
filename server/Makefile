@@ -21,6 +21,12 @@ test: lint seed
 	@./node_modules/.bin/mocha --reporter spec tests/*
 
 server:
-	@DEBUG=* node app.js
+	@DEBUG=app:error,rdb:error,socket:error node app.js
+
+server_verbose:
+	@DEBUG=app:info,app:error,rdb:info,rdb:error,socket:info,socket:error node app.js
+
+server_debug:
+	@node debug app.js
 
 .PHONY: install db lint test server
