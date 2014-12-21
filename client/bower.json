@@ -7,7 +7,7 @@
     "qunit": "~1.15.0",
     "ember-qunit": "0.1.8",
     "ember": "~1.8.1",
-    "ember-resolver": "~0.1.7",
+    "ember-resolver": "~0.1.10",
     "loader.js": "stefanpenner/loader.js#1.0.1",
     "ember-cli-shims": "stefanpenner/ember-cli-shims#0.0.3",
     "ember-load-initializers": "stefanpenner/ember-load-initializers#0.0.2",
@@ -22,8 +22,8 @@
   },
   "resolutions": {
     "jquery": "^2.1.1",
-    "handlebars": ">= 1.0.0 < 2.0.0",
+    "handlebars": "~1.3.0",
     "qunit": "1.15.0",
-    "qunit-notifications": "~0.0.3"
+    "ember-orbit": "~0.4.1"
   }
 }

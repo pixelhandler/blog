@@ -37,7 +37,7 @@ module.exports = function(environment) {
 
     ENV.contentSecurityPolicy['connect-src'] = "'self' ws://localhost:35729 localhost:8888 ws://localhost:8888";
 
-    ENV.APP.API_HOST = '';
+    ENV.APP.API_HOST = 'http://localhost:8888';
     ENV.APP.API_PATH = null;
     ENV.APP.SOCKET_URL = "ws://localhost:8888";
     ENV.APP.GOOGLE_ANALYTICS = null;
@@ -46,7 +46,7 @@ module.exports = function(environment) {
   if (environment === 'test') {
     // Testem prefers this...
     ENV.baseURL = '/';
-    ENV.locationType = 'auto';
+    ENV.locationType = 'none';
 
     // keep test console output quieter
     ENV.APP.LOG_ACTIVE_GENERATION = false;
