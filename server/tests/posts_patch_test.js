@@ -2,7 +2,7 @@ var app  = require(__dirname + '/../app.js');
 var port = 8888;
 var assert = require('assert');
 var request = require('superagent').agent();
-var db = require('../lib/rethinkdb_adapter');
+var db = require('rethinkdb_adapter');
 
 var config = require('../config')();
 var serverUrl = 'http://localhost:' + port;
