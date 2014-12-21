@@ -90,7 +90,7 @@ module.exports = function(app, restrict) {
   });
 
   /**
-    (Read) Find a author by id
+    (Read) Find an author by id
 
     Route: (verb) GET /authors/:id
     @async
@@ -110,7 +110,7 @@ module.exports = function(app, restrict) {
   });
 
   /**
-    Update a post by id
+    Update an author by id
 
     Route: (verb) PUT /authors/:id
     @async
@@ -280,7 +280,7 @@ module.exports = function(app, restrict) {
   };
 
   /**
-    Delete a post by id
+    Delete an author by id
 
     Route: (verb) DELETE /authors/:id
     @async
