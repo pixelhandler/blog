@@ -33,7 +33,8 @@ Post.reopenClass({
       store.add('post', newRecord.toJSON()).then(function (post) {
         var author = store.retrieve('author', authorId);
         return post.addLink('author', author);
-      }).then(function (result) {
+      });
+      store.then(function (result) {
         Ember.Logger.info(result);
         resolve(result);
       }).catch(function (error) {
