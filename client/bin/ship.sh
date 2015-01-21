@@ -16,7 +16,7 @@ fi
 
 CLIENT_DIR="$(dirname `pwd`)/client"
 DIST="dist"
-PUBLIC="public"
+PUBLIC="release"
 SRC=$CLIENT_DIR"/"$DIST"/"
 APP="/home/"$1"/www/blog/client/"
 DOMAIN="pixelhandler.com"
@@ -40,11 +40,11 @@ else
   rsync -vrhe ssh --dry-run --progress --exclude '*.css' --exclude 'fonts' $SRC $1@$DOMAIN:$DEST
 fi
 
-#scp -r -v -i $CLIENT_DIR/public $1@pixelhandler.com:/home/$1/www/blog/client/public/
+#scp -r -v -i $CLIENT_DIR/public $1@pixelhandler.com:/home/$1/www/blog/client/release/
 
 if [ $dry_run = false ]; then
   CMD="cd "$APP" && mv ./"$PUBLIC" ./last && ln -s ./"$DEPLOY_TO" ./"$PUBLIC
-  echo "Move 'public' directory to 'last' and create a new 'public' symlink to deploy directory..."
+  echo "Move "$PUBLIC" directory to 'last' and create a new "$PUBLIC" symlink to deploy directory..."
   echo "Sending command to remote: "
   echo $CMD
   ssh $1@$DOMAIN $CMD
