@@ -1,8 +1,8 @@
 <h4 class="u-sansSerif">Recent Posts</h4>
 <ul class="Blog-nav-list u-medGrayText ">
-  {{#each model}}
+  {{#each post in model}}
     <li class="Blog-nav-list-item">
-      {{#link-to 'post' this}}{{title}}{{/link-to}}
+      {{#link-to 'post' post}}{{post.title}}{{/link-to}}
     </li>
   {{/each}}
 </ul>
