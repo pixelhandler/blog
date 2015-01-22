@@ -61,9 +61,9 @@ Ember.Test.registerHelper('hyperlink', function (app, selector) {
   return testing(app).hyperlink(selector);
 });
 
-Ember.Test.registerHelper('unload', function (app, resource) {
+Ember.Test.registerHelper('unload', function (app, type, id) {
   Ember.run(function () {
-    testing(app).store().unloadAll(resource);
+    testing(app).store().unload(type, id);
   });
 });
 

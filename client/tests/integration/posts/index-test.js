@@ -8,7 +8,6 @@ module('Posts/Index', {
     App = startApp();
   },
   teardown: function () {
-    unload('post');
     Ember.run(App, App.destroy);
   }
 });

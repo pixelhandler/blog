@@ -35,7 +35,6 @@ module('Admin Edit', {
     visit('/').then(function () {
       click(logout).then(function () {
         start();
-        unload('post');
         Ember.run(App, App.destroy);
       });
     });

@@ -11,7 +11,6 @@ module('Application', {
     controller('posts/index').get('content').length = 0;
   },
   teardown: function () {
-    unload('post');
     Ember.run(App, App.destroy);
   }
 });

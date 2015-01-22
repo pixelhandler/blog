@@ -9,7 +9,6 @@ module('Not Found', {
     App = startApp();
   },
   teardown: function () {
-    unload('post');
     Ember.run(App, App.destroy);
   }
 });

@@ -7,11 +7,9 @@ module('Index', {
   setup: function () {
     window.showdown = new Showdown.converter();
     App = startApp();
-    route('index').setProperties({'offset': -5, 'loadedIds': []});
     controller('index').get('content').length = 0;
   },
   teardown: function () {
-    unload('post');
     Ember.run(App, App.destroy);
   }
 });
@@ -27,11 +25,11 @@ test('Index template, lists posts with link to show more', function () {
     ok(exists(excerpt + ' .Blog-excerpt-title a'), 'excerpt title has anchor');
     ok(exists(excerpt + ' .Blog-excerpt-summary'), 'excerpt summary exists');
     ok(exists(excerpt + ' .u-button'), 'excerpt button exists');
-    equal(find(excerpt).length, 5, 'index page has five (5) post excerpts');
+    equal(find(excerpt).length, 10, 'index page has five (10) post excerpts');
 
     ok(exists(showMore), 'Show more link exists');
     click(showMore).then(function () {
-      equal(find(excerpt).length, 9, 'nine (9) post excerpts shown after click on show more');
+      equal(find(excerpt).length, 15, 'fifteen (15) post excerpts shown after click on show more');
     });
   });
 });

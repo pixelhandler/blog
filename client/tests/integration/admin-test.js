@@ -9,7 +9,6 @@ module('Admin', {
     App = startApp();
   },
   teardown: function () {
-    unload('post');
     Ember.run(App, App.destroy);
   }
 });
@@ -21,7 +20,7 @@ test('Admin must be enabled', function () {
   expect(1);
 
   visit('/admin').then(function () {
-    equal(currentPath(), 'index', 'Redirects to / if admin is not enabled');
+    equal(currentPath(), 'not-found', 'Redirects to not-found if admin is not enabled');
   });
 });
 
@@ -70,7 +69,7 @@ test('Admin index available after login', function () {
       fillIn(inputs.username, 'admin').then(function () {
         fillIn(inputs.password, 'admin').then(function () {
           click(login).then(function () {
-            equal(currentPath(), 'admin.index', 'Redirects to /admin when enabled');
+            equal(currentPath(), 'admin.index', 'Redirects to /admin/index when enabled');
             // teardown
             click(logout);
           });
@@ -88,7 +87,7 @@ test('Index page shown after logout', function () {
         fillIn(inputs.password, 'admin').then(function () {
           click(login).then(function () {
             click(logout).then(function () {
-              equal(currentPath(), 'index', 'Redirects to / after logout');
+              equal(currentPath(), 'not-found', 'Redirects to not-found after logout');
             });
           });
         });
