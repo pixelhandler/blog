@@ -3,7 +3,7 @@
   "summary": "API for Bill Heaton's Blog website",
   "namespace": "api",
   "homepage": "http://pixelhandler.com",
-  "version": "3.3.4",
+  "version": "3.3.5",
   "private": false,
   "directories": {
     "bin": "bin"
