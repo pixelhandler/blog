@@ -41,7 +41,7 @@ module.exports = function(server, sessionMiddleware, config) {
     });
 
     socket.on('isLoggedIn', function (callback) {
-      var user = socket.request.session.user;
+      var user = (socket.request.session) ? socket.request.session.user : null;
       if (!!user) { loginfo('isLogggedIn', user); }
       callback(!!user);
     });
@@ -54,7 +54,7 @@ module.exports = function(server, sessionMiddleware, config) {
       var uname = credentials.username;
       var pword = credentials.password;
       var session = socket.request.session;
-      if (uname === config.admin.username && pword === config.admin.password) {
+      if (session && uname === config.admin.username && pword === config.admin.password) {
         session.user = uname;
         loginfo('login: %s', session.user);
         session.save();
@@ -72,7 +72,8 @@ module.exports = function(server, sessionMiddleware, config) {
     socket.on('find', find);
 
     socket.on('patch', function (operation, callback) {
-      if (!socket.request.session.user) {
+      var user = (socket.request.session) ? socket.request.session.user : null;
+      if (!user) {
         logerror('patch tried without user session');
         return callback(JSON.stringify({errors: ["Login Required"]}));
       }
