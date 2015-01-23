@@ -16,6 +16,7 @@ module.exports = function(environment) {
     APP: {
       // Here you can pass flags/options to your application instance
       // when it is created
+      USE_SOCKET_ADAPTER: true
     },
     contentSecurityPolicy: {
       'default-src': "'none'",
@@ -56,7 +57,6 @@ module.exports = function(environment) {
   }
 
   if (environment === 'production') {
-
     ENV.APP.API_HOST = "http://pixelhandler.com";
     ENV.APP.API_PATH = "api";
     ENV.APP.SOCKET_URL = "ws://pixelhandler.com";

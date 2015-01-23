@@ -71,7 +71,8 @@ function notPrerenderService() {
 }
 
 function canUseSocket(container) {
-  return window.WebSocket && container.lookup('socket:main');
+  var flag = config.APP.USE_SOCKET_ADAPTER;
+  return flag && window.WebSocket && container.lookup('socket:main');
 }
 
 function connectSources(container) {
