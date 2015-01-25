@@ -1,13 +1,13 @@
 {
   "name": "pixelhandler-blog",
-  "version": "3.3.5",
+  "version": "3.3.6",
   "dependencies": {
     "handlebars": "~2.0.0",
     "jquery": "^2.1.3",
     "qunit": "~1.15.0",
     "ember-qunit": "0.1.8",
     "ember": "beta",
-    "ember-resolver": "~0.1.10",
+    "ember-resolver": "~0.1.11",
     "loader.js": "stefanpenner/loader.js#1.0.1",
     "ember-cli-shims": "stefanpenner/ember-cli-shims#0.0.3",
     "ember-load-initializers": "stefanpenner/ember-load-initializers#0.0.2",
