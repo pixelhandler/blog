@@ -30,13 +30,14 @@ Post.reopenClass({
 
   createRecord: function (store, newRecord, authorId) {
     return new Ember.RSVP.Promise(function (resolve, reject) {
-      store.add('post', newRecord.toJSON()).then(function (post) {
+      store.add('post', newRecord.toJSON());
+      store.then(function (results) {
+        Ember.Logger.info(results);
         var author = store.retrieve('author', authorId);
-        return post.addLink('author', author);
-      });
-      store.then(function (result) {
-        Ember.Logger.info(result);
-        resolve(result);
+        var post = results.get('firstObject');
+        return post.addLink('author', author).then(function () {
+          resolve(post);
+        });
       }).catch(function (error) {
         Ember.Logger.error(error);
         reject(error);

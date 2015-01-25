@@ -48,12 +48,12 @@ export default Ember.ObjectController.extend({
     },
 
     save: function () {
-      this.set('isEditing', false);
+      this.setProperties({'isEditing': false, 'isPreviewing': false});
       return true; // bubble
     },
 
     cancel: function () {
-      this.set('isEditing', false);
+      this.setProperties({'isEditing': false, 'isPreviewing': false});
       return true; // bubble
     }
   }

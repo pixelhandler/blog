@@ -38,6 +38,9 @@ export default Ember.Route.extend(ResetScroll, {
     cancel: function () {
       this.transitionTo('admin.index');
     }
-  }
+  },
 
+  deactivate: function () {
+    this.modelFor('admin.create').destroy();
+  }
 });
