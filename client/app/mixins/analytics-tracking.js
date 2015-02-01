@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import config from '../config/environment';
+import { pageView } from '../utils/metrics';
 
 if (config.APP.GOOGLE_ANALYTICS) {
   /*jshint -W030 */
@@ -25,6 +26,9 @@ export default Ember.Mixin.create({
       }
 
       ga('send', 'pageview', page);
+    }
+    if (config.APP.REPORT_METRICS) {
+      pageView();
     }
   },
 

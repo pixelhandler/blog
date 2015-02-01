@@ -1,8 +1,10 @@
 import Ember from 'ember';
 import PushSupport from '../mixins/push-support';
+import RenderUsingTimings from '../mixins/render-using-timings';
+import { mark, measure } from '../utils/metrics';
 import config from '../config/environment';
 
-var ApplicationRoute = Ember.Route.extend(PushSupport, {
+var ApplicationRoute = Ember.Route.extend(PushSupport, RenderUsingTimings, {
 
   beforeModel: function (transition) {
     if (typeof this._pingOk === 'undefined') {
@@ -20,7 +22,18 @@ var ApplicationRoute = Ember.Route.extend(PushSupport, {
   },
 
   model: function () {
+    if (config.APP.REPORT_METRICS) {
+      mark('mark_begin_find_post_records');
+    }
     return this.store.find('post');
+  },
+
+  afterModel() {
+    if (config.APP.REPORT_METRICS) {
+      mark('mark_end_find_post_records');
+      measure('find_posts', 'mark_begin_find_post_records', 'mark_end_find_post_records');
+    }
+    return null;
   },
 
   setupController: function (controller, model) {
@@ -38,6 +51,9 @@ var ApplicationRoute = Ember.Route.extend(PushSupport, {
         .done(loginSuccess.bind(this));
     }
   },
+
+  measurementName: 'application_view',
+  reportUserTimings: false,
 
   sessionUrl: (function() {
     var uri = [ config.APP.API_HOST ];

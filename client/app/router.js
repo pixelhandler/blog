@@ -1,12 +1,12 @@
 import Ember from 'ember';
 import config from './config/environment';
-import GoogleAnalyticsMixin from './mixins/google-analytics';
+import AnalyticsTrackingMixin from './mixins/analytics-tracking';
 
 var Router = Ember.Router.extend({
   location: config.locationType
 });
 
-Ember.Router.reopen(GoogleAnalyticsMixin);
+Ember.Router.reopen(AnalyticsTrackingMixin);
 
 Router.map(function () {
   this.route('about');
