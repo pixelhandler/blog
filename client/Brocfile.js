@@ -7,7 +7,8 @@ var env = require('broccoli-env').getEnv();
 
 var options = {
   name: require('./package.json').name,
-  getEnvJSON: require('./config/environment')
+  getEnvJSON: require('./config/environment'),
+  vendorFiles: { 'handlebars.js': false }
 };
 
 if (env === 'production') {
