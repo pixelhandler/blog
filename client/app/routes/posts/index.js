@@ -2,14 +2,20 @@ import Ember from 'ember';
 import RecordChunksMixin from '../../mixins/record-chunks';
 import ResetScroll from '../../mixins/reset-scroll';
 import PushSupport from '../../mixins/push-support';
+import RenderUsingTimings from '../../mixins/render-using-timings';
 
-export default Ember.Route.extend(ResetScroll, RecordChunksMixin, PushSupport, {
+export default Ember.Route.extend(
+    ResetScroll, RecordChunksMixin,
+    PushSupport, RenderUsingTimings, {
+
   resourceName: 'post',
 
   limit: 20,
   offset: -20,
   sortBy: 'date',
   order: 'desc',
+
+  measurementName: 'archive_view',
 
   // Push support...
 

@@ -36,6 +36,10 @@ r.connect(settings, function (err, conn) {
     // posts table
     function (callback) {
       r.db(name).tableCreate('posts').run(conn, callback);
+    },
+    // metrics table
+    function (callback) {
+      r.db(name).tableCreate('metrics').run(conn, callback);
     }
   ],
   function (err, results) {

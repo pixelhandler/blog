@@ -1,5 +1,4 @@
 /* jshint node: true */
-
 module.exports = function(environment) {
   var ENV = {
     modulePrefix: 'pixelhandler-blog',
@@ -16,7 +15,8 @@ module.exports = function(environment) {
     APP: {
       // Here you can pass flags/options to your application instance
       // when it is created
-      USE_SOCKET_ADAPTER: true
+      USE_SOCKET_ADAPTER: true,
+      REPORT_METRICS: true
     },
     contentSecurityPolicy: {
       'default-src': "'none'",
@@ -42,6 +42,7 @@ module.exports = function(environment) {
     ENV.APP.API_PATH = null;
     ENV.APP.SOCKET_URL = "ws://localhost:8888";
     ENV.APP.GOOGLE_ANALYTICS = null;
+    ENV.APP.REPORT_METRICS = true;
   }
 
   if (environment === 'test') {
@@ -54,6 +55,7 @@ module.exports = function(environment) {
     ENV.APP.LOG_VIEW_LOOKUPS = false;
 
     ENV.APP.rootElement = '#ember-testing';
+    ENV.APP.REPORT_METRICS = false;
   }
 
   if (environment === 'production') {
@@ -61,6 +63,7 @@ module.exports = function(environment) {
     ENV.APP.API_PATH = "api";
     ENV.APP.SOCKET_URL = "ws://pixelhandler.com";
     ENV.APP.GOOGLE_ANALYTICS = "UA-2687872-1";
+    ENV.APP.REPORT_METRICS = false;
   }
 
   return ENV;

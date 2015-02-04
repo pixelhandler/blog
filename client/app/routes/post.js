@@ -1,7 +1,8 @@
 import Ember from 'ember';
 import ResetScroll from '../mixins/reset-scroll';
+import RenderUsingTimings from '../mixins/render-using-timings';
 
-var PostRoute = Ember.Route.extend(ResetScroll, {
+var PostRoute = Ember.Route.extend(ResetScroll, RenderUsingTimings, {
   model: function (params) {
     return new Ember.RSVP.Promise(function (resolve, reject) {
       var found = this.store.filter('post', function (post) {
@@ -38,6 +39,8 @@ var PostRoute = Ember.Route.extend(ResetScroll, {
       'disqusTitle': model.get('title')
     });
   },
+
+  measurementName: 'post_view',
 
   actions: {
     error: function (error) {
