@@ -1,3 +1,4 @@
+/*jshint unused:false*/
 import Ember from 'ember';
 import config from '../config/environment';
 
@@ -34,7 +35,7 @@ export function pageView() {
 }
 
 function measureEntry(name) {
-  if (!window.performance || !window.performance.getEntriesByName ) { return; }
+  if (!window.performance || !window.performance.timing || !window.performance.getEntriesByName ) { return; }
   var markName = name + '_now';
   mark(markName);
   measure(name, 'navigationStart', markName);

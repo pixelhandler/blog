@@ -13,7 +13,7 @@ var debug = require('debug')('app');
   Application
 **/
 var app = express();
-
+app.enable('trust proxy');
 
 /**
   Middlewares
@@ -39,6 +39,7 @@ var corsOptions = {
   methods: ['POST', 'PUT', 'GET', 'DELETE']
 };
 app.use(cors(corsOptions));
+
 
 /**
   Setup database
@@ -75,7 +76,7 @@ require('./routes/ping')(app, cors(corsOptions));
 require('./routes/authors')(app, restrict);
 require('./routes/posts')(app, restrict);
 require('./routes/sessions')(app, restrict);
-
+require('./routes/metrics')(app, restrict);
 
 /**
   Middlewares

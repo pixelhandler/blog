@@ -63,7 +63,7 @@ module.exports = function(environment) {
     ENV.APP.API_PATH = "api";
     ENV.APP.SOCKET_URL = "ws://pixelhandler.com";
     ENV.APP.GOOGLE_ANALYTICS = "UA-2687872-1";
-    ENV.APP.REPORT_METRICS = false;
+    ENV.APP.REPORT_METRICS = true;
   }
 
   return ENV;
