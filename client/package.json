@@ -48,6 +48,7 @@
     "express": "^4.8.5",
     "glob": "^4.0.5",
     "morgan": "^1.5.1",
-    "node-static": "^0.7.6"
+    "node-static": "^0.7.6",
+    "rethinkdb_adapter": "^0.1.3"
   }
 }
