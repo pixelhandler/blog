@@ -9,89 +9,70 @@ module.exports = function(app) {
   var db = require('rethinkdb_adapter');
   db.setup('http_mock_db', dbSetupConfig);
 
-  metricsRouter.get('/', function(req, res) {
-    db.findQuery(resource, req.query, function (err, payload) {
-      if (err) {
-        console.error(err);
-        res.sendStatus(500);
-      } else {
-        res.send(payload);
-      }
-    });
-  });
+  /**
+    Create an metric resource
 
+    Route: (verb) POST /metrics
+    @async
+  **/
   metricsRouter.post('/', function(req, res) {
-    var metrics = req.body[resource];
-    metrics.remoteAddress = req.connection.remoteAddress;
+    var metrics = req.body.metrics;
+    metrics.remoteAddress = req.ip || req.connection.remoteAddress;
+    metrics.userAgent = req.headers['user-agent'];
+    if (!validPayload(metrics)) { res.send(422); }
     db.createRecord(resource, metrics, function (err, payload) {
       if (err) {
-        console.error(err);
-        res.sendStatus(500);
+        logerror(err);
+        res.send(500);
       } else {
         res.status(201).send(payload);
       }
     });
   });
 
-  metricsRouter.get('/:id', function(req, res) {
-    var ids = req.params.id.split(',');
-    if (ids.length === 1) {
-      db.find(resource, ids[0], function (err, payload) {
-        if (err) {
-          console.error(err);
-          res.sendStatus(500);
-        } else {
-          if (payload[resource] !== null) {
-            res.send(payload);
-          } else {
-            db.findBySlug(resource, ids[0], function (err, payload) {
-              if (err) {
-                console.error(err);
-                res.sendStatus(500);
-              } else {
-                if (payload[resource] !== null && payload[resource] !== void 0) {
-                  res.send(payload);
-                } else {
-                  res.status(404).end();
-                }
-              }
-            });
-          }
+  var validPayload = function(payload) {
+    var attrs = 'pathname date name startTime duration screen versions remoteAddress userAgent';
+    attrs = attrs.split(' ');
+    for (var prop in payload) {
+      if (payload.hasOwnProperty(prop)) {
+        if (attrs.indexOf(prop) === -1) {
+          return false;
         }
-      });
-    } else if (ids.length > 1) {
-      db.findMany(resource, ids, function (err, payload) {
-        if (err) {
-          console.error(err);
-          res.sendStatus(500);
-        } else {
-          res.send(payload);
-        }
-      });
+      }
     }
-  });
+    return true;
+  };
 
-  metricsRouter.put('/:id', function(req, res) {
-    db.updateRecord(resource, req.params.id, req.body[resource], function (err, payload) {
+  /**
+    (Read) Find metrics accepts query object
+
+    Route: (verb) GET /metrics
+    @async
+  **/
+  metricsRouter.get('/', function(req, res) {
+    var query = queryFactory(req.query);
+    db.findQuery(resource, query, function (err, payload) {
       if (err) {
-        console.error(err);
-        res.sendStatus(500);
+        logerror(err);
+        res.send(500);
       } else {
-        res.sendStatus(204); // No Content
+        res.send(payload);
       }
     });
   });
 
-  metricsRouter.delete('/:id', function(req, res) {
-    db.deleteRecord(resource, req.params.id, function (err) {
-      if (err) {
-        console.error(err);
-        res.sendStatus(500);
-      } else {
-        res.sendStatus(204); // No Content
-      }
-    });
-  });
+  /**
+    @method queryFactory
+    @param {Object} query
+    @return {Object} query - with defaults and number strings converted
+  **/
+  var queryFactory = function(query) {
+    query.limit = (query.limit) ? parseInt(query.limit, 10) : 200;
+    query.offset = (query.offset)? parseInt(query.offset, 10) : 0;
+    query.sortBy = query.sortBy || 'date';
+    query.order = query.order || 'desc';
+    return query;
+  };
 
   app.use('/api/metrics', metricsRouter);
 };

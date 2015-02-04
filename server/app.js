@@ -44,7 +44,7 @@ app.use(cors(corsOptions));
   Setup database
 **/
 var db = require('rethinkdb_adapter');
-db.setup('blog', { catalogs: 'id', posts: 'id', authors: 'id' });
+db.setup('blog', { catalogs: 'id', posts: 'id', authors: 'id', metrics: 'id' });
 
 
 /**

@@ -40,7 +40,6 @@ function measureEntry(name) {
   measure(name, 'navigationStart', markName);
   var measurements = window.performance.getEntriesByName(name);
   console.warn(name, measurements[0]);
-  //return post(measurements[0]);
 }
 
 export function report() {
@@ -62,24 +61,44 @@ function log(measurements) {
 }
 
 export function post(measurement) {
-  var payload = {
-    date: Date.now(),
-    name: measurement.name,
-    startTime: Math.round(measurement.startTime),
-    duration: Number(Math.round(measurement.duration + 'e3') + 'e-3'), // round to thousandths
-    pathname: location.pathname,
-    ember: Ember.VERSION,
-    version: config.APP.version,
-    adapter: (config.APP.USE_SOCKET_ADAPTER)? 'SOCKET' : 'JSONAPI'
-  };
+  var payload = createMetric(measurement);
   return Ember.$.ajax({
     type: 'POST',
-    url: '/api/metrics',
+    url: endpointUri('metrics'),
     contentType: 'application/json; charset=utf-8',
     data: JSON.stringify({ metrics: payload }),
     dataType: 'json'
   });/*.done(function(data, staus, xhr) { console.log(data, staus, xhr); })
     .fail(function(xhr, status, error) { console.log(xhr, status, error); });*/
+}
+
+function createMetric(measurement) {
+  return {
+    pathname: location.pathname,
+    date: Date.now(),
+    name: measurement.name,
+    startTime: Math.round(measurement.startTime),
+    duration: Number(Math.round(measurement.duration + 'e3') + 'e-3'), // round to thousandths
+    screen: {
+      orientation: (window.screen.orientation) ? window.screen.orientation.type : null,
+      height: window.screen.height,
+      width: window.screen.width,
+      colorDepth: window.screen.colorDepth,
+      pixelDepth: window.screen.pixelDepth
+    },
+    versions: {
+      blog: config.APP.version,
+      ember: Ember.VERSION,
+      adapter: (config.APP.USE_SOCKET_ADAPTER) ? 'SOCKET' : 'JSONAPI'
+    }
+  };
+}
+
+function endpointUri(resource) {
+  var host = '';//config.APP.API_HOST;
+  var path = 'api';//config.APP.API_PATH;
+  var uri = (path) ? host + '/' + path : host;
+  return uri + '/' + resource;
 }
 
 function clear() {
