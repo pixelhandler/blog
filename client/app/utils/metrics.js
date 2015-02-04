@@ -35,10 +35,14 @@ export function pageView() {
 }
 
 function measureEntry(name) {
-  if (!window.performance || !window.performance.timing || !window.performance.getEntriesByName ) { return; }
+  if (!window.performance || !window.performance.getEntriesByName ) { return; }
   var markName = name + '_now';
   mark(markName);
-  measure(name, 'navigationStart', markName);
+  if (window.performance.timing) {
+    measure(name, 'navigationStart', markName);
+  } else {
+    measure(name, markName, markName);
+  }
   var measurements = window.performance.getEntriesByName(name);
   console.warn(name, measurements[0]);
 }
