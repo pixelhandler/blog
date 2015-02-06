@@ -25,13 +25,16 @@ module.exports = function(app) {
   **/
   app.post('/metrics', function (req, res) {
     var metrics = req.body.metrics;
+    if (!validPayload(metrics)) {
+      logerror('Error on Post /metrics req.body.metrics invalid', req.body.metrics);
+      res.sendStatus(422);
+    }
     metrics.remoteAddress = req.ip;
     metrics.userAgent = req.headers['user-agent'];
-    if (!validPayload(metrics)) { res.send(422); }
     db.createRecord('metrics', metrics, function (err, payload) {
       if (err) {
         logerror(err);
-        res.send(500);
+        res.sendStatus(500);
       } else {
         res.status(201).send(payload);
       }
@@ -39,7 +42,7 @@ module.exports = function(app) {
   });
 
   var validPayload = function(payload) {
-    var attrs = 'pathname date name startTime duration screen versions userAgent';
+    var attrs = 'pathname date name startTime duration screen versions';
     attrs = attrs.split(' ');
     for (var prop in payload) {
       if (payload.hasOwnProperty(prop)) {
@@ -62,7 +65,7 @@ module.exports = function(app) {
     db.findQuery('metrics', query, function (err, payload) {
       if (err) {
         logerror(err);
-        res.send(500);
+        res.sendStatus(500);
       } else {
         if (node_env != 'development') {
           res.header('Cache-Control', 'public, max-age=' + (30 * 24 * 60 * 60));
@@ -95,7 +98,7 @@ module.exports = function(app) {
     db.findQuery('metrics', query, function (err, payload) {
       if (err) {
         logerror(err);
-        res.send(500);
+        res.sendStatus(500);
       } else {
         if (node_env != 'development') {
           res.header('Cache-Control', 'public, max-age=' + (30 * 24 * 60 * 60));
