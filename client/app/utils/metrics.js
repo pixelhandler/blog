@@ -100,8 +100,8 @@ function createMetric(measurement) {
 }
 
 function endpointUri(resource) {
-  var host = '';//config.APP.API_HOST;
-  var path = 'api';//config.APP.API_PATH;
+  var host = config.APP.API_HOST;
+  var path = config.APP.API_PATH;
   var uri = (path) ? host + '/' + path : host;
   return uri + '/' + resource;
 }

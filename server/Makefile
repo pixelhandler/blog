@@ -27,6 +27,6 @@ server_verbose:
 	@DEBUG=* node app.js
 
 server_debug:
-	@node debug app.js
+	@DEBUG=app:info,rdb:error,socket:error node debug app.js
 
 .PHONY: install db lint test server
