@@ -31,6 +31,7 @@ module.exports = function(app) {
     }
     metrics.remoteAddress = req.ip;
     metrics.userAgent = req.headers['user-agent'];
+    metrics.timestamp = Date.now();
     db.createRecord('metrics', metrics, function (err, payload) {
       if (err) {
         logerror(err);
@@ -42,7 +43,7 @@ module.exports = function(app) {
   });
 
   var validPayload = function(payload) {
-    var attrs = 'pathname date name startTime duration screen versions';
+    var attrs = 'pathname date name startTime duration screen versions timestamp';
     attrs = attrs.split(' ');
     for (var prop in payload) {
       if (payload.hasOwnProperty(prop)) {
