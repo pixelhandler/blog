@@ -79,23 +79,19 @@ export function post(measurement) {
 
 function createMetric(measurement) {
   return {
-    pathname: location.pathname,
     date: Date.now(),
     name: measurement.name,
+    pathname: location.pathname,
     startTime: Math.round(measurement.startTime),
     duration: Number(Math.round(measurement.duration + 'e3') + 'e-3'), // round to thousandths
-    screen: {
-      orientation: (window.screen.orientation) ? window.screen.orientation.type : null,
-      height: window.screen.height,
-      width: window.screen.width,
-      colorDepth: window.screen.colorDepth,
-      pixelDepth: window.screen.pixelDepth
-    },
-    versions: {
-      blog: config.APP.version,
-      ember: Ember.VERSION,
-      adapter: (config.APP.USE_SOCKET_ADAPTER) ? 'SOCKET' : 'JSONAPI'
-    }
+    screenWidth: window.screen.width,
+    screenHeight: window.screen.height,
+    screenColorDepth: window.screen.colorDepth,
+    screenPixelDepth: window.screen.pixelDepth,
+    screenOrientation: (window.screen.orientation) ? window.screen.orientation.type : null,
+    blogVersion: config.APP.version,
+    emberVersion: Ember.VERSION,
+    adapterType: (config.APP.USE_SOCKET_ADAPTER) ? 'SOCKET' : 'JSONAPI'
   };
 }
 
