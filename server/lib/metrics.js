@@ -62,6 +62,78 @@ module.exports.impressions = function (query, callback) {
 };
 
 /**
+  Duration Query - group X_view metrics by pathname and average the duration,
+  `name` param options: application_view index_view post_view about_view archive_view
+  searchable params: blogVersion emberVersion userAgent pathname
+
+  For example:
+
+  * http://localhost:8888/metrics/durations?name=post_view&emberVersion=1.10
+  * http://localhost:8888/metrics/durations?name=post_view&emberVersion=1.8&userAgent=iPhone
+  * http://localhost:8888/metrics/durations?name=post_view&emberVersion=1.10&userAgent=Gecko&pathname=component
+
+  @method durations
+  @param {Object} query - default `name` param is 'application_view'
+  @param {Function} callback that accepts arguments: {Error} err, {Object} (JSON) result
+  @async
+**/
+module.exports.durations = function (query, callback) {
+  query.seconds = parseInt(query.seconds, 10) || 86400 * 365;
+  var host = process.env.RDB_HOST || 'localhost';
+  var port = parseInt(process.env.RDB_PORT) || 28015;
+  var db = process.env.RDB_DB || 'blog';
+
+  r.connect({ host: host, port: port }, function (err, connection) {
+    assert.ok(err === null, err);
+
+    // params for post, index, archive, about
+    var nameParams = 'application_view index_view post_view about_view archive_view'.split(' ');
+    var nameParam = query.name || '';
+    if (nameParams.indexOf(nameParam) === -1) {
+      nameParam = 'application_view';
+    }
+    var criteria = r.db(db).table('metrics')
+    .filter(function(metric) {
+      return metric('name').match(nameParam);
+    })
+    .filter(function(metric) {
+      return r.ISO8601(metric('date')).during(
+        r.epochTime( r.now().toEpochTime().sub(86400) ),
+        r.now()
+      );
+    });
+    var searchParams = 'blogVersion emberVersion userAgent pathname'.split(' ');
+    var addSearchCriteria = function(criteria, prop, value) {
+      var _prop = prop, _value = value;
+      return criteria.filter(function(metric) {
+        return metric(_prop).match(_value);
+      });
+    };
+    for (var prop in query) {
+      if (query.hasOwnProperty(prop) && searchParams.indexOf(prop) !== -1) {
+        criteria = addSearchCriteria(criteria, prop, query[prop]);
+      }
+    }
+    criteria = criteria.group('pathname').ungroup()
+    .map(function(doc) {
+      return doc.merge({
+        pathname: doc('group'),
+        averageDuration: doc('reduction').avg('duration').default(null)
+      }).without('group','reduction');
+    })
+    .limit(query.limit)
+    .run(connection, function (err, payload) {
+      if (err) {
+        logerror('duration', err);
+      }
+      callback(err, payload);
+    });
+
+  });
+};
+
+
+/**
   Exports {Function} metric.findQuery method
 
   Example Metric resource:
@@ -94,7 +166,7 @@ module.exports.impressions = function (query, callback) {
   @async
 **/
 module.exports.findQuery = function findQuery(type, query, callback) {
-  query.seconds = parseInt(query.seconds, 10) || 86400 * 7;
+  query.seconds = parseInt(query.seconds, 10) || 86400 * 30;
   var metaPartial = metaFactory(query);
   var host = process.env.RDB_HOST || 'localhost';
   var port = parseInt(process.env.RDB_PORT) || 28015;

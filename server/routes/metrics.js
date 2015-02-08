@@ -113,6 +113,29 @@ module.exports = function(app) {
     });
   });
 
+
+  /**
+    (Read) Find duration metrics
+
+    Route: (verb) GET /metrics/durations
+    @async
+  **/
+  app.get('/metrics/durations', function (req, res) {
+    req.query.seconds = req.query.seconds || 60 * 60 * 24 * 365; // 1 year default
+    req.query.sortBy = req.query.sortBy || 'pathname';
+    metrics.durations(queryFactory(req.query), function (err, payload) {
+      if (err) {
+        logerror(err);
+        res.sendStatus(500);
+      } else {
+        if (node_env != 'development') {
+          res.header('Cache-Control', 'public, max-age=' + (30 * 24 * 60 * 60));
+        }
+        res.send(payload);
+      }
+    });
+  });
+
 };
 
 /**
