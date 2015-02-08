@@ -83,7 +83,7 @@ module.exports = function(app) {
   var formatMetrics = function(payload) {
     for (var i = 0; i < payload.metrics.length; i++) {
       for (var prop in payload.metrics[i]) {
-        if (payload.metrics[i].hasOwnProperty(prop) && prop !== 'remoteAddress' ) {
+        if (payload.metrics[i].hasOwnProperty(prop) && prop === 'remoteAddress' ) {
           delete payload.metrics[i][prop];
         }
       }
