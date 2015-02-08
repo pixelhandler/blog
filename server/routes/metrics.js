@@ -59,27 +59,6 @@ module.exports = function(app) {
     return true;
   };
 
-  /**
-    (Read) Find metrics accepts query object
-
-    Route: (verb) GET /metrics
-    @async
-  **/
-  app.get('/metrics', function (req, res) {
-    var query = queryFactory(req.query);
-    db.findQuery('metrics', query, function (err, payload) {
-      if (err) {
-        logerror(err);
-        res.sendStatus(500);
-      } else {
-        if (node_env != 'development') {
-          res.header('Cache-Control', 'public, max-age=' + (30 * 24 * 60 * 60));
-        }
-        res.send(formatMetrics(payload));
-      }
-    });
-  });
-
   var formatMetrics = function(payload) {
     for (var i = 0; i < payload.metrics.length; i++) {
       for (var prop in payload.metrics[i]) {
@@ -99,7 +78,7 @@ module.exports = function(app) {
   **/
   app.get('/metrics', function (req, res) {
     var query = queryFactory(req.query);
-    db.findQuery('metrics', query, function (err, payload) {
+    metrics.findQuery('metrics', query, function (err, payload) {
       if (err) {
         logerror(err);
         res.sendStatus(500);
