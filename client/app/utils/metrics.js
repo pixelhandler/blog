@@ -84,6 +84,7 @@ function createMetric(measurement) {
     pathname: location.pathname,
     startTime: Math.round(measurement.startTime),
     duration: Number(Math.round(measurement.duration + 'e3') + 'e-3'), // round to thousandths
+    visitor: window.localStorage.getItem('visitor'),
     screenWidth: window.screen.width,
     screenHeight: window.screen.height,
     screenColorDepth: window.screen.colorDepth,

@@ -3,8 +3,15 @@ import PushSupport from '../mixins/push-support';
 import RenderUsingTimings from '../mixins/render-using-timings';
 import { mark, measure } from '../utils/metrics';
 import config from '../config/environment';
+import uuid from '../utils/uuid';
 
 var ApplicationRoute = Ember.Route.extend(PushSupport, RenderUsingTimings, {
+
+  activate: function() {
+    if (!window.localStorage.getItem('visitor')) {
+      window.localStorage.setItem('visitor', uuid());
+    }
+  },
 
   beforeModel: function (transition) {
     if (typeof this._pingOk === 'undefined') {

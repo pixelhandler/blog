@@ -8,6 +8,7 @@ var logerror = require('debug')('app:error');
 var node_env = process.env.NODE_ENV || 'development';
 var db = require('rethinkdb_adapter');
 var metrics = require('../lib/metrics');
+var crypto = require('crypto');
 
 /**
   Exports {Function} routes for Metrics resource
@@ -31,7 +32,7 @@ module.exports = function(app) {
     }
     metrics.remoteAddress = req.ip;
     metrics.userAgent = req.headers['user-agent'];
-    metrics.timestamp = Date.now();
+    metrics.visit = crypto.createHash('sha256').update(metrics.visitor + req.ip).digest('hex');
     db.createRecord('metrics', metrics, function (err, payload) {
       if (err) {
         logerror(err);
@@ -43,8 +44,11 @@ module.exports = function(app) {
   });
 
   var validPayload = function(payload) {
-    var attrs = 'pathname date name startTime duration screen versions timestamp';
-    attrs = attrs.split(' ');
+    var attrs = [
+      'date','name','pathname','startTime','duration','screenWidth','screenHeight',
+      'screenColorDepth','screenPixelDepth','screenOrientation','blogVersion',
+      'emberVersion','adapterType','visitor'
+    ];
     for (var prop in payload) {
       if (payload.hasOwnProperty(prop)) {
         if (attrs.indexOf(prop) === -1) {
@@ -77,10 +81,9 @@ module.exports = function(app) {
   });
 
   var formatMetrics = function(payload) {
-    var disallowed = 'remoteAddress screen'.split(' ');
     for (var i = 0; i < payload.metrics.length; i++) {
       for (var prop in payload.metrics[i]) {
-        if (payload.metrics[i].hasOwnProperty(prop) && disallowed.indexOf(prop) > -1 ) {
+        if (payload.metrics[i].hasOwnProperty(prop) && prop !== 'remoteAddress' ) {
           delete payload.metrics[i][prop];
         }
       }
