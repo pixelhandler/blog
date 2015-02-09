@@ -118,7 +118,10 @@ module.exports.durations = function (query, callback) {
     .map(function(doc) {
       return doc.merge({
         pathname: doc('group'),
-        averageDuration: doc('reduction').avg('duration').default(null)
+        average: doc('reduction').avg('duration'),
+        fastest: doc('reduction').min('duration')('duration'),
+        slowest: doc('reduction').max('duration')('duration'),
+        durations: doc('reduction').count()
       }).without('group','reduction');
     })
     .limit(query.limit)
