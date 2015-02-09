@@ -98,7 +98,7 @@ module.exports.durations = function (query, callback) {
     })
     .filter(function(metric) {
       return r.ISO8601(metric('date')).during(
-        r.epochTime( r.now().toEpochTime().sub(86400) ),
+        r.epochTime( r.now().toEpochTime().sub(query.seconds) ),
         r.now()
       );
     });

@@ -131,6 +131,10 @@ Get the durations (ms) for rendering the popular 'restful api post'
 
 (And boom there it is, version 10 with HTMLbars has quicker load times)
 
+Get page views and group by visit (session), last 24 hrs
+
+* http://pixelhandler.com/api/metrics?seconds=86400&name=page_view&groupBy=visit
+
 
 
 
