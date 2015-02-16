@@ -105,6 +105,10 @@ table {
 td, th {
   margin: 0;
   padding: 2px;
+  min-width: 5em;
+  border-bottom: 1px dotted #cccccc; /* light gray */
+  vertical-align: top;
+  font-size: .8333em;
 }
 
 @media (min-width: 48em) {

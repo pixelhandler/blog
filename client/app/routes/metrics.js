@@ -1,31 +1,55 @@
 import Ember from 'ember';
 import ResetScroll from '../mixins/reset-scroll';
-import RecordChunksMixin from '../mixins/record-chunks';
 import RenderUsingTimings from '../mixins/render-using-timings';
 import { mark, measure } from '../utils/metrics';
 import config from '../config/environment';
 
-export default Ember.Route.extend(ResetScroll, RecordChunksMixin, RenderUsingTimings, {
-  resourceName: 'metric',
+export default Ember.Route.extend(ResetScroll, RenderUsingTimings, {
+
+  measurementName: 'metrics_table',
 
   limit: 10000,
-  offset: -10000,
+  offset: 0,
   sortBy: 'date',
   order: 'desc',
 
-  measurementName: 'metrics_view',
+  buildQuery: function () {
+    return {
+      offset: this.get('offset'),
+      limit: this.get('limit'),
+      sortBy: this.get('sortBy'),
+      order: this.get('order')
+    };
+  },
 
   model: function () {
     if (config.APP.REPORT_METRICS) {
       mark('mark_begin_find_metric_records');
     }
-    return this._super();
+    var query = this.buildQuery();
+    return new Ember.RSVP.Promise(function(resolve, reject) {
+      let uri = config.APP.API_HOST;
+      uri = (config.APP.API_PATH) ? uri + '/' + config.APP.API_PATH : uri;
+      Ember.$.ajax({
+        url: uri + '/metrics',
+        data: query,
+        dataType: 'json',
+        type: 'GET',
+        traditional: true
+      })
+      .done(function(json/*, textStatus, jqxhr*/) {
+        resolve(json.metrics);
+      })
+      .fail(function(jqxhr, textStatus, error) {
+        reject(error);
+      });
+    });
   },
 
   afterModel(collection) {
     if (config.APP.REPORT_METRICS) {
       mark('mark_end_find_metric_records');
-      measure('find_posts', 'mark_begin_find_metric_records', 'mark_end_find_metric_records');
+      measure('find_metrics', 'mark_begin_find_metric_records', 'mark_end_find_metric_records');
     }
     return this._super(collection);
   },
@@ -36,12 +60,5 @@ export default Ember.Route.extend(ResetScroll, RecordChunksMixin, RenderUsingTim
 
   deactivate: function() {
     this.controllerFor('application').set('isTwoColumns', true);
-  },
-
-  actions: {
-    showMore: function () {
-      this.preventScroll = true;
-      this.refresh();
-    }
   }
 });
