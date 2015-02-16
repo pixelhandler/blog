@@ -1,0 +1,26 @@
+<h3>Metrics (Peformance/Analytics)</h3>
+<table>
+  <thead>
+    <tr>
+      <th>Date</th>
+      <th>Name</th>
+      <th>Ember Version</th>
+      <th>Pathname</th>
+      <th>Duration</th>
+      <th>User Agent</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each metric in model}}
+    <tr>
+      <td>{{metric.date}}</td>
+      <td>{{metric.name}}</td>
+      <td>{{metric.emberVersion}}</td>
+      <td>{{metric.pathname}}</td>
+      <td>{{metric.duration}}</td>
+      <td>{{metric.userAgent}}</td>
+    </tr>
+    {{/each}}
+  </tbody>
+</table>
+{{has-more-button targetObject=controller hasMore=hasMore loadingMore=loadingMore}}

@@ -19,6 +19,7 @@ Router.map(function () {
     this.route('edit', { path: ':edit_id' });
   });
   this.route('offline');
+  this.route('metrics');
   this.route('not-found', { path: '/*path' });
 });
 

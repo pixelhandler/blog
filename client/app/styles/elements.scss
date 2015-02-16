@@ -99,6 +99,14 @@ pre > code {
   padding: 0;
 }
 
+table {
+  text-align: left;
+}
+td, th {
+  margin: 0;
+  padding: 2px;
+}
+
 @media (min-width: 48em) {
   body {
     font-size: 1.8rem;

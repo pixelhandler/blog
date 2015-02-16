@@ -204,7 +204,7 @@ var SocketSource = JSONAPISource.extend({
   },
 
   _remotePatch: function (type, id, remoteOp) {
-    console.log(JSON.stringify(remoteOp));
+    //console.log(JSON.stringify(remoteOp));
     var records;
     // handle promise resolution serially, pass off return to next then handler
     return new Orbit.Promise(function doPatch(resolve, reject) {

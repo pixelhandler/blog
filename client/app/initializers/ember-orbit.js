@@ -95,8 +95,8 @@ function setupConnectors(primary, secondary/*, local*/) {
   primary.on('assistFind', secondary.find);
 }
 
-function logTransforms(source, name) {
-  source.on('didTransform', function(operation) {
-    console.log('[ORBIT.JS] [' + name + ']', operation);
-  });
+function logTransforms(/*source, name*/) {
+  //source.on('didTransform', function(operation) {
+    //console.log('[ORBIT.JS] [' + name + ']', operation);
+  //});
 }
