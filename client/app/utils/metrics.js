@@ -62,6 +62,7 @@ function log(measurements) {
     console.warn(measurement.name + ' took ' + measurement.duration + ' milliseconds');
     console.table(measurement);
     post(measurement);
+    gaTrackTiming(measurement.pathname, measurement.name, measurement.duration, measurement.emberVersion);
   }
 }
 
@@ -75,6 +76,24 @@ export function post(measurement) {
     dataType: 'json'
   });/*.done(function(data, staus, xhr) { console.log(data, staus, xhr); })
     .fail(function(xhr, status, error) { console.log(xhr, status, error); });*/
+}
+
+/*
+  @method gaTrackTiming - send user timing stats
+
+  @param {String} category - user timing category
+  @param {String} varName - user timing variable
+  @param {Number} value - user timing value, in milliseconds
+  @param {String} label - Optional, user timing label
+*/
+function gaTrackTiming(category, varName, value, label) {
+  if (typeof window.ga !== 'function') { return; }
+  window.ga('send', 'timing', {
+    'timingCategory': category,
+    'timingVar': varName,
+    'timingValue': value,
+    'timingLabel': label
+  });
 }
 
 function createMetric(measurement) {

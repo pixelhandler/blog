@@ -2,7 +2,7 @@ import Ember from 'ember';
 import config from '../config/environment';
 import { pageView } from '../utils/metrics';
 
-if (config.APP.GOOGLE_ANALYTICS) {
+if (config.APP.GOOGLE_ANALYTICS && typeof window.ga !== 'function') {
   /*jshint -W030 */
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments);},i[r].l=1*new Date();a=s.createElement(o),
