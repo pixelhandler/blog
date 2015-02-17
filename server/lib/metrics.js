@@ -87,7 +87,7 @@ module.exports.durations = function (query, callback) {
     assert.ok(err === null, err);
 
     // params for post, index, archive, about
-    var nameParams = 'application_view index_view post_view about_view archive_view'.split(' ');
+    var nameParams = 'application_view index_view post_view about_view archive_view find_posts metrics_table find_metrics'.split(' ');
     var nameParam = query.name || '';
     if (nameParams.indexOf(nameParam) === -1) {
       nameParam = 'application_view';
