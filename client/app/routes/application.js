@@ -35,7 +35,7 @@ var ApplicationRoute = Ember.Route.extend(PushSupport, RenderUsingTimings, {
     return this.store.find('post');
   },
 
-  afterModel() {
+  afterModel: function(){
     if (config.APP.REPORT_METRICS) {
       mark('mark_end_find_post_records');
       measure('find_posts', 'mark_begin_find_post_records', 'mark_end_find_post_records');
