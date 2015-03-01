@@ -265,8 +265,12 @@
         <lastmod>2014-11-25T07:00:00.000Z</lastmod>
     </url>
     <url>
+        <loc>http://pixelhandler.com/posts/measuring-performance-with-user-timing-api-in-an-ember-application</loc>
+        <lastmod>2015-03-01T07:00:00.000Z</lastmod>
+    </url>
+    <url>
         <loc>http://pixelhandler.com</loc>
-        <lastmod>2014-11-25T07:00:00.000Z</lastmod>
+        <lastmod>2015-03-01T07:00:00.000Z</lastmod>
     </url>
     <url>
         <loc>http://pixelhandler.com/about</loc>
@@ -274,6 +278,6 @@
     </url>
     <url>
         <loc>http://pixelhandler.com/posts</loc>
-        <lastmod>2014-11-25T07:00:00.000Z</lastmod>
+        <lastmod>2015-03-01T07:00:00.000Z</lastmod>
     </url>
 </urlset>
