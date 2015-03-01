@@ -14,12 +14,14 @@ r.connect(settings, function (err, conn) {
   if (err) throw err;
 
   conn.use('blog');
-  r.table('authors').insert(authors).run(conn, logResult);
-  r.table('posts').insert(posts).run(conn, logResult);
-});
+  r.table('authors').insert(authors).run(conn, function(err, result) {
+    if (err) throw err;
+    console.log(JSON.stringify(result));
 
-function logResult(err, result) {
-  if (err) throw err;
-  console.log(JSON.stringify(result));
-  process.exit();
-}
+    r.table('posts').insert(posts).run(conn, function(err, result) {
+      if (err) throw err;
+      console.log(JSON.stringify(result));
+      process.exit();
+    });
+  });
+});

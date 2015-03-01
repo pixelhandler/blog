@@ -169,7 +169,7 @@ module.exports.durations = function (query, callback) {
   @async
 **/
 module.exports.findQuery = function findQuery(type, query, callback) {
-  query.seconds = parseInt(query.seconds, 10) || 86400 * 30;
+  query.seconds = parseInt(query.seconds, 10) || 60 * 60 * 24 * 120;
   var metaPartial = metaFactory(query);
   var host = process.env.RDB_HOST || 'localhost';
   var port = parseInt(process.env.RDB_PORT) || 28015;
@@ -188,7 +188,12 @@ module.exports.findQuery = function findQuery(type, query, callback) {
     collection.count().run(connection, function (err, results) {
       if (err) { logerror(err); }
       var meta = metaPartial(results);
-      var criteria = collection.orderBy(r[query.order](query.sortBy)).skip(query.offset).limit(query.limit);
+      var criteria;
+      if (query.sortBy === 'date') {
+        criteria = r.db(db).table(type).orderBy({index: r[query.order](query.sortBy)}).skip(query.offset).limit(query.limit);
+      } else {
+        criteria = collection.orderBy(r[query.order](query.sortBy)).skip(query.offset).limit(query.limit);
+      }
       if (query.withFields) {
         var fields = query.withFields.split(',');
         criteria = criteria.withFields.apply(criteria, fields);
