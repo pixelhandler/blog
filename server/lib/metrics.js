@@ -7,6 +7,10 @@ var assert = require('assert');
 var loginfo = require('debug')('app:info');
 var logerror = require('debug')('app:error');
 
+var host = process.env.RDB_HOST || 'localhost';
+var port = parseInt(process.env.RDB_PORT) || 28015;
+var db = process.env.RDB_DB || 'blog';
+
 /**
   Impressions Query - accepts params:
   ```
@@ -25,9 +29,6 @@ var logerror = require('debug')('app:error');
 **/
 module.exports.impressions = function (query, callback) {
   query.seconds = parseInt(query.seconds, 10) || 86400;
-  var host = process.env.RDB_HOST || 'localhost';
-  var port = parseInt(process.env.RDB_PORT) || 28015;
-  var db = process.env.RDB_DB || 'blog';
 
   r.connect({ host: host, port: port }, function (err, connection) {
     assert.ok(err === null, err);
@@ -79,9 +80,6 @@ module.exports.impressions = function (query, callback) {
 **/
 module.exports.durations = function (query, callback) {
   query.seconds = parseInt(query.seconds, 10) || 86400 * 365;
-  var host = process.env.RDB_HOST || 'localhost';
-  var port = parseInt(process.env.RDB_PORT) || 28015;
-  var db = process.env.RDB_DB || 'blog';
 
   r.connect({ host: host, port: port }, function (err, connection) {
     assert.ok(err === null, err);
@@ -118,7 +116,6 @@ module.exports.durations = function (query, callback) {
     .map(function(doc) {
       return doc.merge({
         pathname: doc('group'),
-        average: doc('reduction').avg('duration'),
         fastest: doc('reduction').min('duration')('duration'),
         slowest: doc('reduction').max('duration')('duration'),
         durations: doc('reduction').count()
@@ -135,6 +132,102 @@ module.exports.durations = function (query, callback) {
   });
 };
 
+
+/*
+  Query for the Geometric Mean of a Normalized set of metrics
+
+  Filters the metrics by platform, browser, metric name e.g. 'index_view', and emberVersion; returns JSON -
+
+  ```javascript
+  {
+    "name":  "index_view",
+    "geometric_mean": 187.945,
+    "  fast": 65.41,
+    "slow": 9547.233
+  }
+  ```
+
+  @method mean
+  @param {Object} query - `name`, `platform`, `browser`, `emberVersion`
+  @param {Function} callback that accepts arguments: {Error} err, {Object} (JSON) result
+  @async
+*/
+module.exports.mean = function (query, callback) {
+  var emberVersion = query.emberVersion || '1.10';
+  var name = query.name || 'index_view';
+  var platforms = ['Macintosh','Windows'];
+  var platform = (query.platform && platforms.indexOf(query.platform) !== -1) ? query.platform : platforms[0];
+  var browser = query.browser || 'Chrome';
+  var userAgentSearchFn = "(function(row) { return row.userAgent.search(" + {
+    'Chrome': "/^.*("+ platform +")(?!.*(Chromium|Mobile)).*(Chrome)/",
+    'Firefox': "/^.*("+ platform +")(?!.*Seamonkey).*(Firefox)/",
+    'Safari': "/^.*("+ platform +")(?!.*(Chrome|Chromium|Mobile)).*(Safari)/",
+    'iPad': "/^.*(iPad)/",
+    'iPhone': "/^.*(iPhone)/",
+    'Android': "/^.*(Android)/",
+  }[browser] + ") != -1; })";
+  var limit = 100;
+  var convert = function(doc) {
+    return {
+      name: doc.name,
+      fast: doc.fastest,
+      slow: doc.slowest,
+      measurments: doc.durations.length,
+      geometric_mean: Math.round(
+        Math.pow(
+          doc.durations.reduce( function (a,b) {return a*b;} ),
+          1/doc.durations.length
+        ) * 1000
+      ) / 1000,
+      durations: doc.durations,
+      userAgents: doc.userAgents,
+      metrics: doc.metrics
+    };
+  };
+  var convertExpression = '(' + convert.toString() + ')';
+
+  r.connect({ host: host, port: port }, function (err, connection) {
+    assert.ok(err === null, err);
+
+    r.db('blog').table('metrics').orderBy({index: r.desc('date')})
+      .withFields('duration','name','emberVersion','userAgent','date','id','pathname')
+      .filter(function(metric) {
+        return metric('emberVersion').match(emberVersion);
+      })
+      .filter(function(metric) {
+        return metric('name').match(name);
+      })
+      .filter(r.js(userAgentSearchFn))
+      .group('name').ungroup()
+      .map(function(doc) {
+        return doc.merge({
+          name: doc('group'),
+          durations: doc('reduction').map(function(metric) {
+            return metric.pluck('duration')('duration');
+          }).limit(limit),
+          fastest: doc('reduction').min('duration')('duration'),
+          slowest: doc('reduction').max('duration')('duration'),
+          userAgents: doc('reduction').map(function(metric) {
+            return metric.pluck('userAgent')('userAgent');
+          }).distinct(),
+          metrics: doc('reduction').map(function(metric) {
+            return metric.pluck('duration','date','id','emberVersion','pathname');
+          }).limit(limit)
+        }).without('group','reduction');
+      })
+      .map(r.js(convertExpression))
+      .run(connection, function (err, payload) {
+        if (err) {
+          logerror('mean', err);
+        }
+        payload = payload[0] || {};
+        payload.emberVersion = emberVersion;
+        payload.platform = (['iPad','iPhone','Android'].indexOf(browser) == -1) ? platform : null;
+        payload.browser = browser;
+        callback(err, { 'metric': payload });
+      });
+  });
+};
 
 /**
   Exports {Function} metric.findQuery method
@@ -171,9 +264,6 @@ module.exports.durations = function (query, callback) {
 module.exports.findQuery = function findQuery(type, query, callback) {
   query.seconds = parseInt(query.seconds, 10) || 60 * 60 * 24 * 120;
   var metaPartial = metaFactory(query);
-  var host = process.env.RDB_HOST || 'localhost';
-  var port = parseInt(process.env.RDB_PORT) || 28015;
-  var db = process.env.RDB_DB || 'blog';
   var _callback = callback;
 
   r.connect({ host: host, port: port }, function (err, connection) {

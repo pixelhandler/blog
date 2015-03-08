@@ -136,6 +136,23 @@ module.exports = function(app) {
     });
   });
 
+  /**
+    Calcluate the geometric mean from a normalized group of metrics
+
+    Route: (verb) GET /metrics/mean?name=index_view&emberVersion=1.10&platform=Macintosh&browser=Chrome
+    @async
+  **/
+  app.get('/metrics/mean', function (req, res) {
+    metrics.mean(req.query, function (err, payload) {
+      if (err) {
+        logerror(err);
+        res.sendStatus(500);
+      } else {
+        res.send(payload);
+      }
+    });
+  });
+
 };
 
 /**
