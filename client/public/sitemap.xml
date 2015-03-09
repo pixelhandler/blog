@@ -269,8 +269,24 @@
         <lastmod>2015-03-01T07:00:00.000Z</lastmod>
     </url>
     <url>
+        <loc>http://pixelhandler.com/posts/a-bet-on-web-components-and-embercomponent-synchronicity</loc>
+        <lastmod>2015-03-02T07:00:00.000Z</lastmod>
+    </url>
+    <url>
+        <loc>http://pixelhandler.com/posts/emberconf-2015-day-1</loc>
+        <lastmod>2015-03-04T07:00:00.000Z</lastmod>
+    </url>
+    <url>
+        <loc>http://pixelhandler.com/posts/emberconf-2015-day-2</loc>
+        <lastmod>2015-03-05T07:00:00.000Z</lastmod>
+    </url>
+    <url>
+        <loc>http://pixelhandler.com/posts/how-much-faster-is-htmlbars-than-handlebars</loc>
+        <lastmod>2015-03-08T07:00:00.000Z</lastmod>
+    </url>
+    <url>
         <loc>http://pixelhandler.com</loc>
-        <lastmod>2015-03-01T07:00:00.000Z</lastmod>
+        <lastmod>2015-03-08T07:00:00.000Z</lastmod>
     </url>
     <url>
         <loc>http://pixelhandler.com/about</loc>
@@ -278,6 +294,6 @@
     </url>
     <url>
         <loc>http://pixelhandler.com/posts</loc>
-        <lastmod>2015-03-01T07:00:00.000Z</lastmod>
+        <lastmod>2015-03-08T07:00:00.000Z</lastmod>
     </url>
 </urlset>
