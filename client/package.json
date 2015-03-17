@@ -30,7 +30,7 @@
     "body-parser": "^1.11.0",
     "broccoli-asset-rev": "^2.0.0",
     "broccoli-env": "0.0.1",
-    "broccoli-sass": "~0.1.4",
+    "broccoli-sass": "~0.6.0",
     "broccoli-static-compiler": "~0.1.4",
     "connect-restreamer": "^1.0.1",
     "ember-cli": "0.1.12",
