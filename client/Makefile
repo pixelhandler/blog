@@ -15,10 +15,10 @@ canary:
 	@bin/canary.sh
 
 build: lint clean
-	@export BROCCOLI_ENV=development; ember build --environment=development
+	@export BROCCOLI_ENV=development; ./node_modules/.bin/ember build --environment=development
 
 prod: lint clean
-	@export BROCCOLI_ENV=production; ember build --environment=production
+	@export BROCCOLI_ENV=production; ./node_modules/.bin/ember build --environment=production
 
 lint:
 	@jshint app/**/*.js
