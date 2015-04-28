@@ -84,7 +84,7 @@ app.import('bower_components/ember-orbit/ember-orbit.amd.js', {
   exports: {'ember-orbit': ['default']}
 });
 
-app.import('bower_components/socket.io-client/socket.io.js');
+//app.import('bower_components/socket.io-client/socket.io.js');
 
 app.import({
   development: 'bower_components/usertiming/src/usertiming.js',

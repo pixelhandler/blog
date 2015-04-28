@@ -6,8 +6,8 @@ module.exports = function(app) {
   var dbSetupConfig = {};
   dbSetupConfig[resource] = 'id';
 
-  var db = require('rethinkdb_adapter');
-  db.setup('http_mock_db', dbSetupConfig);
+  //var db = require('rethinkdb_adapter');
+  //db.setup('http_mock_db', dbSetupConfig);
 
   /**
     Create an metric resource

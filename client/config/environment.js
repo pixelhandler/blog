@@ -15,8 +15,8 @@ module.exports = function(environment) {
     APP: {
       // Here you can pass flags/options to your application instance
       // when it is created
-      USE_SOCKET_ADAPTER: true,
-      REPORT_METRICS: true
+      USE_SOCKET_ADAPTER: false,
+      REPORT_METRICS: false
     },
     contentSecurityPolicy: {
       'default-src': "'none'",
@@ -36,13 +36,13 @@ module.exports = function(environment) {
     // ENV.APP.LOG_TRANSITIONS_INTERNAL = true;
     ENV.APP.LOG_VIEW_LOOKUPS = true;
 
-    ENV.contentSecurityPolicy['connect-src'] = "'self' ws://localhost:35729 localhost:8888 ws://localhost:8888";
+    ENV.contentSecurityPolicy['connect-src'] = "'self' ws://localhost:35729 localhost:3000 ws://localhost:8888";
 
-    ENV.APP.API_HOST = 'http://localhost:8888';
-    ENV.APP.API_PATH = null;
+    ENV.APP.API_HOST = ''; //'http://localhost:8888';
+    ENV.APP.API_PATH = 'api';
     ENV.APP.SOCKET_URL = "ws://localhost:8888";
     ENV.APP.GOOGLE_ANALYTICS = null;
-    ENV.APP.REPORT_METRICS = true;
+    ENV.APP.REPORT_METRICS = false;
   }
 
   if (environment === 'test') {

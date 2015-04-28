@@ -3,7 +3,8 @@ import EO from 'ember-orbit';
 //import LocalStorageSource from 'orbit-common/local-storage-source';
 import JSONAPISource from 'orbit-common/jsonapi-source';
 import ApplicationSerializer from '../serializers/application';
-import SocketSource from '../adapters/socket-source';
+//import JSONAPISerializer from 'orbit-common/jsonapi-serializer';
+//import SocketSource from '../adapters/socket-source';
 import Ember from 'ember';
 import config from '../config/environment';
 
@@ -17,21 +18,21 @@ function jsonApiStore() {
       host: config.APP.API_HOST,
       namespace: config.APP.API_PATH,
       SerializerClass: ApplicationSerializer,
-      usePatch: true,
+      usePatch: false,
     }
   });
 }
 
-function socketStore() {
-  return EO.Store.extend({
-    orbitSourceClass: SocketSource,
-    orbitSourceOptions: {
-      host: config.APP.SOCKET_URL,
-      SerializerClass: ApplicationSerializer,
-      usePatch: true,
-    }
-  });
-}
+//function socketStore() {
+  //return EO.Store.extend({
+    //orbitSourceClass: SocketSource,
+    //orbitSourceOptions: {
+      //host: config.APP.SOCKET_URL,
+      //SerializerClass: ApplicationSerializer,
+      //usePatch: false,
+    //}
+  //});
+//}
 
 //var LocalStore = EO.Store.extend({
   //orbitSourceClass: LocalStorageSource
@@ -54,7 +55,7 @@ export default {
     application.register('schema:main', Schema);
     application.register('store:main', EO.Store);
     if (notPrerenderService() && canUseSocket(container)) {
-      application.register('store:secondary', socketStore());
+      //application.register('store:secondary', socketStore());
     } else {
       application.register('store:secondary', jsonApiStore());
     }

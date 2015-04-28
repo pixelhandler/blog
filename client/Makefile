@@ -1,5 +1,5 @@
-server: lint
-	@export BROCCOLI_ENV=development; ./node_modules/.bin/ember server --environment=development --proxy http://localhost:8888
+server:
+	@export BROCCOLI_ENV=development; ./node_modules/.bin/ember server --environment=development --proxy http://localhost:3000
 	@open http://localhost:4200/
 
 server_proxy: lint

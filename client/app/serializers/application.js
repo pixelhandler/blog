@@ -2,6 +2,8 @@ import JSONAPISerializer from 'orbit-common/jsonapi-serializer';
 
 export default JSONAPISerializer.extend({
   deserialize: function(type, id, data) {
+    data[type + 's'] = data.data;
+    delete data.data;
     this.assignMeta(type, data);
     return this._super(type, id, data);
   },

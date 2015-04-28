@@ -13,18 +13,18 @@ var ApplicationRoute = Ember.Route.extend(PushSupport, RenderUsingTimings, {
     }
   },
 
-  beforeModel: function (transition) {
-    if (typeof this._pingOk === 'undefined') {
-      Ember.$.get(this.get('pingUrl'))
-        .fail(function (e) {
-          transition.send('error', 'pingFailed', e);
-          this._pingOk = false;
-        }.bind(this))
-        .done(function () {
-          this._pingOk = true;
-        }.bind(this));
-    }
-    this.socketSanityCheck();
+  beforeModel: function (/*transition*/) {
+    //if (typeof this._pingOk === 'undefined') {
+      //Ember.$.get(this.get('pingUrl'))
+        //.fail(function (e) {
+          //transition.send('error', 'pingFailed', e);
+          //this._pingOk = false;
+        //}.bind(this))
+        //.done(function () {
+          //this._pingOk = true;
+        //}.bind(this));
+    //}
+    //this.socketSanityCheck();
     return this._super();
   },
 
@@ -54,27 +54,27 @@ var ApplicationRoute = Ember.Route.extend(PushSupport, RenderUsingTimings, {
         }
       }.bind(this));
     } else {
-      Ember.$.get(this.get('sessionUrl'))
-        .done(loginSuccess.bind(this));
+      /*Ember.$.get(this.get('sessionUrl'))
+        .done(loginSuccess.bind(this));*/
     }
   },
 
   measurementName: 'application_view',
   reportUserTimings: false,
 
-  sessionUrl: (function() {
+  authUrl: (function() {
     var uri = [ config.APP.API_HOST ];
     if (config.APP.API_PATH) { uri.push(config.APP.API_PATH); }
-    uri.push('sessions');
+    uri.push('auth');
     return uri.join('/');
   }()),
 
-  pingUrl: (function() {
-    var uri = [ config.APP.API_HOST ];
-    if (config.APP.API_PATH) { uri.push(config.APP.API_PATH); }
-    uri.push('ping');
-    return uri.join('/');
-  }()),
+  //pingUrl: (function() {
+    //var uri = [ config.APP.API_HOST ];
+    //if (config.APP.API_PATH) { uri.push(config.APP.API_PATH); }
+    //uri.push('ping');
+    //return uri.join('/');
+  //}()),
 
   // Push support...
 
@@ -125,7 +125,7 @@ var ApplicationRoute = Ember.Route.extend(PushSupport, RenderUsingTimings, {
         }.bind(this));
       } else {
         Ember.$.ajax({
-          url: this.get('sessionUrl'),
+          url: this.get('authUrl'),
           type: 'POST',
           data: credentails,
           dataType: 'text',
@@ -177,10 +177,11 @@ function lookupSocket(container) {
   return container.lookup('socket:main');
 }
 
-function loginSuccess() {
+function loginSuccess(data) {
   var controller = this.get('controller');
   Ember.run(function () {
     this.setProperties({ 'isLoggedIn': true, 'password': null, 'error': null });
+    window.localStorage.setItem('AuthorizationHeader', data.auth_token);
   }.bind(controller));
   if (this.canTransition) {
     this.transitionTo('admin.index');

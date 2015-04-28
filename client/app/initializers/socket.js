@@ -6,11 +6,11 @@ export default {
 
   initialize: function (container, app) {
     if (!canUseSocket()) { return; }
-    container.register('socket:main', SocketService, { singleton: false });
-    app.inject('controller', 'socket', 'socket:main');
-    app.inject('route', 'socket', 'socket:main');
-    EO.Model.reopenClass({
-      socket: container.lookup('socket:main')
-    });
+    //container.register('socket:main', SocketService, { singleton: false });
+    //app.inject('controller', 'socket', 'socket:main');
+    //app.inject('route', 'socket', 'socket:main');
+    //EO.Model.reopenClass({
+      //socket: container.lookup('socket:main')
+    //});
   }
 };

@@ -38,7 +38,7 @@ SocketService.create = function () {
 };
 
 export function canUseSocket() {
-  return window.WebSocket && notPrerenderService();
+  return false; //window.WebSocket && notPrerenderService();
 }
 
 function notPrerenderService() {
