@@ -3,8 +3,6 @@ import EO from 'ember-orbit';
 //import LocalStorageSource from 'orbit-common/local-storage-source';
 import JSONAPISource from 'orbit-common/jsonapi-source';
 import ApplicationSerializer from '../serializers/application';
-//import JSONAPISerializer from 'orbit-common/jsonapi-serializer';
-//import SocketSource from '../adapters/socket-source';
 import Ember from 'ember';
 import config from '../config/environment';
 
@@ -23,17 +21,6 @@ function jsonApiStore() {
   });
 }
 
-//function socketStore() {
-  //return EO.Store.extend({
-    //orbitSourceClass: SocketSource,
-    //orbitSourceOptions: {
-      //host: config.APP.SOCKET_URL,
-      //SerializerClass: ApplicationSerializer,
-      //usePatch: false,
-    //}
-  //});
-//}
-
 //var LocalStore = EO.Store.extend({
   //orbitSourceClass: LocalStorageSource
 //});
@@ -49,16 +36,11 @@ var Schema = EO.Schema.extend({
 
 export default {
   name: 'ember-orbit',
-  after: 'socket',
 
   initialize: function(container, application) {
     application.register('schema:main', Schema);
     application.register('store:main', EO.Store);
-    if (notPrerenderService() && canUseSocket(container)) {
-      //application.register('store:secondary', socketStore());
-    } else {
-      application.register('store:secondary', jsonApiStore());
-    }
+    application.register('store:secondary', jsonApiStore());
     //application.register('store:local', LocalStore);
     connectSources(container);
 
@@ -67,15 +49,6 @@ export default {
   }
 };
 
-function notPrerenderService() {
-  return window.navigator.userAgent.match(/Prerender/) === null;
-}
-
-function canUseSocket(container) {
-  var flag = config.APP.USE_SOCKET_ADAPTER;
-  return flag && window.WebSocket && container.lookup('socket:main');
-}
-
 function connectSources(container) {
   var primarySource = container.lookup('store:main').orbitSource;
   var secondarySource = container.lookup('store:secondary').orbitSource;
@@ -83,8 +56,8 @@ function connectSources(container) {
   // Connect (using default blocking strategy)
   setupConnectors(primarySource, secondarySource/*, localSource*/);
 
-  logTransforms(primarySource, 'store:main');
-  logTransforms(secondarySource, 'store:secondary');
+  //logTransforms(primarySource, 'store:main');
+  //logTransforms(secondarySource, 'store:secondary');
   //logTransforms(localSource, 'store:local');
 }
 
@@ -96,8 +69,8 @@ function setupConnectors(primary, secondary/*, local*/) {
   primary.on('assistFind', secondary.find);
 }
 
-function logTransforms(/*source, name*/) {
-  //source.on('didTransform', function(operation) {
-    //console.log('[ORBIT.JS] [' + name + ']', operation);
-  //});
-}
+/*function logTransforms(source, name) {
+  source.on('didTransform', function(operation) {
+    console.log('[ORBIT.JS] [' + name + ']', operation);
+  });
+}*/

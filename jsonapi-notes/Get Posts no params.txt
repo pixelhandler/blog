@@ -1,4 +1,4 @@
-GET /api/v1/posts?sort=-date,-id&fields%5Bposts%5D=title,date&page%5Boffset%5D=0&page%5Blimit%5D=5 HTTP/1.1
+GET /api/v1/posts HTTP/1.1
 Accept: application/vnd.api+json
 Content-Type: application/vnd.api+json
 Host: localhost:3000

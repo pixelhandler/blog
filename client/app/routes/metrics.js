@@ -4,6 +4,7 @@ import RenderUsingTimings from '../mixins/render-using-timings';
 import { mark, measure } from '../utils/metrics';
 import config from '../config/environment';
 
+// Still uses api not v1
 export default Ember.Route.extend(ResetScroll, RenderUsingTimings, {
 
   measurementName: 'metrics_table',
@@ -28,8 +29,7 @@ export default Ember.Route.extend(ResetScroll, RenderUsingTimings, {
     }
     var query = this.buildQuery();
     return new Ember.RSVP.Promise(function(resolve, reject) {
-      let uri = config.APP.API_HOST;
-      uri = (config.APP.API_PATH) ? uri + '/' + config.APP.API_PATH : uri;
+      let uri = config.APP.API_HOST + '/api';
       Ember.$.ajax({
         url: uri + '/metrics',
         data: query,

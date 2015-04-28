@@ -15,7 +15,6 @@ module.exports = function(environment) {
     APP: {
       // Here you can pass flags/options to your application instance
       // when it is created
-      USE_SOCKET_ADAPTER: false,
       REPORT_METRICS: false
     },
     contentSecurityPolicy: {
@@ -36,11 +35,10 @@ module.exports = function(environment) {
     // ENV.APP.LOG_TRANSITIONS_INTERNAL = true;
     ENV.APP.LOG_VIEW_LOOKUPS = true;
 
-    ENV.contentSecurityPolicy['connect-src'] = "'self' ws://localhost:35729 localhost:3000 ws://localhost:8888";
+    ENV.contentSecurityPolicy['connect-src'] = "'self' ws://localhost:35729 localhost:3000";
 
-    ENV.APP.API_HOST = ''; //'http://localhost:8888';
-    ENV.APP.API_PATH = 'api';
-    ENV.APP.SOCKET_URL = "ws://localhost:8888";
+    ENV.APP.API_HOST = '';
+    ENV.APP.API_PATH = 'api/v1';
     ENV.APP.GOOGLE_ANALYTICS = null;
     ENV.APP.REPORT_METRICS = false;
   }
@@ -60,8 +58,7 @@ module.exports = function(environment) {
 
   if (environment === 'production') {
     ENV.APP.API_HOST = "http://pixelhandler.com";
-    ENV.APP.API_PATH = "api";
-    ENV.APP.SOCKET_URL = "ws://pixelhandler.com";
+    ENV.APP.API_PATH = "api/v1";
     ENV.APP.GOOGLE_ANALYTICS = "UA-2687872-1";
     ENV.APP.REPORT_METRICS = true;
   }

@@ -19,5 +19,9 @@ class Api::V1::PostResource < JSONAPI::Resource
       end
       self.new(model, context)
     end
+
+    def count(options = {})
+      records(options).count
+    end
   end
 end

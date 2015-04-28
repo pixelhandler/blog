@@ -105,7 +105,7 @@ function createMetric(measurement) {
     screenOrientation: (window.screen.orientation) ? window.screen.orientation.type : null,
     blogVersion: config.APP.version,
     emberVersion: Ember.VERSION,
-    adapterType: (config.APP.USE_SOCKET_ADAPTER) ? 'SOCKET' : 'JSONAPI'
+    adapterType: 'JSONAPI'
   };
 }
 

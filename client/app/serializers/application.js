@@ -24,6 +24,6 @@ export default JSONAPISerializer.extend({
       meta.set(type, Ember.Object.create());
     }
     var metaByType = meta.get(type);
-    metaByType.set('total', data.meta.total);
+    metaByType.set('total', data.meta.page.total);
   }
 });
