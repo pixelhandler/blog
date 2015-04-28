@@ -1,0 +1,15 @@
+HTTP/1.1 200 OK 
+X-Frame-Options: SAMEORIGIN
+X-Xss-Protection: 1; mode=block
+X-Content-Type-Options: nosniff
+Content-Type: application/vnd.api+json
+Etag: W/"279962c86689947bcfeed94b8ca99288"
+Cache-Control: max-age=0, private, must-revalidate
+X-Request-Id: dedc16f3-5eb1-4503-9462-74ae3b188472
+X-Runtime: 0.008981
+Server: WEBrick/1.3.1 (Ruby/2.2.2/2015-04-13)
+Date: Tue, 28 Apr 2015 01:04:27 GMT
+Content-Length: 479
+Connection: close
+
+{"links":{"self":"http://localhost:3000/api/v1/authors/1/links/posts","related":"http://localhost:3000/api/v1/authors/1/posts"},"data":[{"type":"posts","id":"1"},{"type":"posts","id":"2"},{"type":"posts","id":"3"},{"type":"posts","id":"4"},{"type":"posts","id":"5"},{"type":"posts","id":"6"},{"type":"posts","id":"7"},{"type":"posts","id":"8"},{"type":"posts","id":"9"},{"type":"posts","id":"10"},{"type":"posts","id":"11"},{"type":"posts","id":"13"},{"type":"posts","id":"12"}]}

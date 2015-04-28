@@ -1,0 +1,15 @@
+HTTP/1.1 200 OK 
+X-Frame-Options: SAMEORIGIN
+X-Xss-Protection: 1; mode=block
+X-Content-Type-Options: nosniff
+Content-Type: application/vnd.api+json
+Etag: W/"916b8b81dd34d94e809127bd09a93e42"
+Cache-Control: max-age=0, private, must-revalidate
+X-Request-Id: 2423c486-b00d-4946-aaae-0700ab8c59e9
+X-Runtime: 0.005197
+Server: WEBrick/1.3.1 (Ruby/2.2.2/2015-04-13)
+Date: Tue, 28 Apr 2015 01:04:55 GMT
+Content-Length: 542
+Connection: close
+
+{"data":[{"id":"1","name":"me","email":"me@icloud.com","type":"authors","links":{"self":"http://localhost:3000/api/v1/authors/1","posts":{"self":"http://localhost:3000/api/v1/authors/1/links/posts","related":"http://localhost:3000/api/v1/authors/1/posts"}}},{"id":"2","name":"Bill","email":"me@icloud.com","type":"authors","links":{"self":"http://localhost:3000/api/v1/authors/2","posts":{"self":"http://localhost:3000/api/v1/authors/2/links/posts","related":"http://localhost:3000/api/v1/authors/2/posts"}}}]}

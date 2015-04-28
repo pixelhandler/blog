@@ -1,0 +1,24 @@
+POST /api/v1/posts HTTP/1.1
+Accept: application/vnd.api+json
+Content-Type: application/vnd.api+json
+Authorization: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE0MzAyMDY0MDN9.byC1KwoMK_yGsqMb-vT--fXlxfpzuHZuv_6mGXIc8cw
+Host: localhost:3000
+Connection: close
+User-Agent: Paw/2.2.1 (Macintosh; OS X/10.10.3) GCDHTTPRequest
+Content-Length: 286
+
+{
+  "data": {
+    "type": "posts",
+	"title": "Test post 13 title",
+    "slug": "test-post-13",
+    "excerpt": "Test post 13 excerpt",
+	"date": "2015-04-27",
+    "body": "Test Post 13",
+	"links": {
+      "author": {
+        "linkage": { "type": "authors", "id": "1" }
+      }
+    }
+  }
+}

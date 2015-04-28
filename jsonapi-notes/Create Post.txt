@@ -1,0 +1,19 @@
+POST /api/v1/posts HTTP/1.1
+Accept: application/vnd.api+json
+Content-Type: application/vnd.api+json
+Authorization: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjozLCJleHAiOjE0MzAyNjkyODR9.tCdajd9Fi8CWhN9HpAJpa3DPTHuxPAxX_cTjVa61UTA
+Host: localhost:3000
+Connection: close
+User-Agent: Paw/2.2.1 (Macintosh; OS X/10.10.3) GCDHTTPRequest
+Content-Length: 189
+
+{
+  "data": {
+    "type": "posts",
+	"title": "Test post 12 title",
+    "slug": "test-post-12",
+    "excerpt": "Test post 12 excerpt",
+	"date": "2015-04-27",
+    "body": "Test Post 12"
+  }
+}

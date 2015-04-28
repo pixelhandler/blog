@@ -1,0 +1,57 @@
+== README
+
+This README would normally document whatever steps are necessary to get the
+application up and running.
+
+Things you may want to cover:
+
+* Ruby version 2.2.2
+
+* System dependencies
+
+* Configuration
+
+Testing
+
+    rails generate rspec:install
+
+Slugs: http://code-worrier.com/blog/custom-slugs-in-rails/
+
+* Database creation
+
+bundle config build.pg --with-pg-config=/Applications/Postgres.app/Contents/Versions/9.4/bin/pg_config
+
+Setup a Postgress db for api_* and a role: 'api'
+
+* http://postgresapp.com
+* https://eggerapps.at/pgcommander/
+
+    CREATE ROLE api WITH SUPERUSER LOGIN PASSWORD 'XXXX';
+    CREATE DATABASE api_development OWNER api;
+    CREATE DATABASE api_test OWNER api;
+
+Then make some models
+
+    be rails generate model user email:string token:string author:references
+
+* Database initialization
+
+    be rake db:setup
+
+* How to run the test suite
+
+* Services (job queues, cache servers, search engines, etc.)
+
+Token Auth:
+
+http://adamalbrecht.com/2014/12/04/add-json-web-token-authentication-to-your-angular-rails-app/
+
+http://robert-reiz.com/2014/04/12/has_secure_password-with-rails-4-1/
+
+* Deployment instructions
+
+* ...
+
+
+Please feel free to use a different markup language if you do not plan to run
+<tt>rake doc:app</tt>.

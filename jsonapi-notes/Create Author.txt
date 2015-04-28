@@ -1,0 +1,16 @@
+POST /api/v1/authors HTTP/1.1
+Accept: application/vnd.api+json
+Content-Type: application/vnd.api+json
+Authorization: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJleHAiOjE0MzAxMDE1MjB9.DAw4pan_8hU9-Sboq2fsvguccxXqIqqFUblvWIrzolc
+Host: localhost:3000
+Connection: close
+User-Agent: Paw/2.2.1 (Macintosh; OS X/10.10.3) GCDHTTPRequest
+Content-Length: 104
+
+{
+  "data": {
+    "type": "authors",
+    "email": "me@icloud.com",
+    "name": "Bill"
+  }
+}

@@ -1,0 +1,11 @@
+HTTP/1.1 204 No Content 
+X-Frame-Options: SAMEORIGIN
+X-Xss-Protection: 1; mode=block
+X-Content-Type-Options: nosniff
+Cache-Control: no-cache
+X-Request-Id: 6c13597e-79d9-43af-990b-89b2daf32cd1
+X-Runtime: 0.013524
+Server: WEBrick/1.3.1 (Ruby/2.2.2/2015-04-13)
+Date: Tue, 28 Apr 2015 01:03:10 GMT
+Connection: close
+
