@@ -1,6 +1,6 @@
 <h4>Posts Archive</h4>
 <dl class="Blog-list">
-  {{#each post in model}}
+  {{#each model as |post|}}
     <dt class="Blog-list-date">{{format-date post.date}}</dt>
     <dd class="Blog-list-item u-cf">
       <span class="Blog-list-item-title">{{post.title}}</span>

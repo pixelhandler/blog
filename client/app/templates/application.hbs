@@ -20,7 +20,7 @@
   </main>
 
   <nav {{bind-attr class=":Blog-nav isTwoColumns:Blog-nav--two-col :u-blackTxt :u-grayBkg :u-offWhiteLtBorder"}}>
-    {{render "recent" this}}
+    {{render "recent" model}}
     {{partial "links"}}
     {{#if isLoggedIn}}
       {{partial "admin/menu"}}

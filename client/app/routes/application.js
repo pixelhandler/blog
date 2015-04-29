@@ -10,6 +10,10 @@ var ApplicationRoute = Ember.Route.extend(RenderUsingTimings, {
     if (!window.localStorage.getItem('visitor')) {
       window.localStorage.setItem('visitor', uuid());
     }
+    const token = window.localStorage.getItem('AuthorizationHeader');
+    if (!Ember.isEmpty(token)) {
+      this.set('isLoggedIn', true);
+    }
   },
 
   beforeModel: function () {
@@ -36,24 +40,20 @@ var ApplicationRoute = Ember.Route.extend(RenderUsingTimings, {
 
   setupController: function (controller, model) {
     this._super(controller, model);
+    controller.set('isLoggedIn', this.get('isLoggedIn'));
     this.canTransition = false;
   },
 
   measurementName: 'application_view',
   reportUserTimings: false,
 
-  authUrl: (function() {
-    var uri = [ config.APP.API_HOST ];
-    if (config.APP.API_PATH) { uri.push(config.APP.API_PATH); }
-    uri.push('auth');
-    return uri.join('/');
-  }()),
+  authUrl: config.APP.API_HOST + '/' + config.APP.API_AUTH,
 
   actions: {
     login: function () {
-      var controller = this.get('controller');
+      const controller = this.get('controller');
       this.canTransition = true;
-      var credentails = JSON.stringify({
+      const credentails = JSON.stringify({
         username: controller.get('username'),
         password: controller.get('password')
       });
@@ -71,6 +71,8 @@ var ApplicationRoute = Ember.Route.extend(RenderUsingTimings, {
 
     logout: function () {
       window.localStorage.remoteItem('AuthorizationHeader');
+      this.set('isLoggedIn', false);
+      this.controllerFor('application').set('isLoggedIn', false);
       /* TODO re-implement logout
       Ember.$.ajax({
         url: this.get('authUrl'),
@@ -98,18 +100,20 @@ var ApplicationRoute = Ember.Route.extend(RenderUsingTimings, {
 
 
 function loginSuccess(data) {
-  var controller = this.get('controller');
+  const controller = this.get('controller');
   Ember.run(function () {
-    this.setProperties({ 'isLoggedIn': true, 'password': null, 'error': null });
-    window.localStorage.setItem('AuthorizationHeader', data.auth_token);
-  }.bind(controller));
+    let response = JSON.parse(data);
+    window.localStorage.setItem('AuthorizationHeader', response.auth_token);
+    controller.setProperties({ 'isLoggedIn': true, 'password': null, 'error': null });
+    this.set('isLoggedIn', true);
+  }.bind(this));
   if (this.canTransition) {
     this.transitionTo('admin.index');
   }
 }
 
 function loginFailure(xhr, status, error) {
-  var controller = this.get('controller');
+  const controller = this.get('controller');
   xhr = xhr || void 0;
   status = status || void 0;
   Ember.run(function () {

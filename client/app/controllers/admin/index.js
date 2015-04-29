@@ -8,7 +8,7 @@ function confirmDialog() {
   return window.confirm(msg);
 }
 
-export default Ember.ArrayController.extend({
+export default Ember.Controller.extend({
   actions: {
     destroy: function () {
       return confirmDialog();

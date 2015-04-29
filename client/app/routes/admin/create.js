@@ -16,16 +16,20 @@ export default Ember.Route.extend(ResetScroll, {
     return Post.newRecord();
   },
 
-  afterModel: function (model) {
+  afterModel: function () {
     return this.store.find('author').then(function (authors) {
-      var id = authors.get('firstObject').get('id');
-      model.set('links.author', id);
-    });
+      const id = authors.get('firstObject').get('id');
+      this.setProperties({'authorId': id, 'authors': authors});
+    }.bind(this));
   },
 
   setupController: function (controller, model) {
     this._super(controller, model);
-    controller.set('dateInput', moment().format('L'));
+    controller.setProperties({
+      'dateInput': moment().format('L'),
+      'authorId': this.get('authorId'),
+      'authors': this.get('authors')
+    });
   },
 
   actions: {

@@ -1,15 +1,15 @@
-<h1>{{title}}</h1>
+<h1>{{model.title}}</h1>
 <small>
-  <span class="author">by {{author.name}}</span>&nbsp;
-  <span class="date">({{format-date-from-now date}})</span>
+  <span class="author">by pixelhandler</span>&nbsp;
+  <span class="date">({{format-date-from-now model.date}})</span>
 </small>
 
 <hr>
 
 <div class='intro'>
-  {{format-markdown excerpt}}
+  {{format-markdown model.excerpt}}
 </div>
 
 <div class='below-the-fold'>
-  {{format-markdown body}}
+  {{format-markdown model.body}}
 </div>

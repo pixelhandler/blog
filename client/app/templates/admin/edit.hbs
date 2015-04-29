@@ -1,13 +1,12 @@
 <p>
   <strong>Edit a Blog Post</strong>
 </p>
-{{#if isEditing}}
+{{#if controller.isEditing}}
   <button {{action 'done'}} class="u-button u-preview">Done</button>
   <hr>
   {{partial 'admin/form'}}
 {{else}}
   <button {{action 'edit'}} class="u-button u-edit">Edit</button>
   <hr>
-
   {{partial 'admin/preview'}}
 {{/if}}

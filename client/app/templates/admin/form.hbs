@@ -2,28 +2,28 @@
   <p class="Admin-form-title">
     <label>Title:</label>
     <br>
-    {{input type="text" value=titleInput name="title"}}
+    {{input type="text" value=model.titleInput name="title"}}
   </p>
-  {{#if isNew}}
+  {{#if model.isNew}}
     <p class="Admin-form-slug">
       <label>Slug:</label>
       <br>
-      {{input type="text" value=slugInput name="slug"}}
+      {{input type="text" value=model.slugInput name="slug"}}
     </p>
     <p class="Admin-form-date">
       <label>Date:</label>
       <br>
-      {{input type="date" value=dateInput name="date" placeholder="xx/xx/xxxx"}}
+      {{input type="date" value=model.dateInput name="date" placeholder="xx/xx/xxxx"}}
     </p>
   {{/if}}
   <p class="Admin-form-excerpt">
     <label>Excerpt: [Markdown]</label>
     <br>
-    {{textarea type="text" value=excerptInput name="excerpt"}}
+    {{textarea type="text" value=model.excerptInput name="excerpt"}}
   </p>
   <p class="Admin-form-body">
     <label>Body: [Markdown]</label>
     <br>
-    {{textarea value=bodyInput name="body"}}
+    {{textarea value=model.bodyInput name="body"}}
   </p>
 </div>

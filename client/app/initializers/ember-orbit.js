@@ -1,7 +1,7 @@
 import Orbit from 'orbit';
 import EO from 'ember-orbit';
 //import LocalStorageSource from 'orbit-common/local-storage-source';
-import JSONAPISource from 'orbit-common/jsonapi-source';
+import ApplicationSource from '../adapters/application';
 import ApplicationSerializer from '../serializers/application';
 import Ember from 'ember';
 import config from '../config/environment';
@@ -11,7 +11,7 @@ Orbit.Promise = Orbit.Promise || Ember.RSVP.Promise;
 function jsonApiStore() {
   Orbit.ajax = Ember.$.ajax;
   return EO.Store.extend({
-    orbitSourceClass: JSONAPISource,
+    orbitSourceClass: ApplicationSource,
     orbitSourceOptions: {
       host: config.APP.API_HOST,
       namespace: config.APP.API_PATH,

@@ -1,8 +1,6 @@
 import Ember from 'ember';
 
-export default Ember.ArrayController.extend({
-  //queryParams: ['page'],
-  //page: 0,
+export default Ember.Controller.extend({
 
   // flag to show button for more
   hasMore: true,
