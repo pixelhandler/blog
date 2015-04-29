@@ -13,8 +13,8 @@ module.exports = function(app) {
   var proxies    = globSync('./proxies/**/*.js', { cwd: __dirname }).map(require);
 
   // Handle post/put requests content-type: application/json
-  var bodyParser = require('body-parser');
-  app.use(bodyParser.json());
+  //var bodyParser = require('body-parser');
+  //app.use(bodyParser.json());
 
   // Log proxy requests
   var morgan  = require('morgan');
