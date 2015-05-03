@@ -1,0 +1,12 @@
+<h4>Posts Archive</h4>
+<dl class="Blog-list">
+  {{#each model as |post|}}
+    <dt class="Blog-list-date">{{format-date post.date}}</dt>
+    <dd class="Blog-list-item u-cf">
+      <span class="Blog-list-item-title">{{post.title}}</span>
+      {{#link-to "admin.edit" post class="u-button u-button--sm u-button--reverse u-edit"}}Edit{{/link-to}}
+      <button class="u-button u-button--sm u-button--reverse u-destroy" {{action "destroy" post}}>Delete</button>
+    </dd>
+  {{/each}}
+</dl>
+{{outlet}}
