@@ -1,36 +1,77 @@
-# Pixelhandler's Blog
+# Blog
 
-* [Pixelhandler.com](http://pixelhandler.com)
-* (Local) server runs on port 8888, client on 8000 (in dev, uses ember-cli proxy helper to access api on same domain)
+* The client-side application for <http://pixelhandler.com>.
+* The API server follows the JSON API spec at <http://jsonapi.org>.
+* The server application is at <https://github.com/pixelhandler/blog-api>.
 
-[![Code Climate](https://codeclimate.com/github/pixelhandler/blog.png)](https://codeclimate.com/github/pixelhandler/blog)
 
-## Directories
+## Getting Started
 
-### [client](client)
+* Execute `make install` to fetch dependendies.
+* See [ember-cli] for more info
 
-* See: [client/README.md](client/README.md), [client/package.json](client/package.json),  [client/bower.json](client/bower.json)
+[ember-cli]: http://ember-cli.com
 
-### [server](server)
 
-* See: [server/README.md](server/README.md), [server/package.json](server/package.json)
+### Static File Server
 
-## Setup
+Execute `make server` to launch a static file server for the client
+app. Files in the app and vendor directories are watched for
+referching your browser after each change triggers a build.
 
-* `cd client && npm install && bower install`
-* `cd server && npm install`
 
-## Tasks / Commands
+## Makefile
 
-### Client-side
+See [Makefile](Makefile) for tasks
 
-* See [client/Makefile](client/Makefile)
+* `make install` - fetch dependencies and setup
+* `make build` = Build app using Brunch.io
+* `make server` - Starts server for client app
+* `make test` - Launch Testem to execute tests, see testem.json
 
-`cd client`, then watch, build and reload using `make server`
 
-### Server-side
+## Build
 
-* See the [server/Makefile](server/Makefile)
+Use `make build` (default is 'development')
 
-`cd server`, `make db`, `make server`
+* See [ember-cli]
 
+
+## Depedencies
+
+* [bower.json](bower.json)
+* [package.json](package.json)
+
+
+## Testing
+
+1. Start API server, (see ^), If needed, seed the db first
+1. `make test` launches testem and browsers to test in dev
+
+
+## Code Quality
+
+* [jshint options]
+
+[jshint options]: http://jshint.com/docs/options/
+
+
+## Links
+
+* [ember-cli]
+* [orbitjs/orbit.js]
+* [orbitjs/ember-orbit]
+
+[orbitjs/orbit.js]: https://github.com/orbitjs/orbit.js
+[orbitjs/ember-orbit]: https://github.com/orbitjs/ember-orbit
+
+
+## Thanks
+
+For providing tools and examples of building with Ember.js:
+
+* [ember-cli]
+* [tildeio/bloggr-client]
+* [orbitjs/orbit.js]
+
+[tildeio/bloggr-client]: https://github.com/tildeio/bloggr-client

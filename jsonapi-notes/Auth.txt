@@ -1,8 +1,0 @@
-POST /api/auth HTTP/1.1
-Content-Type: application/json
-Host: localhost:3000
-Connection: close
-User-Agent: Paw/2.2.1 (Macintosh; OS X/10.10.3) GCDHTTPRequest
-Content-Length: 58
-
-{"username":"me@icloud.com","password":"1234qwerty"}

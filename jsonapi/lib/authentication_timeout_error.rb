@@ -1,2 +1,0 @@
-class AuthenticationTimeoutError < StandardError
-end

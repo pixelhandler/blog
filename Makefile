@@ -3,7 +3,7 @@ server:
 	@open http://localhost:4200/
 
 server_proxy: lint
-	@./node_modules/.bin/ember server --proxy http://pixelhandler.com/api
+	@./node_modules/.bin/ember server --proxy http://pixelhandler.com
 
 install:
 	@rm -rf node_modules bower_components tmp dist
