@@ -70,7 +70,7 @@ var ApplicationRoute = Ember.Route.extend(RenderUsingTimings, {
     },
 
     logout: function () {
-      window.localStorage.remoteItem('AuthorizationHeader');
+      window.localStorage.removeItem('AuthorizationHeader');
       this.set('isLoggedIn', false);
       this.controllerFor('application').set('isLoggedIn', false);
       /* TODO re-implement logout

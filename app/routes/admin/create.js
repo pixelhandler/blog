@@ -34,7 +34,8 @@ export default Ember.Route.extend(ResetScroll, {
 
   actions: {
     save: function (newModel, authorId) {
-      Post.createRecord(this.store, newModel, authorId).then(function () {
+      Post.createRecord(this.store, newModel, authorId);
+      this.store.then(function () {
         this.transitionTo('admin.index');
       }.bind(this));
     },

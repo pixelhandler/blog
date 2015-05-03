@@ -37,20 +37,11 @@ Post.reopenClass({
   },
 
   createRecord: function (store, newRecord, authorId) {
-    return new Ember.RSVP.Promise(function (resolve, reject) {
-      store.add('post', newRecord.toJSON());
-      store.then(function (results) {
-        Ember.Logger.info(results);
-        var author = store.retrieve('author', authorId);
-        var post = results.get('firstObject');
-        return post.addLink('author', author).then(function () {
-          resolve(post);
-        });
-      }).catch(function (error) {
-        Ember.Logger.error(error);
-        reject(error);
-      });
-    });
+    const payload = newRecord.toJSON();
+    // Had to remove the thenable solution to add links after create
+    // record had wrong primary id (client generated?)
+    payload.links.author = { linkage: { type: 'authors', id: authorId } };
+    store.add('post', payload);
   },
 
   deleteRecord: function (record, author) {

@@ -5,8 +5,9 @@ export default JSONAPISource.extend({
   _transformAddStd: function(operation) {
     const type = operation.path[0];
     const json = this.serializer.serialize(type, operation.value);
-    delete json.data.id;
-    delete json.data.links;
+    // hack for post resource, type error from server and missing id
+    json.data.links.author.linkage = { id: 1, type: 'authors' };
+    delete json.data.id; // don't send a client id
 
     return this.ajax(this.resourceURL(type), 'POST', {data: json}).then(
       function(raw) {
