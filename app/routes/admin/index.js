@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import ResetScroll from '../../mixins/reset-scroll';
 import Post from '../../models/post';
+import config from '../../config/environment';
 
 export default Ember.Route.extend(ResetScroll, {
   resourceName: 'post',
@@ -13,7 +14,9 @@ export default Ember.Route.extend(ResetScroll, {
   },
 
   model: function () {
-    return this.store.find(this.get('resourceName'));
+    const limit = config.APP.PAGE_LIMIT * 2;
+    const resource = this.get('resourceName');
+    return this.store.find(resource, { 'page[limit]': limit });
   },
 
   afterModel: function () {

@@ -54,15 +54,19 @@ export default Ember.Mixin.create({
     this._super(controller, collection);
   },
 
+  sortBy: 'date',
+  order: 'desc',
+
   buildCollection: function () {
-    var type = this.get('resourceName');
-    var ids = this.get('loadedIds');
-    return this.store.all(type).filter(function (record) {
+    const type = this.get('resourceName');
+    const ids = this.get('loadedIds');
+    let collection = this.store.all(type).filter(function (record) {
       return ids.contains(record.get('id'));
-    });/*.sortBy(this.get('sortBy'));
+    }).sortBy(this.get('sortBy'));
     if (this.get('order') === 'desc') {
       collection.reverse();
-    }*/
+    }
+    return collection;
   },
 
   hasMore: function () {
