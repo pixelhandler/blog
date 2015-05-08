@@ -56,7 +56,7 @@ module.exports = function(environment) {
   }
 
   if (environment === 'production') {
-    ENV.APP.API_HOST = 'http://pixelhandler.com';
+    ENV.APP.API_HOST = 'http://blog.pixelhandler.com';
     ENV.APP.API_PATH = 'api/v1';
     ENV.APP.GOOGLE_ANALYTICS = 'UA-2687872-1';
     ENV.APP.REPORT_METRICS = true;
