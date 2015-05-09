@@ -1,12 +1,9 @@
 import Ember from 'ember';
+import config from '../config/environment';
 
 export default  Ember.View.extend({
   didInsertElement: function () {
-    var notTesting = !Ember.testing;
-    var notCrawler = window.location.search.match(/_escaped_fragment_/) === null;
-    var notPrerender = window.navigator.userAgent.match(/Prerender/) === null;
-    var notLocal = window.location.hostname.match(/localhost/) === null;
-    if (notTesting && notCrawler && notPrerender && notLocal) {
+    if (config.APP.COMMENTS_ENABLED) {
       this.configureDisqus();
       this.setupDisqus();
     }
