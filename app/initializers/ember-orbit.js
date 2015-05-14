@@ -34,43 +34,17 @@ var Schema = EO.Schema.extend({
   }
 });
 
+export function initialize(registry, application) {
+  application.register('schema:main', Schema);
+  application.register('store:main', EO.Store);
+  application.register('store:secondary', jsonApiStore());
+  //application.register('store:local', LocalStore);
+
+  application.inject('controller', 'store', 'store:main');
+  application.inject('route', 'store', 'store:main');
+}
+
 export default {
   name: 'ember-orbit',
-
-  initialize: function(container, application) {
-    application.register('schema:main', Schema);
-    application.register('store:main', EO.Store);
-    application.register('store:secondary', jsonApiStore());
-    //application.register('store:local', LocalStore);
-    connectSources(container);
-
-    application.inject('controller', 'store', 'store:main');
-    application.inject('route', 'store', 'store:main');
-  }
+  initialize: initialize
 };
-
-function connectSources(container) {
-  var primarySource = container.lookup('store:main').orbitSource;
-  var secondarySource = container.lookup('store:secondary').orbitSource;
-  //var localSource = container.lookup('store:local').orbitSource;
-  // Connect (using default blocking strategy)
-  setupConnectors(primarySource, secondarySource/*, localSource*/);
-
-  //logTransforms(primarySource, 'store:main');
-  //logTransforms(secondarySource, 'store:secondary');
-  //logTransforms(localSource, 'store:local');
-}
-
-function setupConnectors(primary, secondary/*, local*/) {
-  new Orbit.TransformConnector(primary, secondary);
-  new Orbit.TransformConnector(secondary, primary);
-  // TODO figure out how to add a third store for localStorage
-  //new Orbit.TransformConnector(secondary, local);
-  primary.on('assistFind', secondary.find);
-}
-
-/*function logTransforms(source, name) {
-  source.on('didTransform', function(operation) {
-    console.log('[ORBIT.JS] [' + name + ']', operation);
-  });
-}*/
