@@ -17,7 +17,6 @@ var fakeComputed = {
 export default function (propertyName) {
   return Ember.computed(propertyName, {
     get(key) {
-      debugger;
       return fakeComputed.get.call(this, key);
     },
     set(key, value) {
