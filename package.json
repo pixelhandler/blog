@@ -3,7 +3,7 @@
   "summary": "Bill Heaton's Blog website",
   "description": "Pixelhandler.com - Pushin' & pullin' pixels on the web",
   "homepage": "http://pixelhandler.com",
-  "version": "3.3.8",
+  "version": "3.4.1",
   "private": true,
   "directories": {
     "bin": "bin",

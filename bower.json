@@ -1,6 +1,6 @@
 {
   "name": "pixelhandler-blog",
-  "version": "3.3.8",
+  "version": "3.4.1",
   "dependencies": {
     "ember": "~1.12.0",
     "jquery": "^2.1.3",
