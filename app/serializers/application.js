@@ -12,6 +12,14 @@ export default JSONAPISerializer.extend({
     if (id && data && id === data.slug) {
       id = data.id;
     }
+    if (data.hasOwnProperty('attributes')) {
+      for (var key in data.attributes) {
+        if (data.attributes.hasOwnProperty(key)) {
+          data[key] = data.attributes[key];
+        }
+      }
+      delete data.attributes;
+    }
     return this._super(type, id, data);
   },
 
@@ -52,13 +60,25 @@ export default JSONAPISerializer.extend({
   serializeRecord: function(type, record) {
     const resourceType = this.resourceType(type);
     let json = { type: resourceType };
-
     this.serializeKeys(type, record, json);
     this.serializeAttributes(type, record, json);
     this.serializeLinks(type, record, json);
-
     return json;
   },
+
+  serializeAttributes: function(type, record, json) {
+    var modelSchema = this.schema.models[type];
+    json.attributes = json.attributes || {};
+    Object.keys(modelSchema.attributes).forEach(function(attr) {
+      this.serializeAttribute(type, record, attr, json.attributes);
+    }, this);
+  },
+
+  /*
+  serializeAttribute: function(type, record, attr, json) {
+    json[this.resourceAttr(type, attr)] = record[attr];
+  },
+  */
 
   serializeLinks: function(type, record, json) {
     var modelSchema = this.schema.models[type];
