@@ -28,7 +28,7 @@ var ApplicationRoute = Ember.Route.extend(RenderUsingTimings, {
       mark('mark_begin_find_post_records');
     }
     const limit = config.APP.PAGE_LIMIT;
-    return this.store.find('post', { 'page[limit]': limit });
+    return this.store.find('post', { 'page[limit]': limit, 'sort': '-date' });
   },
 
   afterModel() {

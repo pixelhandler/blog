@@ -16,7 +16,7 @@ export default Ember.Route.extend(ResetScroll, {
   model: function () {
     const limit = config.APP.PAGE_LIMIT * 2;
     const resource = this.get('resourceName');
-    return this.store.find(resource, { 'page[limit]': limit });
+    return this.store.find(resource, { 'page[limit]': limit, 'sort': '-date' });
   },
 
   afterModel: function () {

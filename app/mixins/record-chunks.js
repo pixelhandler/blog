@@ -15,7 +15,7 @@ export default Ember.Mixin.create({
   */
   limit: 5,
   offset: -5,
-  sortParams: '-date,-id',
+  sortParams: '-date',
 
   initLoadedIds: function () {
     this.set('loadedIds', Ember.ArrayProxy.create({content: Ember.A([])}));
