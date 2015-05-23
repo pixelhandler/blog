@@ -8,9 +8,8 @@ Ember.MODEL_FACTORY_INJECTIONS = true;
 
 window.showdown = new Showdown.converter();
 
-var App = Ember.Application.extend({
+const App = Ember.Application.extend({
   modulePrefix: config.modulePrefix,
-  podModulePrefix: config.podModulePrefix,
   Resolver: Resolver,
 
   ready: function() {
