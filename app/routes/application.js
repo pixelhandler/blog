@@ -1,8 +1,8 @@
 import Ember from 'ember';
-import RenderUsingTimings from '../mixins/render-using-timings';
-import { mark, measure } from '../utils/metrics';
-import config from '../config/environment';
-import uuid from '../utils/uuid';
+import RenderUsingTimings from 'pixelhandler-blog/mixins/render-using-timings';
+import { mark, measure } from 'pixelhandler-blog/utils/metrics';
+import config from 'pixelhandler-blog/config/environment';
+import uuid from 'pixelhandler-blog/utils/uuid';
 
 var ApplicationRoute = Ember.Route.extend(RenderUsingTimings, {
 

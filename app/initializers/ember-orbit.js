@@ -1,10 +1,10 @@
 import Orbit from 'orbit';
 import EO from 'ember-orbit';
 //import LocalStorageSource from 'orbit-common/local-storage-source';
-import ApplicationSource from '../adapters/application';
-import ApplicationSerializer from '../serializers/application';
+import ApplicationSource from 'pixelhandler-blog/adapters/application';
+import ApplicationSerializer from 'pixelhandler-blog/serializers/application';
 import Ember from 'ember';
-import config from '../config/environment';
+import config from 'pixelhandler-blog/config/environment';
 
 Orbit.Promise = Orbit.Promise || Ember.RSVP.Promise;
 

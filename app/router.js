@@ -1,6 +1,6 @@
 import Ember from 'ember';
-import config from './config/environment';
-import AnalyticsTrackingMixin from './mixins/analytics-tracking';
+import config from 'pixelhandler-blog/config/environment';
+import AnalyticsTrackingMixin from 'pixelhandler-blog/mixins/analytics-tracking';
 
 var Router = Ember.Router.extend({
   location: config.locationType

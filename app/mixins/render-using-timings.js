@@ -1,6 +1,6 @@
 import Ember from 'ember';
-import config from '../config/environment';
-import { mark, measure, report } from '../utils/metrics';
+import config from 'pixelhandler-blog/config/environment';
+import { mark, measure, report } from 'pixelhandler-blog/utils/metrics';
 
 export default Ember.Mixin.create({
 

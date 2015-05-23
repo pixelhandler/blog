@@ -2,7 +2,7 @@
 <ul class="Blog-nav-list u-medGrayText ">
   {{#each model as |post|}}
     <li class="Blog-nav-list-item">
-      {{#link-to "post.detail" post}}{{post.title}}{{/link-to}}
+      {{#link-to "post" post}}{{post.title}}{{/link-to}}
     </li>
   {{/each}}
 </ul>

@@ -1,12 +1,12 @@
 {{#each model as |post|}}
   <div class="Blog-excerpt">
     <h2 class="Blog-excerpt-title u-yellowTxt">
-      {{#link-to "post.detail" post}}{{post.title}}{{/link-to}}
+      {{#link-to "post" post}}{{post.title}}{{/link-to}}
     </h2>
     <section class="Blog-excerpt-summary">
       {{format-markdown post.excerpt}}
     </section>
-    {{#link-to "post.detail" post class="u-button"}}Read on →{{/link-to}}
+    {{#link-to "post" post class="u-button"}}Read on →{{/link-to}}
   </div>
 {{/each}}
 {{has-more-button targetObject=controller hasMore=hasMore loadingMore=loadingMore}}

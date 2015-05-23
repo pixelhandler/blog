@@ -1,5 +1,5 @@
 import EO from 'ember-orbit';
-import computedFake from '../utils/computed-fake';
+import computedFake from 'pixelhandler-blog/utils/computed-fake';
 
 var attr = EO.attr;
 var hasOne = EO.hasOne;

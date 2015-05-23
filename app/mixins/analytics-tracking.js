@@ -1,6 +1,6 @@
 import Ember from 'ember';
-import config from '../config/environment';
-import { pageView } from '../utils/metrics';
+import config from 'pixelhandler-blog/config/environment';
+import { pageView } from 'pixelhandler-blog/utils/metrics';
 
 if (config.APP.GOOGLE_ANALYTICS && typeof window.ga !== 'function') {
   /*jshint -W030 */

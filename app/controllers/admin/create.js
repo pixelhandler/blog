@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import Post from '../../models/post';
+import Post from 'pixelhandler-blog/models/post';
 
 export default Ember.Controller.extend({
 

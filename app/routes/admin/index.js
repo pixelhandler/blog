@@ -1,7 +1,7 @@
 import Ember from 'ember';
-import ResetScroll from '../../mixins/reset-scroll';
-import Post from '../../models/post';
-import config from '../../config/environment';
+import ResetScroll from 'pixelhandler-blog/mixins/reset-scroll';
+import Post from 'pixelhandler-blog/models/post';
+import config from 'pixelhandler-blog/config/environment';
 
 export default Ember.Route.extend(ResetScroll, {
   resourceName: 'post',
