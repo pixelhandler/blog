@@ -25,11 +25,11 @@ module.exports = function(environment) {
     },
     contentSecurityPolicy: {
       'default-src': "'none'",
-      'script-src': "'self' 'unsafe-inline' 'unsafe-eval' a.disquscdn.com",
-      'font-src': "'self' data: s3.amazonaws.com cdn.pixelhandler.com",
+      'script-src': "'self' 'unsafe-inline' 'unsafe-eval'",
+      'font-src': "'self' data: s3.amazonaws.com cdn.pixelhandler.com d3i8kyz4wwfkbg.cloudfront.net",
       'connect-src': "'self'",
-      'img-src': "'self' s3.amazonaws.com cdn.pixelhandler.com",
-      'style-src': "'self' 'unsafe-inline' s3.amazonaws.com cdn.pixelhandler.com"
+      'img-src': "'self' s3.amazonaws.com cdn.pixelhandler.com d3i8kyz4wwfkbg.cloudfront.net",
+      'style-src': "'self' 'unsafe-inline' s3.amazonaws.com cdn.pixelhandler.com d3i8kyz4wwfkbg.cloudfront.net"
     },
   };
 

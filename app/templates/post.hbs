@@ -17,9 +17,9 @@
   </div>
 {{/if}}
 {{#if model.body}}
-  <div class='below-the-fold'>
+  <div class="below-the-fold">
     {{format-markdown model.body}}
   </div>
 {{/if}}
 
-<div id="disqus_thread"></div>
+{{render "posts/comments"}}
