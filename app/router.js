@@ -11,9 +11,11 @@ Ember.Router.reopen(AnalyticsTrackingMixin);
 Router.map(function () {
   this.route('about');
   this.resource('posts', function () {
-    this.resource('post', { path: ':post_slug' }, function () {
-      this.resource('comments');
-    });
+    this.route('index', { path: '/' });
+  });
+  this.resource('post', { path: '/posts/:post_slug' }, function () {
+    this.route('detail', { path: '/' });
+    this.route('comments');
   });
   this.route('admin', function () {
     this.route('index');
@@ -22,10 +24,6 @@ Router.map(function () {
   });
   this.route('offline');
   this.route('not-found', { path: '/*path' });
-
-  this.route('posts', function() {
-    this.route('comments');
-  });
 });
 
 export default Router;
