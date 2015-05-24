@@ -4,8 +4,10 @@ const attr = EO.attr;
 const hasMany = EO.hasMany;
 
 export default EO.Model.extend({
-  name: attr('string'),
+  type: 'commenter',
+
+  username: attr('string'),
   email: attr('string'),
 
-  posts: hasMany('post', { inverse: 'author' })
+  comments: hasMany('comment', { inverse: 'commenter' })
 });

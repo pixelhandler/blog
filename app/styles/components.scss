@@ -1,3 +1,5 @@
+@import 'colors';
+
 /* Components */
 
 @media only screen and (min-width : 1024px) {
@@ -89,6 +91,12 @@
 
 .Blog-about {}
 
+//.Comments-form {}
+.Comments-form-text {
+  width: 100%;
+  min-height: 6em;
+}
+
 
 .Header {
   padding: 1em .5em .5em 1em;
@@ -142,7 +150,7 @@
 
 .Footer-form {}
 
-.Footer-form-button, .Comments-form-button {
+.Footer-form-button {
   @extend %display-text;
   background: none;
   border: none;

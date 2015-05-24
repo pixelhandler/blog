@@ -30,7 +30,6 @@ export default Ember.Controller.extend({
     },
 
     login(view) {
-      debugger;
       this.setProperties({
         username: view.$('input[name="username"]').val(),
         password: view.$('input[name="password"]').val()

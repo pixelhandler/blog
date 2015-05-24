@@ -1,1 +1,38 @@
-<h4>Comments</h4>
+<hr>
+<h3>Comments</h3>
+{{#unless isCommenterAuthorized}}
+  <p>To post a comment, start by entering your name and email.</p>
+  <form {{action "authorize" on="submit"}} class="Comments-form">
+    {{input value=username name="username" type="text" required=true min="4" placeholder="What's your name?"}}
+    {{input value=email name="email" type="email" required=true placeholder="What's your email?"}}
+    <input type="submit" class="u-blueTxt u-clickable u-button" value="ok">
+  </form>
+{{else}}
+  <form {{action "submitComment" model on="submit"}} class="Comments-form" id="new-comment">
+    {{textarea
+      name="comment"
+      required=true
+      min="2"
+      spellcheck="true"
+      form="new-comment"
+      placeholder="What's on your mind?"
+      class="Comments-form-text"
+      value=commentText
+    }}
+    <input type="submit" class="u-clickable u-button u-save" value="submit">
+  </form>
+  <br>
+  <p>
+    <a {{action "deauthorize"}} class="u-grayTxt u-clickable u-button">Logout</a>
+    <em>Comments are moderated.</em>
+  </p>
+{{/unless}}
+<br>
+{{#if error}}
+  <span class="u-redTxt">{{error}}</span>
+{{/if}}
+{{#if model.comments}}
+  
+{{else}}
+  <p>No comments yet, get the conversation started…</p>
+{{/if}}

@@ -2,11 +2,30 @@ import JSONAPISource from 'orbit-common/jsonapi-source';
 
 export default JSONAPISource.extend({
 
+  resourceURL: function(type, id) {
+    const host = this.resourceHost(type);
+    const namespace = this.resourceNamespace(type);
+    let url = [];
+
+    if (host) { url.push(host); }
+    if (namespace) { url.push(namespace); }
+    url.push(this.resourcePath(type, id));
+
+    url = url.join('/');
+    if (!host) { url = '/' + url; }
+    if (id && typeof id === 'object' && id.include) {
+      url += '?include=' + id.include;
+    }
+    return url;
+  },
+
   _transformAddStd(operation) {
     const type = operation.path[0];
     const payload = this.serializer.serialize(type, operation.value);
-    // hack for post resource, type error from server and missing id
-    payload.data.links.author.linkage = { id: 1, type: 'authors' };
+    /* hack for post resource, type error from server and missing id
+    if (type === 'post' && !payload.data.links.author.linkage.id) {
+      payload.data.links.author.linkage = { id: 1, type: 'authors' };
+    }*/
     delete payload.data.id; // don't send a client id
     return this.ajax(this.resourceURL(type), 'POST', { data: payload }).then(
       function(raw) {

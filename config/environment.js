@@ -20,6 +20,7 @@ module.exports = function(environment) {
       API_HOST: '',
       API_PATH: 'api/v1',
       API_AUTH: 'api/auth',
+      API_COMMENTER: 'api/commenter',
       COMMENTS_ENABLED: false,
       GOOGLE_ANALYTICS: null
     },

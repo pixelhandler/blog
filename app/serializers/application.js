@@ -81,21 +81,22 @@ export default JSONAPISerializer.extend({
   serializeLinks(type, record, json) {
     const modelSchema = this.schema.models[type];
     const linkNames = Object.keys(modelSchema.links);
-
     if (linkNames.length > 0) {
       json.links = {};
 
       linkNames.forEach(function (link) {
         const linkDef = modelSchema.links[link];
-        const value = record.__rel[link];
-
+        let value = record.__rel[link];
+        if (!value && record.links && record.links[link] && record.links[link].linkage) {
+          value = record.links[link].linkage.id;
+        }
         if (linkDef.type === 'hasMany') {
           json.links[link] = { linkage: [] };
           for (var i = 0; i < value.length; i++) {
-            json.links[link].linkage.push({type: link, id: value[i]});
+            json.links[link].linkage.push({type: this.resourceType(link), id: value[i]});
           }
         } else {
-          json.links[link] = { linkage: { type: link, id: value } };
+          json.links[link] = { linkage: { type: this.resourceType(link), id: value } };
         }
       }, this);
     }

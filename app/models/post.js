@@ -3,6 +3,7 @@ import computedFake from 'pixelhandler-blog/utils/computed-fake';
 
 const attr = EO.attr;
 const hasOne = EO.hasOne;
+const hasMany = EO.hasMany;
 
 const Post = EO.Model.extend({
   type: 'posts',
@@ -14,6 +15,7 @@ const Post = EO.Model.extend({
   body: attr('string'),
 
   author: hasOne('author', { inverse: 'posts' }),
+  comments: hasMany('comment', { inverse: 'post' }),
 
   resourceName: 'post',
 

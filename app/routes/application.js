@@ -10,17 +10,8 @@ var ApplicationRoute = Ember.Route.extend(RenderUsingTimings, {
     if (!window.localStorage.getItem('visitor')) {
       window.localStorage.setItem('visitor', uuid());
     }
-    const token = window.localStorage.getItem('AuthorizationHeader');
-    if (!Ember.isEmpty(token)) {
-      this.set('isLoggedIn', true);
-    }
-  },
-
-  beforeModel() {
-    /* TODO implement method to check for active authtoken
-    Ember.$.get(this.get('authUrl'))
-      .done(loginSuccess.bind(this));*/
-    return this._super();
+    //const token = window.localStorage.getItem('AuthorizationHeader');
+    //this.set('isLoggedIn', !Ember.isEmpty(token));
   },
 
   model() {
@@ -53,7 +44,6 @@ var ApplicationRoute = Ember.Route.extend(RenderUsingTimings, {
 
   actions: {
     login() {
-      debugger;
       const controller = this.get('controller');
       this.canTransition = true;
       const credentails = JSON.stringify({
@@ -76,14 +66,6 @@ var ApplicationRoute = Ember.Route.extend(RenderUsingTimings, {
       window.localStorage.removeItem('AuthorizationHeader');
       this.set('isLoggedIn', false);
       this.controllerFor('application').set('isLoggedIn', false);
-      /* TODO re-implement logout
-      Ember.$.ajax({
-        url: this.get('authUrl'),
-        type: 'DELETE'
-      })
-        .done(logoutSuccess.bind(this))
-        .fail(logoutFailure.bind(this));
-      */
     },
 
     error(error, e) {
@@ -95,6 +77,7 @@ var ApplicationRoute = Ember.Route.extend(RenderUsingTimings, {
 
 });
 
+export default ApplicationRoute;
 
 function loginSuccess(data) {
   const controller = this.get('controller');
@@ -117,24 +100,3 @@ function loginFailure(xhr, status, error) {
     this.setProperties({ 'error': error, 'password': null });
   }.bind(controller));
 }
-
-export default ApplicationRoute;
-
-/* TODO re-implement logout
-function logoutSuccess() {
-  var controller = this.get('controller');
-  Ember.run(function () {
-    this.setProperties({ 'isLoggedIn': false, 'username': null, 'error': null, 'showLogin': false });
-  }.bind(controller));
-  this.transitionTo('index');
-}
-
-function logoutFailure(xhr, status, error) {
-  xhr = xhr || void 0;
-  status = status || void 0;
-  var controller = this.get('controller');
-  Ember.run(function () {
-    this.setProperties({ 'error': error });
-  }.bind(controller));
-}
-*/
