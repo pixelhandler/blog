@@ -1,10 +1,10 @@
 import EO from 'ember-orbit';
 import computedFake from 'pixelhandler-blog/utils/computed-fake';
 
-var attr = EO.attr;
-var hasOne = EO.hasOne;
+const attr = EO.attr;
+const hasOne = EO.hasOne;
 
-var Post = EO.Model.extend({
+const Post = EO.Model.extend({
   type: 'posts',
 
   slug: attr('string'),
@@ -25,7 +25,7 @@ var Post = EO.Model.extend({
 });
 
 Post.reopenClass({
-  newRecord: function () {
+  newRecord() {
     return Ember.Object.create({
       type: 'posts', slug: '', title: '', date: null, excerpt: '', body: '', links: {},
       toJSON: function () {
@@ -36,7 +36,7 @@ Post.reopenClass({
     });
   },
 
-  createRecord: function (store, newRecord, authorId) {
+  createRecord(store, newRecord, authorId) {
     const payload = newRecord.toJSON();
     // Had to remove the thenable solution to add links after create
     // record had wrong primary id (client generated?)
@@ -44,7 +44,7 @@ Post.reopenClass({
     store.add('post', payload);
   },
 
-  deleteRecord: function (record, author) {
+  deleteRecord(record, author) {
     return new Ember.RSVP.Promise(function (resolve, reject) {
       author.removeLink('posts', record).then(function () {
         return record.remove();
@@ -57,7 +57,7 @@ Post.reopenClass({
     });
   },
 
-  createSlug: function (model, title) {
+  createSlug(model, title) {
     title = title || model.get('title');
     if (!title || !Ember.isEmpty(model.get('slug'))) { return false; }
     if (Ember.isEmpty(title)) { return title; }
@@ -66,7 +66,7 @@ Post.reopenClass({
     model.setProperties({'slugInput': slug, 'slug': slug});
   },
 
-  setDate: function (model, input) {
+  setDate(model, input) {
     input = input || model.get('dateInput');
     if (!input) { return input; }
     model.set('date', new Date(input));

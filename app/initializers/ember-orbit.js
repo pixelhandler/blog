@@ -25,7 +25,7 @@ function jsonApiStore() {
   //orbitSourceClass: LocalStorageSource
 //});
 
-var Schema = EO.Schema.extend({
+const Schema = EO.Schema.extend({
   idField: 'id',
 
   init: function (options) {

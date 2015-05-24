@@ -11,7 +11,7 @@ export default Ember.Route.extend(
   limit: 5,
   offset: -5,
 
-  beforeModel: function () {
+  beforeModel() {
     var posts = this.modelFor('application');
     var postsCount = posts.get('length');
     var limit = this.get('limit');
@@ -22,7 +22,7 @@ export default Ember.Route.extend(
     }
   },
 
-  model: function () {
+  model() {
     var posts = this.modelFor('application');
     if (this.get('offset') < posts.get('length')) {
       return posts;
@@ -35,7 +35,7 @@ export default Ember.Route.extend(
   measurementName: 'index_view',
 
   actions: {
-    showMore: function () {
+    showMore() {
       this.preventScroll = true;
       this.refresh();
     }

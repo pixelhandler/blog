@@ -1,9 +1,9 @@
 import Ember from 'ember';
 
 export default Ember.Route.extend({
-  model: function (params) {
+  model(params) {
     return new Ember.RSVP.Promise(function (resolve, reject) {
-      var found = this.store.filter('post', function (post) {
+      const found = this.store.filter('post', function (post) {
         return post.get('slug') === params.post_slug;
       });
       if (found.get('length') > 0) {
@@ -21,11 +21,11 @@ export default Ember.Route.extend({
     }.bind(this));
   },
 
-  serialize: function (model) {
+  serialize(model) {
     return { post_slug: model.get('slug') };
   },
 
-  setupController: function (controller, model) {
+  setupController(controller, model) {
     if (typeof model.toArray === 'function') {
       const filtered = model.toArray();
       model = (filtered.length) ? filtered[0] : model;
@@ -34,7 +34,7 @@ export default Ember.Route.extend({
   },
 
   actions: {
-    error: function (error) {
+    error(error) {
       Ember.Logger.error(error);
       this.transitionTo('/not-found');
     }

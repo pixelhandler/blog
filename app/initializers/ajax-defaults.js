@@ -1,7 +1,7 @@
 export default {
   name: 'ajax-defaults',
 
-  initialize: function(/* registry, app */) {
+  initialize(/* registry, app */) {
     // Use credentials for session cookies
     Ember.$.ajaxPrefilter(function(options) {
       options.xhrFields = { withCredentials: true };

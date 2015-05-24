@@ -1,7 +1,7 @@
 import EO from "ember-orbit";
 
-var attr = EO.attr;
-var hasMany = EO.hasMany;
+const attr = EO.attr;
+const hasMany = EO.hasMany;
 
 export default EO.Model.extend({
   name: attr('string'),

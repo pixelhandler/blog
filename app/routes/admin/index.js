@@ -6,28 +6,28 @@ import config from 'pixelhandler-blog/config/environment';
 export default Ember.Route.extend(ResetScroll, {
   resourceName: 'post',
 
-  beforeModel: function () {
-    var controller = this.controllerFor('application');
+  beforeModel() {
+    const controller = this.controllerFor('application');
     if (controller.get('isLoggedIn') !== true) {
       this.transitionTo('index');
     }
   },
 
-  model: function () {
+  model() {
     const limit = config.APP.PAGE_LIMIT * 2;
     const resource = this.get('resourceName');
     return this.store.find(resource, { 'page[limit]': limit, 'sort': '-date' });
   },
 
-  afterModel: function () {
+  afterModel() {
     return this.store.find('author').then(function (authors) {
-      var author = authors.get('firstObject');
+      const author = authors.get('firstObject');
       this.set('author', author);
     }.bind(this));
   },
 
   actions: {
-    destroy: function (model) {
+    destroy(model) {
       this.preventScroll = true;
       this.modelFor('application').removeObject(model);
       this.modelFor('admin.index').removeObject(model);

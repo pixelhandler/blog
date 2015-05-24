@@ -5,25 +5,25 @@ import Post from 'pixelhandler-blog/models/post';
 export default Ember.Route.extend(ResetScroll, {
   resourceName: 'post',
 
-  beforeModel: function () {
+  beforeModel() {
     var controller = this.controllerFor('application');
     if (controller.get('isLoggedIn') !== true) {
       this.transitionTo('index');
     }
   },
 
-  model: function () {
+  model() {
     return Post.newRecord();
   },
 
-  afterModel: function () {
+  afterModel() {
     return this.store.find('author').then(function (authors) {
       const id = authors.get('firstObject').get('id');
       this.setProperties({'authorId': id, 'authors': authors});
     }.bind(this));
   },
 
-  setupController: function (controller, model) {
+  setupController(controller, model) {
     this._super(controller, model);
     controller.setProperties({
       'dateInput': moment().format('L'),
@@ -33,19 +33,19 @@ export default Ember.Route.extend(ResetScroll, {
   },
 
   actions: {
-    save: function (newModel, authorId) {
+    save(newModel, authorId) {
       Post.createRecord(this.store, newModel, authorId);
       this.store.then(function () {
         this.transitionTo('admin.index');
       }.bind(this));
     },
 
-    cancel: function () {
+    cancel() {
       this.transitionTo('admin.index');
     }
   },
 
-  deactivate: function () {
+  deactivate() {
     this.modelFor('admin.create').destroy();
   }
 });

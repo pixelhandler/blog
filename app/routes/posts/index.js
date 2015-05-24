@@ -14,7 +14,7 @@ export default Ember.Route.extend(
   measurementName: 'archive_view',
 
   actions: {
-    showMore: function () {
+    showMore() {
       this.preventScroll = true;
       this.refresh();
     }

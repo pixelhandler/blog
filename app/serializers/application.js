@@ -1,14 +1,14 @@
 import JSONAPISerializer from 'orbit-common/jsonapi-serializer';
 
 export default JSONAPISerializer.extend({
-  deserialize: function(type, id, data) {
+  deserialize(type, id, data) {
     data[type + 's'] = data.data;
     delete data.data;
     this.assignMeta(type, data);
     return this._super(type, id, data);
   },
 
-  deserializeRecord: function(type, id, data) {
+  deserializeRecord(type, id, data) {
     if (id && data && id === data.slug) {
       id = data.id;
     }
@@ -23,7 +23,7 @@ export default JSONAPISerializer.extend({
     return this._super(type, id, data);
   },
 
-  assignMeta: function (type, data) {
+  assignMeta(type, data) {
     if (!data || !data.meta) {
       return;
     }
@@ -35,7 +35,7 @@ export default JSONAPISerializer.extend({
     metaByType.set('total', data.meta.page.total);
   },
 
-  serialize: function(type, records) {
+  serialize(type, records) {
     let json = {};
 
     if (Array.isArray(records)) {
@@ -47,7 +47,7 @@ export default JSONAPISerializer.extend({
     return json;
   },
 
-  serializeRecords: function(type, records) {
+  serializeRecords(type, records) {
     let json = [];
 
     records.forEach(function(record) {
@@ -57,7 +57,7 @@ export default JSONAPISerializer.extend({
     return json;
   },
 
-  serializeRecord: function(type, record) {
+  serializeRecord(type, record) {
     const resourceType = this.resourceType(type);
     let json = { type: resourceType };
     this.serializeKeys(type, record, json);
@@ -66,30 +66,28 @@ export default JSONAPISerializer.extend({
     return json;
   },
 
-  serializeAttributes: function(type, record, json) {
-    var modelSchema = this.schema.models[type];
+  serializeAttributes(type, record, json) {
+    const modelSchema = this.schema.models[type];
     json.attributes = json.attributes || {};
     Object.keys(modelSchema.attributes).forEach(function(attr) {
       this.serializeAttribute(type, record, attr, json.attributes);
     }, this);
   },
 
-  /*
-  serializeAttribute: function(type, record, attr, json) {
+  /*serializeAttribute(type, record, attr, json) {
     json[this.resourceAttr(type, attr)] = record[attr];
-  },
-  */
+  },*/
 
-  serializeLinks: function(type, record, json) {
-    var modelSchema = this.schema.models[type];
-    var linkNames = Object.keys(modelSchema.links);
+  serializeLinks(type, record, json) {
+    const modelSchema = this.schema.models[type];
+    const linkNames = Object.keys(modelSchema.links);
 
     if (linkNames.length > 0) {
       json.links = {};
 
       linkNames.forEach(function (link) {
-        var linkDef = modelSchema.links[link];
-        var value = record.__rel[link];
+        const linkDef = modelSchema.links[link];
+        const value = record.__rel[link];
 
         if (linkDef.type === 'hasMany') {
           json.links[link] = { linkage: [] };

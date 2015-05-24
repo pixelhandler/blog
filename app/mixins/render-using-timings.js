@@ -9,8 +9,8 @@ export default Ember.Mixin.create({
   reportUserTimings: true,
 
   renderTemplate(controller, model) {
-    var beginName = 'mark_begin_rendering_' + this.measurementName;
-    var endName = 'mark_end_rendering_' + this.measurementName;
+    const beginName = 'mark_begin_rendering_' + this.measurementName;
+    const endName = 'mark_end_rendering_' + this.measurementName;
     if (config.APP.REPORT_METRICS) {
       mark(beginName);
       Ember.run.scheduleOnce('afterRender', this, function() {

@@ -2,7 +2,7 @@ import JSONAPISource from 'orbit-common/jsonapi-source';
 
 export default JSONAPISource.extend({
 
-  _transformAddStd: function(operation) {
+  _transformAddStd(operation) {
     const type = operation.path[0];
     const payload = this.serializer.serialize(type, operation.value);
     // hack for post resource, type error from server and missing id
@@ -18,7 +18,7 @@ export default JSONAPISource.extend({
     });
   },
 
-  _transformUpdateAttributeStd: function(operation) {
+  _transformUpdateAttributeStd(operation) {
     const type = operation.path[0];
     const id = operation.path[1];
     const attr = operation.path[2];

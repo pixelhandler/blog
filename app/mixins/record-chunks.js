@@ -25,13 +25,13 @@ export default Ember.Mixin.create({
     this.set('offset', this.get('offset') + this.get('limit'));
   },
 
-  model: function () {
-    var query = this.buildQuery();
+  model() {
+    const query = this.buildQuery();
     return this.store.find(this.get('resourceName'), query);
   },
 
-  buildQuery: function () {
-    var params = this.getProperties('offset', 'limit', 'sortParams');
+  buildQuery() {
+    const params = this.getProperties('offset', 'limit', 'sortParams');
     return {
       'sort': params.sortParams,
       'page[offset]': params.offset,
@@ -39,28 +39,28 @@ export default Ember.Mixin.create({
     };
   },
 
-  afterModel: function (collection) {
-    var ids = collection.mapBy('id');
+  afterModel(collection) {
+    const ids = collection.mapBy('id');
     this.get('loadedIds').pushObjects(ids);
     return collection;
   },
 
-  setupController: function (controller) {
+  setupController(controller) {
     controller.setProperties({
       'hasMore': this.get('hasMore'),
       'loadingMore': false
     });
-    var collection = this.buildCollection();
+    const collection = this.buildCollection();
     this._super(controller, collection);
   },
 
   sortBy: 'date',
   order: 'desc',
 
-  buildCollection: function () {
+  buildCollection() {
     const type = this.get('resourceName');
     const ids = this.get('loadedIds');
-    let collection = this.store.all(type).filter(function (record) {
+    const collection = this.store.all(type).filter(function (record) {
       return ids.contains(record.get('id'));
     }).sortBy(this.get('sortBy'));
     if (this.get('order') === 'desc') {
@@ -70,7 +70,7 @@ export default Ember.Mixin.create({
   },
 
   hasMore: function () {
-    var total = this.get('meta.total');
+    const total = this.get('meta.total');
     if (Ember.isEmpty(total)) {
       return false;
     }
@@ -78,7 +78,7 @@ export default Ember.Mixin.create({
   }.property('loadedIds', 'total').volatile(),
 
   meta: Ember.computed('resourceName', function () {
-    var type = this.get('resourceName');
+    const type = this.get('resourceName');
     if (!this.store.schema._schema.meta) {
       return null;
     }

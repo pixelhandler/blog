@@ -6,7 +6,7 @@ import uuid from 'pixelhandler-blog/utils/uuid';
 
 var ApplicationRoute = Ember.Route.extend(RenderUsingTimings, {
 
-  activate: function() {
+  activate() {
     if (!window.localStorage.getItem('visitor')) {
       window.localStorage.setItem('visitor', uuid());
     }
@@ -16,14 +16,14 @@ var ApplicationRoute = Ember.Route.extend(RenderUsingTimings, {
     }
   },
 
-  beforeModel: function () {
+  beforeModel() {
     /* TODO implement method to check for active authtoken
     Ember.$.get(this.get('authUrl'))
       .done(loginSuccess.bind(this));*/
     return this._super();
   },
 
-  model: function () {
+  model() {
     if (config.APP.REPORT_METRICS) {
       mark('mark_begin_find_post_records');
     }
@@ -40,7 +40,7 @@ var ApplicationRoute = Ember.Route.extend(RenderUsingTimings, {
     return null;
   },
 
-  setupController: function (controller, model) {
+  setupController(controller, model) {
     this._super(controller, model);
     controller.set('isLoggedIn', this.get('isLoggedIn'));
     this.canTransition = false;
@@ -52,7 +52,8 @@ var ApplicationRoute = Ember.Route.extend(RenderUsingTimings, {
   authUrl: config.APP.API_HOST + '/' + config.APP.API_AUTH,
 
   actions: {
-    login: function () {
+    login() {
+      debugger;
       const controller = this.get('controller');
       this.canTransition = true;
       const credentails = JSON.stringify({
@@ -71,7 +72,7 @@ var ApplicationRoute = Ember.Route.extend(RenderUsingTimings, {
       return false;
     },
 
-    logout: function () {
+    logout() {
       window.localStorage.removeItem('AuthorizationHeader');
       this.set('isLoggedIn', false);
       this.controllerFor('application').set('isLoggedIn', false);
@@ -85,15 +86,9 @@ var ApplicationRoute = Ember.Route.extend(RenderUsingTimings, {
       */
     },
 
-    error: function (error, e) {
+    error(error, e) {
       console.log(error.stack);
       Ember.Logger.error(error, e);
-      /*if (error === 'pingFailed') {
-        this.transitionTo('offline');
-        window.alert('The API server is offline, perhaps tweet @pixelhandler');
-      } else {
-        this.transitionTo('not-found');
-      }*/
       this.transitionTo('not-found');
     }
   }
@@ -122,6 +117,9 @@ function loginFailure(xhr, status, error) {
     this.setProperties({ 'error': error, 'password': null });
   }.bind(controller));
 }
+
+export default ApplicationRoute;
+
 /* TODO re-implement logout
 function logoutSuccess() {
   var controller = this.get('controller');
@@ -140,4 +138,3 @@ function logoutFailure(xhr, status, error) {
   }.bind(controller));
 }
 */
-export default ApplicationRoute;
