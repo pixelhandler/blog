@@ -1,3 +1,5 @@
+@import 'colors';
+
 /* Utilities */
 
 /* Text */
@@ -47,109 +49,109 @@
 .u-grayTxt a,
 .u-grayTxt a:active,
 .u-grayTxt a:hover {
-  color: #d2d2d2;
+  color: $gray;
 }
 .u-grayText a {
-  border-bottom: 1px dashed #d2d2d2;
+  border-bottom: 1px dashed $gray;
 }
 
 .u-medGrayTxt,
 .u-medGrayTxt a,
 .u-medGrayTxt a:active,
 .u-medGrayTxt a:hover {
-  color: #777777;
+  color: $med-gray;
 }
 .u-medGrayText a {
-  border-bottom: 1px dashed #777777;
+  border-bottom: 1px dashed $med-gray;
 }
 
 .u-yellowTxt,
 .u-yellowTxt a,
 .u-yellowTxt a:active,
 .u-yellowTxt a:hover {
-  color: #f39f2b;
+  color: $yellow;
 }
 .u-yellowTxt a {
-  border-bottom: 1px dashed #f39f2b;
+  border-bottom: 1px dashed $yellow;
 }
 
 .u-greenTxt,
 .u-greenTxt a,
 .u-greenTxt a:active,
 .u-greenTxt a:hover {
-  color: #39af4c;
+  color: $green;
 }
 .u-greenTxt a {
-  border-bottom: 1px dashed #39af4c;
+  border-bottom: 1px dashed $green;
 }
 
 .u-blueTxt,
 .u-blueTxt a,
 .u-blueTxt a:active,
 .u-blueTxt a:hover {
-  color: #0082be;
+  color: $blue;
 }
 .u-blueTxt a {
-  border-bottom: 1px dashed #0082be;
+  border-bottom: 1px dashed $blue;
 }
 
 .u-redTxt,
 .u-redTxt a,
 .u-redTxt a:active,
 .u-redTxt a:hover {
-  color: #e81e25;
+  color: $red;
 }
 .u-redTxt a {
-  border-bottom: 1px dashed #e81e25;
+  border-bottom: 1px dashed $red;
 }
 
 /* Borders */
 
 .u-offWhiteLtBorder {
-  border-left: 2px dotted #eeeeee;
+  border-left: 2px dotted $off-white;
 }
 
 .u-grayTopBorder {
-  border-top: 2px dotted #d2d2d2;
+  border-top: 2px dotted $gray;
 }
 
 .u-grayLtBorder {
-  border-left: 2px dotted #d2d2d2;
+  border-left: 2px dotted $gray;
 }
 
 .u-grayRtBorder {
-  border-right: 2px dotted #d2d2d2;
+  border-right: 2px dotted $gray;
 }
 
 .u-grayBotBorder {
-  border-bottom: 2px dotted #d2d2d2;
+  border-bottom: 2px dotted $gray;
 }
 
 
 /* Backgrounds */
 
 .u-offWhiteBkg {
-  background-color: #eeeeee;
+  background-color: $off-white;
 }
 
 .u-grayBkg {
-  background-color: #d2d2d2;
+  background-color: $gray;
 }
 
 .u-ltBlueBkg {
-  background-color: #E3EAF1;
+  background-color: $pale-blue;
 }
 
 .u-blueBkg {
-  background-color: #0082be;
+  background-color: $blue;
 }
 
 .u-whiteBkg {
-  background-color: #ffffff;
+  background-color: $white;
 }
 
 .u-blackBkg {
-  background-color: #000000;
+  background-color: $black;
 }
 
 /* Boxes */
@@ -166,13 +168,13 @@
   font-size: 1.25rem;
   font-weight: normal;
   font-family: 'outageregular', sans-serif;
-  background: #d2d2d2;
+  background: $gray;
   display: inline-block;
   padding: .4em .8em;
   margin-right: .5em;
   margin-top: .5em;
   text-decoration: none;
-  color: #444444;
+  color: $dark-gray;
   border: none;
   -webkit-transition: background-color 0.5s;
   -moz-transition: background-color 0.5s;
@@ -188,9 +190,9 @@ a.u-button {
 }
 
 .u-button:hover {
-  background: #0082be;
+  background: $blue;
   text-shadow: none;
-  color: #ffffff!important;
+  color: $white!important;
 }
 
 .u-button--sm {
@@ -201,8 +203,8 @@ a.u-button {
 
 .u-button--reverse,
 a.u-button--reverse {
-  color: #ffffff;
-  background: #777777;
+  color: $white;
+  background: $med-gray;
 }
 
 .u-button--wide {
@@ -218,23 +220,23 @@ a.u-button--reverse {
 
 
 .u-save, .u-edit, a.u-edit, .u-save, .u-cancel, .u-destroy {
-  color: #ffffff;
+  color: $white;
 }
 
 .u-edit, a.u-edit {
-  background-color: #777777;
+  background-color: $med-gray;
 }
 
 .u-save {
-  background-color: #39af4c;
+  background-color: $green;
 }
 
 .u-cancel {
-  background-color: #e81e25;
+  background-color: $red;
 }
 
 .u-destroy {
-  background-color: #e81e25;
+  background-color: $red;
 }
 
 /* Misc */

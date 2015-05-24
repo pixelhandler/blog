@@ -1,3 +1,5 @@
+@import 'colors';
+
 /* Elements */
 
 * {
@@ -19,7 +21,7 @@ h1, h2, h3, h4, h5, h6 {
   @extend %strong-text;
   -webkit-font-kerning: normal;
 
-  color: #f39f2b; /* yellow */
+  color: $yellow;
 }
 h1, h2, h3, h4 {
   margin: 0 0 1rem 0;
@@ -34,7 +36,7 @@ h3 {
   font-size: 1.1em;
 }
 h4 {
-  color: #0082be;
+  color: $blue;
 }
 h6, small {
   margin: 0;
@@ -48,7 +50,7 @@ p, li, dt, dd {
 }
 small {
   @extend %display-text;
-  color: #d2d2d2;
+  color: $gray;
 }
 
 header,
@@ -57,7 +59,7 @@ footer {
   padding: 0;
 }
 footer small {
-  color: #777777;
+  color: $gray;
 }
 
 a, a:link, a:hover, a:visited, a:active {
@@ -66,7 +68,7 @@ a, a:link, a:hover, a:visited, a:active {
 
 strong {
   @extend %strong-text;
-  color: #0082be; /* blue */
+  color: $blue;
   font-weight: 500;
 }
 
@@ -80,10 +82,10 @@ small {
 
 pre, code {
   @extend %mono-text;
-  border: 1px solid #292929;
+  border: 1px solid $deep-gray;
   border-radius: 6px;
-  background-color: #292929;
-  color: #5DB9F1;
+  background-color: $deep-gray;
+  color: $light-blue;
 }
 
 pre {
@@ -106,7 +108,7 @@ td, th {
   margin: 0;
   padding: 2px;
   min-width: 5em;
-  border-bottom: 1px dotted #cccccc; /* light gray */
+  border-bottom: 1px dotted $light-gray;
   vertical-align: top;
   font-size: .8333em;
 }

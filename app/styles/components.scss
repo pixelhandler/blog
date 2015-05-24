@@ -142,7 +142,7 @@
 
 .Footer-form {}
 
-.Footer-form-button {
+.Footer-form-button, .Comments-form-button {
   @extend %display-text;
   background: none;
   border: none;
@@ -166,9 +166,8 @@
   font-size: 1em
 }
 
-.Admin {}
-
-.Admin-form {}
+//.Admin {}
+//.Admin-form {}
 
 .Admin-form input,
 .Admin-form textArea {
