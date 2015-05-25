@@ -14,9 +14,9 @@
     "qunit": "~1.17.1",
     "momentjs": "~2.9.0",
     "showdown": "~0.5.1",
-    "orbit.js": "0.6.9",
-    "ember-orbit": "0.6.1",
     "normalize-css": "~3.0.3",
-    "usertiming": "~0.1.6"
+    "usertiming": "~0.1.6",
+    "fetch": "~0.8.2",
+    "es6-promise": "~2.1.0"
   }
 }

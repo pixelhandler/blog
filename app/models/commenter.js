@@ -1,13 +1,12 @@
-import EO from 'ember-orbit';
+import Ember from 'ember';
+import Model from 'pixelhandler-blog/models/base';
 
-const attr = EO.attr;
-const hasMany = EO.hasMany;
-
-export default EO.Model.extend({
+export default Model.extend({
   type: 'commenter',
-
+/*
   username: attr('string'),
   email: attr('string'),
 
   comments: hasMany('comment', { inverse: 'commenter' })
+*/
 });

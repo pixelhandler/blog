@@ -9,7 +9,9 @@ module.exports = function(environment) {
       FEATURES: {
         // Here you can enable experimental features on an ember canary build
         // e.g. 'with-controller': true
-      }
+      },
+      // not using Ember Data, TODO figure out if this is needed
+      MODEL_FACTORY_INJECTIONS: true
     },
 
     APP: {

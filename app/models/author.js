@@ -1,11 +1,11 @@
-import EO from 'ember-orbit';
+import Ember from 'ember';
+import Model from 'pixelhandler-blog/models/base';
 
-const attr = EO.attr;
-const hasMany = EO.hasMany;
-
-export default EO.Model.extend({
+export default Model.extend({
+/*
   name: attr('string'),
   email: attr('string'),
 
   posts: hasMany('post', { inverse: 'author' })
+*/
 });

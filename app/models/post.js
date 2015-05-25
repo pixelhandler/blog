@@ -1,22 +1,30 @@
-import EO from 'ember-orbit';
+import Ember from 'ember';
 import computedFake from 'pixelhandler-blog/utils/computed-fake';
+import Model from 'pixelhandler-blog/models/base';
 
-const attr = EO.attr;
-const hasOne = EO.hasOne;
-const hasMany = EO.hasMany;
+const Post = Model.extend({
+  type: 'post',
 
-const Post = EO.Model.extend({
-  type: 'posts',
+  slug: Ember.computed('attributes', function () {
+    return this.get('attributes.slug');
+  }),
+  title: Ember.computed('attributes', function () {
+    return this.get('attributes.title');
+  }),
 
-  slug: attr('string'),
-  title: attr('string'),
-  date: attr('date'),
-  excerpt: attr('string'),
-  body: attr('string'),
-
+  date: Ember.computed('attributes', function () {
+    return this.get('attributes.date');
+  }),
+  excerpt: Ember.computed('attributes', function () {
+    return this.get('attributes.excerpt');
+  }),
+  body: Ember.computed('attributes', function () {
+    return this.get('attributes.body');
+  }),
+/*
   author: hasOne('author', { inverse: 'posts' }),
   comments: hasMany('comment', { inverse: 'post' }),
-
+*/
   resourceName: 'post',
 
   slugInput: computedFake('model.slug'),

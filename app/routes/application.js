@@ -19,11 +19,12 @@ var ApplicationRoute = Ember.Route.extend(RenderUsingTimings, {
       mark('mark_begin_find_post_records');
     }
     const limit = config.APP.PAGE_LIMIT;
-    const query = { 'page[limit]': limit, 'sort': '-date', 'include': 'author' };
-    return this.store.find('post', query);
+    const options = { 'query': { 'page[limit]': limit, 'sort': '-date', 'include': 'author' }};
+    return this.posts.find(options);
   },
 
-  afterModel() {
+  afterModel(model) {
+    this.posts.cache.resources = model;
     if (config.APP.REPORT_METRICS) {
       mark('mark_end_find_post_records');
       measure('find_posts', 'mark_begin_find_post_records', 'mark_end_find_post_records');

@@ -27,7 +27,7 @@ export default Ember.Mixin.create({
 
   model() {
     const query = this.buildQuery();
-    return this.store.find(this.get('resourceName'), query);
+    return this[this.get('resourceName')].find(query);
   },
 
   buildQuery() {
@@ -60,7 +60,7 @@ export default Ember.Mixin.create({
   buildCollection() {
     const type = this.get('resourceName');
     const ids = this.get('loadedIds');
-    const collection = this.store.all(type).filter(function (record) {
+    const collection = this[type].cache.resources.filter(function (record) {
       return ids.contains(record.get('id'));
     }).sortBy(this.get('sortBy'));
     if (this.get('order') === 'desc') {
@@ -78,10 +78,6 @@ export default Ember.Mixin.create({
   }.property('loadedIds', 'total').volatile(),
 
   meta: Ember.computed('resourceName', function () {
-    const type = this.get('resourceName');
-    if (!this.store.schema._schema.meta) {
-      return null;
-    }
-    return this.store.schema._schema.meta.get(type);
+    return this[this.get('resourceName')].cache.meta.page;
   })
 });

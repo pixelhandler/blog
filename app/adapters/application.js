@@ -1,59 +1,52 @@
-import JSONAPISource from 'orbit-common/jsonapi-source';
+import Ember from 'ember';
 
-export default JSONAPISource.extend({
+export default Ember.Object.extend(Ember.Evented, {
+  type: null,
 
-  resourceURL: function(type, id) {
-    const host = this.resourceHost(type);
-    const namespace = this.resourceNamespace(type);
-    let url = [];
-
-    if (host) { url.push(host); }
-    if (namespace) { url.push(namespace); }
-    url.push(this.resourcePath(type, id));
-
-    url = url.join('/');
-    if (!host) { url = '/' + url; }
-    if (id && typeof id === 'object' && id.include) {
-      url += '?include=' + id.include;
+  find(options) {
+    if (typeof options === 'string') {
+      if (options.match(',') !== null) {
+        return this.findMany(options);
+      } else {
+        return this.findOne(options);
+      }
+    } else if (Array.isArray(options)) {
+      return this.findMany(options);
+    } else if (typeof options === 'object') {
+      return this.findQuery(options);
     }
-    return url;
   },
 
-  _transformAddStd(operation) {
-    const type = operation.path[0];
-    const payload = this.serializer.serialize(type, operation.value);
-    /* hack for post resource, type error from server and missing id
-    if (type === 'post' && !payload.data.links.author.linkage.id) {
-      payload.data.links.author.linkage = { id: 1, type: 'authors' };
-    }*/
-    delete payload.data.id; // don't send a client id
-    return this.ajax(this.resourceURL(type), 'POST', { data: payload }).then(
-      function(raw) {
-        const id = raw.data.id;
-        this.deserialize(type, id, raw, operation);
-      }.bind(this)
-    ).catch(function(err) {
-      console.error(err);
+  findOne(id) {
+    const url = this.get('url') + '/' + id;
+    return this._fetch(url, { method: 'GET' });
+  },
+
+  findMany(ids) {
+    ids = (Array.isArray(ids)) ? ids.split(',') : ids;
+    const url = this.get('url') + '/' + ids;
+    return this._fetch(url, { method: 'GET' });
+  },
+
+  findQuery(options) {
+    options = options || {};
+    let url = this.get('url');
+    url += (options.query) ? '?' + Ember.$.param(options.query) : '';
+    return this._fetch(url, { method: 'GET' });
+  },
+
+  createRecord() {},
+  updateRecord() {},
+  deleteRecord() {},
+
+  _fetch(url, options) {
+    return window.fetch(url, options).then(function(resp) {
+      return resp.json().then(function(resp) {
+        this.cache.meta = resp.meta;
+        return this.serializer.deserialize(resp);
+      }.bind(this));
+    }.bind(this)).catch(function(error) {
+      throw error;
     });
-  },
-
-  _transformUpdateAttributeStd(operation) {
-    const type = operation.path[0];
-    const id = operation.path[1];
-    const attr = operation.path[2];
-
-    const record = {};
-    record[attr] = operation.value;
-    const payload = { data: { attributes: {} } };
-    const primaryKey = this.schema.models[type].primaryKey.name;
-    payload.data[primaryKey] = id;
-    payload.data.type = this.serializer.resourceType(type);
-    this.serializer.serializeAttribute(type, record, attr, payload.data.attributes);
-
-    return this.ajax(this.resourceURL(type, id), 'PUT', { data: payload }).then(
-      function() {
-        this._transformCache(operation);
-      }.bind(this)
-    );
   }
 });
