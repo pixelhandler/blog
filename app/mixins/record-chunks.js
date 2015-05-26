@@ -8,7 +8,7 @@ export default Ember.Mixin.create({
     @prop {String} resourceName - name of record type used to lookup via store
     @prop (String) controllerName - name of controller to set `hasMore` flag on
   */
-  resourceName: Ember.required,
+  serviceName: Ember.required,
 
   /*
     Prototype using mixin may redefine limit and offset as needed.
@@ -27,7 +27,7 @@ export default Ember.Mixin.create({
 
   model() {
     const query = this.buildQuery();
-    return this[this.get('resourceName')].find(query);
+    return this[this.get('serviceName')].find(query);
   },
 
   buildQuery() {
@@ -58,9 +58,9 @@ export default Ember.Mixin.create({
   order: 'desc',
 
   buildCollection() {
-    const type = this.get('resourceName');
+    let collection = this[this.get('serviceName')].get('cache.data');
     const ids = this.get('loadedIds');
-    const collection = this[type].cache.resources.filter(function (record) {
+    collection = collection.filter(function (record) {
       return ids.contains(record.get('id'));
     }).sortBy(this.get('sortBy'));
     if (this.get('order') === 'desc') {
@@ -77,7 +77,7 @@ export default Ember.Mixin.create({
     return this.get('loadedIds').get('length') < total;
   }.property('loadedIds', 'total').volatile(),
 
-  meta: Ember.computed('resourceName', function () {
-    return this[this.get('resourceName')].cache.meta.page;
+  meta: Ember.computed('serviceName', function () {
+    return this[this.get('serviceName')].get('cache.meta.page');
   })
 });

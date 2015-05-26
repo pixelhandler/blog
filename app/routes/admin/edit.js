@@ -2,8 +2,6 @@ import Ember from 'ember';
 import ResetScroll from 'pixelhandler-blog/mixins/reset-scroll';
 
 export default Ember.Route.extend(ResetScroll, {
-  resourceName: 'post',
-
   beforeModel() {
     const controller = this.controllerFor('application');
     if (controller.get('isLoggedIn') !== true) {
@@ -12,7 +10,7 @@ export default Ember.Route.extend(ResetScroll, {
   },
 
   model(params) {
-    return this.store.find(this.get('resourceName'), params.edit_id);
+    return this.posts.find(params.edit_id);
   },
 
   setupController(controller, model) {

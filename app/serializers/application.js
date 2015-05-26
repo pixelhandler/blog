@@ -1,8 +1,6 @@
 import Ember from 'ember';
 
 export default Ember.Object.extend({
-  type: null,
-
   serialize() {},
   serializeRecords() {},
   serializeRecord() {},
@@ -31,7 +29,7 @@ export default Ember.Object.extend({
   },
 
   _createModelInstance(resource) {
-    const factoryName = 'model:' + this.get('type');
+    const factoryName = 'model:' + resource.type;
     return this.container.lookup(factoryName).create({
       'attributes': resource.attributes,
       'id': resource.id,

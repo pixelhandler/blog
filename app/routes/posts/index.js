@@ -6,7 +6,7 @@ import RenderUsingTimings from 'pixelhandler-blog/mixins/render-using-timings';
 export default Ember.Route.extend(
     ResetScroll, RecordChunksMixin, RenderUsingTimings, {
 
-  resourceName: 'post',
+  serviceName: 'posts',
 
   limit: 20,
   offset: -20,

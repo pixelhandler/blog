@@ -3,10 +3,8 @@ import ResetScroll from 'pixelhandler-blog/mixins/reset-scroll';
 import Post from 'pixelhandler-blog/models/post';
 
 export default Ember.Route.extend(ResetScroll, {
-  resourceName: 'post',
-
   beforeModel() {
-    var controller = this.controllerFor('application');
+    const controller = this.controllerFor('application');
     if (controller.get('isLoggedIn') !== true) {
       this.transitionTo('index');
     }

@@ -32,7 +32,9 @@
   <span class="u-redTxt">{{error}}</span>
 {{/if}}
 {{#if model.comments}}
-  
+  {{#each model.comments as |comment|}}
+    <p>{{comment.body}}</p>
+  {{/each}}
 {{else}}
   <p>No comments yet, get the conversation started…</p>
 {{/if}}

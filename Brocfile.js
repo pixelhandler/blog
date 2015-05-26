@@ -48,4 +48,6 @@ app.import({
   production: 'bower_components/usertiming/dist/usertiming.min.js'
 });
 
+app.import('vendor/ember-inflector.js');
+
 module.exports = app.toTree();

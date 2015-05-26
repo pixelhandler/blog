@@ -22,11 +22,8 @@ export default Ember.Controller.extend({
       };
       this.store.add('comment', payload);
       this.store.then(function(comment) {
-        debugger;
-        console.log('comment', comment);
         model.get('comments').pushObject(comment);
       }).catch(function(error) {
-        debugger;
         this.set('error', error.toString());
       }.bind(this));
     },

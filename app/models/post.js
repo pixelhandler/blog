@@ -1,31 +1,19 @@
 import Ember from 'ember';
 import computedFake from 'pixelhandler-blog/utils/computed-fake';
 import Model from 'pixelhandler-blog/models/base';
+import { attr, related } from 'pixelhandler-blog/models/base';
 
 const Post = Model.extend({
   type: 'post',
 
-  slug: Ember.computed('attributes', function () {
-    return this.get('attributes.slug');
-  }),
-  title: Ember.computed('attributes', function () {
-    return this.get('attributes.title');
-  }),
+  slug: attr(),
+  title: attr(),
+  date: attr(),
+  excerpt: attr(),
+  body: attr(),
 
-  date: Ember.computed('attributes', function () {
-    return this.get('attributes.date');
-  }),
-  excerpt: Ember.computed('attributes', function () {
-    return this.get('attributes.excerpt');
-  }),
-  body: Ember.computed('attributes', function () {
-    return this.get('attributes.body');
-  }),
-/*
-  author: hasOne('author', { inverse: 'posts' }),
-  comments: hasMany('comment', { inverse: 'post' }),
-*/
-  resourceName: 'post',
+  //author: hasOne('author', { inverse: 'posts' }),
+  comments: related('comments'),
 
   slugInput: computedFake('model.slug'),
   titleInput: computedFake('model.title'),
@@ -46,24 +34,25 @@ Post.reopenClass({
     });
   },
 
-  createRecord(store, newRecord, authorId) {
+  createRecord(newRecord, authorId) {
     const payload = newRecord.toJSON();
-    // Had to remove the thenable solution to add links after create
-    // record had wrong primary id (client generated?)
     payload.links.author = { linkage: { type: 'authors', id: authorId } };
-    store.add('post', payload);
+    // TODO use new adapter/service
+    // store.add('post', payload);
   },
 
-  deleteRecord(record, author) {
+  deleteRecord(/*record, author*/) {
+    // TODO use new adapter/service
     return new Ember.RSVP.Promise(function (resolve, reject) {
-      author.removeLink('posts', record).then(function () {
+      /*author.removeLink('posts', record).then(function () {
         return record.remove();
       }).then(function () {
         resolve();
       }).catch(function(error) {
         Ember.Logger.error(error);
         reject(error);
-      });
+      });*/
+      reject('not implemented');
     });
   },
 
