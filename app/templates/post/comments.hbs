@@ -31,9 +31,14 @@
 {{#if error}}
   <span class="u-redTxt">{{error}}</span>
 {{/if}}
-{{#if model.comments}}
-  {{#each model.comments as |comment|}}
-    <p>{{comment.body}}</p>
+{{#if model}}
+  {{#each model as |comment|}}
+    <p>
+      {{#with comment.commenter as |commenter|}}
+        <strong>{{commenter.username}}</strong>
+      {{/with}}
+      {{comment.body}}
+    </p>
   {{/each}}
 {{else}}
   <p>No comments yet, get the conversation started…</p>

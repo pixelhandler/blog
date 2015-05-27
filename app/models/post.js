@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import computedFake from 'pixelhandler-blog/utils/computed-fake';
 import Model from 'pixelhandler-blog/models/base';
-import { attr, related } from 'pixelhandler-blog/models/base';
+import { attr, hasOne, hasMany } from 'pixelhandler-blog/models/base';
 
 const Post = Model.extend({
   type: 'post',
@@ -12,8 +12,8 @@ const Post = Model.extend({
   excerpt: attr(),
   body: attr(),
 
-  //author: hasOne('author', { inverse: 'posts' }),
-  comments: related('comments'),
+  author: hasOne('author'),
+  comments: hasMany('comments'),
 
   slugInput: computedFake('model.slug'),
   titleInput: computedFake('model.title'),

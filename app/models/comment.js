@@ -1,13 +1,11 @@
-//import Ember from 'ember';
 import Model from 'pixelhandler-blog/models/base';
-import { attr } from 'pixelhandler-blog/models/base'; // , related
+import { attr, hasOne } from 'pixelhandler-blog/models/base';
 
 export default Model.extend({
   type: 'comment',
 
   body: attr(),
-/*
-  commenter: hasOne('commenter', { inverse: 'comments' }),
-  post: hasOne('post', { inverse: 'comments' })
-*/
+
+  commenter: hasOne('commenter'),
+  post: hasOne('post')
 });

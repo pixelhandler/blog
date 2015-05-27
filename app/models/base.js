@@ -10,29 +10,36 @@ export default Ember.Object.extend({
   }
 });
 
-export function attr() {
-  return Ember.computed('attributes', function (key) {
-    return this.get('attributes.' + key);
+export function attr(type, mutable = false) {
+  const _mutable = mutable;
+  return Ember.computed('attributes', {
+    get: function (key) {
+      return this.get('attributes.' + key);
+    },
+
+    set: function (key, value) {
+      if (!_mutable) { return this.get('attributes.' + key); }
+      this.set('attributes.' + key, value);
+      return this.get('attributes.' + key);
+    }
   });
 }
-
-const ArrayProxy = Ember.ArrayProxy;
-const PromiseProxyMixin = Ember.PromiseProxyMixin;
-const get = Ember.get;
 
 const RelatedProxyUtil = Ember.Object.extend({
   init: function () {
     this._super();
-    if (typeof get(this, 'resource') !== 'string') {
+    if (typeof this.get('resource') !== 'string') {
       throw new Error('RelatedProxyUtil#init expects `resource` property to exist.');
     }
     return this;
   },
 
-  createProxy: function (model) {
-    const resource = get(this, 'resource');
+  _proxy: null,
+
+  createProxy: function (model, proxyFactory) {
+    const resource = this.get('resource');
     const url = this._proxyUrl(model, resource);
-    const proxy = ArrayProxy.extend(PromiseProxyMixin, {
+    const proxy = proxyFactory.extend(Ember.PromiseProxyMixin, {
       promise: model.service.findRelated(resource, url)
     });
     this._proxy = proxy.create();
@@ -47,8 +54,6 @@ const RelatedProxyUtil = Ember.Object.extend({
     );
   },
 
-  _proxy: null,
-
   _proxyUrl(model, resource) {
     const related = 'links.' + resource + '.related';
     const url = model.get(related);
@@ -59,12 +64,18 @@ const RelatedProxyUtil = Ember.Object.extend({
   }
 });
 
-export function related(resource) {
+export function hasOne(resource) {
   const util = RelatedProxyUtil.create({'resource': resource});
-  return Ember.computed('links.' + resource, function () {
-    if (util._proxy === null) {
-      util.createProxy(this);
-    }
+  return Ember.computed('links.' + resource + '.related', function () {
+    util.createProxy(this, Ember.ObjectProxy);
+    return util._proxy;
+  });
+}
+
+export function hasMany(resource) {
+  const util = RelatedProxyUtil.create({'resource': resource});
+  return Ember.computed('links.' + resource + '.related', function () {
+    util.createProxy(this, Ember.ArrayProxy);
     return util._proxy;
   });
 }

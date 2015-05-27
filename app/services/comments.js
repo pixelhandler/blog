@@ -1,4 +1,4 @@
-import PostAdapter from 'pixelhandler-blog/adapters/post';
+import CommentAdapter from 'pixelhandler-blog/adapters/comment';
 import ServiceCache from 'pixelhandler-blog/mixins/service-cache';
 
-export default PostAdapter.extend(ServiceCache);
+export default CommentAdapter.extend(ServiceCache);

@@ -2,12 +2,22 @@ import Ember from 'ember';
 import ResetScroll from 'pixelhandler-blog/mixins/reset-scroll';
 import RenderUsingTimings from 'pixelhandler-blog/mixins/render-using-timings';
 
-var PostRoute = Ember.Route.extend(ResetScroll, RenderUsingTimings, {
+export default Ember.Route.extend(ResetScroll, RenderUsingTimings, {
   measurementName: 'post_view',
 
-  afterModel(/*post*/) {
-    /* TODO return post.get('comments');*/
+  setupController(controller, model) {
+    this._super(controller, model);
+    this.controllerFor('post.comments').set('model', model.get('comments'));
+  },
+
+  renderTemplate(controller, model) {
+    this.measureRenderTime();
+    this._super(controller, model);
+
+    this.render('post.comments', {
+      into: 'post.detail',
+      outlet: 'comments',
+      controller: this.controllerFor('post.comments')
+    });
   }
 });
-
-export default PostRoute;

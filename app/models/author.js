@@ -1,11 +1,11 @@
-import Ember from 'ember';
 import Model from 'pixelhandler-blog/models/base';
+import { attr, hasMany } from 'pixelhandler-blog/models/base';
 
 export default Model.extend({
-/*
-  name: attr('string'),
-  email: attr('string'),
+  type: 'author',
 
-  posts: hasMany('post', { inverse: 'author' })
-*/
+  name: attr(),
+  email: attr(),
+
+  posts: hasMany('posts')
 });

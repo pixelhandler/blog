@@ -9,6 +9,11 @@ export default Ember.Mixin.create({
   reportUserTimings: true,
 
   renderTemplate(controller, model) {
+    this.measureRenderTime();
+    return this._super(controller, model);
+  },
+
+  measureRenderTime() {
     const beginName = 'mark_begin_rendering_' + this.measurementName;
     const endName = 'mark_end_rendering_' + this.measurementName;
     if (config.APP.REPORT_METRICS) {
@@ -21,7 +26,6 @@ export default Ember.Mixin.create({
         }
       });
     }
-    return this._super(controller, model);
   }
 
 });

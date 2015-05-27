@@ -10,6 +10,7 @@ var ApplicationRoute = Ember.Route.extend(RenderUsingTimings, {
     if (!window.localStorage.getItem('visitor')) {
       window.localStorage.setItem('visitor', uuid());
     }
+    // TODO fixup check for logged in User (Commenter shares header)
     //const token = window.localStorage.getItem('AuthorizationHeader');
     //this.set('isLoggedIn', !Ember.isEmpty(token));
   },
@@ -19,7 +20,7 @@ var ApplicationRoute = Ember.Route.extend(RenderUsingTimings, {
       mark('mark_begin_find_post_records');
     }
     const limit = config.APP.PAGE_LIMIT;
-    const options = { 'query': { 'page[limit]': limit, 'sort': '-date', 'include': 'author' }};
+    const options = { 'query': { 'page[limit]': limit, 'sort': '-date' }};
     return this.posts.find(options);
   },
 
