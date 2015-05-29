@@ -1,8 +1,8 @@
-import Model from 'pixelhandler-blog/models/base';
+import Resource from 'pixelhandler-blog/models/base';
 import { attr, hasMany } from 'pixelhandler-blog/models/base';
 
-export default Model.extend({
-  type: 'author',
+export default Resource.extend({
+  type: 'authors',
 
   name: attr(),
   email: attr(),

@@ -48,17 +48,35 @@ export default Ember.Object.extend(Ember.Evented, {
     return service.fetch(url);
   },
 
-  createRecord() {},
+  createRecord(resource) {
+    let url = this.get('url');
+    const json = this.serializer.serialize(resource);
+    return this.fetch(url, {
+      method: 'POST',
+      body: JSON.stringify(json),
+      headers: {
+        'Content-Type': 'application/vnd.api+json',
+        'Authorization': window.localStorage.getItem('AuthorizationHeader')
+      }
+    });
+  },
+
   updateRecord() {},
   deleteRecord() {},
 
   fetch(url, options) {
     return window.fetch(url, options).then(function(resp) {
-      return resp.json().then(function(resp) {
-        const data = this.serializer.deserialize(resp);
-        this.cacheResponse({ meta: resp.meta, data: data});
-        return data;
-      }.bind(this));
+      if (resp.status >= 400) {
+        resp.json().then(function(resp) {
+          throw new Error(resp.error);
+        });
+      } else {
+        return resp.json().then(function(resp) {
+          const data = this.serializer.deserialize(resp);
+          this.cacheResponse({ meta: resp.meta, data: data});
+          return data;
+        }.bind(this));
+      }
     }.bind(this)).catch(function(error) {
       throw error;
     });

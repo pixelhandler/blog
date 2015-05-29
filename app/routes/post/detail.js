@@ -7,7 +7,10 @@ export default Ember.Route.extend(ResetScroll, RenderUsingTimings, {
 
   setupController(controller, model) {
     this._super(controller, model);
-    this.controllerFor('post.comments').set('model', model.get('comments'));
+    this.controllerFor('post.comments').setProperties({
+      'model': model.get('comments'),
+      'postId': model.get('id')
+    });
   },
 
   renderTemplate(controller, model) {
@@ -19,5 +22,17 @@ export default Ember.Route.extend(ResetScroll, RenderUsingTimings, {
       outlet: 'comments',
       controller: this.controllerFor('post.comments')
     });
+  },
+
+  actions: {
+    submitComment(resource) {
+      const controller = this.controllerFor('post.comments');
+      return this.comments.createRecord(resource).then(function(comment) {
+        this.get('model').pushObject(comment);
+        this.set('commentText', '');
+      }.bind(controller)).catch(function(error) {
+        this.set('error', error.toString());
+      }.bind(controller));
+    }
   }
 });

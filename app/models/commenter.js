@@ -1,11 +1,12 @@
-import Model from 'pixelhandler-blog/models/base';
+import Resource from 'pixelhandler-blog/models/base';
 import { attr, hasMany } from 'pixelhandler-blog/models/base';
 
-export default Model.extend({
-  type: 'commenter',
+export default Resource.extend({
+  type: 'commenters',
 
-  username: attr(),
+  name: attr(),
   email: attr(),
+  hash: attr(),
 
   comments: hasMany('comments')
 });

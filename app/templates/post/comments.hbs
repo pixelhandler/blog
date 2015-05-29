@@ -20,11 +20,11 @@
       value=commentText
     }}
     <input type="submit" class="u-clickable u-button u-save" value="submit">
+    <em>Comments are moderated.</em>
   </form>
   <br>
   <p>
     <a {{action "deauthorize"}} class="u-grayTxt u-clickable u-button">Logout</a>
-    <em>Comments are moderated.</em>
   </p>
 {{/unless}}
 <br>
@@ -32,14 +32,21 @@
   <span class="u-redTxt">{{error}}</span>
 {{/if}}
 {{#if model}}
+  <ul class="Comments">
   {{#each model as |comment|}}
-    <p>
+    <li class="Comments-item">
+      {{log comment.date}}
+      <span class="Comments-item-date">{{format-date-from-now comment.date}}</span>
       {{#with comment.commenter as |commenter|}}
-        <strong>{{commenter.username}}</strong>
+        <span class="Comments-item-avatar">
+          <img src="http://www.gravatar.com/avatar/{{commenter.hash}}?r=g&d=mm&s=50" />
+        </span>
+        <span class="Comments-item-username">by <strong>{{commenter.name}}</strong>…</span>
       {{/with}}
-      {{comment.body}}
-    </p>
+      <p class="Comments-item-body">{{comment.body}}</p>
+    </li>
   {{/each}}
+  </ul>
 {{else}}
   <p>No comments yet, get the conversation started…</p>
 {{/if}}

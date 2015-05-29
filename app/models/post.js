@@ -1,10 +1,10 @@
 import Ember from 'ember';
 import computedFake from 'pixelhandler-blog/utils/computed-fake';
-import Model from 'pixelhandler-blog/models/base';
+import Resource from 'pixelhandler-blog/models/base';
 import { attr, hasOne, hasMany } from 'pixelhandler-blog/models/base';
 
-const Post = Model.extend({
-  type: 'post',
+const Post = Resource.extend({
+  type: 'posts',
 
   slug: attr(),
   title: attr(),
@@ -31,28 +31,6 @@ Post.reopenClass({
         return this.getProperties(props);
       },
       isNew: true
-    });
-  },
-
-  createRecord(newRecord, authorId) {
-    const payload = newRecord.toJSON();
-    payload.links.author = { linkage: { type: 'authors', id: authorId } };
-    // TODO use new adapter/service
-    // store.add('post', payload);
-  },
-
-  deleteRecord(/*record, author*/) {
-    // TODO use new adapter/service
-    return new Ember.RSVP.Promise(function (resolve, reject) {
-      /*author.removeLink('posts', record).then(function () {
-        return record.remove();
-      }).then(function () {
-        resolve();
-      }).catch(function(error) {
-        Ember.Logger.error(error);
-        reject(error);
-      });*/
-      reject('not implemented');
     });
   },
 

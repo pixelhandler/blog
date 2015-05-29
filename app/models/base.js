@@ -1,14 +1,31 @@
 import Ember from 'ember';
 
-export default Ember.Object.extend({
-  type: null,
+const pluralize = Ember.String.pluralize;
 
-  attributes: null,
+const Resource = Ember.Object.extend({
+  type: null,
+  attributes: {},
+  links: {},
 
   toString() {
-    return "[%@Model:%@]".fmt(this.get('type'), this.get('id'));
+    return "[%@Resource:%@]".fmt(this.get('type'), this.get('id'));
+  },
+
+  addLink(related, id) {
+    const key = 'links.' + related;
+    const linked = this.get(key);
+    const type = pluralize(related);
+    let linkage = { linkage: { type: type, id: id } };
+    if (Array.isArray(linked)) {
+      linked.pushObject(linkage);
+    } else if (!!linked) {
+      linked.linkage.id = id;
+    }
+    return this.set(key, linkage);
   }
 });
+
+export default Resource;
 
 export function attr(type, mutable = false) {
   const _mutable = mutable;

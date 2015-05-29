@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import config from 'pixelhandler-blog/config/environment';
+import Resource from 'pixelhandler-blog/models/comment';
 
 export default Ember.Controller.extend({
   username: null,
@@ -12,20 +13,7 @@ export default Ember.Controller.extend({
 
   actions: {
     submitComment() {
-      const model = this.get('model');
-      const payload = {
-        body: this.get('commentText'),
-        links: {
-          commenter: { linkage: { type: 'commenter', id: this.get('commenterId') } },
-          post: { linkage: { type: 'post', id: model.get('id') } }
-        }
-      };
-      this.store.add('comment', payload);
-      this.store.then(function(comment) {
-        model.get('comments').pushObject(comment);
-      }).catch(function(error) {
-        this.set('error', error.toString());
-      }.bind(this));
+      return this.get('target').send('submitComment', this.newResource());
     },
 
     authorize() {
@@ -55,6 +43,18 @@ export default Ember.Controller.extend({
       });
       window.localStorage.removeItem('AuthorizationHeader');
     }
+  },
+
+  newResource() {
+    const resource = Resource.create({
+      attributes: {
+        body: this.get('commentText')
+      }
+    });
+    resource.addLink('commenter', this.get('commenterId'));
+    resource.addLink('post', this.get('postId'));
+
+    return resource;
   }
 });
 
