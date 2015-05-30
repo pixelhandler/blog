@@ -51,8 +51,8 @@ export default Ember.Controller.extend({
         body: this.get('commentText')
       }
     });
-    resource.addLink('commenter', this.get('commenterId'));
-    resource.addLink('post', this.get('postId'));
+    resource.addRelationship('commenter', this.get('commenterId'));
+    resource.addRelationship('post', this.get('postId'));
 
     return resource;
   }

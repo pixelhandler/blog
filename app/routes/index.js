@@ -12,6 +12,9 @@ export default Ember.Route.extend(
   offset: -5,
 
   beforeModel() {
+    if (!this.refreshing && this.get('offset') > 0) {
+      return;
+    }
     const posts = this.modelFor('application');
     const postsCount = posts.get('length');
     const limit = this.get('limit');
@@ -37,6 +40,7 @@ export default Ember.Route.extend(
   actions: {
     showMore() {
       this.preventScroll = true;
+      this.refreshing = true;
       this.refresh();
     }
   }

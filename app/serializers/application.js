@@ -25,7 +25,7 @@ export default Ember.Object.extend({
   },
 
   serializeResource(resource) {
-    return resource.getProperties('type', 'attributes', 'links');
+    return resource.getProperties('type', 'attributes', 'relationships');
   },
 
   serializeAttribute(/*resource*/) {
@@ -58,7 +58,7 @@ export default Ember.Object.extend({
     return this.container.lookup(factoryName).create({
       'attributes': resource.attributes,
       'id': resource.id,
-      'links': resource.links
+      'relationships': resource.relationships
     });
   }
 });

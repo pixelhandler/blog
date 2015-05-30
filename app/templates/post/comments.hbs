@@ -1,4 +1,7 @@
 <hr>
+{{#if error}}
+  <span class="u-redTxt">{{error}}</span>
+{{/if}}
 <h3>Comments</h3>
 {{#unless isCommenterAuthorized}}
   <p>To post a comment, start by entering your name and email.</p>
@@ -28,9 +31,6 @@
   </p>
 {{/unless}}
 <br>
-{{#if error}}
-  <span class="u-redTxt">{{error}}</span>
-{{/if}}
 {{#if model}}
   <ul class="Comments">
   {{#each model as |comment|}}

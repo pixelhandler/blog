@@ -1,5 +1,5 @@
 import Resource from 'pixelhandler-blog/models/base';
-import { attr, hasOne } from 'pixelhandler-blog/models/base';
+import { attr, hasOne, hasRelated } from 'pixelhandler-blog/models/base';
 
 export default Resource.extend({
   type: 'comments',
@@ -10,6 +10,7 @@ export default Resource.extend({
     return this.get('attributes.created-at');
   }),
 
+  relationships: hasRelated('commenter', 'post'),
   commenter: hasOne('commenter'),
   post: hasOne('post'),
 

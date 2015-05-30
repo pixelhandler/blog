@@ -11,12 +11,5 @@ export default Ember.Route.extend(
   limit: 20,
   offset: -20,
 
-  measurementName: 'archive_view',
-
-  actions: {
-    showMore() {
-      this.preventScroll = true;
-      this.refresh();
-    }
-  }
+  measurementName: 'archive_view'
 });

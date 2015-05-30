@@ -22,11 +22,14 @@ export default Ember.Mixin.create({
   }.on('init'),
 
   beforeModel() {
+    if (!this.refreshing && this.get('offset') > 0) {
+      return;
+    }
     this.set('offset', this.get('offset') + this.get('limit'));
   },
 
   model() {
-    const query = this.buildQuery();
+    const query = { query: this.buildQuery() };
     return this[this.get('serviceName')].find(query);
   },
 
@@ -40,17 +43,29 @@ export default Ember.Mixin.create({
   },
 
   afterModel(collection) {
+    this.refreshing = false;
     const ids = collection.mapBy('id');
-    this.get('loadedIds').pushObjects(ids);
+    const loaded = this.get('loadedIds');
+    if (loaded.get('length') === 0) {
+      loaded.pushObjects(ids);
+    } else {
+      const more = [];
+      for (let i = 0; i < ids.length; i++) {
+        if (loaded.indexOf(ids[i]) === -1) {
+          more.push(ids[i]);
+        }
+      }
+      loaded.pushObjects(more);
+    }
     return collection;
   },
 
-  setupController(controller) {
+  setupController(controller, collection) {
     controller.setProperties({
       'hasMore': this.get('hasMore'),
       'loadingMore': false
     });
-    const collection = this.buildCollection();
+    collection = this.buildCollection();
     this._super(controller, collection);
   },
 
@@ -58,10 +73,10 @@ export default Ember.Mixin.create({
   order: 'desc',
 
   buildCollection() {
-    let collection = this[this.get('serviceName')].get('cache.data');
+    const data = this[this.get('serviceName')].get('cache.data');
     const ids = this.get('loadedIds');
-    collection = collection.filter(function (record) {
-      return ids.contains(record.get('id'));
+    const collection = data.filter(function (record) {
+      return (ids.indexOf(record.get('id')) > -1);
     }).sortBy(this.get('sortBy'));
     if (this.get('order') === 'desc') {
       collection.reverse();
@@ -79,5 +94,12 @@ export default Ember.Mixin.create({
 
   meta: Ember.computed('serviceName', function () {
     return this[this.get('serviceName')].get('cache.meta.page');
-  })
+  }),
+
+  actions: {
+    showMore() {
+      this.refreshing = true;
+      this.refresh();
+    }
+  }
 });
