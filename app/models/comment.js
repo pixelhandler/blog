@@ -6,15 +6,17 @@ export default Resource.extend({
 
   body: attr(),
 
-  date: Ember.computed('attributes', function () {
-    return this.get('attributes.created-at');
+  date: Ember.computed('attributes', {
+    get() {
+      return this.get('attributes.created-at');
+    }
   }),
 
   relationships: hasRelated('commenter', 'post'),
   commenter: hasOne('commenter'),
   post: hasOne('post'),
 
-  postId: Ember.computed('links', function () {
-    return this.get('links.post.linkage.id');
+  postId: Ember.computed('relationships', function () {
+    return this.get('relationships.post.data.id');
   })
 });

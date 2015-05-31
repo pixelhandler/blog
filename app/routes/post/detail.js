@@ -27,7 +27,7 @@ export default Ember.Route.extend(ResetScroll, RenderUsingTimings, {
   actions: {
     submitComment(resource) {
       const controller = this.controllerFor('post.comments');
-      return this.comments.createRecord(resource).then(function(comment) {
+      return this.comments.createResource(resource).then(function(comment) {
         this.get('model').pushObject(comment);
         this.set('commentText', '');
       }.bind(controller)).catch(function(error) {

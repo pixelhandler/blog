@@ -42,6 +42,7 @@ export default Ember.Controller.extend({
         'commenterId': null
       });
       window.localStorage.removeItem('AuthorizationHeader');
+      window.localStorage.removeItem('CommenterId');
     }
   },
 
@@ -63,6 +64,7 @@ function authorizeSuccess(data) {
   Ember.run(function () {
     let response = JSON.parse(data);
     window.localStorage.setItem('AuthorizationHeader', response.auth_token);
+    window.localStorage.setItem('CommenterId', response.commenter_id);
     this.setProperties({
       'isCommenterAuthorized': true,
       'email': null,

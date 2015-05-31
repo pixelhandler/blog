@@ -11,13 +11,12 @@
     <input type="submit" class="u-blueTxt u-clickable u-button" value="ok">
   </form>
 {{else}}
-  <form {{action "submitComment" model on="submit"}} class="Comments-form" id="new-comment">
+  <form {{action "submitComment" model on="submit"}} class="Comments-form">
     {{textarea
       name="comment"
       required=true
       min="2"
       spellcheck="true"
-      form="new-comment"
       placeholder="What's on your mind?"
       class="Comments-form-text"
       value=commentText

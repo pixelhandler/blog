@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import computedFake from 'pixelhandler-blog/utils/computed-fake';
 import Resource from 'pixelhandler-blog/models/base';
-import { attr, hasOne, hasMany } from 'pixelhandler-blog/models/base';
+import { attr, hasOne, hasMany, hasRelated } from 'pixelhandler-blog/models/base';
 
 const Post = Resource.extend({
   type: 'posts',
@@ -12,6 +12,7 @@ const Post = Resource.extend({
   excerpt: attr(),
   body: attr(),
 
+  relationships: hasRelated('author', 'comments'),
   author: hasOne('author'),
   comments: hasMany('comments'),
 
@@ -23,17 +24,6 @@ const Post = Resource.extend({
 });
 
 Post.reopenClass({
-  newRecord() {
-    return Ember.Object.create({
-      type: 'posts', slug: '', title: '', date: null, excerpt: '', body: '', links: {},
-      toJSON: function () {
-        var props = "type slug title date excerpt body links".w();
-        return this.getProperties(props);
-      },
-      isNew: true
-    });
-  },
-
   createSlug(model, title) {
     title = title || model.get('title');
     if (!title || !Ember.isEmpty(model.get('slug'))) { return false; }

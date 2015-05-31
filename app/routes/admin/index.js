@@ -15,18 +15,7 @@ export default Ember.Route.extend(ResetScroll, {
 
   model() {
     const limit = config.APP.PAGE_LIMIT * 2;
-    const service = this.get('serviceName');
-    return this[service].find({ query: { 'page[limit]': limit, 'sort': '-date' }});
-  },
-
-  afterModel() {
-    /* TODO get author?
-    const service = this.get('serviceName');
-
-    return this.store.find('author').then(function (authors) {
-      const author = authors.get('firstObject');
-      this.set('author', author);
-    }.bind(this)); */
+    return this.store.find('posts', { query: { 'page[limit]': limit, 'sort': '-date' }});
   },
 
   actions: {
@@ -34,9 +23,11 @@ export default Ember.Route.extend(ResetScroll, {
       this.preventScroll = true;
       this.modelFor('application').removeObject(model);
       this.modelFor('admin.index').removeObject(model);
-      return Post.deleteRecord(model, this.get('author')).then(function() {
+      return this.store.deleteResource('posts', model).then(function() {
         this.refresh();
-      }.bind(this));
+      }.bind(this)).catch(function(e) {
+        console.error(e);
+      });
     }
   }
 });

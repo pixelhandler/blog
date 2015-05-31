@@ -6,7 +6,7 @@ export default Ember.Controller.extend({
 
   actions: {
     inputDidBlur(name, value) {
-      var prop = this.get(name);
+      const prop = this.get(name);
       if (value !== prop) {
         const model = this.get('model');
         model.set(name, value);

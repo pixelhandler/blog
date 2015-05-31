@@ -16,10 +16,12 @@ export function initialize(container, application) {
 
   application.inject('route', 'commenters', service);
   application.inject(model, 'service', service);
+  application.inject('service:store', 'commenters', service);
   application.inject(service, 'serializer', serializer);
 }
 
 export default {
   name: 'commenters-service',
+  after: 'store',
   initialize: initialize
 };

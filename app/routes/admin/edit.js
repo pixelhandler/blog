@@ -10,7 +10,7 @@ export default Ember.Route.extend(ResetScroll, {
   },
 
   model(params) {
-    return this.posts.find(params.edit_id);
+    return this.store.find('posts', params.edit_id);
   },
 
   setupController(controller, model) {

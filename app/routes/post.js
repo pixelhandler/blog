@@ -3,14 +3,14 @@ import Ember from 'ember';
 export default Ember.Route.extend({
   model(params) {
     return new Ember.RSVP.Promise(function (resolve, reject) {
-      const found = this.posts.get('cache.data').filter(function (post) {
+      const found = this.store.all('posts').filter(function (post) {
         return post.get('slug') === params.post_slug;
       });
       if (found.get('length') > 0) {
         resolve(found[0]);
       } else {
         const query = { id: params.post_slug, query: { include: 'author,comments' } };
-        this.posts.find(query).then(
+        this.store.find('posts', query).then(
           function (post) {
             resolve(post);
           },

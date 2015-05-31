@@ -25,11 +25,27 @@ export default Ember.Object.extend({
   },
 
   serializeResource(resource) {
-    return resource.getProperties('type', 'attributes', 'relationships');
+    const json = resource.getProperties('type', 'attributes', 'relationships');
+    for (let relationship in json.relationships) {
+      if (json.relationships.hasOwnProperty(relationship)) {
+        delete json.relationships[relationship].links;
+        if (!json.relationships[relationship].data) {
+          delete json.relationships[relationship];
+        }
+      }
+    }
+    return json;
   },
 
-  serializeAttribute(/*resource*/) {
-    throw Error('not implemented yet.');
+  serializeChanged(resource) {
+    let json = resource.getProperties('id', 'type', 'changedAttributes');
+    return {
+      data: {
+        type: json.type,
+        id: json.id,
+        attributes: json.changedAttributes
+      }
+    };
   },
 
   deserialize(resource) {
@@ -58,7 +74,8 @@ export default Ember.Object.extend({
     return this.container.lookup(factoryName).create({
       'attributes': resource.attributes,
       'id': resource.id,
-      'relationships': resource.relationships
+      'relationships': resource.relationships,
+      'links': resource.links
     });
   }
 });

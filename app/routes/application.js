@@ -10,9 +10,9 @@ var ApplicationRoute = Ember.Route.extend(RenderUsingTimings, {
     if (!window.localStorage.getItem('visitor')) {
       window.localStorage.setItem('visitor', uuid());
     }
-    // TODO fixup check for logged in User (Commenter shares header)
-    //const token = window.localStorage.getItem('AuthorizationHeader');
-    //this.set('isLoggedIn', !Ember.isEmpty(token));
+    const token = window.localStorage.getItem('AuthorizationHeader');
+    const commenterId = window.localStorage.getItem('CommenterId');
+    this.set('isLoggedIn', (!Ember.isEmpty(token) && !commenterId));
   },
 
   model() {
@@ -21,7 +21,7 @@ var ApplicationRoute = Ember.Route.extend(RenderUsingTimings, {
     }
     const limit = config.APP.PAGE_LIMIT;
     const options = { 'query': { 'page[limit]': limit, 'sort': '-date' }};
-    return this.posts.find(options);
+    return this.store.find('posts', options);
   },
 
   afterModel(model) {
@@ -46,11 +46,11 @@ var ApplicationRoute = Ember.Route.extend(RenderUsingTimings, {
 
   actions: {
     login() {
-      const controller = this.get('controller');
+      const controller = this.controllerFor('application');
       this.canTransition = true;
       const credentails = JSON.stringify({
-        username: controller.get('username'),
-        password: controller.get('password')
+        username: controller.get('username') || Ember.$('input[name="username"]').last().val(),
+        password: controller.get('password') || Ember.$('input[name="password"]').last().val()
       });
       Ember.$.ajax({
         url: this.get('authUrl'),
@@ -82,7 +82,7 @@ var ApplicationRoute = Ember.Route.extend(RenderUsingTimings, {
 export default ApplicationRoute;
 
 function loginSuccess(data) {
-  const controller = this.get('controller');
+  const controller = this.controllerFor('application');
   Ember.run(function () {
     let response = JSON.parse(data);
     window.localStorage.setItem('AuthorizationHeader', response.auth_token);
@@ -95,7 +95,7 @@ function loginSuccess(data) {
 }
 
 function loginFailure(xhr, status, error) {
-  const controller = this.get('controller');
+  const controller = this.controllerFor('application');
   xhr = xhr || void 0;
   status = status || void 0;
   Ember.run(function () {

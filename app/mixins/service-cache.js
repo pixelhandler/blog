@@ -10,7 +10,7 @@ export default Ember.Mixin.create({
     };
   }.on('init'),
 
-  cacheResponse(resp) {
+  cacheResource(resp) {
     this.cacheMeta(resp);
     this.cacheData(resp);
   },

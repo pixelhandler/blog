@@ -31,7 +31,7 @@ export default Ember.Route.extend(
       return posts;
     } else {
       const query = { query: this.buildQuery() };
-      return this[this.get('serviceName')].find(query);
+      return this.store.find('posts', query);
     }
   },
 

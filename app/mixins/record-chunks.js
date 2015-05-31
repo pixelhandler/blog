@@ -30,7 +30,7 @@ export default Ember.Mixin.create({
 
   model() {
     const query = { query: this.buildQuery() };
-    return this[this.get('serviceName')].find(query);
+    return this.store.find(this.get('serviceName'), query);
   },
 
   buildQuery() {
@@ -73,7 +73,7 @@ export default Ember.Mixin.create({
   order: 'desc',
 
   buildCollection() {
-    const data = this[this.get('serviceName')].get('cache.data');
+    const data = this.store.all(this.get('serviceName'));
     const ids = this.get('loadedIds');
     const collection = data.filter(function (record) {
       return (ids.indexOf(record.get('id')) > -1);

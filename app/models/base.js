@@ -23,12 +23,60 @@ const Resource = Ember.Object.extend({
       data = linkage;
     }
     return this.set(key, data);
-  }
+  },
+
+  removeRelationship(related) {
+    const key = ['relationships', related, 'data'].join('.');
+    return this.set(key, { data: null });
+  },
+
+  changedAttributes: Ember.computed('attributes', {
+    get: function () {
+      const attrs = {};
+      for (let key in this._attributes) {
+        if (this._attributes.hasOwnProperty(key)) {
+          if (this._attributes[key].changed !== this._attributes[key].previous) {
+            attrs[key] = this._attributes[key].changed;
+          }
+        }
+      }
+      return attrs;
+    }
+  }),
+
+  previousAttributes: Ember.computed('attributes', {
+    get: function () {
+      const attrs = {};
+      for (let key in this._attributes) {
+        if (this._attributes.hasOwnProperty(key)) {
+          if (this._attributes[key].changed !== this._attributes[key].previous) {
+            attrs[key] = this._attributes[key].previous;
+          }
+        }
+      }
+      return attrs;
+    }
+  }),
+
+  _attributes: {},
+
+  initEvents: function () {
+    const service = this.get('service');
+    if (service) {
+      service.on('didUpdateResource', this, this.didUpdateResource);
+    }
+  }.on('init'),
+
+  didUpdateResource() {
+    this._attributes = {};
+  },
+
+  isNew: false
 });
 
 export default Resource;
 
-export function attr(type, mutable = false) {
+export function attr(type, mutable = true) {
   const _mutable = mutable;
   return Ember.computed('attributes', {
     get: function (key) {
@@ -36,8 +84,16 @@ export function attr(type, mutable = false) {
     },
 
     set: function (key, value) {
-      if (!_mutable) { return this.get('attributes.' + key); }
+      const lastValue = this.get('attributes.' + key);
+      if (!_mutable) { return lastValue; }
+      if (value === lastValue) { return value; }
       this.set('attributes.' + key, value);
+      if (!this.get('isNew')) {
+        this._attributes[key] = this._attributes[key] || {};
+        this._attributes[key].changed = value;
+        this._attributes[key].previous = lastValue;
+        this.get('service').trigger('attributeChanged', this);
+      }
       return this.get('attributes.' + key);
     }
   });
