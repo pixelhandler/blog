@@ -90,7 +90,8 @@ export default Ember.Object.extend(Ember.Evented, {
   },
 
   fetch(url, options = {}) {
-    let isUpdate = this._fetchOptions(options);
+    let isUpdate = this.fetchOptions(options);
+    url = this.fetchUrl(url);
     return window.fetch(url, options).then(function(resp) {
       if (resp.status >= 500) {
         throw new Error('Server Error');
@@ -115,7 +116,7 @@ export default Ember.Object.extend(Ember.Evented, {
     });
   },
 
-  _fetchOptions(options) {
+  fetchOptions(options) {
     let isUpdate;
     options.headers = options.headers || { 'Content-Type': 'application/vnd.api+json' };
     const authHeader = window.localStorage.getItem('AuthorizationHeader');
@@ -127,6 +128,10 @@ export default Ember.Object.extend(Ember.Evented, {
       delete options.update;
     }
     return isUpdate;
+  },
+
+  fetchUrl(url) {
+    return url;
   },
 
   cacheResource(/*resp*/) {},
