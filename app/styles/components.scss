@@ -1,3 +1,5 @@
+@import 'colors';
+
 /* Components */
 
 @media only screen and (min-width : 1024px) {
@@ -89,6 +91,49 @@
 
 .Blog-about {}
 
+.Comments-form-text {
+  width: 100%;
+  min-height: 6em;
+}
+
+.Comments {
+  margin: 0;
+  padding: 0;
+}
+
+.Comments-item {
+  list-style: none;
+  position: relative;
+  margin: 0;
+  padding: 0;
+  min-height: 3.5em;
+
+  span {
+    display: inline-block;
+  }
+
+  .Comments-item-avatar {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    padding-right: 10px;
+  }
+
+  .Comments-item-date {
+    margin-left: 60px;
+    font-size: 80%;
+  }
+
+  .Comments-item-username {
+    font-size: 80%;
+  }
+
+  .Comments-item-body {
+    margin-left: 60px;
+    top: 20px;
+    font-size: 80%;
+  }
+}
 
 .Header {
   padding: 1em .5em .5em 1em;
@@ -166,9 +211,8 @@
   font-size: 1em
 }
 
-.Admin {}
-
-.Admin-form {}
+//.Admin {}
+//.Admin-form {}
 
 .Admin-form input,
 .Admin-form textArea {

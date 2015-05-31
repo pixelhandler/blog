@@ -1,6 +1,6 @@
 import Ember from 'ember';
-import config from './config/environment';
-import AnalyticsTrackingMixin from './mixins/analytics-tracking';
+import config from 'pixelhandler-blog/config/environment';
+import AnalyticsTrackingMixin from 'pixelhandler-blog/mixins/analytics-tracking';
 
 var Router = Ember.Router.extend({
   location: config.locationType
@@ -11,7 +11,11 @@ Ember.Router.reopen(AnalyticsTrackingMixin);
 Router.map(function () {
   this.route('about');
   this.resource('posts', function () {
-    this.resource('post', { path: ':post_slug' });
+    this.route('index', { path: '/' });
+  });
+  this.resource('post', { path: '/posts/:post_slug' }, function () {
+    this.route('detail', { path: '/' });
+    this.route('comments');
   });
   this.route('admin', function () {
     this.route('index');

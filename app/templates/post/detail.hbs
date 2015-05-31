@@ -1,0 +1,27 @@
+<h1>{{model.title}}</h1>
+<small>
+  {{#with model.author as |author|}}
+    <span class="author">by {{author.name}}</span>&nbsp;
+  {{/with}}
+  <span class="date">({{format-date-from-now model.date}})</span>
+  {{#if isLoggedIn}}
+    <span class="edit">
+      {{#link-to "admin.edit" model class="u-button u-button--sm u-button--reverse u-edit"}}Edit{{/link-to}}
+    </span>
+  {{/if}}
+</small>
+
+<hr>
+
+{{#if model.excerpt}}
+  <div class='intro'>
+    {{format-markdown model.excerpt}}
+  </div>
+{{/if}}
+{{#if model.body}}
+  <div class="below-the-fold">
+    {{format-markdown model.body}}
+  </div>
+{{/if}}
+
+{{outlet "comments"}}

@@ -15,21 +15,21 @@ export default Ember.Controller.extend({
   }.property('isTwoColumns'),
 
   actions: {
-    toggleAside: function () {
+    toggleAside() {
       this.toggleProperty('isTwoColumns');
     },
 
-    enableAdmin: function () {
+    enableAdmin() {
       this.set('showLogin', true);
       return false;
     },
 
-    disableAdmin: function () {
+    disableAdmin() {
       this.set('showLogin', false);
       return false;
     },
 
-    login: function (view) {
+    login(view) {
       this.setProperties({
         username: view.$('input[name="username"]').val(),
         password: view.$('input[name="password"]').val()

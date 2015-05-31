@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import Post from '../../models/post';
+import Post from 'pixelhandler-blog/models/post';
 
 export default Ember.Controller.extend({
 
@@ -21,20 +21,20 @@ export default Ember.Controller.extend({
       }
     },
 
-    edit: function () {
+    edit() {
       this.set('isPreviewing', false);
     },
 
-    preview: function () {
+    preview() {
       this.set('isPreviewing', true);
     },
 
-    save: function () {
+    save() {
       this.setProperties({'isEditing': false, 'isPreviewing': false});
       return true; // bubble
     },
 
-    cancel: function () {
+    cancel() {
       this.setProperties({'isEditing': false, 'isPreviewing': false});
       return true; // bubble
     }

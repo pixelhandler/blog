@@ -1,20 +1,23 @@
 import Ember from 'ember';
-import RecordChunksMixin from '../mixins/record-chunks';
-import ResetScroll from '../mixins/reset-scroll';
-import RenderUsingTimings from '../mixins/render-using-timings';
+import RecordChunksMixin from 'pixelhandler-blog/mixins/record-chunks';
+import ResetScroll from 'pixelhandler-blog/mixins/reset-scroll';
+import RenderUsingTimings from 'pixelhandler-blog/mixins/render-using-timings';
 
 export default Ember.Route.extend(
     ResetScroll, RecordChunksMixin, RenderUsingTimings, {
 
-  resourceName: 'post',
+  serviceName: 'posts',
 
   limit: 5,
   offset: -5,
 
-  beforeModel: function () {
-    var posts = this.modelFor('application');
-    var postsCount = posts.get('length');
-    var limit = this.get('limit');
+  beforeModel() {
+    if (!this.refreshing && this.get('offset') > 0) {
+      return;
+    }
+    const posts = this.modelFor('application');
+    const postsCount = posts.get('length');
+    const limit = this.get('limit');
     if (this.get('offset') < (postsCount - limit)) {
       this.set('offset', (postsCount - limit));
     } else {
@@ -22,21 +25,22 @@ export default Ember.Route.extend(
     }
   },
 
-  model: function () {
-    var posts = this.modelFor('application');
+  model() {
+    const posts = this.modelFor('application');
     if (this.get('offset') < posts.get('length')) {
       return posts;
     } else {
-      var query = this.buildQuery();
-      return this.store.find('post', query);
+      const query = { query: this.buildQuery() };
+      return this.store.find('posts', query);
     }
   },
 
   measurementName: 'index_view',
 
   actions: {
-    showMore: function () {
+    showMore() {
       this.preventScroll = true;
+      this.refreshing = true;
       this.refresh();
     }
   }

@@ -1,105 +1,81 @@
-import JSONAPISerializer from 'orbit-common/jsonapi-serializer';
+import Ember from 'ember';
 
-export default JSONAPISerializer.extend({
-  deserialize: function(type, id, data) {
-    data[type + 's'] = data.data;
-    delete data.data;
-    this.assignMeta(type, data);
-    return this._super(type, id, data);
+export default Ember.Object.extend({
+
+  serialize(resources) {
+    const json = { data: null };
+
+    if (Array.isArray(resources)) {
+      json.data = this.serializeResources(resources);
+    } else {
+      json.data = this.serializeResource(resources);
+    }
+
+    return json;
   },
 
-  deserializeRecord: function(type, id, data) {
-    if (id && data && id === data.slug) {
-      id = data.id;
-    }
-    if (data.hasOwnProperty('attributes')) {
-      for (var key in data.attributes) {
-        if (data.attributes.hasOwnProperty(key)) {
-          data[key] = data.attributes[key];
+  serializeResources(resources) {
+    const collection = [];
+
+    resources.forEach(function(resource) {
+      collection.push(this.serializeRecord(resource));
+    }, this);
+
+    return collection;
+  },
+
+  serializeResource(resource) {
+    const json = resource.getProperties('type', 'attributes', 'relationships');
+    for (let relationship in json.relationships) {
+      if (json.relationships.hasOwnProperty(relationship)) {
+        delete json.relationships[relationship].links;
+        if (!json.relationships[relationship].data) {
+          delete json.relationships[relationship];
         }
       }
-      delete data.attributes;
     }
-    return this._super(type, id, data);
+    return json;
   },
 
-  assignMeta: function (type, data) {
-    if (!data || !data.meta) {
-      return;
-    }
-    const meta = this.schema.meta;
-    if (!meta.get(type)) {
-      meta.set(type, Ember.Object.create());
-    }
-    const metaByType = meta.get(type);
-    metaByType.set('total', data.meta.page.total);
+  serializeChanged(resource) {
+    let json = resource.getProperties('id', 'type', 'changedAttributes');
+    return {
+      data: {
+        type: json.type,
+        id: json.id,
+        attributes: json.changedAttributes
+      }
+    };
   },
 
-  serialize: function(type, records) {
-    let json = {};
-
-    if (Array.isArray(records)) {
-      json.data = this.serializeRecords(type, records);
+  deserialize(resource) {
+    if (Array.isArray(resource.data)) {
+      return this.deserializeResources(resource.data);
+    } else if (typeof resource.data === 'object') {
+      return this.deserializeResource(resource.data);
     } else {
-      json.data = this.serializeRecord(type, records);
+      return null;
     }
-
-    return json;
   },
 
-  serializeRecords: function(type, records) {
-    let json = [];
-
-    records.forEach(function(record) {
-      json.push(this.serializeRecord(type, record));
-    }, this);
-
-    return json;
-  },
-
-  serializeRecord: function(type, record) {
-    const resourceType = this.resourceType(type);
-    let json = { type: resourceType };
-    this.serializeKeys(type, record, json);
-    this.serializeAttributes(type, record, json);
-    this.serializeLinks(type, record, json);
-    return json;
-  },
-
-  serializeAttributes: function(type, record, json) {
-    var modelSchema = this.schema.models[type];
-    json.attributes = json.attributes || {};
-    Object.keys(modelSchema.attributes).forEach(function(attr) {
-      this.serializeAttribute(type, record, attr, json.attributes);
-    }, this);
-  },
-
-  /*
-  serializeAttribute: function(type, record, attr, json) {
-    json[this.resourceAttr(type, attr)] = record[attr];
-  },
-  */
-
-  serializeLinks: function(type, record, json) {
-    var modelSchema = this.schema.models[type];
-    var linkNames = Object.keys(modelSchema.links);
-
-    if (linkNames.length > 0) {
-      json.links = {};
-
-      linkNames.forEach(function (link) {
-        var linkDef = modelSchema.links[link];
-        var value = record.__rel[link];
-
-        if (linkDef.type === 'hasMany') {
-          json.links[link] = { linkage: [] };
-          for (var i = 0; i < value.length; i++) {
-            json.links[link].linkage.push({type: link, id: value[i]});
-          }
-        } else {
-          json.links[link] = { linkage: { type: link, id: value } };
-        }
-      }, this);
+  deserializeResources(collection) {
+    for (let i = 0; i < collection.length; i++) {
+      collection[i] = this.deserializeResource(collection[i]);
     }
+    return collection;
+  },
+
+  deserializeResource(resource) {
+    return this._createResourceInstance(resource);
+  },
+
+  _createResourceInstance(resource) {
+    const factoryName = 'model:' + resource.type;
+    return this.container.lookup(factoryName).create({
+      'attributes': resource.attributes,
+      'id': resource.id,
+      'relationships': resource.relationships,
+      'links': resource.links
+    });
   }
 });

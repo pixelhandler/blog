@@ -1,6 +1,6 @@
 import Ember from 'ember';
-import config from '../config/environment';
-import { mark, measure, report } from '../utils/metrics';
+import config from 'pixelhandler-blog/config/environment';
+import { mark, measure, report } from 'pixelhandler-blog/utils/metrics';
 
 export default Ember.Mixin.create({
 
@@ -9,8 +9,13 @@ export default Ember.Mixin.create({
   reportUserTimings: true,
 
   renderTemplate(controller, model) {
-    var beginName = 'mark_begin_rendering_' + this.measurementName;
-    var endName = 'mark_end_rendering_' + this.measurementName;
+    this.measureRenderTime();
+    return this._super(controller, model);
+  },
+
+  measureRenderTime() {
+    const beginName = 'mark_begin_rendering_' + this.measurementName;
+    const endName = 'mark_end_rendering_' + this.measurementName;
     if (config.APP.REPORT_METRICS) {
       mark(beginName);
       Ember.run.scheduleOnce('afterRender', this, function() {
@@ -21,7 +26,6 @@ export default Ember.Mixin.create({
         }
       });
     }
-    return this._super(controller, model);
   }
 
 });

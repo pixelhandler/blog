@@ -8,7 +8,7 @@ export default Ember.ArrayController.extend({
   loadingMore: false,
 
   actions: {
-    showMore: function () {
+    showMore() {
       this.set('loadingMore', true);
       return true;
     }

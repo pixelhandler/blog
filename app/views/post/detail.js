@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import config from '../config/environment';
+import config from 'pixelhandler-blog/config/environment';
 
 export default  Ember.View.extend({
   didInsertElement: function () {

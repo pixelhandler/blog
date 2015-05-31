@@ -1,11 +1,11 @@
-import EO from "ember-orbit";
+import Resource from 'pixelhandler-blog/models/base';
+import { attr, hasMany } from 'pixelhandler-blog/models/base';
 
-var attr = EO.attr;
-var hasMany = EO.hasMany;
+export default Resource.extend({
+  type: 'authors',
 
-export default EO.Model.extend({
-  name: attr('string'),
-  email: attr('string'),
+  name: attr(),
+  email: attr(),
 
-  posts: hasMany('post', {inverse: 'author'})
+  posts: hasMany('posts')
 });

@@ -9,7 +9,9 @@ module.exports = function(environment) {
       FEATURES: {
         // Here you can enable experimental features on an ember canary build
         // e.g. 'with-controller': true
-      }
+      },
+      // not using Ember Data, TODO figure out if this is needed
+      MODEL_FACTORY_INJECTIONS: true
     },
 
     APP: {
@@ -20,16 +22,17 @@ module.exports = function(environment) {
       API_HOST: '',
       API_PATH: 'api/v1',
       API_AUTH: 'api/auth',
+      API_COMMENTER: 'api/commenter',
       COMMENTS_ENABLED: false,
       GOOGLE_ANALYTICS: null
     },
     contentSecurityPolicy: {
       'default-src': "'none'",
-      'script-src': "'self' 'unsafe-inline' 'unsafe-eval' a.disquscdn.com",
-      'font-src': "'self' data: s3.amazonaws.com cdn.pixelhandler.com",
+      'script-src': "'self' 'unsafe-inline' 'unsafe-eval'",
+      'font-src': "'self' data: s3.amazonaws.com cdn.pixelhandler.com d3i8kyz4wwfkbg.cloudfront.net",
       'connect-src': "'self'",
-      'img-src': "'self' s3.amazonaws.com cdn.pixelhandler.com",
-      'style-src': "'self' 'unsafe-inline' s3.amazonaws.com cdn.pixelhandler.com"
+      'img-src': "'self' s3.amazonaws.com cdn.pixelhandler.com d3i8kyz4wwfkbg.cloudfront.net www.gravatar.com",
+      'style-src': "'self' 'unsafe-inline' s3.amazonaws.com cdn.pixelhandler.com d3i8kyz4wwfkbg.cloudfront.net"
     },
   };
 

@@ -5,19 +5,19 @@ export default Ember.Controller.extend({
   isEditing: true,
 
   actions: {
-    inputDidBlur: function (name, value) {
-      var prop = this.get(name);
+    inputDidBlur(name, value) {
+      const prop = this.get(name);
       if (value !== prop) {
         const model = this.get('model');
         model.set(name, value);
       }
     },
 
-    edit: function () {
+    edit() {
       this.set('isEditing', true);
     },
 
-    done: function () {
+    done() {
       this.set('isEditing', false);
     }
   }

@@ -9,7 +9,7 @@ export default Ember.Controller.extend({
   loadingMore: false,
 
   actions: {
-    showMore: function () {
+    showMore() {
       this.set('loadingMore', true);
       return true;
     }

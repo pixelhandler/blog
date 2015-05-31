@@ -1,6 +1,6 @@
 import Ember from 'ember';
-import config from '../config/environment';
-import { pageView } from '../utils/metrics';
+import config from 'pixelhandler-blog/config/environment';
+import { pageView } from 'pixelhandler-blog/utils/metrics';
 
 if (config.APP.GOOGLE_ANALYTICS && typeof window.ga !== 'function') {
   /*jshint -W030 */
@@ -9,32 +9,32 @@ if (config.APP.GOOGLE_ANALYTICS && typeof window.ga !== 'function') {
   m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m);
   })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-  ga('create', config.APP.GOOGLE_ANALYTICS, 'pixelhandler.com');
-  ga('send', 'pageview');
+  window.ga('create', config.APP.GOOGLE_ANALYTICS, 'pixelhandler.com');
+  window.ga('send', 'pageview');
 }
 
 export default Ember.Mixin.create({
-  pageHasGa: function() {
+  pageHasGa() {
     return config.APP.GOOGLE_ANALYTICS && window.ga && typeof window.ga === "function";
   },
 
-  trackPageView: function(page) {
+  trackPageView(page) {
     if (this.pageHasGa()) {
       if (!page) {
-        var loc = window.location;
+        const loc = window.location;
         page = loc.hash ? loc.hash.substring(1) : loc.pathname + loc.search;
       }
 
-      ga('send', 'pageview', page);
+      window.ga('send', 'pageview', page);
     }
     if (config.APP.REPORT_METRICS) {
       pageView();
     }
   },
 
-  trackEvent: function(category, action, label, value) {
+  trackEvent(category, action, label, value) {
     if (this.pageHasGa()) {
-      ga('send', 'event', category, action, label, value);
+      window.ga('send', 'event', category, action, label, value);
     }
   }
 });

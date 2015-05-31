@@ -1,38 +1,31 @@
 import Ember from 'ember';
-import RenderUsingTimings from '../mixins/render-using-timings';
-import { mark, measure } from '../utils/metrics';
-import config from '../config/environment';
-import uuid from '../utils/uuid';
+import RenderUsingTimings from 'pixelhandler-blog/mixins/render-using-timings';
+import { mark, measure } from 'pixelhandler-blog/utils/metrics';
+import config from 'pixelhandler-blog/config/environment';
+import uuid from 'pixelhandler-blog/utils/uuid';
 
 var ApplicationRoute = Ember.Route.extend(RenderUsingTimings, {
 
-  activate: function() {
+  activate() {
     if (!window.localStorage.getItem('visitor')) {
       window.localStorage.setItem('visitor', uuid());
     }
     const token = window.localStorage.getItem('AuthorizationHeader');
-    if (!Ember.isEmpty(token)) {
-      this.set('isLoggedIn', true);
-    }
+    const commenterId = window.localStorage.getItem('CommenterId');
+    this.set('isLoggedIn', (!Ember.isEmpty(token) && !commenterId));
   },
 
-  beforeModel: function () {
-    /* TODO implement method to check for active authtoken
-    Ember.$.get(this.get('authUrl'))
-      .done(loginSuccess.bind(this));*/
-    return this._super();
-  },
-
-  model: function () {
+  model() {
     if (config.APP.REPORT_METRICS) {
       mark('mark_begin_find_post_records');
     }
     const limit = config.APP.PAGE_LIMIT;
-    const query = { 'page[limit]': limit, 'sort': '-date', 'include': 'author' };
-    return this.store.find('post', query);
+    const options = { 'query': { 'page[limit]': limit, 'sort': '-date' }};
+    return this.store.find('posts', options);
   },
 
-  afterModel() {
+  afterModel(model) {
+    this.posts.cache.resources = model;
     if (config.APP.REPORT_METRICS) {
       mark('mark_end_find_post_records');
       measure('find_posts', 'mark_begin_find_post_records', 'mark_end_find_post_records');
@@ -40,7 +33,7 @@ var ApplicationRoute = Ember.Route.extend(RenderUsingTimings, {
     return null;
   },
 
-  setupController: function (controller, model) {
+  setupController(controller, model) {
     this._super(controller, model);
     controller.set('isLoggedIn', this.get('isLoggedIn'));
     this.canTransition = false;
@@ -52,12 +45,12 @@ var ApplicationRoute = Ember.Route.extend(RenderUsingTimings, {
   authUrl: config.APP.API_HOST + '/' + config.APP.API_AUTH,
 
   actions: {
-    login: function () {
-      const controller = this.get('controller');
+    login() {
+      const controller = this.controllerFor('application');
       this.canTransition = true;
       const credentails = JSON.stringify({
-        username: controller.get('username'),
-        password: controller.get('password')
+        username: controller.get('username') || Ember.$('input[name="username"]').last().val(),
+        password: controller.get('password') || Ember.$('input[name="password"]').last().val()
       });
       Ember.$.ajax({
         url: this.get('authUrl'),
@@ -71,38 +64,25 @@ var ApplicationRoute = Ember.Route.extend(RenderUsingTimings, {
       return false;
     },
 
-    logout: function () {
+    logout() {
       window.localStorage.removeItem('AuthorizationHeader');
       this.set('isLoggedIn', false);
       this.controllerFor('application').set('isLoggedIn', false);
-      /* TODO re-implement logout
-      Ember.$.ajax({
-        url: this.get('authUrl'),
-        type: 'DELETE'
-      })
-        .done(logoutSuccess.bind(this))
-        .fail(logoutFailure.bind(this));
-      */
     },
 
-    error: function (error, e) {
+    error(error, e) {
       console.log(error.stack);
       Ember.Logger.error(error, e);
-      /*if (error === 'pingFailed') {
-        this.transitionTo('offline');
-        window.alert('The API server is offline, perhaps tweet @pixelhandler');
-      } else {
-        this.transitionTo('not-found');
-      }*/
       this.transitionTo('not-found');
     }
   }
 
 });
 
+export default ApplicationRoute;
 
 function loginSuccess(data) {
-  const controller = this.get('controller');
+  const controller = this.controllerFor('application');
   Ember.run(function () {
     let response = JSON.parse(data);
     window.localStorage.setItem('AuthorizationHeader', response.auth_token);
@@ -115,29 +95,10 @@ function loginSuccess(data) {
 }
 
 function loginFailure(xhr, status, error) {
-  const controller = this.get('controller');
+  const controller = this.controllerFor('application');
   xhr = xhr || void 0;
   status = status || void 0;
   Ember.run(function () {
     this.setProperties({ 'error': error, 'password': null });
   }.bind(controller));
 }
-/* TODO re-implement logout
-function logoutSuccess() {
-  var controller = this.get('controller');
-  Ember.run(function () {
-    this.setProperties({ 'isLoggedIn': false, 'username': null, 'error': null, 'showLogin': false });
-  }.bind(controller));
-  this.transitionTo('index');
-}
-
-function logoutFailure(xhr, status, error) {
-  xhr = xhr || void 0;
-  status = status || void 0;
-  var controller = this.get('controller');
-  Ember.run(function () {
-    this.setProperties({ 'error': error });
-  }.bind(controller));
-}
-*/
-export default ApplicationRoute;

@@ -1,51 +1,49 @@
 import Ember from 'ember';
-import ResetScroll from '../../mixins/reset-scroll';
-import Post from '../../models/post';
+import ResetScroll from 'pixelhandler-blog/mixins/reset-scroll';
+import Resource from 'pixelhandler-blog/models/post';
 
 export default Ember.Route.extend(ResetScroll, {
-  resourceName: 'post',
-
-  beforeModel: function () {
-    var controller = this.controllerFor('application');
+  beforeModel() {
+    const controller = this.controllerFor('application');
     if (controller.get('isLoggedIn') !== true) {
       this.transitionTo('index');
     }
   },
 
-  model: function () {
-    return Post.newRecord();
-  },
-
-  afterModel: function () {
-    return this.store.find('author').then(function (authors) {
-      const id = authors.get('firstObject').get('id');
-      this.setProperties({'authorId': id, 'authors': authors});
+  model() {
+    const resource = Resource.create({isNew: true});
+    this.store.find('authors').then(function (authors) {
+      const author = authors.get('firstObject');
+      this.set('author', author);
+      resource.addRelationship('author', author.get('id'));
     }.bind(this));
+    return resource;
   },
 
-  setupController: function (controller, model) {
-    this._super(controller, model);
+  setupController(controller, resource) {
+    this._super(controller, resource);
     controller.setProperties({
       'dateInput': moment().format('L'),
-      'authorId': this.get('authorId'),
-      'authors': this.get('authors')
     });
   },
 
   actions: {
-    save: function (newModel, authorId) {
-      Post.createRecord(this.store, newModel, authorId);
-      this.store.then(function () {
+    save(resource) {
+      this.store.createResource('posts', resource).then(function(resp) {
+        resource.destroy();
+        this.modelFor('admin.index').addObject(resp);
+        this.modelFor('application').addObject(resp);
+        this.modelFor('index').addObject(resp);
         this.transitionTo('admin.index');
       }.bind(this));
     },
 
-    cancel: function () {
+    cancel() {
       this.transitionTo('admin.index');
     }
   },
 
-  deactivate: function () {
+  deactivate() {
     this.modelFor('admin.create').destroy();
   }
 });

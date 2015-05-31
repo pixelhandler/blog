@@ -8,7 +8,7 @@ export default Ember.Mixin.create({
     }
   },
 
-  setupController: function (controller, collection) {
+  setupController(controller, collection) {
     this._super(controller, collection);
     this.preventScroll = false;
   },

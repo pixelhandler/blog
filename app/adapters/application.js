@@ -1,40 +1,137 @@
-import JSONAPISource from 'orbit-common/jsonapi-source';
+import Ember from 'ember';
 
-export default JSONAPISource.extend({
+const pluralize = Ember.String.pluralize;
 
-  _transformAddStd: function(operation) {
-    const type = operation.path[0];
-    const payload = this.serializer.serialize(type, operation.value);
-    // hack for post resource, type error from server and missing id
-    payload.data.links.author.linkage = { id: 1, type: 'authors' };
-    delete payload.data.id; // don't send a client id
-    return this.ajax(this.resourceURL(type), 'POST', { data: payload }).then(
-      function(raw) {
-        const id = raw.data.id;
-        this.deserialize(type, id, raw, operation);
-      }.bind(this)
-    ).catch(function(err) {
-      console.error(err);
+export default Ember.Object.extend(Ember.Evented, {
+  type: null,
+
+  find(options) {
+    const hasIdList = (typeof options === 'string' && options.match(',') !== null);
+    if (hasIdList || Array.isArray(options)) {
+      return this.findMany(options); 
+    } else if (typeof options === 'object') {
+      if (options.id) {
+        return this.findOne(options.id, options.query);
+      } else {
+        return this.findQuery(options);
+      }
+    } else {
+      return this.findQuery();
+    }
+  },
+
+  findOne(id, query) {
+    let url = this.get('url') + '/' + id;
+    url += (query) ? '?' + Ember.$.param(query) : '';
+    return this.fetch(url, { method: 'GET' });
+  },
+
+  findMany(ids) {
+    ids = (Array.isArray(ids)) ? ids.split(',') : ids;
+    const url = this.get('url') + '/' + ids;
+    return this.fetch(url, { method: 'GET' });
+  },
+
+  findQuery(options = {}) {
+    let url = this.get('url');
+    url += (options.query) ? '?' + Ember.$.param(options.query) : '';
+    options = options.options || { method: 'GET' };
+    return this.fetch(url, options);
+  },
+
+  findRelated(resource, url) {
+    const service = this.container.lookup('service:' + pluralize(resource));
+    return service.fetch(url);
+  },
+
+  createResource(resource) {
+    let url = this.get('url');
+    const json = this.serializer.serialize(resource);
+    return this.fetch(url, {
+      method: 'POST',
+      body: JSON.stringify(json)
     });
   },
 
-  _transformUpdateAttributeStd: function(operation) {
-    const type = operation.path[0];
-    const id = operation.path[1];
-    const attr = operation.path[2];
+  updateResource(resource) {
+    let url = resource.get('links.self') || this.get('url') + '/' + resource.get('id');
+    const json = this.serializer.serializeChanged(resource);
+    return this.fetch(url, {
+      method: 'PATCH',
+      body: JSON.stringify(json)
+    }).then(function(json) {
+      this.trigger('didUpdateResource', json);
+    }.bind(this));
+  },
 
-    const record = {};
-    record[attr] = operation.value;
-    const payload = { data: { attributes: {} } };
-    const primaryKey = this.schema.models[type].primaryKey.name;
-    payload.data[primaryKey] = id;
-    payload.data.type = this.serializer.resourceType(type);
-    this.serializer.serializeAttribute(type, record, attr, payload.data.attributes);
+  patchRelationship(resource, relationship) {
+    let url = ['relationships', relationship, 'links', 'self'].join('');
+    url = url || [this.get('url'), resource.get('id'), 'relationships', relationship].join('/');
+    url = resource.get(url);
+    let data = ['relationships', relationship, 'data'].join('');
+    data = resource.get(data);
+    return this.fetch(url, {
+      method: 'PATCH',
+      body: JSON.stringify(data)
+    }).then(function(json) {
+      this.trigger('didUpdateRelationship', json);
+    }.bind(this));
+  },
 
-    return this.ajax(this.resourceURL(type, id), 'PUT', { data: payload }).then(
-      function() {
-        this._transformCache(operation);
-      }.bind(this)
-    );
-  }
+  deleteResource(resource) {
+    let url = this.get('url') + '/';
+    if (typeof resource === 'string') {
+      url += resource;
+    } else {
+      url = resource.get('links.self') || url + resource.get('id');
+      resource.destroy();
+    }
+    return this.fetch(url, { method: 'DELETE' });
+  },
+
+  fetch(url, options = {}) {
+    let isUpdate = this._fetchOptions(options);
+    return window.fetch(url, options).then(function(resp) {
+      if (resp.status >= 500) {
+        throw new Error('Server Error');
+      } else if (resp.status >= 400) {
+        resp.json().then(function(resp) {
+          // TODO handle errors better
+          throw new Error(resp.errors);
+        });
+      } else {
+        return resp.json().then(function(json) {
+          if (!isUpdate) {
+            const resource = this.serializer.deserialize(json);
+            this.cacheResource({ meta: json.meta, data: resource});
+            return resource;
+          } else {
+            return json;
+          }
+        }.bind(this));
+      }
+    }.bind(this)).catch(function(error) {
+      throw error;
+    });
+  },
+
+  _fetchOptions(options) {
+    let isUpdate;
+    options.headers = options.headers || { 'Content-Type': 'application/vnd.api+json' };
+    const authHeader = window.localStorage.getItem('AuthorizationHeader');
+    if (authHeader) {
+      options.headers['Authorization'] = authHeader;
+    }
+    if (typeof options.update === 'boolean') {
+      isUpdate = options.update;
+      delete options.update;
+    }
+    return isUpdate;
+  },
+
+  cacheResource(/*resp*/) {},
+
+  initEvents: function () {
+    this.on('attributeChanged', this, this.updateResource);
+  }.on('init')
 });

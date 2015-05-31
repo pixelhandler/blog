@@ -1,39 +1,33 @@
 import Ember from 'ember';
-import ResetScroll from '../../mixins/reset-scroll';
-import Post from '../../models/post';
-import config from '../../config/environment';
+import ResetScroll from 'pixelhandler-blog/mixins/reset-scroll';
+import Post from 'pixelhandler-blog/models/post';
+import config from 'pixelhandler-blog/config/environment';
 
 export default Ember.Route.extend(ResetScroll, {
-  resourceName: 'post',
+  serviceName: 'posts',
 
-  beforeModel: function () {
-    var controller = this.controllerFor('application');
+  beforeModel() {
+    const controller = this.controllerFor('application');
     if (controller.get('isLoggedIn') !== true) {
       this.transitionTo('index');
     }
   },
 
-  model: function () {
+  model() {
     const limit = config.APP.PAGE_LIMIT * 2;
-    const resource = this.get('resourceName');
-    return this.store.find(resource, { 'page[limit]': limit, 'sort': '-date' });
-  },
-
-  afterModel: function () {
-    return this.store.find('author').then(function (authors) {
-      var author = authors.get('firstObject');
-      this.set('author', author);
-    }.bind(this));
+    return this.store.find('posts', { query: { 'page[limit]': limit, 'sort': '-date' }});
   },
 
   actions: {
-    destroy: function (model) {
+    destroy(model) {
       this.preventScroll = true;
       this.modelFor('application').removeObject(model);
       this.modelFor('admin.index').removeObject(model);
-      return Post.deleteRecord(model, this.get('author')).then(function() {
+      return this.store.deleteResource('posts', model).then(function() {
         this.refresh();
-      }.bind(this));
+      }.bind(this)).catch(function(e) {
+        console.error(e);
+      });
     }
   }
 });

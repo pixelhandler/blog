@@ -1,0 +1,1 @@
+../node_modules/ember-inflector/dist/ember-inflector.js
