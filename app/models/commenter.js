@@ -1,5 +1,5 @@
-import Resource from 'pixelhandler-blog/models/base';
-import { attr, hasMany } from 'pixelhandler-blog/models/base';
+import Resource from 'ember-jsonapi-resources/models/resource';
+import { attr, hasMany, hasRelated } from 'ember-jsonapi-resources/models/resource';
 
 export default Resource.extend({
   type: 'commenters',
@@ -8,5 +8,6 @@ export default Resource.extend({
   email: attr(),
   hash: attr(),
 
+  relationships: hasRelated('comments'),
   comments: hasMany('comments')
 });

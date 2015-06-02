@@ -3,7 +3,7 @@
   "summary": "Bill Heaton's Blog website",
   "description": "Pixelhandler.com - Pushin' & pullin' pixels on the web",
   "homepage": "http://pixelhandler.com",
-  "version": "3.5.0",
+  "version": "3.5.1",
   "private": true,
   "directories": {
     "bin": "bin",
@@ -49,6 +49,7 @@
     "ember-export-application-global": "^1.0.2",
     "ember-http-mocks-rethinkdb-adapter": "^0.1.3",
     "ember-inflector": "1.6.2",
+    "ember-jsonapi-resources": "0.0.3",
     "express": "^4.12.1",
     "glob": "^5.0.9",
     "http-proxy": "^1.11.1",
@@ -56,6 +57,7 @@
     "node-static": "^0.7.6"
   },
   "dependencies": {
-    "ember-inflector": "^1.6.2"
+    "ember-inflector": "^1.6.2",
+    "ember-jsonapi-resources": "^0.1.0"
   }
 }

@@ -1,7 +1,8 @@
+import Resource from 'ember-jsonapi-resources/models/resource';
+import { attr, hasOne, hasMany, hasRelated } from 'ember-jsonapi-resources/models/resource';
+
 import Ember from 'ember';
 import computedFake from 'pixelhandler-blog/utils/computed-fake';
-import Resource from 'pixelhandler-blog/models/base';
-import { attr, hasOne, hasMany, hasRelated } from 'pixelhandler-blog/models/base';
 
 const Post = Resource.extend({
   type: 'posts',

@@ -1,3 +1,3 @@
-import ApplicationSerializer from 'pixelhandler-blog/serializers/application';
+import ApplicationSerializer from 'ember-jsonapi-resources/serializers/application';
 
 export default ApplicationSerializer;
