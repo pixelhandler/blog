@@ -58,6 +58,6 @@
   },
   "dependencies": {
     "ember-inflector": "^1.6.2",
-    "ember-jsonapi-resources": "^0.1.0"
+    "ember-jsonapi-resources": "^0.2.4"
   }
 }

@@ -1,5 +1,5 @@
 import Resource from 'ember-jsonapi-resources/models/resource';
-import { attr, hasOne, hasRelated } from 'ember-jsonapi-resources/models/resource';
+import { attr, hasOne } from 'ember-jsonapi-resources/models/resource';
 
 export default Resource.extend({
   type: 'comments',
@@ -12,7 +12,6 @@ export default Resource.extend({
     }
   }),
 
-  relationships: hasRelated('commenter', 'post'),
   commenter: hasOne('commenter'),
   post: hasOne('post'),
 

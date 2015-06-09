@@ -9,7 +9,7 @@ export function initialize(container, application) {
   const service = 'service:authors';
   const model = 'model:authors';
 
-  application.register(model, AuthorModel, { instantiate: false });
+  application.register(model, AuthorModel, { instantiate: false, singleton: false });
   application.register(service, AuthorsService);
   application.register(adapter, AuthorAdapter);
   application.register(serializer, AuthorSerializer);

@@ -9,7 +9,7 @@ export function initialize(container, application) {
   const service = 'service:posts';
   const model = 'model:posts';
 
-  application.register(model, PostModel, { instantiate: false });
+  application.register(model, PostModel, { instantiate: false, singleton: false });
   application.register(service, PostsService);
   application.register(adapter, PostAdapter);
   application.register(serializer, PostSerializer);
