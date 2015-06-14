@@ -1,13 +1,13 @@
 {{partial "header"}}
 
-<div class={{":Blog-body isTwoColumns:Blog-body--two-col"}}>
-  <main class={{":Blog-content isTwoColumns:Blog-content--two-col :u-blackTxt :u-offWhiteBkg"}}>
+<div class="Blog-body u-blackTxt u-offWhiteBkg {{if isTwoColumns 'Blog-body--two-col'}}">
+  <main class="Blog-content u-blackTxt u-offWhiteBkg {{if isTwoColumns 'Blog-content--two-col'}}">
     <article class="Box">
       {{outlet}}
     </article>
   </main>
 
-  <nav class={{":Blog-nav isTwoColumns:Blog-nav--two-col :u-blackTxt :u-grayBkg :u-offWhiteLtBorder"}}>
+  <nav class="Blog-nav u-blackTxt u-grayBkg u-offWhiteLtBorder {{if isTwoColumns 'Blog-nav--two-col'}}">
     {{render "recent" model}}
     {{partial "links"}}
     {{#if isLoggedIn}}

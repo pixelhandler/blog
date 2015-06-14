@@ -4,7 +4,7 @@
 
 @media only screen and (min-width : 1024px) {
 
-  .Blog, .Blog-body {
+  body > div:first-of-type, .Blog-body {
     display: -webkit-box;
     display: -webkit-flex;
     display: -moz-box;
@@ -20,7 +20,7 @@
     flex-direction: column;
   }
 
-  .Blog {
+  body > div:first-of-type {
     min-height: 100vh;
   }
 
