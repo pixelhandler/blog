@@ -32,8 +32,9 @@ module.exports = function(environment) {
       'script-src': "'self' 'unsafe-inline' 'unsafe-eval'",
       'font-src': "'self' data: s3.amazonaws.com cdn.pixelhandler.com d3i8kyz4wwfkbg.cloudfront.net",
       'connect-src': "'self'",
-      'img-src': "'self' s3.amazonaws.com cdn.pixelhandler.com d3i8kyz4wwfkbg.cloudfront.net www.gravatar.com",
-      'style-src': "'self' 'unsafe-inline' s3.amazonaws.com cdn.pixelhandler.com d3i8kyz4wwfkbg.cloudfront.net"
+      'img-src': "'self' s3.amazonaws.com pixelhandler.com cdn.pixelhandler.com d3i8kyz4wwfkbg.cloudfront.net www.gravatar.com",
+      'style-src': "'self' 'unsafe-inline' s3.amazonaws.com cdn.pixelhandler.com d3i8kyz4wwfkbg.cloudfront.net",
+      'media-src': "'self' s3.amazonaws.com pixelhandler.com cdn.pixelhandler.com d3i8kyz4wwfkbg.cloudfront.net"
     },
   };
 

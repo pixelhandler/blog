@@ -1,10 +1,10 @@
 <h3>Posts Archive</h3>
 <dl class="Blog-list">
-  {{#each post in model}}
+  {{#each model key="@guid" as |post|}}
     <dt class="Blog-list-date u-greenTxt">{{format-date post.date}}</dt>
     <dd class="Blog-list-link u-cf">
       {{#link-to 'post' post}}{{post.title}}{{/link-to}}
     </dd>
   {{/each}}
 </dl>
-{{has-more-button targetObject=controller hasMore=hasMore loadingMore=loadingMore}}
+{{has-more-button hasMore=hasMore loadingMore=loadingMore}}

@@ -1,6 +1,5 @@
 import Ember from 'ember';
 import config from 'pixelhandler-blog/config/environment';
-import Resource from 'pixelhandler-blog/models/comment';
 
 export default Ember.Controller.extend({
   username: null,

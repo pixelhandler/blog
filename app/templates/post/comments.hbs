@@ -32,9 +32,8 @@
 <br>
 {{#if model}}
   <ul class="Comments">
-  {{#each model as |comment|}}
+  {{#each model key="@guid" as |comment|}}
     <li class="Comments-item">
-      {{log comment.date}}
       <span class="Comments-item-date">{{format-date-from-now comment.date}}</span>
       {{#with comment.commenter as |commenter|}}
         <span class="Comments-item-avatar">
