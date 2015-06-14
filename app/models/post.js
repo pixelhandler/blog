@@ -2,10 +2,10 @@ import Resource from 'ember-jsonapi-resources/models/resource';
 import { attr, hasOne, hasMany } from 'ember-jsonapi-resources/models/resource';
 
 import Ember from 'ember';
-import computedFake from 'pixelhandler-blog/utils/computed-fake';
 
 const Post = Resource.extend({
   type: 'posts',
+  service: Ember.inject.service('posts'),
 
   slug: attr(),
   title: attr(),
@@ -15,12 +15,6 @@ const Post = Resource.extend({
 
   author: hasOne('author'),
   comments: hasMany('comments'),
-
-  slugInput: computedFake('model.slug'),
-  titleInput: computedFake('model.title'),
-  excerptInput: computedFake('model.excerpt'),
-  bodyInput: computedFake('model.body'),
-  dateInput: null
 });
 
 Post.reopenClass({

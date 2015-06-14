@@ -15,7 +15,6 @@ export function initialize(container, application) {
   application.register(serializer, CommentSerializer);
 
   application.inject('route', 'comments', service);
-  application.inject(model, 'service', service);
   application.inject('service:store', 'comments', service);
   application.inject(service, 'serializer', serializer);
 }
