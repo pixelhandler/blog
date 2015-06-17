@@ -57,7 +57,8 @@
     "text",
     "hasText",
     "hyperlink",
-    "unload"
+    "unload",
+    "currentRouteName"
   ],
   "node": false,
   "browser": false,
