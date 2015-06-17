@@ -32,7 +32,7 @@
 <br>
 {{#if model}}
   <ul class="Comments">
-  {{#each model key="@guid" as |comment|}}
+  {{#each model key="id" as |comment|}}
     <li class="Comments-item">
       <span class="Comments-item-date">{{format-date-from-now comment.date}}</span>
       {{#with comment.commenter as |commenter|}}
