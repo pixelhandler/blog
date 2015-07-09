@@ -6,10 +6,11 @@ import { appReady, appUnload } from 'pixelhandler-blog/utils/metrics';
 
 Ember.MODEL_FACTORY_INJECTIONS = true;
 
-window.showdown = new Showdown.converter();
+window.showdownConverter = new showdown.Converter();
 
 const App = Ember.Application.extend({
   modulePrefix: config.modulePrefix,
+  podModulePrefix: config.podModulePrefix,
   Resolver: Resolver,
 
   ready: function() {

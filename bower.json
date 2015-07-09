@@ -1,6 +1,5 @@
 {
   "name": "pixelhandler-blog",
-  "version": "3.5.0",
   "dependencies": {
     "ember": "2.0.0-beta.1",
     "jquery": "^2.1.4",
@@ -8,15 +7,22 @@
     "loader.js": "ember-cli/loader.js#3.2.0",
     "ember-cli-shims": "ember-cli/ember-cli-shims#0.0.3",
     "ember-cli-test-loader": "ember-cli-test-loader#0.1.3",
-    "ember-load-initializers": "ember-cli/ember-load-initializers#0.1.4",
-    "ember-qunit": "0.3.3",
+    "ember-load-initializers": "ember-cli/ember-load-initializers#0.1.5",
+    "ember-qunit": "0.4.1",
     "ember-qunit-notifications": "0.0.7",
     "qunit": "~1.17.1",
     "momentjs": "~2.10.3",
-    "showdown": "~0.5.4",
+    "showdown": "~1.1.0",
     "normalize-css": "~3.0.3",
     "usertiming": "~0.1.6",
     "fetch": "~0.9.0",
     "es6-promise": "~2.2.0"
+  },
+  "resolutions": {
+    "ember": "2.0.0-beta.1",
+    "ember-resolver": "~0.1.18",
+    "jquery": "^2.1.4",
+    "loader.js": "ember-cli/loader.js#3.2.0",
+    "qunit": "~1.17.1"
   }
 }
