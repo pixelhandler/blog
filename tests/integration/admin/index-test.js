@@ -4,7 +4,7 @@ import startApp from '../../helpers/start-app';
 var App;
 
 var enableAdmin = '.u-enableAdmin';
-var disableAdmin = '.u-disableAdmin';
+//var disableAdmin = '.u-disableAdmin';
 var inputs = {
   username: '.Footer input[name="username"]',
   password: '.Footer input[name="password"]'

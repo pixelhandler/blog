@@ -4,7 +4,7 @@ import startApp from '../../helpers/start-app';
 var App;
 
 var enableAdmin = '.u-enableAdmin';
-var disableAdmin = '.u-disableAdmin';
+//var disableAdmin = '.u-disableAdmin';
 var footerInputs = {
   username: '.Footer input[name="username"]',
   password: '.Footer input[name="password"]'
@@ -131,7 +131,7 @@ test('Save new post, success redirects to index, then delete it', function () {
   visit('/admin').then(function () {
     visit(hyperlink(createPost)).then(function () {
     //click(createPost).then(function () {
-      var promises = [], link;
+      var promises = [];//, link;
       fillInNewPost(displayText, promises);
       Ember.RSVP.all(promises).then(function () {
         click(buttons.save).then(function () {

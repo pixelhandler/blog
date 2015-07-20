@@ -10,10 +10,10 @@ Ember.Router.reopen(AnalyticsTrackingMixin);
 
 Router.map(function () {
   this.route('about');
-  this.resource('posts', function () {
+  this.route('posts', function () {
     this.route('index', { path: '/' });
   });
-  this.resource('post', { path: '/posts/:post_slug' }, function () {
+  this.route('post', { path: '/posts/:post_slug' }, function () {
     this.route('detail', { path: '/' });
     this.route('comments');
   });

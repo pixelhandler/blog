@@ -4,7 +4,7 @@ import startApp from '../../helpers/start-app';
 var App;
 
 var enableAdmin = '.u-enableAdmin';
-var disableAdmin = '.u-disableAdmin';
+//var disableAdmin = '.u-disableAdmin';
 var footerInputs = {
   username: '.Footer input[name="username"]',
   password: '.Footer input[name="password"]'
@@ -112,7 +112,7 @@ test('Preview of edited post', function () {
 
   visit(hyperlink(editPost)).then(function () {
     click(editButton).then(function () {
-      var promises = [];
+      //var promises = [];
       var field = 'excerpt';
       var ogExcerpt = $(inputs[field]).val();
       var excerptText = ogExcerpt + Date.now().toString();
@@ -137,7 +137,7 @@ test('Save edited post, success redirects to index', function () {
 
   visit(href).then(function () {
     click(editButton).then(function () {
-      var promises = [];
+      //var promises = [];
       var field = 'excerpt';
       var ogExcerpt = $(inputs[field]).val();
       var excerptText = ogExcerpt + Date.now().toString();
@@ -145,11 +145,11 @@ test('Save edited post, success redirects to index', function () {
       fillIn(inputs[field], excerptText).then(function () {
         click(buttons.save).then(function () {
           equal(currentPath(), 'admin.index', 'Successfully saving an edited post redirects to Admin index');
-          visit('/posts/' + slug).then(function () {
-            var selector = template[field];
-            var postText = $(window.showdown.makeHtml(excerptText)).text();
+          //visit('/posts/' + slug).then(function () {
+            //var selector = template[field];
+            //var postText = $(window.showdown.makeHtml(excerptText)).text();
             //ok(hasText(selector, postText.slice(-13)), 'Saved edit to ' + field + ' has text: "' + excerptText + '"');
-          });
+          //});
         });
       });
     });
