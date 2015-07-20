@@ -1,7 +1,7 @@
-import AuthorsService from 'pixelhandler-blog/services/authors';
-import AuthorModel from 'pixelhandler-blog/models/author';
-import AuthorAdapter from 'pixelhandler-blog/adapters/author';
-import AuthorSerializer from 'pixelhandler-blog/serializers/author';
+import AuthorsService from '../services/authors';
+import AuthorModel from '../models/author';
+import AuthorAdapter from '../adapters/author';
+import AuthorSerializer from '../serializers/author';
 
 export function initialize(container, application) {
   const adapter = 'service:authors-adapter';

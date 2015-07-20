@@ -1,4 +1,4 @@
-import Resource from 'ember-jsonapi-resources/models/resource';
+import Resource from './resource';
 import { attr, hasOne, hasMany } from 'ember-jsonapi-resources/models/resource';
 
 import Ember from 'ember';

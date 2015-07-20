@@ -133,7 +133,7 @@ test('Save edited post, success redirects to index', function () {
   expect(1);
 
   var href = hyperlink(editPost);
-  var slug = href.slice(href.lastIndexOf('/') + 1);
+  //var slug = href.slice(href.lastIndexOf('/') + 1);
 
   visit(href).then(function () {
     click(editButton).then(function () {

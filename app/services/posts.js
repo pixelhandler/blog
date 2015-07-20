@@ -1,5 +1,5 @@
-import PostAdapter from 'pixelhandler-blog/adapters/post';
-import ServiceCache from 'ember-jsonapi-resources/mixins/service-cache';
+import PostAdapter from '../adapters/post';
+import ServiceCache from '../mixins/service-cache';
 
 PostAdapter.reopenClass({
   isServiceFactory: true

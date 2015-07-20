@@ -1,4 +1,4 @@
-{{#each model key="@guid" as |post|}}
+{{#each model key="@identity" as |post|}}
   <div class="Blog-excerpt">
     <h2 class="Blog-excerpt-title u-yellowTxt">
       {{#link-to "post" post}}{{post.title}}{{/link-to}}

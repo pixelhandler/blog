@@ -1,4 +1,4 @@
-import ApplicationAdapter from 'ember-jsonapi-resources/adapters/application';
+import ApplicationAdapter from './application';
 import config from 'pixelhandler-blog/config/environment';
 
 export default ApplicationAdapter.extend({

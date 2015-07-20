@@ -1,7 +1,7 @@
-import CommentsService from 'pixelhandler-blog/services/comments';
-import CommentModel from 'pixelhandler-blog/models/comment';
-import CommentAdapter from 'pixelhandler-blog/adapters/comment';
-import CommentSerializer from 'pixelhandler-blog/serializers/comment';
+import CommentsService from '../services/comments';
+import CommentModel from '../models/comment';
+import CommentAdapter from '../adapters/comment';
+import CommentSerializer from '../serializers/comment';
 
 export function initialize(container, application) {
   const adapter = 'service:comments-adapter';

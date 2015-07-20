@@ -1,5 +1,5 @@
-import CommentAdapter from 'pixelhandler-blog/adapters/comment';
-import ServiceCache from 'ember-jsonapi-resources/mixins/service-cache';
+import CommentAdapter from '../adapters/comment';
+import ServiceCache from '../mixins/service-cache';
 
 CommentAdapter.reopenClass({
   isServiceFactory: true
