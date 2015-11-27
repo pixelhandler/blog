@@ -1,4 +1,4 @@
 User-agent: *
 Disallow: 
 
-Sitemap: http://pixelhandler.com/sitemap.xml
+Sitemap: https://pixelhandler.com/sitemap.xml
