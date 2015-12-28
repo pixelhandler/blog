@@ -1,4 +1,5 @@
 /* jshint node: true */
+
 module.exports = function(environment) {
   var ENV = {
     modulePrefix: 'pixelhandler-blog',
@@ -18,7 +19,6 @@ module.exports = function(environment) {
       // Here you can pass flags/options to your application instance
       // when it is created
       PAGE_LIMIT: 10,
-      REPORT_METRICS: false,
       API_HOST: '',
       API_HOST_PROXY: '',
       API_PATH: 'api/v1',
@@ -30,12 +30,17 @@ module.exports = function(environment) {
     contentSecurityPolicy: {
       'default-src': "'none'",
       'script-src': "'self' 'unsafe-inline' 'unsafe-eval'",
-      'font-src': "'self' data: s3.amazonaws.com cdn.pixelhandler.com pixelhandler.com d3i8kyz4wwfkbg.cloudfront.net",
+      'font-src': "'self'",
       'connect-src': "'self'",
-      'img-src': "'self' s3.amazonaws.com pixelhandler.com cdn.pixelhandler.com d3i8kyz4wwfkbg.cloudfront.net www.gravatar.com",
+      'img-src': "'self' s3.amazonaws.com pixelhandler.com cdn.pixelhandler.com d3i8kyz4wwfkbg.cloudfront.net www.gravatar.com dl.dropboxusercontent.com",
       'style-src': "'self' 'unsafe-inline' s3.amazonaws.com cdn.pixelhandler.com d3i8kyz4wwfkbg.cloudfront.net",
       'media-src': "'self' s3.amazonaws.com pixelhandler.com cdn.pixelhandler.com d3i8kyz4wwfkbg.cloudfront.net"
     },
+    metricsAdapters: [{
+      name: 'GoogleAnalytics',
+      environments: ['production'],
+      config: { id: 'UA-2687872-1' }
+    }]
   };
 
   if (environment === 'development') {
@@ -62,8 +67,10 @@ module.exports = function(environment) {
   }
 
   if (environment === 'production') {
-    ENV.APP.API_HOST = 'https://pixelhandler.com';
-    ENV.APP.API_HOST_PROXY = 'http://api.pixelhandler.com';
+    if (true) { /* set false to test prod locally */
+      ENV.APP.API_HOST = 'https://pixelhandler.com';
+      ENV.APP.API_HOST_PROXY = 'http://api.pixelhandler.com';
+    }
     ENV.APP.API_PATH = 'api/v1';
     ENV.APP.GOOGLE_ANALYTICS = 'UA-2687872-1';
     ENV.APP.REPORT_METRICS = false;

@@ -15,7 +15,7 @@
 
 ### Static File Server
 
-Execute `make server` to launch a static file server for the client
+Execute `ember server` to launch a static file server for the client
 app. Files in the app and vendor directories are watched for
 referching your browser after each change triggers a build.
 
@@ -24,15 +24,11 @@ referching your browser after each change triggers a build.
 
 See [Makefile](Makefile) for tasks
 
-* `make install` - fetch dependencies and setup
-* `make build` = Build app using Brunch.io
-* `make server` - Starts server for client app
-* `make test` - Launch Testem to execute tests, see testem.json
-
+* `make install` - clear out modules, fetch dependencies and setup
 
 ## Build
 
-Use `make build` (default is 'development')
+Use `ember build` (default is 'development')
 
 * See [ember-cli]
 
@@ -46,7 +42,7 @@ Use `make build` (default is 'development')
 ## Testing
 
 1. Start API server, (see ^), If needed, seed the db first
-1. `make test` launches testem and browsers to test in dev
+1. `ember test -s` launches testem and browsers to test in dev
 
 
 ## Code Quality
@@ -59,19 +55,3 @@ Use `make build` (default is 'development')
 ## Links
 
 * [ember-cli]
-* [orbitjs/orbit.js]
-* [orbitjs/ember-orbit]
-
-[orbitjs/orbit.js]: https://github.com/orbitjs/orbit.js
-[orbitjs/ember-orbit]: https://github.com/orbitjs/ember-orbit
-
-
-## Thanks
-
-For providing tools and examples of building with Ember.js:
-
-* [ember-cli]
-* [tildeio/bloggr-client]
-* [orbitjs/orbit.js]
-
-[tildeio/bloggr-client]: https://github.com/tildeio/bloggr-client

@@ -1,8 +1,6 @@
-import PostAdapter from '../adapters/post';
+import Adapter from '../adapters/post';
 import ServiceCache from '../mixins/service-cache';
 
-PostAdapter.reopenClass({
-  isServiceFactory: true
-});
+Adapter.reopenClass({ isServiceFactory: true });
 
-export default PostAdapter.extend(ServiceCache);
+export default Adapter.extend(ServiceCache);

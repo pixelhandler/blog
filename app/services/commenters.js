@@ -1,8 +1,6 @@
-import CommenterAdapter from '../adapters/commenter';
+import Adapter from '../adapters/commenter';
 import ServiceCache from '../mixins/service-cache';
 
-CommenterAdapter.reopenClass({
-  isServiceFactory: true
-});
+Adapter.reopenClass({ isServiceFactory: true });
 
-export default CommenterAdapter.extend(ServiceCache);
+export default Adapter.extend(ServiceCache);
