@@ -1,28 +1,20 @@
 import Ember from 'ember';
-import config from 'pixelhandler-blog/config/environment';
-import AnalyticsTrackingMixin from 'pixelhandler-blog/mixins/analytics-tracking';
+import config from './config/environment';
 
-var Router = Ember.Router.extend({
+const Router = Ember.Router.extend({
   location: config.locationType
 });
 
-Ember.Router.reopen(AnalyticsTrackingMixin);
-
-Router.map(function () {
+Router.map(function() {
+  this.route('excerpts', { path: '/' });
   this.route('about');
-  this.route('posts', function () {
-    this.route('index', { path: '/' });
+  this.route('archives', { path: '/posts' }, function () {
+    this.route('list', { path: '/' });
   });
   this.route('post', { path: '/posts/:post_slug' }, function () {
-    this.route('detail', { path: '/' });
+    this.route('details', { path: '/' });
     this.route('comments');
   });
-  this.route('admin', function () {
-    this.route('index');
-    this.route('create');
-    this.route('edit', { path: ':edit_id' });
-  });
-  this.route('offline');
   this.route('not-found', { path: '/*path' });
 });
 

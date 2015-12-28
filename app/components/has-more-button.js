@@ -51,3 +51,4 @@ export default Ember.Component.extend({
     this.get('targetObject').send('showMore');
   }
 });
+

@@ -1,0 +1,10 @@
+<h3>Blog Archive</h3>
+<dl class="Blog-list">
+  {{#each model key="id" as |post|}}
+    <dt class="Blog-list-date u-goldTxt u-sansSerif">{{moment-format post.date 'YYYY/MM/DD'}}</dt>
+    <dd class="Blog-list-link u-cf u-darkGrayTxt u-serif">
+      {{#link-to 'post' post}}{{post.title}}{{/link-to}}
+    </dd>
+  {{/each}}
+</dl>
+{{has-more-button hasMore=hasMore loadingMore=loadingMore}}

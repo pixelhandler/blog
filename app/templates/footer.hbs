@@ -1,26 +1,6 @@
 <footer class="Footer u-sansSerif u-medGrayTxt u-textCenter u-blackBkg u-grayTopBorder">
   <p class="Footer-credits">
-    {{#unless showLogin}}
-      The End.
-      <small>[Personal blog, Copyright @2014 Bill Heaton] |
-        <span {{action "enableAdmin"}} class="u-grayTxt u-clickable u-enableAdmin">Admin</span>
-      </small>
-    {{else}}
-      <small>
-        {{#unless isLoggedIn}}
-          <form {{action "login" view on="submit"}} class="Footer-form">
-            <label for="username">Username</label>: {{input value=username name="username"}}
-            <label for="password">Password</label>: {{input value=password name="password" type="password"}}
-            <input type="submit" class="Footer-form-button u-grayTxt u-clickable u-login" value="Login">
-            <input {{action "disableAdmin"}} class="Footer-form-button u-grayTxt u-clickable u-disableAdmin" value="Cancel">
-          </form>
-        {{else}}
-          <span {{action "logout"}} class="u-grayTxt u-clickable u-logout">Logout</span>
-        {{/unless}}
-        {{#if error}}
-          <span class="u-redTxt">{{error}}</span>
-        {{/if}}
-      </small>
-    {{/unless}}
+    The End.
+    <small>[Copyright &copy;2015 Bill Heaton]</small>
   </p>
 </footer>

@@ -1,0 +1,305 @@
+@import 'colors';
+
+/* Utilities */
+
+/* Text */
+
+.u-monospaced {
+  font-family: 'Andale Mono', AndaleMono, Consolas, 'Lucida Console', 'Lucida Sans Typewriter', monaco, monospace;
+}
+
+.u-sansSerif {
+  font-family: 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Geneva, Verdana, sans-serif;
+  font-style: normal;
+  font-kerning: normal;
+}
+
+.u-serif {
+  font-family: Georgia, Times, 'Times New Roman', serif;
+  font-style: normal;
+  font-weight: normal;
+}
+
+.u-textCenter {
+  text-align: center!important;
+}
+
+.u-textLeft {
+  text-align: left!important;
+}
+
+.u-whiteTxt,
+.u-whiteTxt a,
+.u-whiteTxt a:active,
+.u-whiteTxt a:hover {
+  color: white;
+}
+.u-whiteTxt a {
+  border-bottom: 1px dashed rgba(255, 255, 255, .5);
+}
+
+.u-blackTxt,
+.u-blackTxt a,
+.u-blackTxt a:active,
+.u-blackTxt a:hover {
+  color: black;
+}
+.u-blackTxt a {
+  border-bottom: 1px dashed rgba(0, 0, 0, .5);
+}
+
+.u-grayTxt,
+.u-grayTxt a,
+.u-grayTxt a:active,
+.u-grayTxt a:hover {
+  color: var(--gray);
+}
+.u-grayText a {
+  border-bottom: 1px dashed var(--gray);
+}
+
+.u-medGrayTxt,
+.u-medGrayTxt a,
+.u-medGrayTxt a:active,
+.u-medGrayTxt a:hover {
+  color: var(--medgray);
+}
+.u-medGrayText a {
+  border-bottom: 1px dashed var(--medgray);
+}
+
+.u-darkGrayTxt,
+.u-darkGrayTxt a,
+.u-darkGrayTxt a:active,
+.u-darkGrayTxt a:hover {
+  color: var(--darkgray);
+}
+.u-darkGrayText a {
+  border-bottom: 1px dashed var(--darkgray);
+}
+
+.u-goldTxt,
+.u-goldTxt a,
+.u-goldTxt a:active,
+.u-goldTxt a:hover {
+  color: var(--gold);
+}
+.u-goldTxt a {
+  border-bottom: 1px dashed var(--gold);
+}
+
+.u-yellowTxt,
+.u-yellowTxt a,
+.u-yellowTxt a:active,
+.u-yellowTxt a:hover {
+  color: var(--yellow);
+}
+.u-yellowTxt a {
+  border-bottom: 1px dashed var(--yellow);
+}
+
+.u-greenTxt,
+.u-greenTxt a,
+.u-greenTxt a:active,
+.u-greenTxt a:hover {
+  color: var(--green);
+}
+.u-greenTxt a {
+  border-bottom: 1px dashed var(--green);
+}
+
+.u-blueTxt,
+.u-blueTxt a,
+.u-blueTxt a:active,
+.u-blueTxt a:hover {
+  color: var(--blue);
+}
+.u-blueTxt a {
+  border-bottom: 1px dashed var(--blue);
+}
+
+.u-redTxt,
+.u-redTxt a,
+.u-redTxt a:active,
+.u-redTxt a:hover {
+  color: var(--red);
+}
+.u-redTxt a {
+  border-bottom: 1px dashed var(--red);
+}
+
+/* Borders */
+
+.u-offWhiteLtBorder {
+  border-left: 2px dotted var(--gray);
+}
+
+.u-offWhiteRtBorder {
+  border-right: 2px dotted var(--gray);
+}
+
+.u-grayTopBorder {
+  border-top: 2px dotted var(--gray);
+}
+
+.u-grayLtBorder {
+  border-left: 2px dotted var(--gray);
+}
+
+.u-grayRtBorder {
+  border-right: 2px dotted var(--gray);
+}
+
+.u-grayBotBorder {
+  border-bottom: 2px dotted var(--gray);
+}
+
+a.u-noBorder {
+  border-bottom: none;
+}
+
+
+/* Backgrounds */
+
+.u-gradientBkg {
+  background: linear-gradient(to left, #232526 , #414345);
+}
+
+.u-offWhiteBkg {
+  background-color: var(--offwhite);
+}
+
+.u-grayBkg {
+  background-color: var(--gray);
+}
+
+.u-ltBlueBkg {
+  background-color: var(--paleblue);
+}
+
+.u-blueBkg {
+  background-color: var(--blue);
+}
+
+.u-whiteBkg {
+  background-color: var(--white);
+}
+
+.u-blackBkg {
+  background-color: var(--black);
+}
+
+/* Boxes */
+
+.u-rounded {
+  border-radius: 1rem;
+}
+
+/* Button */
+
+.u-button {
+  font-size: 1.25rem;
+  font-weight: normal;
+  font-family: 'Andale Mono', AndaleMono, Consolas, 'Lucida Console', 'Lucida Sans Typewriter', monaco, monospace;
+  background: var(--gold);
+  display: inline-block;
+  padding: .4em .8em;
+  margin-right: .5em;
+  margin-top: .5em;
+  text-decoration: none;
+  color: var(--darkgray);
+  border: none;
+  transition: background-color 0.5s;
+  border-radius: 1rem;
+}
+a.u-button {
+  border: none;
+}
+
+.u-button:hover {
+  background: var(--blue);
+  text-shadow: none;
+  color: var(--white)!important;
+}
+
+.u-button--sm {
+  font-size: 1rem;
+  padding: .5rem;
+  line-height: 1em;
+}
+
+.u-button--reverse,
+a.u-button--reverse {
+  color: var(--white);
+  background: var(--medgray);
+}
+
+.u-button--wide {
+  text-align: center;
+  width: 100%;
+  margin-top: 5rem;
+  padding: 1rem;
+}
+
+.u-button--desktop {
+  display: none;
+}
+
+
+.u-save, .u-edit, a.u-edit, .u-save, .u-cancel, .u-destroy {
+  color: var(--white);
+}
+
+.u-edit, a.u-edit {
+  background-color: var(--medgray);
+}
+
+.u-save {
+  background-color: var(--green);
+}
+
+.u-cancel {
+  background-color: var(--red);
+}
+
+.u-destroy {
+  background-color: var(--red);
+}
+
+/* Misc */
+.u-clickable {
+  cursor: pointer;
+  display: inline;
+}
+
+.u-float-right {
+  float: right;
+  margin-left: 2rem;
+  margin-bottom: 6rem;
+}
+
+/* Clear fix */
+.u-cf:before,
+.u-cf:after {
+  content: " ";
+  display: table;
+}
+.u-cf:after {
+  clear: both;
+}
+
+@media only screen and (min-width: 768px) {
+  .u-button, a.u-button {
+    font-size: 1.25rem;
+  }
+  .u-button--sm, a.u-button--sm {
+    font-size: 1rem;
+    line-height: 1rem;
+  }
+}
+
+@media only screen and (min-width: 1024px) {
+  .u-button--desktop {
+    display: block;
+  }
+}

@@ -7,12 +7,9 @@
     </article>
   </main>
 
-  <nav class="Blog-nav u-blackTxt u-grayBkg u-offWhiteLtBorder {{if isTwoColumns 'Blog-nav--two-col'}}">
+  <nav class="Blog-nav u-blackTxt u-offWhiteRtBorder {{if isTwoColumns 'Blog-nav--two-col'}}">
     {{render "recent" model}}
     {{partial "links"}}
-    {{#if isLoggedIn}}
-      {{partial "admin/menu"}}
-    {{/if}}
     <button class="u-button u-button--sm u-button--reverse u-button--desktop" {{action "toggleAside"}}>{{asideDisplayButton}}</button>
   </nav>
 </div>

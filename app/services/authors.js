@@ -1,8 +1,6 @@
-import AuthorAdapter from '../adapters/author';
+import Adapter from '../adapters/author';
 import ServiceCache from '../mixins/service-cache';
 
-AuthorAdapter.reopenClass({
-  isServiceFactory: true
-});
+Adapter.reopenClass({ isServiceFactory: true });
 
-export default AuthorAdapter.extend(ServiceCache);
+export default Adapter.extend(ServiceCache);

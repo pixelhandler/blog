@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import config from 'pixelhandler-blog/config/environment';
+import config from '../../config/environment';
 
 export default Ember.Controller.extend({
   username: null,
@@ -46,7 +46,7 @@ export default Ember.Controller.extend({
   },
 
   newResource() {
-    const resource = this.container.lookupFactory('model:comments').create({
+    const resource = this.container.lookupFactory('model:comment').create({
       attributes: {
         body: this.get('commentText')
       }
