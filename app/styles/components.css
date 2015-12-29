@@ -67,7 +67,7 @@
 
 .Blog-tags-item, .Blog-excerpt-tags-item {
   list-style: none;
-  margin: 0 0 2rem 0;
+  margin: 0;
   padding: 0;
   float: right;
 
@@ -189,6 +189,12 @@
 .Box-title {
   margin-bottom: .25rem;
   font-size: 1em
+}
+
+@media only screen and (max-width : 414px) {
+  .not-for-small-screen {
+    display: none;
+  }
 }
 
 
