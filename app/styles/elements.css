@@ -114,7 +114,7 @@ img, video {
   height: auto;
 }
 
-@media only screen and (max-width : 41.4em) {
+@media only screen and (max-width : 414px) {
   li > a {
     display: inline-block;
     line-height: 1em;

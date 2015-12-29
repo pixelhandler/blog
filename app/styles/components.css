@@ -79,6 +79,24 @@
   }
 }
 
+.Blog-tags.u-align-center {
+  float: none;
+  width: 75%;
+  margin: 1em 12.5%;
+  text-align: center;
+
+  li.Blog-tags-item {
+    float: none;
+    display: inline-block;
+    width: auto;
+    line-height: 1.5rem;
+
+    a.u-button--lg {
+      padding: 1rem;
+    }
+  }
+}
+
 .Blog-list {
   line-height: 1.25em;
 }
@@ -219,14 +237,14 @@
   font-size: 1em
 }
 
-@media only screen and (max-width : 41.4em) {
+@media only screen and (max-width : 414px) {
   .not-for-small-screen {
     display: none;
   }
 }
 
 @media only screen
-  and (min-width : 76.8em) and (max-width : 102.4em) {
+  and (min-width : 76.8em) and (max-width : 1024px) {
 
   .Blog-list-date {
     font-size: 1.75rem;
@@ -243,7 +261,7 @@
 }
 
 
-@media only screen and (min-width : 102.4em) {
+@media only screen and (min-width : 1024px) {
 
   .Blog-body {
     padding: 0;

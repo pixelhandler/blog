@@ -19,6 +19,7 @@ Router.map(function() {
     this.route('excerpts', { path: '/' });
   });
   this.route('not-found', { path: '/*path' });
+  this.route('tags');
 });
 
 export default Router;

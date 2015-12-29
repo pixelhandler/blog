@@ -1,6 +1,7 @@
 import Ember from 'ember';
+import ResetScroll from '../mixins/reset-scroll';
 
-export default Ember.Route.extend({
+export default Ember.Route.extend(ResetScroll, {
   model(params) {
     return new Ember.RSVP.Promise(function (resolve, reject) {
       const found = this.store.all('tags').filter(function (tag) {

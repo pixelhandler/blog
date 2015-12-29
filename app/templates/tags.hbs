@@ -1,0 +1,11 @@
+<h1>Tags…</h1>
+
+<ul class="Blog-tags u-align-center">
+  {{#each model as |tag|}}
+    <li class="Blog-tags-item" data-id={{tag.id}} data-slug={{tag.slug}}>
+      {{#link-to "tag.excerpts" tag class="u-button u-button--lg"}}{{tag.name}}{{/link-to}}
+    </li>
+  {{/each}}
+</ul>
+
+{{outlet}}

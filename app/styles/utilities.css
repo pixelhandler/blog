@@ -222,6 +222,13 @@ a.u-button {
   color: var(--white)!important;
 }
 
+.u-button--lg {
+  font-size: 1.8rem;
+  margin: .75rem;
+  padding: 1.8rem;
+  line-height: 1.8rem;
+}
+
 .u-button--sm {
   font-size: 1rem;
   padding: .5rem;
@@ -278,6 +285,12 @@ a.u-button--reverse {
   margin-bottom: 6rem;
 }
 
+.u-align-center {
+  float: none;
+  text-align: center;
+  clear: both;
+}
+
 /* Clear fix */
 .u-cf:before,
 .u-cf:after {
@@ -288,7 +301,7 @@ a.u-button--reverse {
   clear: both;
 }
 
-@media only screen and (min-width: 76.8em) {
+@media only screen and (min-width: 768px) {
   .u-button, a.u-button {
     font-size: 1.25rem;
   }
@@ -298,7 +311,7 @@ a.u-button--reverse {
   }
 }
 
-@media only screen and (min-width: 102.4em) {
+@media only screen and (min-width: 1024px) {
   .u-button--desktop {
     display: block;
   }
