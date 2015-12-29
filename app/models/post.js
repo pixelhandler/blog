@@ -13,5 +13,6 @@ export default Resource.extend({
   body: attr('string'),
 
   author: hasOne('author'),
-  comments: hasMany('comments')
+  comments: hasMany('comments'),
+  tags: hasMany('tags')
 });

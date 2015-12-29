@@ -1,8 +1,10 @@
-{{#each model key="@identity" as |post|}}
+<h1>Tag: `{{model.name}}`</h1>
+<br>
+{{#each model.posts as |post|}}
   <div class="Blog-excerpt" data-id="{{post.id}}">
-    <h2 class="Blog-excerpt-title u-blackTxt u-sansSerif">
+    <h3 class="Blog-excerpt-title u-blackTxt u-sansSerif">
       {{#link-to "post" post}}{{post.title}}{{/link-to}}
-    </h2>
+    </h3>
     <section class="Blog-excerpt-summary u-serif">
       {{markdown-to-html markdown=post.excerpt}}
     </section>
@@ -10,7 +12,7 @@
       <ul class="Blog-excerpt-tags">
         {{#each post.tags as |tag|}}
           <li class="Blog-excerpt-tags-item" data-id={{tag.id}} data-slug={{tag.slug}}>
-            {{#link-to "tag.excerpts" tag class="u-button"}}{{tag.name}}{{/link-to}}
+            {{#link-to "tag" tag class="u-button"}}{{tag.name}}{{/link-to}}
           </li>
         {{/each}}
       </ul>
@@ -18,7 +20,5 @@
     {{#link-to "post" post class="u-button u-cf"}}Read on →{{/link-to}}
   </div>
 {{/each}}
-
-{{has-more-button hasMore=hasMore loadingMore=loadingMore}}
 
 {{outlet}}
