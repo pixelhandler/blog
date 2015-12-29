@@ -18,5 +18,14 @@
     {{markdown-to-html markdown=model.body}}
   </div>
 {{/if}}
-
+{{#if model.tags}}
+  <ul class="Blog-tags">
+    {{#each model.tags as |tag|}}
+      <li class="Blog-tags-item" data-id={{tag.id}} data-slug={{tag.slug}}>
+        {{#link-to "tag.excerpts" tag class="u-button"}}{{tag.name}}{{/link-to}}
+      </li>
+    {{/each}}
+  </ul>
+{{/if}}
+<p class="u-cf">&nbsp;</p>
 {{outlet "comments"}}

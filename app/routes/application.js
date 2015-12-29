@@ -5,7 +5,13 @@ var ApplicationRoute = Ember.Route.extend({
 
   model() {
     const limit = config.APP.PAGE_LIMIT;
-    const options = { 'query': { 'page[limit]': limit, 'sort': '-date' }};
+    const options = {
+      query: {
+        'page[limit]': limit,
+        sort: '-date',
+        include: 'tags'
+      }
+    };
     return this.store.find('posts', options);
   },
 

@@ -23,6 +23,12 @@ export default Ember.Route.extend(ResetScroll, RecordChunksMixin, {
     }
   },
 
+  buildQuery() {
+    let query = this._super();
+    query.include = 'tags';
+    return query;
+  },
+
   model() {
     const posts = this.modelFor('application');
     if (this.get('offset') < posts.get('length')) {

@@ -15,6 +15,9 @@ Router.map(function() {
     this.route('details', { path: '/' });
     this.route('comments');
   });
+  this.route('tag', { path: '/tag/:tag_slug' }, function() {
+    this.route('excerpts', { path: '/' });
+  });
   this.route('not-found', { path: '/*path' });
 });
 
