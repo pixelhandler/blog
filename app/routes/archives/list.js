@@ -7,5 +7,13 @@ export default Ember.Route.extend(ResetScroll, RecordChunksMixin, {
   serviceName: 'posts',
 
   limit: 20,
-  offset: -20
+  offset: -20,
+
+  actions: {
+    showMore() {
+      this.preventScroll = true;
+      this.refreshing = true;
+      this.refresh();
+    }
+  }
 });

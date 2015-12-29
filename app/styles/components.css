@@ -191,7 +191,7 @@
   font-size: 1em
 }
 
-@media only screen and (max-width : 414px) {
+@media only screen and (max-width : 41.4em) {
   .not-for-small-screen {
     display: none;
   }
@@ -199,7 +199,7 @@
 
 
 @media only screen
-  and (min-width : 768px) and (max-width : 1024px) {
+  and (min-width : 76.8em) and (max-width : 102.4em) {
 
   .Blog-list-date {
     font-size: 1.75rem;
@@ -216,7 +216,7 @@
 }
 
 
-@media only screen and (min-width : 1024px) {
+@media only screen and (min-width : 102.4em) {
 
   .Blog-body {
     padding: 0;

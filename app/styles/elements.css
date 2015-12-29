@@ -48,6 +48,15 @@ p, li, dt, dd {
   line-height: 2em;
 }
 
+ol, ul {
+  padding: 1em 0 0 1.25em;
+}
+
+li {
+  margin: 0;
+  padding: 0;
+}
+
 header,
 footer {
   margin: 0;
@@ -100,6 +109,20 @@ td, th {
   font-size: .8333em;
 }
 
+img, video {
+  max-width: 100%;
+  height: auto;
+}
+
+@media only screen and (max-width : 41.4em) {
+  li > a {
+    display: inline-block;
+    line-height: 1em;
+    max-width: 80%;
+    overflow-x: scroll;
+  }
+}
+
 @media (min-width: 48em) {
   body {
     font-size: 1.8rem;
@@ -121,6 +144,9 @@ td, th {
   }
   code {
     font-size: 1.5rem;
+  }
+  ol, ul {
+    padding: 1em 0 0 2em;
   }
 }
 
