@@ -293,15 +293,83 @@
         <lastmod>2015-06-20T07:00:00.000Z</lastmod>
     </url>
     <url>
-        <loc>https://pixelhandler.com</loc>
-        <lastmod>2015-06-20T07:00:00.000Z</lastmod>
-    </url>
-    <url>
         <loc>https://pixelhandler.com/about</loc>
-        <lastmod>2014-03-02T08:00:00.000Z</lastmod>
+        <lastmod>2015-12-27T08:00:00.000Z</lastmod>
     </url>
     <url>
         <loc>https://pixelhandler.com/posts</loc>
-        <lastmod>2015-03-08T07:00:00.000Z</lastmod>
+        <lastmod>2015-06-20T07:00:00.000Z</lastmod>
+    </url>
+    <url>
+        <loc>https://pixelhandler.com/tags</loc>
+        <lastmod>2015-12-29T07:00:00.000Z</lastmod>
+    </url>
+        <url>
+        <loc>https://pixelhandler.com/tag/backbone-js</loc>
+        <lastmod>2015-12-29T07:00:00.000Z</lastmod>
+    </url>
+    <url>
+        <loc>https://pixelhandler.com/tag/conference</loc>
+        <lastmod>2015-12-29T07:00:00.000Z</lastmod>
+    </url>
+    <url>
+        <loc>https://pixelhandler.com/tag/data</loc>
+        <lastmod>2015-12-29T07:00:00.000Z</lastmod>
+    </url>
+    <url>
+        <loc>https://pixelhandler.com/tag/deployment</loc>
+        <lastmod>2015-12-29T07:00:00.000Z</lastmod>
+    </url>
+    <url>
+        <loc>https://pixelhandler.com/tag/ember-addons</loc>
+        <lastmod>2015-12-29T07:00:00.000Z</lastmod>
+    </url>
+    <url>
+        <loc>https://pixelhandler.com/tag/ember-components</loc>
+        <lastmod>2015-12-29T07:00:00.000Z</lastmod>
+    </url>
+    <url>
+        <loc>https://pixelhandler.com/tag/ember-js</loc>
+        <lastmod>2015-12-29T07:00:00.000Z</lastmod>
+    </url>
+    <url>
+        <loc>https://pixelhandler.com/tag/json-api</loc>
+        <lastmod>2015-12-29T07:00:00.000Z</lastmod>
+    </url>
+    <url>
+        <loc>https://pixelhandler.com/tag/node-js</loc>
+        <lastmod>2015-12-29T07:00:00.000Z</lastmod>
+    </url>
+    <url>
+        <loc>https://pixelhandler.com/tag/performance</loc>
+        <lastmod>2015-12-29T07:00:00.000Z</lastmod>
+    </url>
+    <url>
+        <loc>https://pixelhandler.com/tag/rails</loc>
+        <lastmod>2015-12-29T07:00:00.000Z</lastmod>
+    </url>
+    <url>
+        <loc>https://pixelhandler.com/tag/templates</loc>
+        <lastmod>2015-12-29T07:00:00.000Z</lastmod>
+    </url>
+    <url>
+        <loc>https://pixelhandler.com/tag/testing</loc>
+        <lastmod>2015-12-29T07:00:00.000Z</lastmod>
+    </url>
+    <url>
+        <loc>https://pixelhandler.com/tag/web-components</loc>
+        <lastmod>2015-12-29T07:00:00.000Z</lastmod>
+    </url>
+    <url>
+        <loc>https://pixelhandler.com/tag/websocket</loc>
+        <lastmod>2015-12-29T07:00:00.000Z</lastmod>
+    </url>
+    <url>
+        <loc>https://pixelhandler.com/tag/jquery</loc>
+        <lastmod>2015-12-29T07:00:00.000Z</lastmod>
+    </url>
+        <url>
+        <loc>https://pixelhandler.com</loc>
+        <lastmod>2015-12-29T07:00:00.000Z</lastmod>
     </url>
 </urlset>
