@@ -6,6 +6,10 @@ export default Ember.Controller.extend({
 
   isLoggedIn: false,
 
+  isSearchEnabled: false,
+
+  searchFilter: '',
+
   asideDisplayButton: function () {
     return (this.get('isTwoColumns')) ? 'one column' : 'two columns';
   }.property('isTwoColumns'),
