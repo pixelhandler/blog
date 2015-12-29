@@ -1,6 +1,12 @@
 import Ember from 'ember';
 
-export default Ember.Controller.extend({
+const { Controller, inject, computed } = Ember;
+
+export default Controller.extend({
+  application: inject.controller('application'),
+
+  queryParams: { searchFilter: 'search'},
+  searchFilter: computed.alias('application.searchFilter'),
 
   // flag to show button for more
   hasMore: true,

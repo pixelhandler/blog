@@ -152,9 +152,37 @@
   float: left;
   margin: 0;
   padding: 0;
-  font-size: 2em;
+  font-size: 1.75em;
   line-height: 1.3em;
   vertical-align: middle;
+}
+
+.Header-search {
+  position: absolute;
+  right: 2rem;
+  max-width: 30%;
+  font-size: 1.4rem;
+
+  input[type="text"] {
+    background-color: var(--ltgold);
+    border: 1px dotted var(--ltgold);
+    line-height: 1.33em;
+    width: 85%;
+    float: left;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    padding: .25rem .5rem;
+  }
+
+  input[type="submit"] {
+    width: 15%;
+    padding: 0 .25rem .7rem .25rem;
+    background-color: var(--black);
+    border: 1px dotted var(--ltgold);
+    border-left: none;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+  }
 }
 
 .Footer {
@@ -196,7 +224,6 @@
     display: none;
   }
 }
-
 
 @media only screen
   and (min-width : 76.8em) and (max-width : 102.4em) {

@@ -1,6 +1,8 @@
 import Ember from 'ember';
 
-export default Ember.Mixin.create({
+const { Mixin, ArrayProxy, isEmpty, required, computed } = Ember;
+
+export default Mixin.create({
   /*
     Prototype using mixin must define resourceName and controllerName, the
     controller must also be defined, can't rely on auto generation
@@ -8,7 +10,7 @@ export default Ember.Mixin.create({
     @prop {String} resourceName - name of record type used to lookup via store
     @prop (String) controllerName - name of controller to set `hasMore` flag on
   */
-  serviceName: Ember.required,
+  serviceName: required,
 
   /*
     Prototype using mixin may redefine limit and offset as needed.
@@ -18,7 +20,7 @@ export default Ember.Mixin.create({
   sortParams: '-date',
 
   initLoadedIds: function () {
-    this.set('loadedIds', Ember.ArrayProxy.create({content: Ember.A([])}));
+    this.set('loadedIds', ArrayProxy.create({content: Ember.A([])}));
   }.on('init'),
 
   beforeModel() {
@@ -85,16 +87,21 @@ export default Ember.Mixin.create({
   },
 
   hasMore: function () {
-    const total = this.get('meta.total');
-    if (Ember.isEmpty(total)) {
+    const total = this.get('total');
+    if (isEmpty(total)) {
       return false;
     }
     return this.get('loadedIds').get('length') < total;
   }.property('loadedIds', 'total').volatile(),
 
-  meta: Ember.computed('serviceName', function () {
-    return this[this.get('serviceName')].get('cache.meta.page');
-  }),
+  meta: computed('serviceName', function () {
+    let service = this[this.get('serviceName')];
+    return service.get('cache.meta.page');
+  }).volatile(),
+
+  total: computed('meta', function () {
+    return this.get('meta.total');
+  }).volatile(),
 
   actions: {
     showMore() {

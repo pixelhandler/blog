@@ -3,5 +3,13 @@
     <div class="Header-title">
       {{#link-to 'excerpts' class="u-noBorder"}}pixelhandler's blog{{/link-to}}
     </div>
+    {{#if isSearchEnabled}}
+      <div class="Header-search">
+        <form {{action "doSearch" searchFilter on="submit"}}>
+          {{input type="text" placeholder="search…" value=searchFilter}}
+          <input type="submit" value="→">
+        </form>
+      </div>
+    {{/if}}
   </div>
 </header>

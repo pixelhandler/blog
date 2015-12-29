@@ -118,7 +118,7 @@ img, video {
   li > a {
     display: inline-block;
     line-height: 1em;
-    max-width: 80%;
+    max-width: 100%;
     overflow-x: scroll;
   }
 }

@@ -19,6 +19,10 @@
   </div>
 {{/each}}
 
+{{#unless model.length}}
+  <h2>No results</h2>
+{{/unless}}
+
 {{has-more-button hasMore=hasMore loadingMore=loadingMore}}
 
 {{outlet}}
