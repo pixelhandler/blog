@@ -29,11 +29,11 @@ module.exports = function(environment) {
     },
     contentSecurityPolicy: {
       'default-src': "'none'",
-      'script-src': "'self' 'unsafe-inline' 'unsafe-eval' www.google-analytics.com",
-      'font-src': "'self'",
-      'connect-src': "'self' www.google-analytics.com",
-      'img-src': "'self' s3.amazonaws.com pixelhandler.com cdn.pixelhandler.com d3i8kyz4wwfkbg.cloudfront.net www.gravatar.com dl.dropboxusercontent.com",
-      'style-src': "'self' 'unsafe-inline' s3.amazonaws.com cdn.pixelhandler.com d3i8kyz4wwfkbg.cloudfront.net",
+      'script-src': "'self' d3i8kyz4wwfkbg.cloudfront.net www.google-analytics.com",
+      'font-src': "'self' d3i8kyz4wwfkbg.cloudfront.net",
+      'connect-src': "'self' d3i8kyz4wwfkbg.cloudfront.net www.google-analytics.com",
+      'img-src': "'self' s3.amazonaws.com pixelhandler.com cdn.pixelhandler.com d3i8kyz4wwfkbg.cloudfront.net www.gravatar.com dl.dropboxusercontent.com www.google-analytics.com",
+      'style-src': "'self' s3.amazonaws.com cdn.pixelhandler.com d3i8kyz4wwfkbg.cloudfront.net",
       'media-src': "'self' s3.amazonaws.com pixelhandler.com cdn.pixelhandler.com d3i8kyz4wwfkbg.cloudfront.net"
     },
     metricsAdapters: [{
@@ -51,7 +51,9 @@ module.exports = function(environment) {
     // ENV.APP.LOG_TRANSITIONS_INTERNAL = true;
     ENV.APP.LOG_VIEW_LOOKUPS = true;
 
-    ENV.contentSecurityPolicy['connect-src'] = "'self' ws://localhost:35729 localhost:3000";
+    ENV.contentSecurityPolicy['connect-src'] += " ws://localhost:35729 localhost:3000";
+    ENV.contentSecurityPolicy['script-src'] += " 'unsafe-inline' 'unsafe-eval'";
+    ENV.contentSecurityPolicy['style-src'] += " 'unsafe-inline'";
   }
 
   if (environment === 'test') {
