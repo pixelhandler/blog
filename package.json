@@ -56,6 +56,7 @@
     "ember-jsonapi-resources": "1.0.0-beta.1",
     "ember-metrics": "0.5.3",
     "ember-moment": "~4.2.1",
+    "ember-page-title": "~2.0.7",
     "glob": "^4.5.3",
     "http-proxy": "^1.12.0",
     "inflection": "^1.7.2",
