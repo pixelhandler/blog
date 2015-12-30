@@ -2,7 +2,24 @@ import Ember from 'ember';
 import config from './config/environment';
 
 const Router = Ember.Router.extend({
-  location: config.locationType
+  location: config.locationType,
+  metrics: Ember.inject.service(),
+
+  didTransition() {
+    this._super(...arguments);
+    this._trackPage();
+  },
+
+  _trackPage() {
+    Ember.run.scheduleOnce('afterRender', this, () => {
+      let page = document.location.pathname;
+      let title = this.getWithDefault('currentRouteName', 'unknown');
+      Ember.get(this, 'metrics').trackPage('GoogleAnalytics', {
+        page: page,
+        title: title
+      });
+    });
+  }
 });
 
 Router.map(function() {
