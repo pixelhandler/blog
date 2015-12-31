@@ -13,11 +13,15 @@ const Router = Ember.Router.extend({
   _trackPage() {
     Ember.run.scheduleOnce('afterRender', this, () => {
       let metrics = Ember.get(this, 'metrics');
-      Ember.run.later(function() {
-        let page = document.location.pathname;
-        let title = document.querySelector('title').innerText;
-        metrics.trackPage('GoogleAnalytics', { page: page, title: title});
-      }, 30);
+      if (metrics && typeof metrics.trackPage === 'function') {
+        Ember.run.later(function() {
+          let page = document.location.pathname;
+          let title = document.querySelector('title').innerText;
+          if (window.ga && typeof window.ga === 'function') {
+            metrics.trackPage('GoogleAnalytics', { page: page, title: title});
+          }
+        }, 30);
+      }
     });
   }
 });

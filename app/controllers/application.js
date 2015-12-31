@@ -6,8 +6,6 @@ export default Ember.Controller.extend({
 
   isLoggedIn: false,
 
-  isSearchEnabled: false,
-
   searchFilter: '',
 
   asideDisplayButton: function () {

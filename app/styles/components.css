@@ -163,6 +163,12 @@
 .Header {
   padding: 1em 2em .5em 2em;
   line-height: 1em;
+
+  .Header-title {
+    .u-clickable {
+      border: none;
+    }
+  }
 }
 
 .Header-title {

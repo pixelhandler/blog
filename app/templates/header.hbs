@@ -1,15 +1,13 @@
 <header class="Header Header--cozy u-grayBotBorder u-gradientBkg">
   <div class="Box u-cf u-goldTxt u-monospaced">
     <div class="Header-title">
-      {{#link-to 'excerpts' class="u-noBorder"}}pixelhandler's blog{{/link-to}}
+      <span {{action "home"}} class="u-clickable">pixelhandler's blog</span>
     </div>
-    {{#if isSearchEnabled}}
-      <div class="Header-search">
-        <form {{action "doSearch" searchFilter on="submit"}}>
-          {{input type="text" placeholder="search…" value=searchFilter}}
-          <input type="submit" value="→">
-        </form>
-      </div>
-    {{/if}}
+    <div class="Header-search">
+      <form {{action "doSearch" searchFilter on="submit"}}>
+        {{input type="text" placeholder="search…" value=searchFilter}}
+        <input type="submit" value="→">
+      </form>
+    </div>
   </div>
 </header>

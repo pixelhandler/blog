@@ -2,7 +2,7 @@ import Ember from 'ember';
 import RecordChunksMixin from '../mixins/record-chunks';
 import ResetScroll from '../mixins/reset-scroll';
 
-const { Route, isEmpty, computed, run } = Ember;
+const { Route, RSVP, isEmpty, computed, run } = Ember;
 
 export default Route.extend(ResetScroll, RecordChunksMixin, {
 
@@ -12,30 +12,21 @@ export default Route.extend(ResetScroll, RecordChunksMixin, {
   offset: -5,
 
   beforeModel() {
-    if (!this.refreshing && this.get('offset') > 0) {
-      return;
-    }
-    let posts = this.modelFor('application');
-    let postsCount = posts.get('length');
-    let limit = this.get('limit');
-    let offset = this.get('offset');
-    if (offset < (postsCount - limit)) {
-      if (window.location.search.match('search') !== null) {
-        offset = offset + postsCount - limit;
-      } else {
-        offset = postsCount - limit;
+    if (!this.refreshing) {
+      if (this.get('offset') > 0) {
+        return;
       }
-      this.set('offset', offset);
-    } else {
-      this.set('offset', offset + limit);
+      if (isEmpty(this.get('searchFilter'))) {
+        this.set('offset', -5);
+      }
     }
+    this.set('offset', this.get('limit') + this.get('offset'));
   },
 
   buildQuery() {
     let query = this._super();
     query.include = 'tags';
-    let filter = this.controllerFor('application').get('searchFilter');
-    filter = filter || this.get('searchFilter');
+    let filter = this.get('searchFilter');
     if (!isEmpty(filter)) {
       query['filter[search]'] = filter;
     }
@@ -58,8 +49,12 @@ export default Route.extend(ResetScroll, RecordChunksMixin, {
     let searchFilter = query['filter[search]'];
     let noFilter = isEmpty(searchFilter);
     let isNotResetting = !this.resettingFilter;
-    if (isNotResetting && noFilter && (this.get('offset') < posts.get('length'))) {
-      return posts;
+    let limit = this.get('limit');
+    let postsCount = this.get('offset') + limit;
+    let appPostsCount = posts.get('length');
+    if (isNotResetting && noFilter && (postsCount <= appPostsCount)) {
+      this.set('offset', appPostsCount - limit);
+      return RSVP.Promise.resolve(posts);
     } else {
       return this.store.find('posts', { query: query });
     }
@@ -70,13 +65,9 @@ export default Route.extend(ResetScroll, RecordChunksMixin, {
     return this._super(model, transition);
   },
 
-  activate() {
-    this.controllerFor('application').set('isSearchEnabled', true);
-  },
-
   deactivate() {
-    this.controllerFor('excerpts').set('searchFilter', '');
-    this.controllerFor('application').set('isSearchEnabled', false);
+    this._resetFilter();
+    this._doResetModel();
   },
 
   actions: {
@@ -90,14 +81,48 @@ export default Route.extend(ResetScroll, RecordChunksMixin, {
       if (term === '') {
         this.resettingFilter = true;
       }
-      run.throttle(this, this._doSearch, 500);
+      run.throttle(this, this._doSearch, 300);
+    },
+
+    home() {
+      if (!isEmpty(this.get('searchFilter'))) {
+        this.resettingFilter = true;
+        this._showRecentPosts();
+      }
     }
   },
 
+  // Private …
+
   _doSearch() {
+    this._resetPaging();
+    this.refresh();
+  },
+
+  _doResetModel() {
+    this._resetPaging();
+    this._resetFilter();
+    this.get('model').call(this).then(function (model) {
+      this.controllerFor('excerpts').set('model', model);
+      this.notifyPropertyChanged('meta');
+      this.get('meta.total');
+    }.bind(this));
+  },
+
+  _showRecentPosts() {
+    this._resetPaging();
+    this._resetFilter();
+    this.refresh();
+  },
+
+  _resetPaging() {
     this.set('offset', -5);
     this.set('loadedIds.content', Ember.A([]));
-    this.refresh();
+  },
+
+  _resetFilter(term = '') {
+    this.controllerFor('application').set('searchFilter', term);
   }
+
 });
 

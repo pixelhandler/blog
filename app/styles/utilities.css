@@ -34,7 +34,7 @@
 .u-whiteTxt a:hover {
   color: white;
 }
-.u-whiteTxt a {
+.u-whiteTxt a, .u-whiteTxt .u-clickable {
   border-bottom: 1px dashed rgba(255, 255, 255, .5);
 }
 
@@ -44,7 +44,7 @@
 .u-blackTxt a:hover {
   color: black;
 }
-.u-blackTxt a {
+.u-blackTxt a, .u-blackTxt .u-clickable {
   border-bottom: 1px dashed rgba(0, 0, 0, .5);
 }
 
@@ -54,7 +54,7 @@
 .u-grayTxt a:hover {
   color: var(--gray);
 }
-.u-grayText a {
+.u-grayText a, .u-grayText .u-clickable {
   border-bottom: 1px dashed var(--gray);
 }
 
@@ -64,7 +64,7 @@
 .u-medGrayTxt a:hover {
   color: var(--medgray);
 }
-.u-medGrayText a {
+.u-medGrayText a, .u-medGrayText .u-clickable {
   border-bottom: 1px dashed var(--medgray);
 }
 
@@ -74,7 +74,7 @@
 .u-darkGrayTxt a:hover {
   color: var(--darkgray);
 }
-.u-darkGrayText a {
+.u-darkGrayText a, .u-darkGrayText .u-clickable {
   border-bottom: 1px dashed var(--darkgray);
 }
 
@@ -84,7 +84,7 @@
 .u-goldTxt a:hover {
   color: var(--gold);
 }
-.u-goldTxt a {
+.u-goldTxt a, .u-goldTxt .u-clickable {
   border-bottom: 1px dashed var(--gold);
 }
 
@@ -94,7 +94,7 @@
 .u-yellowTxt a:hover {
   color: var(--yellow);
 }
-.u-yellowTxt a {
+.u-yellowTxt a, .u-yellowTxt .u-clickable {
   border-bottom: 1px dashed var(--yellow);
 }
 
@@ -104,7 +104,7 @@
 .u-greenTxt a:hover {
   color: var(--green);
 }
-.u-greenTxt a {
+.u-greenTxt a, .u-greenTxt .u-clickable {
   border-bottom: 1px dashed var(--green);
 }
 
@@ -114,7 +114,7 @@
 .u-blueTxt a:hover {
   color: var(--blue);
 }
-.u-blueTxt a {
+.u-blueTxt a, .u-blueTxt .u-clickable {
   border-bottom: 1px dashed var(--blue);
 }
 
@@ -124,7 +124,7 @@
 .u-redTxt a:hover {
   color: var(--red);
 }
-.u-redTxt a {
+.u-redTxt a, .u-redTxt .u-clickable {
   border-bottom: 1px dashed var(--red);
 }
 

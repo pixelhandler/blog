@@ -30,6 +30,17 @@ var ApplicationRoute = Ember.Route.extend({
       Ember.Logger.error(error, e);
       Ember.Logger.info(error.stack);
       this.transitionTo('not-found');
+    },
+
+    doSearch(term) {
+      if (this.router.currentRouteName !== 'excerpts') {
+        let url = ['//', window.location.host, '/?search=', term].join('');
+        window.location = url;
+      }
+    },
+
+    home() {
+      this.transitionTo('/');
     }
   }
 });
