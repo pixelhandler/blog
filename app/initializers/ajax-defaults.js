@@ -1,3 +1,5 @@
+import Ember from 'ember';
+
 export function initialize(/* application */) {
   Ember.$.ajaxPrefilter(function(options) {
     options.xhrFields = { withCredentials: true };

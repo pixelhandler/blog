@@ -59,7 +59,7 @@ export default Ember.Controller.extend({
 });
 
 function authorizeSuccess(data) {
-  console.log('autorize success', data);
+  Ember.Logger.info('autorize success', data);
   Ember.run(function () {
     let response = JSON.parse(data);
     window.localStorage.setItem('AuthorizationHeader', response.auth_token);
@@ -74,7 +74,7 @@ function authorizeSuccess(data) {
 }
 
 function authorizeFailure(xhr, status, error) {
-  console.log('authorize failure', xhr, status, error);
+  Ember.Logger.warn('authorize failure', xhr, status, error);
   xhr = xhr || void 0;
   status = status || void 0;
   Ember.run(function () {

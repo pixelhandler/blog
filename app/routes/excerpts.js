@@ -57,7 +57,7 @@ export default Route.extend(ResetScroll, RecordChunksMixin, {
     let query = this.buildQuery();
     let searchFilter = query['filter[search]'];
     let noFilter = isEmpty(searchFilter);
-    let isNotResetting = !this.resettingFilter
+    let isNotResetting = !this.resettingFilter;
     if (isNotResetting && noFilter && (this.get('offset') < posts.get('length'))) {
       return posts;
     } else {

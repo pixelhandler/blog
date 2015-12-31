@@ -4,39 +4,37 @@ var EmberApp = require('ember-cli/lib/broccoli/ember-app');
 var autoprefixer = require('autoprefixer');
 var cssnext = require('postcss-cssnext');
 var nested = require('postcss-nested');
-var cssImport = require("postcss-import")
+var cssImport = require('postcss-import');
+var name = require('./package.json').name;
+var emberTesting = process.env.EMBER_CLI_TEST_COMMAND;
+var isPreflight = (process.env.PREFLIGHT === 'true');
 
 module.exports = function(defaults) {
   var env = EmberApp.env();
   var isProductionBuild = (env === 'production');
-  var app = new EmberApp(defaults, {
-    name: require('./package.json').name,
-    getEnvJSON: require('./config/environment'),
-    fingerprint: { enabled: isProductionBuild, prepend: '//d3i8kyz4wwfkbg.cloudfront.net/' },
+  var options = {
+    name: name,
+    fingerprint: { enabled: isProductionBuild },
     sourcemaps: { enabled: !isProductionBuild },
     minifyCSS: { enabled: isProductionBuild },
     minifyJS: { enabled: isProductionBuild },
-    tests: process.env.EMBER_CLI_TEST_COMMAND || !isProductionBuild,
-    hinting: process.env.EMBER_CLI_TEST_COMMAND || !isProductionBuild,
+    tests: emberTesting || !isProductionBuild,
+    hinting: emberTesting || !isProductionBuild,
     postcssOptions: {
       plugins: [
-        {
-          module: autoprefixer,
-          options: {
-            browsers: ['last 2 version']
-          }
-        },
+        { module: autoprefixer, options: { browsers: ['last 2 version'] } },
         { module: cssImport },
         { module: nested },
-        {
-          module: cssnext,
-          options: {
-            sourcemap: true
-          }
-        }
+        { module: cssnext, options: { sourcemap: true } }
       ]
     }
-  });
+  };
+
+  if (!isPreflight) {
+    options.fingerprint.prepend = '//d3i8kyz4wwfkbg.cloudfront.net/';
+  }
+
+  var app = new EmberApp(defaults, options);
 
   // Use `app.import` to add additional libraries to the generated
   // output files.

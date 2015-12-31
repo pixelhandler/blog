@@ -1,6 +1,9 @@
 lint:
 	@jshint app/**/*.js
 
+preflight: clean
+	@export PREFLIGHT=true; ember server -e production; unset PREFLIGHT
+
 clean:
 	@rm -fr ./dist/* ./tmp/*
 
@@ -10,7 +13,7 @@ docs: lint
 docfiles: lint
 	@yuidoc ./app/* -c yuidoc.json
 
-install:
+install: clean
 	@rm -rf node_modules bower_components && npm cache clear && bower cache clean && npm install && bower install
 
 .PHONY: install

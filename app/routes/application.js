@@ -27,8 +27,8 @@ var ApplicationRoute = Ember.Route.extend({
 
   actions: {
     error(error, e) {
-      console.log(error.stack);
       Ember.Logger.error(error, e);
+      Ember.Logger.info(error.stack);
       this.transitionTo('not-found');
     }
   }

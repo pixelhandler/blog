@@ -1,4 +1,5 @@
 /* jshint node: true */
+var isPreflight = (process.env.PREFLIGHT === 'true');
 
 module.exports = function(environment) {
   var ENV = {
@@ -69,7 +70,7 @@ module.exports = function(environment) {
   }
 
   if (environment === 'production') {
-    if (true) { /* set false to test prod locally */
+    if (!isPreflight) { /* use false to test prod locally */
       ENV.APP.API_HOST = 'https://pixelhandler.com';
       ENV.APP.API_HOST_PROXY = 'http://api.pixelhandler.com';
     }
