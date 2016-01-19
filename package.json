@@ -28,7 +28,7 @@
   "devDependencies": {
     "autoprefixer": "^6.2.1",
     "broccoli-asset-rev": "^2.2.0",
-    "ember-cli": "1.13.13",
+    "ember-cli": "1.13.14",
     "ember-cli-app-version": "^1.0.0",
     "ember-cli-babel": "^5.1.5",
     "ember-cli-content-security-policy": "0.4.0",
@@ -56,6 +56,7 @@
     "ember-jsonapi-resources": "~1.0.0",
     "ember-metrics": "0.5.3",
     "ember-moment": "~4.2.1",
+    "ember-normalize": "0.0.9",
     "ember-page-title": "~2.0.7",
     "glob": "^4.5.3",
     "http-proxy": "^1.12.0",
