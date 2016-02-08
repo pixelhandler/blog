@@ -46,7 +46,8 @@ export default Ember.Controller.extend({
   },
 
   newResource() {
-    const resource = this.container.lookupFactory('model:comment').create({
+    let resource = this.container.lookupFactory('model:comment').create({
+      isNew: true,
       attributes: {
         body: this.get('commentText')
       }
