@@ -4,6 +4,9 @@ lint:
 preflight: clean
 	@export PREFLIGHT=true; ember server -e production; unset PREFLIGHT
 
+fastboot: clean
+	@ember fastboot --serve-assets
+
 clean:
 	@rm -fr ./dist/* ./tmp/*
 

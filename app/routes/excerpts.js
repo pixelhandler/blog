@@ -104,7 +104,7 @@ export default Route.extend(ResetScroll, RecordChunksMixin, {
     this._resetFilter();
     this.get('model').call(this).then(function (model) {
       this.controllerFor('excerpts').set('model', model);
-      this.notifyPropertyChanged('meta');
+      this.notifyPropertyChange('meta');
       this.get('meta.total');
     }.bind(this));
   },

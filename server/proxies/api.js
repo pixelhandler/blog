@@ -14,7 +14,7 @@ module.exports = function(app) {
     // include root path in proxied request
     req.url = proxyPath + '/' + req.url;
     if (process.env.EMBER_ENV == 'development') {
-      proxy.web(req, res, { target: 'http://localhost:3000' });
+      proxy.web(req, res, { target: 'http://localhost:3001' });
     } else if (process.env.EMBER_ENV == 'production') {
       proxy.web(req, res, { target: 'http://api.pixelhandler.com' });
     }
