@@ -1,8 +1,7 @@
-import AuthorizationMixin from 'ember-jsonapi-resources/mixins/authorization';
 import ApplicationAdapter from 'ember-jsonapi-resources/adapters/application';
 import config from '../config/environment';
 
-export default ApplicationAdapter.extend(AuthorizationMixin, {
+export default ApplicationAdapter.extend({
 
   fetchUrl: function(url) {
     const proxy = config.APP.API_HOST_PROXY;

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<channel>
+ <title>RSS feed for pixelhandler.com</title>
+ <description>Personal blog of Bill Heaton</description>
+ <link>https://pixelhandler.com</link>
+ <image>
+    <url>https://dl.dropboxusercontent.com/u/5739722/img/pixelhander-2016.jpg</url>
+    <link>https://pixelhandler.com</link>
+    <title>RSS feed for pixelhandler.com</title>
+ </image>
+ <atom:link href="https://pixelhandler.com/rss.xml" rel="self" type="application/rss+xml" />
+ <lastBuildDate>Sun, 18 Sep 2016 12:00:00 +0000</lastBuildDate>
+ <pubDate>Sun, 18 Sep 2016 12:00:00 +0000</pubDate>
+ <ttl>600</ttl>
+
+ <item>
+  <title>Managing Developer Happiness</title>
+  <description>A few observations on managing web developers, and oneself… I spent the past twelve years building web applications. Among the managers I’ve had the privilege to work with, some have exercised great leadership and others only spew rubbish; both types have made an impression on me. In this article, I will discuss what attracts developers and keeps them, what expectations developers have from management, what a development manager should focus on and what to avoid, process, team size, how to stay sharp, and what a manager must get right to be successful at helping others do their best work.</description>
+  <link>https://pixelhandler.com/posts/managing-developer-happiness</link>
+  <guid isPermaLink="true">https://pixelhandler.com/posts/managing-developer-happiness</guid>
+  <pubDate>Thu, 08 Sep 2016 12:00:00 +0000</pubDate>
+ </item>
+
+ <item>
+  <title>Developing Ember Addons: Next Generation CSS with PostCSS</title>
+  <description>Over the years I've used Sass and Less to improve my development experience with CSS (stylesheets for web applications). I enjoyed the improvements that both Less and Sass provided. Now that I use Babel to transpile JavaScript modules in my application's build pipeline using Ember CLI - I enjoy using modern JavaScript as I develop and ship web applications today. Can I also write next generation CSS styles today? The answer is yes! With PostCSS.</description>
+  <link>https://pixelhandler.com/posts/developing-ember-addons-next-generation-css-with-postcss</link>
+  <guid isPermaLink="true">https://pixelhandler.com/posts/developing-ember-addons-next-generation-css-with-postcss</guid>
+  <pubDate>Tue, 23 Feb 2016 12:00:00 +0000</pubDate>
+ </item>
+
+ <item>
+  <title>Ember.js: Handling Failure Using Route error Substates</title>
+  <description>Handing data persistence operations between your Ember (client) application and API server requires fault tolerance. The app needs to notify users of relevant error responses and how to recover from various API server error responses. Handling JSON API error responses for HTTP status codes 400, 404, 422, 500, 502, 302, etc. should be first class in the application code. In this article error actions will not be primarily used, instead the error substate of an Ember.Route will be used to respond to the errors. The error action will be used secondarily by sending an error action, send('error'), after a failed update. The ember-jsonapi-resources addon has a example "test" app, see jr-test which includes example code for using error substates to handle various server responses, i.e. 500, 400, 404, 422. This article was first created as documentation for the addon see the Error Handling Guide for additional content.</description>
+  <link>https://pixelhandler.com/posts/emberjs-handling-failure-using-route-error-substates</link>
+  <guid isPermaLink="true">https://pixelhandler.com/posts/emberjs-handling-failure-using-route-error-substates</guid>
+  <pubDate>Tue, 19 Jan 2016 12:00:00 +0000</pubDate>
+ </item>
+
+ <item>
+  <title>My Battle with Data Persistence in Ember Apps</title>
+  <description>This post fits well within the purpose of this site, my web log. What follows is my personal history (changelog) of battling data persistence in JavaScript applications built using the Ember.js framework. I've Been Everywhere, by Johnny Cash, is a song that rings true to my journey to find a data persistence solution that I think fits well within a complex browser application. I'd like a data persistence library that does a great job reading and writing data, as close to real time as possible (without data collisions). A solution that handles data relationships well and makes it simple and painless. With a model prototype (class) that closely mimics the JSON payload and is flexible to live as a complete representation of an object or an incomplete representation. Which uses a JSON format that is discoverable and self documenting. I've tried plain old AJAX with REST, Ember Data, Ember Model, Ember with Orbit.js using a Web Socket source. And on the back end… active model serializers in Rails, rolling out a JSON API with Node.js and supporting JSONPatch. I feel like "I've had my share, man, I've been everywhere". This is a story of my battle with the data layer in the apps I've worked on over the past three years.</description>
+  <link>https://pixelhandler.com/posts/my-battle-with-data-persistence-in-ember-apps</link>
+  <guid isPermaLink="true">https://pixelhandler.com/posts/my-battle-with-data-persistence-in-ember-apps</guid>
+  <pubDate>Sat, 20 Jun 2015 12:00:00 +0000</pubDate>
+ </item>
+
+ <item>
+  <title>Practical: Deploy an Ember App with ember-cli-deploy</title>
+  <description>The notes below demonstrate how to setup a chat application, built with Ember CLI, that uses a backend service from Firebase. The example walks through the setup and deployment steps for pushing a client application to an Ubuntu box hosted on DigitalOcean. Node.js will be used to serve up the index.html file that is stored as the current version in a Redis database. In this practical example I'll borrow an Ember.js application created with Ember CLI by Sara Robinson of Firebase. See ember-cli-deploy this will cover the "Lightning-Approach Workflow"</description>
+  <link>https://pixelhandler.com/posts/practical-deploy-an-ember-app-with-ember-cli-deploy-on-digitalocean</link>
+  <guid isPermaLink="true">https://pixelhandler.com/posts/practical-deploy-an-ember-app-with-ember-cli-deploy-on-digitalocean</guid>
+  <pubDate>Sat, 25 Apr 2015 12:00:00 +0000</pubDate>
+ </item>
+
+</channel>
+</rss>
