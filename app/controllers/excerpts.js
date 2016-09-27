@@ -17,7 +17,7 @@ export default Controller.extend({
   actions: {
     showMore() {
       this.set('loadingMore', true);
-      return true;
+      this.get('target').send('showMore');
     }
   }
 });
