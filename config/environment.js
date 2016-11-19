@@ -5,12 +5,16 @@ module.exports = function(environment) {
   var ENV = {
     modulePrefix: 'pixelhandler-blog',
     environment: environment,
-    baseURL: '/',
+    rootURL: '/',
     locationType: 'auto',
     EmberENV: {
       FEATURES: {
         // Here you can enable experimental features on an ember canary build
         // e.g. 'with-controller': true
+      },
+      EXTEND_PROTOTYPES: {
+        // Prevent Ember Data from overriding Date.parse.
+        Date: false
       },
       // not using Ember Data, TODO figure out if this is needed
       MODEL_FACTORY_INJECTIONS: true
@@ -58,7 +62,6 @@ module.exports = function(environment) {
 
   if (environment === 'test') {
     // Testem prefers this...
-    ENV.baseURL = '/';
     ENV.locationType = 'none';
 
     // keep test console output quieter
