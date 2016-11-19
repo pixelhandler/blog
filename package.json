@@ -53,7 +53,7 @@
     "ember-cli-uglify": "^1.2.0",
     "ember-export-application-global": "^1.0.5",
     "ember-inflector": "1.9.4",
-    "ember-jsonapi-resources": "^2.0.0-beta.2",
+    "ember-jsonapi-resources": "^2.0.0",
     "ember-load-initializers": "^0.5.1",
     "ember-metrics": "0.5.3",
     "ember-moment": "~4.2.1",
