@@ -1,0 +1,152 @@
+@import 'colors';
+
+/* Elements */
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 62.5%;
+}
+body {
+  font-size: 1rem;
+  margin: 0;
+  padding: 0;
+}
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Lucida Sans', 'Lucida Sans Unicode', 'Lucida Grande', Geneva, Verdana, sans-serif;
+  line-height: 1.25em;
+  color: var(--black);
+}
+h1, h2, h3, h4 {
+  margin: 0 0 1rem 0;
+}
+h1 {
+  font-size: 1.3em;
+  color: var(--deepgray);
+}
+h2 {
+  font-size: 1.2em;
+  color: var(--medgray);
+}
+h3 {
+  font-size: 1.1em;
+  color: var(--medgray);
+}
+h4 {
+  color: var(--deepgray);
+}
+h6, small {
+  margin: 0;
+  padding: 0;
+}
+p, ul, dl {
+  margin: 0 0 1em 0;
+}
+p, li, dt, dd {
+  line-height: 2em;
+}
+
+ol, ul {
+  padding: 1em 0 0 1.25em;
+}
+
+li {
+  margin: 0;
+  padding: 0;
+}
+
+header,
+footer {
+  margin: 0;
+  padding: 0;
+}
+
+a, a:link, a:hover, a:visited, a:active {
+  text-decoration: none;
+}
+
+small {
+  font-size: 1.1rem;
+}
+
+pre, code {
+  border: 1px solid var(--deepgray);
+  border-radius: 6px;
+  background-color: var(--deepgray);
+  color: var(--lightblue);
+}
+
+pre {
+  padding: 2rem;
+}
+
+code {
+  font-size: 1rem;
+  padding: .25rem;
+}
+
+pre > code {
+  padding: 0;
+}
+
+table {
+  font-family: 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Geneva, Verdana, sans-serif;
+  text-align: left;
+
+  caption {
+    font-style: italic;
+    border-bottom: 1px solid var(--lightgray);
+  }
+}
+td, th {
+  margin: 0;
+  padding: .75rem;
+  min-width: 5em;
+  border-bottom: 1px dotted var(--lightgray);
+  vertical-align: top;
+  font-size: .8333em;
+}
+
+img, video {
+  max-width: 100%;
+  height: auto;
+}
+
+@media only screen and (max-width : 414px) {
+  li > a {
+    display: inline-block;
+    line-height: 1em;
+    max-width: 100%;
+    overflow-x: scroll;
+  }
+}
+
+@media (min-width: 48em) {
+  body {
+    font-size: 1.8rem;
+  }
+  h1 {
+    font-size: 1.8em;
+  }
+  h2 {
+    font-size: 1.6em;
+  }
+  h3 {
+    font-size: 1.4em;
+  }
+  p, li, dt, dd {
+    line-height: 1.8em;
+  }
+  small {
+    font-size: .75em;
+  }
+  code {
+    font-size: 1.5rem;
+  }
+  ol, ul {
+    padding: 1em 0 0 2em;
+  }
+}
+

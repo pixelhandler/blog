@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=0">
+  <meta name="MobileOptimized" content="320">
+  <meta http-equiv="cleartype" content="on">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="author" content="Bill Heaton">
+  <meta name="google-site-verification" content="Uu2vsNmMVDBS1O10oJbzTVxAMleQ9tgGtJQ-buLNewg">
+  <meta name="description" content="Pushing and pulling pixels on the Web, Personal Blog of Bill Heaton">
+  <link rel="icon" href="https://s3.amazonaws.com/cdn.pixelhandler.com/favicon.ico?v=1.1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css">
+  <link rel="stylesheet" href="/styles.css">
+  <title>Pixelhandler's Blog</title>
+</head>
+<body>
+  <header class="Header Header--cozy u-grayBotBorder u-gradientBkg">
+    <div class="Box u-cf u-goldTxt u-monospaced">
+      <div class="Header-title">
+        <a href="/" class="u-clickable js-nav">pixelhandler's blog</a>
+      </div>
+      <div class="Header-search">
+        <form id="search" action="" method="">
+          <input id="query" placeholder="search…" type="text" class="Header-search-input">
+          <input id="submit" type="submit" value="→" class="Header-search-submit">
+        </form>
+      </div>
+    </div>
+  </header>
+
+  <div id="blog-body" class="Blog-body u-blackTxt u-offWhiteBkg Blog-body--two-col">
+    <main id="blog-content" class="Blog-content u-blackTxt u-offWhiteBkg Blog-content--two-col">
+      <article class="Box preload" id="content-main"></article>
+    </main>
+
+    <nav id="blog-nav" class="Blog-nav u-blackTxt u-offWhiteRtBorder Blog-nav--two-col">
+      <h4 class="u-sansSerif preload"><span>Recent Posts</span></h4>
+      <ul class="Blog-nav-list u-medGrayText u-serif preload" id="content-recent-posts"></ul>
+
+      <h4 class="u-sansSerif preload"><span>Links</span></h4>
+      <ul class="Blog-nav-list u-medGrayText u-serif preload">
+        <li class="Blog-nav-list-item">
+          <a href="/" class="js-nav">Blog</a>
+        </li>
+        <li class="Blog-nav-list-item">
+          <a href="/posts" class="js-nav">Archive</a>
+        </li>
+        <li class="Blog-nav-list-item">
+          <a href="/tags" class="js-nav">Tags</a>
+        </li>
+        <li class="Blog-nav-list-item">
+          <a href="/about" class="js-nav">About</a>
+        </li>
+      </ul>
+      <button class="u-button u-button--sm u-button--reverse u-button--desktop js-two" id="column-ctrl">one column</button>
+    </nav>
+
+  </div>
+
+  <footer class="Footer u-sansSerif u-medGrayTxt u-textCenter u-blackBkg u-grayTopBorder">
+    <p class="Footer-credits">
+      The End.
+      <small>[Copyright ©2017 Bill Heaton]</small>
+    </p>
+  </footer>
+
+  <template id="excerpt">
+    <div class="Blog-excerpt">
+      <h2 class="Blog-excerpt-title u-blackTxt u-sansSerif"> <!-- or h3 ? -->
+        <a href="/posts/:slug" class="Blog-excerpt-title-link js-nav"></a>
+      </h2>
+      <section class="Blog-excerpt-summary u-serif"></section>
+      <ul class="Blog-tags content-post-tags"></ul>
+      <a href="/posts/:slug" class="Blog-excerpt-title-more u-button u-cf js-nav">Read on →</a>
+    </div>
+  </template>
+
+  <template id="recent-post">
+    <li class="Blog-nav-list-item">
+      <a href="/posts/:slug" class="Blog-nav-list-item-link js-nav"></a>
+    </li>
+  </template>
+
+  <template id="excerpt-tag">
+    <li class="Blog-tags-item">
+      <a href="/tag/:slug" class="Blog-tags-item-link u-button js-nav"></a>
+    </li>
+  </template>
+
+  <template id="post-detail">
+    <h1 class="Blog-post-detail-title"></h1>
+    <small class="u-medGrayTxt">
+      <span class="author">by <strong>pixelhandler</strong></span>&nbsp;
+      <span class="Blog-post-detail-date date"></span>
+    </small>
+    <hr>
+    <div class="Blog-post-detail-excerpt intro u-serif"></div>
+    <div class="Blog-post-detail-body below-the-fold u-serif"></div>
+    <ul class="Blog-post-tags content-post-tags"></ul>
+  </template>
+
+  <template id="about">
+    <section class="Blog-about">
+      <h1 class="Blog-about-title">About</h1>
+      <p class="u-float-right">
+        <img src="https://s3.amazonaws.com/cdn.pixelhandler.com/images/pixelhandler-2016.jpg" width="103" height="111">
+      </p>
+      <p>
+        Hi, I'm Bill Heaton. I am a developer who loves the Web and the growth of
+        mobile devices with great browsers. I enjoy building with open source, using
+        Linux, creating client applications with Ember.js, and building API's with
+        Ruby on Rails. My favorite text editor is Vim.
+      </p>
+      <ul class="u-cf">
+        <li>
+          <strong>Favorite open source project</strong>: Ember.js
+        </li>
+        <li>
+          <strong>Employment</strong>: Software Developer
+        </li>
+      </ul>
+      <h4>Contact…</h4>
+      <dl>
+        <dt>Follow:</dt>
+        <dd><a href="https://twitter.com/#!/pixelhandler">@pixelhandler</a>
+        on Twitter</dd>
+        <dt>Connect:</dt>
+        <dd><a href="http://www.linkedin.com/in/billheaton">LinkedIn</a></dd>
+        <dt>Email:</dt>
+        <dd>pixelhandler [at] gmail</dd>
+        <dt>Voicemail:</dt>
+        <dd>1-714-512-2215</dd>
+        <dt>Snail mail:</dt>
+        <dd>Bill Heaton<br>PO Box 6614<br>Norco, CA 92860</dd>
+      </dl>
+      <p>
+        <a href="https://pixelhandler.com/rss.xml">RSS Feed</a>
+      </p>
+      <p><em>† This is my personal blog. My opinions are my own.</em></p>
+    </section>
+  </template>
+
+  <template id="archive">
+    <h3 class="Blog-archive-title">Blog Archive</h3>
+    <dl class="Blog-list" id="content-archive-links"></dl>
+  </template>
+
+  <template id="archive-link">
+    <dt class="Blog-list-date u-goldTxt u-sansSerif"></dt>
+    <dd class="Blog-list-link u-cf u-darkGrayTxt u-serif">
+      <a href="/posts/:slug" class="Blog-list-link-anchor js-nav"></a>
+    </dd>
+  </template>
+
+  <template id="tags">
+    <h1 class="Blog-tags-title">Tags…</h1>
+    <ul class="Blog-tags u-align-center" id="content-tag-items"></ul>
+  </template>
+
+  <template id="tag-item">
+    <li class="Blog-tags-item">
+      <a href="/tag/:name" class="Blog-tags-item-link u-button u-button--lg js-nav"></a>
+    </li>
+  </template>
+
+  <template id="tag-posts">
+    <h1 class="Blog-tag-title">Tag: `<span class="Blog-tag-name"></span>`</h1>
+    <br>
+  </template>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/blueimp-md5/2.7.0/js/md5.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/1.6.4/showdown.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+  <script src="/script.js"></script>
+</body>
+</html>
