@@ -1,6 +1,6 @@
 {
   "name": "pixelhandler-com",
-  "version": "1.0.5",
+  "version": "4.0.0",
   "description": "Blog app for pixelhandler.com",
   "main": "main.js",
   "scripts": {
