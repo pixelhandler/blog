@@ -84,7 +84,6 @@ For Ubuntu (e.g. WSL) may need to run headless
 
 ## Release
 
-    make build
     make dist
 
 - Upload to S3, set metadata

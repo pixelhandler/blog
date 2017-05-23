@@ -15,7 +15,7 @@
 # Build for S3 with gzip
 # `bin/dist.sh --use-cdn --gzip`
 
-DIST_DIR="$(dirname `pwd`)/pixelhandler-com/dist"
+DIST_DIR="$(dirname `pwd`)/blog/dist"
 INDEX_FILE=$DIST_DIR"/index.html"
 
 

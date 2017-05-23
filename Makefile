@@ -1,4 +1,5 @@
 build: clean
+	mkdir -p ./dist
 	cp ./public/* ./dist/
 	./node_modules/.bin/webpack
 	node ./bin/process-css.js
@@ -15,7 +16,7 @@ watch:
 server:
 	node main.js
 
-dist:
+dist: build
 	./bin/dist.sh --use-cdn --gzip
 
 selenium:
