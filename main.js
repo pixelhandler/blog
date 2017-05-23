@@ -1,4 +1,5 @@
 const express = require('express');
+const proxy = require('http-proxy-middleware');
 const app = express();
 const path = require('path');
 
@@ -10,9 +11,17 @@ const routes = ['/', '/about/', '/posts', '/posts/*', '/tags', '/tag/*'];
 
 routes.forEach(route => app.get(route, handler));
 
-app.use(express.static(DIR));
-//app.use('/static', express.static(path.join(__dirname, DIR)));
+const css = path.join(__dirname, DIR, 'styles.css');
+app.get('/styles.css', (req, res) => res.sendFile(css));
 
-app.listen(3000, function () {
+const js = path.join(__dirname, DIR, 'script.js');
+app.get('/script.js', (req, res) => res.sendFile(js));
+
+app.use(express.static(DIR));
+// app.use('/', express.static(path.join(__dirname, DIR)));
+
+app.use('/api', proxy({target: 'http://api.pixelhandler.com', changeOrigin: true}));
+
+app.listen(8080, function () {
   console.log('Running at http://localhost:8080');
 });

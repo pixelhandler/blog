@@ -1,6 +1,6 @@
 build: clean
 	cp ./public/* ./dist/
-	webpack
+	./node_modules/.bin/webpack
 	node ./bin/process-css.js
 
 clean:
@@ -9,14 +9,11 @@ clean:
 install:
 	yarn install
 
-start:
-	webpack --config webpack.config.js --progress --watch
+watch:
+	./node_modules/.bin/webpack --config webpack.config.js --progress --watch
 
 server:
-	sudo nginx -c ./etc/nginx/nginx.conf
-
-quit:
-	sudo nginx -s stop
+	node main.js
 
 dist:
 	./bin/dist.sh --use-cdn --gzip

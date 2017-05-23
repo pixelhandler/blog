@@ -1,4 +1,4 @@
-import Record from '../types/Record';
+import Record from '../types/record';
 import Tag from '../types/tag';
 import tagsRepo from '../repositories/tags';
 import ExcerptComponent from './excerpt';

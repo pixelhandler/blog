@@ -5,8 +5,9 @@
   "main": "main.js",
   "scripts": {
     "build": "webpack",
-    "start": "webpack --config webpack.config.js --progress --watch",
-    "test": "./node_modules/.bin/wdio wdio.conf.js"
+    "start": "node main.js",
+    "test": "./node_modules/.bin/wdio wdio.conf.js",
+    "watch": "webpack --config webpack.config.js --progress --watch"
   },
   "repository": {
     "type": "git",
@@ -32,6 +33,7 @@
     "css-loader": "^0.28.1",
     "express": "^4.15.2",
     "extract-text-webpack-plugin": "^2.1.0",
+    "http-proxy-middleware": "^0.17.4",
     "postcss": "^6.0.1",
     "postcss-cssnext": "^2.10.0",
     "postcss-import": "^10.0.0",
@@ -45,6 +47,7 @@
     "uglifycss": "0.0.27",
     "wdio-mocha-framework": "^0.5.10",
     "webdriverio": "^4.8.0",
-    "webpack": "^2.5.1"
+    "webpack": "^2.6.0",
+    "wdio": "^0.3.3"
   }
 }

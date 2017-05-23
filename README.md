@@ -9,16 +9,23 @@ Blog (client) application for pixelhandler.com
 
 ## Development
 
-*Nginx*
+*Build* Webpack with TypeScript
+
+Pick one:
+
+    make
+    make build
+    make watch
+
+*Server* with Node
+
+    make server
+
+Or, use *Nginx*
 
     sudo nginx -c path_to… ./etc/nginx/nginx.conf
     sudo nginx -s stop
     tail -f /usr/local/var/log/nginx/error.log
-
-*Webpack* build with TypeScript
-
-    npm run build
-    npm run start
 
 
 ## Styles
@@ -27,7 +34,7 @@ Blog (client) application for pixelhandler.com
 
 - postcss-cssnext, postcss-import, postcss-nested
 
-*Compile* styles
+*Compile* styles, runs in `make build`
 
     ./bin/process-css.js
 
@@ -40,30 +47,39 @@ Or,
 
 See [webdriver] docs.
 
-*Install*
+*Install* Selenium executable and driver
+
+    cd test
 
     curl -O http://selenium-release.storage.googleapis.com/3.0/selenium-server-standalone-3.0.1.jar
-    curl -L https://github.com/mozilla/geckodriver/releases/download/v0.11.1/geckodriver-v0.11.1-macos.tar.gz | tar xz
-    npm install webdriverio
-    ./node_modules/.bin/wdio config
 
-Download and install Java SE JDK, `jdk-8u131-macosx-x64.dmg`
+    curl -L https://github.com/mozilla/geckodriver/releases/download/v0.11.1/geckodriver-v0.11.1-macos.tar.gz | tar xz
+
+Download and install Java SE JDK, e.g `jdk-8u131-macosx-x64.dmg`
+
 
 *Start Selenium Server*
 
-    cd test
-    java -jar -Dwebdriver.gecko.driver=./geckodriver selenium-server-standalone-3.0.1.jar
-    java -jar -Dwebdriver.chrome.driver=./chromedriver selenium-server-standalone-3.0.1.jar
+    make selenium
 
 *Run tests*
 
-    ./node_modules/.bin/wdio wdio.conf.js
-    npm run test
+    make test
 
 *Run Webdriver REPL*
 
-    npm run test-repl
+    make test-repl
     browser.url('https://pixelhandler.com/tags')
+
+For Ubuntu (e.g. WSL) may need to run headless
+
+    sudo apt-get install firefox
+
+    sudo apt-get -y install xvfb gtk2-engines-pixbuf
+    sudo apt-get -y install xfonts-cyrillic xfonts-100dpi xfonts-75dpi xfonts-base xfonts-scalable
+
+    Xvfb -ac :99 -screen 0 1280x1024x16 &
+    export DISPLAY=:99
 
 
 ## Release
