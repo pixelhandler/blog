@@ -33,7 +33,7 @@ const loadArchives: (success: Function, fail?: Function)=>void =
     return ajax({
       method: 'GET',
       endpoint: constants.api.posts,
-      params: '?sort=-date&page[limit]=100&fields[posts]=title,slug'
+      params: '?sort=-date&page[limit]=100&fields[posts]=title,slug,date'
     }, function archivesSuccess(responseText: string) {
       localStorage.setItem('archivesJson', responseText);
       cache.archives = JSON.parse(responseText).data;
