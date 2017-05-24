@@ -65,6 +65,7 @@ function dist() {
     if [ $dry_run = false -a $use_gzip = true ]; then
       gzip --best $hashed_file_name
       echo "gzip'd file: "$hashed_file_name
+      mv $hashed_file_name".gz" $hashed_file_name
     fi
 
     if [ -e $INDEX_FILE ]; then
@@ -106,6 +107,7 @@ fi
 if [ $dry_run = false -a $use_gzip = true ]; then
   gzip --best $INDEX_FILE
   echo "gzip'd file: "$INDEX_FILE
+  mv $INDEX_FILE".gz" $INDEX_FILE
 fi
 
 unset dry_run
