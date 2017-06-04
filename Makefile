@@ -10,7 +10,7 @@ clean:
 install:
 	yarn install
 
-watch:
+watch: build
 	./node_modules/.bin/webpack --config webpack.config.js --progress --watch
 
 server:
