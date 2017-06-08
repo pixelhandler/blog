@@ -26,15 +26,19 @@
 }
 
 .u-sansSerif {
-  font-family: 'Lucida Grande', 'Lucida Sans Unicode', 'Lucida Sans', Geneva, Verdana, sans-serif;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-style: normal;
   font-kerning: normal;
 }
 
 .u-serif {
-  font-family: Georgia, Times, 'Times New Roman', serif;
+  font-family: TimesNewRoman, "Times New Roman", Times, Baskerville, Georgia, serif;
   font-style: normal;
   font-weight: normal;
+}
+
+.u-serif h2 {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
 .u-textCenter {
@@ -52,7 +56,7 @@
   color: white;
 }
 .u-whiteTxt a, .u-whiteTxt .u-clickable {
-  border-bottom: 1px dashed rgba(255, 255, 255, .5);
+  border-bottom: 1px solid rgba(255, 255, 255, .5);
 }
 
 .u-blackTxt,
@@ -62,7 +66,7 @@
   color: black;
 }
 .u-blackTxt a, .u-blackTxt .u-clickable {
-  border-bottom: 1px dashed rgba(0, 0, 0, .5);
+  border-bottom: 1px solid var(--gray);
 }
 
 .u-grayTxt,
@@ -72,7 +76,7 @@
   color: var(--gray);
 }
 .u-grayText a, .u-grayText .u-clickable {
-  border-bottom: 1px dashed var(--gray);
+  border-bottom: 1px solid var(--gray);
 }
 
 .u-medGrayTxt,
@@ -82,7 +86,7 @@
   color: var(--medgray);
 }
 .u-medGrayText a, .u-medGrayText .u-clickable {
-  border-bottom: 1px dashed var(--medgray);
+  border-bottom: 1px solid var(--gray);
 }
 
 .u-darkGrayTxt,
@@ -92,7 +96,7 @@
   color: var(--darkgray);
 }
 .u-darkGrayText a, .u-darkGrayText .u-clickable {
-  border-bottom: 1px dashed var(--darkgray);
+  border-bottom: 1px solid var(--medgray);
 }
 
 .u-goldTxt,
@@ -102,7 +106,7 @@
   color: var(--gold);
 }
 .u-goldTxt a, .u-goldTxt .u-clickable {
-  border-bottom: 1px dashed var(--gold);
+  border-bottom: 1px solid var(--ltgold);
 }
 
 .u-yellowTxt,
@@ -112,7 +116,7 @@
   color: var(--yellow);
 }
 .u-yellowTxt a, .u-yellowTxt .u-clickable {
-  border-bottom: 1px dashed var(--yellow);
+  border-bottom: 1px solid var(--yellow);
 }
 
 .u-greenTxt,
@@ -122,7 +126,7 @@
   color: var(--green);
 }
 .u-greenTxt a, .u-greenTxt .u-clickable {
-  border-bottom: 1px dashed var(--green);
+  border-bottom: 1px solid var(--green);
 }
 
 .u-blueTxt,
@@ -132,7 +136,7 @@
   color: var(--blue);
 }
 .u-blueTxt a, .u-blueTxt .u-clickable {
-  border-bottom: 1px dashed var(--blue);
+  border-bottom: 1px solid var(--blue);
 }
 
 .u-redTxt,
@@ -142,33 +146,29 @@
   color: var(--red);
 }
 .u-redTxt a, .u-redTxt .u-clickable {
-  border-bottom: 1px dashed var(--red);
+  border-bottom: 1px solid var(--red);
 }
 
 /* Borders */
 
-.u-offWhiteLtBorder {
-  border-left: 2px dotted var(--gray);
-}
-
-.u-offWhiteRtBorder {
-  border-right: 2px dotted var(--gray);
-}
-
-.u-grayTopBorder {
-  border-top: 2px dotted var(--gray);
-}
-
 .u-grayLtBorder {
-  border-left: 2px dotted var(--gray);
+  border-left: 2px solid var(--gray);
 }
 
 .u-grayRtBorder {
-  border-right: 2px dotted var(--gray);
+  border-right: 2px solid var(--gray);
 }
 
-.u-grayBotBorder {
-  border-bottom: 2px dotted var(--gray);
+.u-grayLtBorder {
+  border-left: 2px solid var(--gray);
+}
+
+.u-liteBlueBotBorder {
+  border-bottom: 4px solid var(--lightblue);
+}
+
+.u-blueTopBorder {
+  border-top: 4px solid var(--lightblue);
 }
 
 a.u-noBorder {
@@ -178,7 +178,7 @@ a.u-noBorder {
 
 /* Backgrounds */
 
-.u-gradientBkg {
+.u-blueBkgBkg {
   background: linear-gradient(to left, #232526 , #414345);
 }
 
@@ -202,6 +202,10 @@ a.u-noBorder {
   background-color: var(--white);
 }
 
+.u-deepBlueBkg {
+  background-color: var(--deepblue);
+}
+
 .u-blackBkg {
   background-color: var(--black);
 }
@@ -218,7 +222,7 @@ a.u-noBorder {
   font-size: 1.25rem;
   font-weight: normal;
   font-family: 'Andale Mono', AndaleMono, Consolas, 'Lucida Console', 'Lucida Sans Typewriter', monaco, monospace;
-  background: var(--gold);
+  background: var(--medblue);
   display: inline-block;
   padding: .4em .8em;
   margin-right: .5em;
@@ -306,6 +310,14 @@ a.u-button--reverse {
   float: none;
   text-align: center;
   clear: both;
+}
+
+.u-text-normal {
+  font-weight: normal;
+}
+
+.u-text-bold {
+  font-weight: bold;
 }
 
 /* Clear fix */

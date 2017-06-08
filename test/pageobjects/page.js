@@ -12,7 +12,7 @@ class Page {
   }
 
   get expectedTitle() {
-    return "Pixelhandler's Blog";
+    return "Pixelhandler's blog";
   }
 
   get header() {
