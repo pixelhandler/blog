@@ -14,10 +14,14 @@ export function submitHandler(evt): void {
 }
 
 export function clickHandler(evt: Event): void {
-  const el: HTMLAnchorElement | any = evt.target;
+  let el: HTMLAnchorElement | any = evt.target;
+  if (el.tagName !== 'A') {
+    el = el.parentElement;
+  }
   const url: string = el.href;
   const title: string = el.innerText;
   const state: State = { page: el.href, title: title, url: url };
+  console.log(state);
   transitionTo(state);
   evt.preventDefault();
   evt.stopImmediatePropagation();

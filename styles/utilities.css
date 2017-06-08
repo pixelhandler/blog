@@ -79,16 +79,6 @@
   border-bottom: 1px solid var(--gray);
 }
 
-.u-medGrayTxt,
-.u-medGrayTxt a,
-.u-medGrayTxt a:active,
-.u-medGrayTxt a:hover {
-  color: var(--medgray);
-}
-.u-medGrayText a, .u-medGrayText .u-clickable {
-  border-bottom: 1px solid var(--gray);
-}
-
 .u-darkGrayTxt,
 .u-darkGrayTxt a,
 .u-darkGrayTxt a:active,
@@ -99,36 +89,6 @@
   border-bottom: 1px solid var(--medgray);
 }
 
-.u-goldTxt,
-.u-goldTxt a,
-.u-goldTxt a:active,
-.u-goldTxt a:hover {
-  color: var(--gold);
-}
-.u-goldTxt a, .u-goldTxt .u-clickable {
-  border-bottom: 1px solid var(--ltgold);
-}
-
-.u-yellowTxt,
-.u-yellowTxt a,
-.u-yellowTxt a:active,
-.u-yellowTxt a:hover {
-  color: var(--yellow);
-}
-.u-yellowTxt a, .u-yellowTxt .u-clickable {
-  border-bottom: 1px solid var(--yellow);
-}
-
-.u-greenTxt,
-.u-greenTxt a,
-.u-greenTxt a:active,
-.u-greenTxt a:hover {
-  color: var(--green);
-}
-.u-greenTxt a, .u-greenTxt .u-clickable {
-  border-bottom: 1px solid var(--green);
-}
-
 .u-blueTxt,
 .u-blueTxt a,
 .u-blueTxt a:active,
@@ -137,16 +97,6 @@
 }
 .u-blueTxt a, .u-blueTxt .u-clickable {
   border-bottom: 1px solid var(--blue);
-}
-
-.u-redTxt,
-.u-redTxt a,
-.u-redTxt a:active,
-.u-redTxt a:hover {
-  color: var(--red);
-}
-.u-redTxt a, .u-redTxt .u-clickable {
-  border-bottom: 1px solid var(--red);
 }
 
 /* Borders */
@@ -177,10 +127,6 @@ a.u-noBorder {
 
 
 /* Backgrounds */
-
-.u-blueBkgBkg {
-  background: linear-gradient(to left, #232526 , #414345);
-}
 
 .u-offWhiteBkg {
   background-color: var(--offwhite);
@@ -271,27 +217,6 @@ a.u-button--reverse {
 
 .u-button--desktop {
   display: none;
-}
-
-
-.u-save, .u-edit, a.u-edit, .u-save, .u-cancel, .u-destroy {
-  color: var(--white);
-}
-
-.u-edit, a.u-edit {
-  background-color: var(--medgray);
-}
-
-.u-save {
-  background-color: var(--green);
-}
-
-.u-cancel {
-  background-color: var(--red);
-}
-
-.u-destroy {
-  background-color: var(--red);
 }
 
 /* Misc */

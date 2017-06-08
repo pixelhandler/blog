@@ -7,6 +7,13 @@ const routes: IRoutes = {
   tags: /^\/tags$/,
   tag: /^\/tag\/[\w\-]+$/,
   post: /^\/posts\/[\w\-]+$/,
+  renew: /^\/renew$/,
+  sleep: /^\/sleep$/,
+  energy: /^\/energy$/,
+  neuro: /^\/neuro$/,
+  coreEssentials: /^\/core-essentials$/,
+  science: /^\/science$/,
+  vasayo: /^\/vasayo$/,
 };
 
 export default routes;

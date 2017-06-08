@@ -7,7 +7,11 @@ const DIR = 'dist';
 
 const html = path.join(__dirname, DIR, 'index.html');
 const handler = (req, res) => res.sendFile(html);
-const routes = ['/', '/about/', '/posts', '/posts/*', '/tags', '/tag/*'];
+const routes = [
+  '/', '/about/', '/posts', '/posts/*', '/tags', '/tag/*',
+  '/renew', '/sleep', '/energy', '/neuro', '/core-essentials',
+  '/science', '/vasayo',
+];
 
 routes.forEach(route => app.get(route, handler));
 

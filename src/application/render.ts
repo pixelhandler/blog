@@ -16,6 +16,14 @@ import SearchComponent from '../components/search';
 import TagComponent from '../components/tag';
 import TagsComponent from '../components/tags';
 
+import RenewComponent from '../components/renew';
+import EnergyComponent from '../components/energy';
+import SleepComponent from '../components/sleep';
+import NeuroComponent from '../components/neuro';
+import CoreEssentialsComponent from '../components/core-essentials';
+import ScienceComponent from '../components/science';
+import VasayoComponent from '../components/vasayo';
+
 import postsRepo from '../repositories/posts';
 import tagsRepo from '../repositories/tags';
 
@@ -62,6 +70,27 @@ export function render(state: State, title: string, url: string): Promise<any> {
           resolve();
         });
       });
+    } else if (location.pathname.match(routes.renew)) {
+      RenewComponent.render();
+      resolve();
+    } else if (location.pathname.match(routes.sleep)) {
+      SleepComponent.render();
+      resolve();
+    } else if (location.pathname.match(routes.energy)) {
+      EnergyComponent.render();
+      resolve();
+    } else if (location.pathname.match(routes.neuro)) {
+      NeuroComponent.render();
+      resolve();
+    } else if (location.pathname.match(routes.coreEssentials)) {
+      CoreEssentialsComponent.render();
+      resolve();
+    } else if (location.pathname.match(routes.science)) {
+      ScienceComponent.render();
+      resolve();
+    } else if (location.pathname.match(routes.vasayo)) {
+      VasayoComponent.render();
+      resolve();
     }
   }).then(function() {
     setTimeout(function() {

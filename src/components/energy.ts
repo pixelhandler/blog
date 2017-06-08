@@ -1,5 +1,5 @@
 import renderPage from '../utils/render-page';
 
 export default {
-  render: renderPage('about')
+  render: renderPage('energy')
 };

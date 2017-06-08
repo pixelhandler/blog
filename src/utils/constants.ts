@@ -13,10 +13,17 @@ const constants: Constants = {
     tagItem: 'tag-item',
     tagPosts: 'tag-posts',
     postTag: 'excerpt-tag',
+    sleep: 'sleep',
+    renew: 'renew',
+    energy: 'energy',
+    neuro: 'neuro',
+    coreEssentials: 'core-essentials',
+    science: 'science',
+    vasayo: 'vasayo',
   },
   api: {
     url: '/api',
-    posts: '/v1/posts',
+    posts: '/bl/posts',
   },
   TAGS: 'tags',
 };

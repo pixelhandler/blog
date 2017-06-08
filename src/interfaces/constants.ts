@@ -11,6 +11,13 @@ interface Constants {
     tagItem: string,
     tagPosts: string,
     postTag: string,
+    sleep: string,
+    renew: string,
+    energy: string,
+    neuro: string,
+    coreEssentials: string,
+    science: string,
+    vasayo: string,
   },
   api: {
     url: string,
