@@ -15,7 +15,7 @@ const constants: Constants = {
     postTag: 'excerpt-tag',
   },
   api: {
-    url: ['http://localhost:8080/api', 'https://pixelhandler.com/api'][0],
+    url: '/api',
     posts: '/v1/posts',
   },
   TAGS: 'tags',

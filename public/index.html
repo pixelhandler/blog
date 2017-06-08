@@ -12,18 +12,18 @@
   <link rel="icon" href="https://s3.amazonaws.com/cdn.pixelhandler.com/favicon.ico?v=1.1">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css">
   <link rel="stylesheet" href="/styles.css">
-  <title>Pixelhandler's Blog</title>
+  <title>Pixelhandler's blog</title>
 </head>
 <body>
-  <header class="Header Header--cozy u-grayBotBorder u-gradientBkg">
-    <div class="Box u-cf u-goldTxt u-monospaced">
+  <header class="Header Header--cozy u-liteBlueBotBorder u-blueBkg">
+    <div class="Box u-cf u-whiteTxt u-sansSerif">
       <div class="Header-title">
-        <a href="/" class="u-clickable js-nav">pixelhandler's blog</a>
+        <a href="/" class="u-clickable js-nav">Pixelhandler's blog</a>
       </div>
       <div class="Header-search">
         <form id="search" action="" method="">
           <input id="query" placeholder="search…" type="text" class="Header-search-input">
-          <input id="submit" type="submit" value="→" class="Header-search-submit">
+          <input id="submit" type="submit" value="🔍" class="Header-search-submit">
         </form>
       </div>
     </div>
@@ -34,12 +34,12 @@
       <article class="Box preload" id="content-main"></article>
     </main>
 
-    <nav id="blog-nav" class="Blog-nav u-blackTxt u-offWhiteRtBorder Blog-nav--two-col">
+    <nav id="blog-nav" class="Blog-nav u-blackTxt Blog-nav--two-col">
       <h4 class="u-sansSerif preload"><span>Recent Posts</span></h4>
-      <ul class="Blog-nav-list u-medGrayText u-serif preload" id="content-recent-posts"></ul>
+      <ul class="Blog-nav-list u-medGrayText u-sansSerif preload" id="content-recent-posts"></ul>
 
       <h4 class="u-sansSerif preload"><span>Links</span></h4>
-      <ul class="Blog-nav-list u-medGrayText u-serif preload">
+      <ul class="Blog-nav-list u-medGrayText u-sansSerif preload">
         <li class="Blog-nav-list-item">
           <a href="/" class="js-nav">Blog</a>
         </li>
@@ -53,12 +53,12 @@
           <a href="/about" class="js-nav">About</a>
         </li>
       </ul>
-      <button class="u-button u-button--sm u-button--reverse u-button--desktop js-two" id="column-ctrl">one column</button>
+      <button class="u-button u-button--sm u-button--reverse u-button--desktop js-two" id="column-ctrl">One column</button>
     </nav>
 
   </div>
 
-  <footer class="Footer u-sansSerif u-medGrayTxt u-textCenter u-blackBkg u-grayTopBorder">
+  <footer class="Footer u-sansSerif u-whiteTxt u-textCenter u-deepBlueBkg u-blueTopBorder">
     <p class="Footer-credits">
       The End.
       <small>[Copyright ©2017 Bill Heaton]</small>
@@ -67,7 +67,7 @@
 
   <template id="excerpt">
     <div class="Blog-excerpt">
-      <h2 class="Blog-excerpt-title u-blackTxt u-sansSerif"> <!-- or h3 ? -->
+      <h2 class="Blog-excerpt-title u-blackTxt u-sansSerif u-text-bold">
         <a href="/posts/:slug" class="Blog-excerpt-title-link js-nav"></a>
       </h2>
       <section class="Blog-excerpt-summary u-serif"></section>
@@ -90,7 +90,7 @@
 
   <template id="post-detail">
     <h1 class="Blog-post-detail-title"></h1>
-    <small class="u-medGrayTxt">
+    <small class="u-whiteText">
       <span class="author">by <strong>pixelhandler</strong></span>&nbsp;
       <span class="Blog-post-detail-date date"></span>
     </small>
@@ -147,7 +147,7 @@
   </template>
 
   <template id="archive-link">
-    <dt class="Blog-list-date u-goldTxt u-sansSerif"></dt>
+    <dt class="Blog-list-date u-blueTxt u-sansSerif"></dt>
     <dd class="Blog-list-link u-cf u-darkGrayTxt u-serif">
       <a href="/posts/:slug" class="Blog-list-link-anchor js-nav"></a>
     </dd>

@@ -32,10 +32,10 @@ export function columnToggleHandler(): void {
   let classList: DOMTokenList = columnCtrl.classList;
   if (classList.contains('js-two')) {
     classList.remove('js-two');
-    columnCtrl.innerText = 'two column';
+    columnCtrl.innerText = 'Two column';
   } else {
     classList.add('js-two');
-    columnCtrl.innerText = 'one column'
+    columnCtrl.innerText = 'One column'
   }
   classList = blogBody.classList;
   if (classList.contains('Blog-body--two-col')) {

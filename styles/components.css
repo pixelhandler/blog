@@ -27,6 +27,10 @@
   padding-right: 2rem;
   padding-bottom: 2rem;
   padding-left: 2rem;
+  border-bottom: 2px solid var(--gray);
+}
+.Blog-content.Blog-content--two-col {
+  border-bottom: none;
 }
 
 .Blog-nav, .Blog-aside {
@@ -36,7 +40,7 @@
 
 .Blog-nav {
   line-height: 2em;
-  background-color: var(--ltgold);
+  background-color: var(--lightgray);
 }
 
 .Blog-nav-list {
@@ -161,7 +165,7 @@
 }
 
 .Header {
-  padding: 1em 2em .5em 2em;
+  padding: 1em 2em;
   line-height: 1em;
 
   .Header-title {
@@ -179,6 +183,9 @@
   font-size: 1.75em;
   line-height: 1.3em;
   vertical-align: middle;
+
+  letter-spacing: 1px;
+  font-weight: 700;
 }
 
 .Header-search {
@@ -188,24 +195,26 @@
   font-size: 1.4rem;
 
   input[type="text"] {
-    background-color: var(--ltgold);
-    border: 1px dotted var(--ltgold);
+    background-color: var(--white);
+    border: 1px solid var(--lightblue);
     line-height: 1.33em;
     width: 85%;
     float: left;
     border-top-left-radius: 5px;
     border-bottom-left-radius: 5px;
     padding: .25rem .5rem;
+    color: var(--black);
   }
 
   input[type="submit"] {
     width: 15%;
-    padding: 0 .25rem .7rem .25rem;
-    background-color: var(--black);
-    border: 1px dotted var(--ltgold);
+    padding: .5rem .25rem .2rem .25rem;
+    background-color: var(--paleblue);
+    border: 1px solid var(--lightblue);
     border-left: none;
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
+    color: var(--lightgray);
   }
 }
 
@@ -247,17 +256,24 @@
   .not-for-small-screen {
     display: none;
   }
+  .Blog-content {
+    border-bottom: 2px solid var(--gray);
+  }
 }
 
 @media only screen
   and (min-width : 76.8em) and (max-width : 1024px) {
+
+  .Blog-content {
+    border-bottom: 2px solid var(--gray);
+  }
 
   .Blog-list-date {
     font-size: 1.75rem;
   }
 
   .Header {
-    padding: .75rem 1rem .5rem 2rem;
+    padding: .75rem 1rem 1rem 2rem;
   }
 
   .Header-title, .Header--cozy .Header-title {
@@ -316,7 +332,7 @@
   }
 
   .Header {
-    padding: 1rem 1rem .5rem 4rem;
+    padding: 1rem 1rem 1rem 4rem;
   }
 
   .Header--cozy, .Header--cozy .Header-titles {

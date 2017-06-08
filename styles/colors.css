@@ -3,16 +3,20 @@
 :root {
   --white: #ffffff;
   --offwhite: #fcfcfc;
-  --lightgray: #cccccc;
+  --lightgray: whitesmoke;
   --gray: #d2d2d2;
   --medgray: #777777;
   --darkgray: #444444;
   --deepgray: #292929;
   --black: #333333;
 
-  --paleblue: #E3EAF1;
-  --blue: #0082be;
-  --lightblue: #5DB9F1;
+  --paleblue: #e6efff;
+  --blue: #3677af;
+  --darkblue: #0082be;
+  --brightblue: #009fff;
+  --deepblue: #1e487b;
+  --lightblue: #acecfb;
+  --medblue: rgb(157, 210, 255);
   --yellow: #f39f2b;
   --green: #39af4c;
   --red: #e81e25;
