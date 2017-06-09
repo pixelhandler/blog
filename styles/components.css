@@ -188,6 +188,11 @@
   font-weight: 700;
 }
 
+.Header-logo {
+  width: 144px;
+  height: 48px;
+}
+
 .Header-search {
   position: absolute;
   right: 2rem;
@@ -216,6 +221,11 @@
     border-bottom-right-radius: 5px;
     color: var(--lightgray);
   }
+}
+
+.Header-subtitle {
+  font-size: 1.4rem;
+  line-height: 1.25em;
 }
 
 .Footer {
@@ -256,8 +266,18 @@
   .not-for-small-screen {
     display: none;
   }
+
   .Blog-content {
     border-bottom: 2px solid var(--gray);
+  }
+
+  .Header-logo {
+    width: 144px;
+    height: 48px;
+  }
+
+  .Header-subtitle {
+    font-size: 1rem;
   }
 }
 
@@ -279,6 +299,15 @@
   .Header-title, .Header--cozy .Header-title {
     font-size: 1.3em;
     line-height: 1em;
+  }
+
+  .Header-logo {
+    width: 185px;
+    height: 58px;
+  }
+
+  .Header-subtitle {
+    font-size: 1.2rem;
   }
 }
 
@@ -346,5 +375,14 @@
   .Header-title, .Header--cozy .Header-title {
     font-size: 1em;
     margin-left: 10.5rem;
+  }
+
+  .Header-logo {
+    width: 279px;
+    height: 87px;
+  }
+
+  .Header-subtitle {
+    font-size: 1em;
   }
 }
