@@ -89,9 +89,9 @@ dist $DIST_DIR"/script.js"
 dist $DIST_DIR"/styles.css"
 
 script='src="\/script'
-script_cdn_path='src="\/\/s3.amazonaws.com\/cdn.pixelhandler.com\/script'
+script_cdn_path='src="\/\/s3-us-west-1.amazonaws.com\/billandlorraine.com\/script'
 stylesheet='rel="stylesheet" href="\/styles'
-stylesheet_cdn_path='rel="stylesheet" href="\/\/s3.amazonaws.com\/cdn.pixelhandler.com\/styles'
+stylesheet_cdn_path='rel="stylesheet" href="\/\/s3-us-west-1.amazonaws.com\/billandlorraine.com\/styles'
 if [ -e $INDEX_FILE ]; then
   if [ $dry_run = false -a $skip_index = false ]; then
     if [ $use_cdn = true ]; then

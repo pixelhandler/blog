@@ -255,6 +255,12 @@ a.u-button--reverse {
   clear: both;
 }
 
+.u-flex-center-between {
+  display: flex;
+  justify-content: space-between;
+  align-content: center;
+}
+
 @media only screen and (min-width: 768px) {
   .u-button, a.u-button {
     font-size: 1.25rem;

@@ -69,7 +69,7 @@ const loadPosts: (callback: Function, failure: Function)=>void =
       method: 'GET',
       endpoint: constants.api.posts,
       params: '?sort=-date&page[limit]=20&fields[post]=title,date,slug,excerpt&include=tags'
-    }, function searchSuccess(responseText: string) {
+    }, function loadSuccess(responseText: string) {
       localStorage.setItem('postsJson', responseText);
       const resources: Resources = JSON.parse(responseText);
       cache.posts = resources.data;
