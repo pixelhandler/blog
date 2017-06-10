@@ -1,5 +1,6 @@
 import State from '../types/state';
 import { render } from './render';
+import cache from '../application/cache';
 
 const contentMainClassList = document.getElementById('content-main').classList;
 
@@ -34,6 +35,7 @@ const transitionTo: (state: State, replace?: any, push?: any)=>Promise<any> =
         if (currentState !== state) {
           setTimeout(function(_state: State) {
             history.pushState(_state, _state.title, _state.url);
+            cache.currentState = _state;
           }, 250, state);
         }
       }
