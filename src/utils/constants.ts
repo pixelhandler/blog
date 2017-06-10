@@ -18,6 +18,7 @@ const constants: Constants = {
     url: '/api',
     posts: '/v1/posts',
   },
+  AUTHORS: 'authors',
   TAGS: 'tags',
 };
 
