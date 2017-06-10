@@ -60,7 +60,7 @@ const loadPosts: (callback: Function, failure: Function)=>void =
     if (cache.postsJson) {
       const resources: Resources = JSON.parse(cache.postsJson);
       cache.posts = resources.data;
-      cache.tags = resources.included.filter(function(record: Record) {
+      cache.tags = resources.included.filter((record: Record) => {
         return record.type === constants.TAGS;
       });
       callback(cache.posts);
@@ -68,13 +68,21 @@ const loadPosts: (callback: Function, failure: Function)=>void =
     return ajax({
       method: 'GET',
       endpoint: constants.api.posts,
-      params: '?sort=-date&page[limit]=20&fields[post]=title,date,slug,excerpt&include=tags'
-    }, function searchSuccess(responseText: string) {
+      params: '?sort=-date&page[limit]=20&fields[post]=title,date,slug,excerpt&include=tags,author'
+    }, function loadSuccess(responseText: string) {
       localStorage.setItem('postsJson', responseText);
       const resources: Resources = JSON.parse(responseText);
       cache.posts = resources.data;
-      cache.tags = resources.included.filter(function(record: Record) {
+      cache.tags = resources.included.filter((record: Record) =>{
         return record.type === constants.TAGS;
+      });
+      cache.authors = resources.included.filter((record: Record) =>{
+        return record.type === constants.AUTHORS;
+      });
+      cache.posts.forEach(p => {
+        p.relationships.author.data = cache.authors.filter((a: Record) => {
+          return a.type === constants.AUTHORS && a.id === p.relationships.author.data.id;
+        })[0];
       });
       callback(cache.posts);
     });
@@ -87,15 +95,22 @@ const loadPost: (s: string, success: Function, failure?: Function)=>void =
       cache.detailJson[slug] = storedJSON;
       const record: Record = JSON.parse(storedJSON).data;
       cache.details[slug] = record;
+      record.relationships.author.data = cache.authors.filter((a: Record) => {
+        return record.relationships.author.data.id == a.id;
+      })[0];
       return callback(record);
     }
     return ajax({
       method: 'GET',
-      endpoint: constants.api.posts + '/' + slug,
+      endpoint: `${constants.api.posts}/${slug}?include=tags,author`,
     }, function postDetailsSuccess(responseText: string) {
       localStorage.setItem('detailJson:' + slug, responseText);
-      const record: Record = JSON.parse(responseText).data;
+      const resp: any = JSON.parse(responseText);
+      const record: Record = resp.data;
       cache.details[slug] = record;
+      record.relationships.author.data = resp.included.filter((r: Record) =>{
+        return r.type === constants.AUTHORS && r.id === record.relationships.author.data.id;
+      })[0];
       callback(record);
     }, function postDetailsFailure(status, responseText) {
       if (status === 404) {

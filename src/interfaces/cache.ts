@@ -11,6 +11,7 @@ interface Cache {
   posts: Array<Record> | null,
   postsJson: string | null,
   excerpts: Array<Record> | null,
+  authors: Array<Record> | null,
   archives: Array<Record> | null,
   archivesJson: string | null,
   detailJson: cacheRecord,
