@@ -25,6 +25,7 @@ const constants: Constants = {
     url: '/api',
     posts: '/bl/posts',
   },
+  AUTHORS: 'authors',
   TAGS: 'tags',
 };
 

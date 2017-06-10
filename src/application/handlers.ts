@@ -21,7 +21,6 @@ export function clickHandler(evt: Event): void {
   const url: string = el.href;
   const title: string = el.innerText;
   const state: State = { page: el.href, title: title, url: url };
-  console.log(state);
   transitionTo(state);
   evt.preventDefault();
   evt.stopImmediatePropagation();

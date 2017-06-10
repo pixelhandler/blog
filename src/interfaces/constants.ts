@@ -23,7 +23,8 @@ interface Constants {
     url: string,
     posts: string,
   },
-  TAGS: string
+  AUTHORS: string,
+  TAGS: string,
 };
 
 export default Constants;

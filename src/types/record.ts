@@ -1,5 +1,6 @@
 import Post from './post';
 import Tag from './tag';
+import Author from './author';
 
 type obj = {
   [index:string]: any,
@@ -8,7 +9,7 @@ type obj = {
 type Record = {
   id?: string,
   type?: string,
-  attributes: Post | Tag | any,
+  attributes: Post | Tag | Author | any,
   links?: obj,
   relationships?: obj
 };

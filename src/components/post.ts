@@ -13,6 +13,8 @@ const render: (p: Record)=>void =
     const node: Element | any = cloneTemplate(constants.templates.postDetail);
     const titleEl: HTMLElement = node.querySelector('.Blog-post-detail-title');
     titleEl.innerText = post.attributes.title;
+    const authorEl: HTMLElement = node.querySelector('.Blog-post-detail-author');
+    authorEl.innerText = post.relationships.author.data.attributes.name.split(' ')[0];
     const date = moment(post.attributes.date).fromNow();
     const dateEl: HTMLElement = node.querySelector('.Blog-post-detail-date');
     dateEl.innerText = '(' + date + ')';

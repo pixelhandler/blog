@@ -7,11 +7,12 @@ const cache: Cache = {
   posts: null,
   postsJson: null,
   excerpts: null,
+  authors: null,
   archives: null,
   archivesJson: null,
   detailJson: {},
   details: {},
-  cache: {}
+  cache: {},
 };
 
 export default cache;
