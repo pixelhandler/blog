@@ -25,6 +25,7 @@ interface Constants {
   },
   AUTHORS: string,
   TAGS: string,
+  CACHE_OFFSET: number,
 };
 
 export default Constants;
