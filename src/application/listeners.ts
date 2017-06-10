@@ -1,6 +1,7 @@
 import { clickHandler, columnToggleHandler, submitHandler } from './handlers';
 import State from '../types/state';
 import transitionTo from './transition';
+import cache from '../application/cache';
 
 const columnCtrl = document.getElementById('column-ctrl');
 
@@ -29,8 +30,10 @@ export function setupFormListeners(): void {
 export function setupHistoryListener(): void {
   window.onpopstate = function(evt) {
     const state: State = evt.state;
-    if (state) {
+    if (state && cache.currentState.url !== state.url) {
       transitionTo(state, false, false);
+    } else if (state) {
+      window.history.go(-1);
     }
   };
 }

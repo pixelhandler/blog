@@ -12,6 +12,7 @@ const cache: Cache = {
   archivesJson: null,
   detailJson: {},
   details: {},
+  currentState: null,
   cache: {},
 };
 

@@ -1,4 +1,5 @@
 import Record from '../types/record';
+import State from '../types/state';
 
 type cacheRecord = {
   [index:string]: Record | any,
@@ -16,6 +17,7 @@ interface Cache {
   archivesJson: string | null,
   detailJson: cacheRecord,
   details: cacheRecord,
+  currentState: State,
   cache: cacheRecord,
 }
 
