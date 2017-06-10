@@ -11,7 +11,8 @@ type Record = {
   type?: string,
   attributes: Post | Tag | Author | any,
   links?: obj,
-  relationships?: obj
+  relationships?: obj,
+  meta?: obj,
 };
 
 export default Record;

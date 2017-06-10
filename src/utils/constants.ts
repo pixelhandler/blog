@@ -20,6 +20,7 @@ const constants: Constants = {
   },
   AUTHORS: 'authors',
   TAGS: 'tags',
+  CACHE_OFFSET: 86400,
 };
 
 export default constants;

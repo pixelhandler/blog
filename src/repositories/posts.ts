@@ -59,6 +59,10 @@ const loadPosts: (callback: Function, failure: Function)=>void =
     cache.postsJson = localStorage.getItem('posts');
     if (cache.postsJson) {
       const resources: Resources = JSON.parse(cache.postsJson);
+      if (!resources.meta || resources.meta.expires && resources.meta.expires < Date.now()) {
+        localStorage.removeItem('posts');
+        return loadPosts(callback, failure);
+      }
       cache.posts = resources.data;
       cache.tags = resources.included.filter((record: Record) => {
         return record.type === constants.TAGS;
@@ -68,10 +72,11 @@ const loadPosts: (callback: Function, failure: Function)=>void =
     return ajax({
       method: 'GET',
       endpoint: constants.api.posts,
-      params: '?sort=-date&page[limit]=20&fields[post]=title,date,slug,excerpt&include=tags,author'
+      params: '?sort=-date&page[limit]=20&fields[posts]=title,date,slug,excerpt,author,tags&include=tags,author'
     }, function loadSuccess(responseText: string) {
-      localStorage.setItem('postsJson', responseText);
       const resources: Resources = JSON.parse(responseText);
+      resources.meta.expires = Date.now() + constants.CACHE_OFFSET;
+      localStorage.setItem('postsJson', JSON.stringify(resources));
       cache.posts = resources.data;
       cache.tags = resources.included.filter((record: Record) =>{
         return record.type === constants.TAGS;
@@ -94,6 +99,10 @@ const loadPost: (s: string, success: Function, failure?: Function)=>void =
     if (storedJSON) {
       cache.detailJson[slug] = storedJSON;
       const record: Record = JSON.parse(storedJSON).data;
+      if (!record.meta || record.meta.expires < Date.now()) {
+        localStorage.removeItem('detailJson:' + slug);
+        return loadPost(slug, callback, failure);
+      }
       cache.details[slug] = record;
       record.relationships.author.data = cache.authors.filter((a: Record) => {
         return record.relationships.author.data.id == a.id;
@@ -104,9 +113,11 @@ const loadPost: (s: string, success: Function, failure?: Function)=>void =
       method: 'GET',
       endpoint: `${constants.api.posts}/${slug}?include=tags,author`,
     }, function postDetailsSuccess(responseText: string) {
-      localStorage.setItem('detailJson:' + slug, responseText);
       const resp: any = JSON.parse(responseText);
       const record: Record = resp.data;
+      record.meta = record.meta || {};
+      record.meta.expires = Date.now() + constants.CACHE_OFFSET;
+      localStorage.setItem('detailJson:' + slug, JSON.stringify(resp));
       cache.details[slug] = record;
       record.relationships.author.data = resp.included.filter((r: Record) =>{
         return r.type === constants.AUTHORS && r.id === record.relationships.author.data.id;
