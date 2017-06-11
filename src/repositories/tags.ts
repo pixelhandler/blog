@@ -10,7 +10,7 @@ import { resolveRepoPromise, rejectRepoPromise } from '../types/callbacks';
 
 import postsRepo from './posts';
 
-declare var Promise: any;
+declare let Promise: any;
 
 const getTags: ()=>Promise<Record[]> =
   function (): Promise<Record[]> {
@@ -31,7 +31,7 @@ const getTag: (n: string)=>Promise<Record> =
   function (name: string): Promise<Record> {
     const promiseHandler: (resolve: resolveRepoPromise, reject: rejectRepoPromise)=>void =
       function (resolve?: resolveRepoPromise, reject?: rejectRepoPromise): void {
-        var key = 'tag|' + name;
+        const key = 'tag|' + name;
         if (cache.cache[key]) {
           resolve(cache.cache[key]);
         } else {

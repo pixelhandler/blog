@@ -3,7 +3,7 @@ import Post from '../types/post';
 import constants from '../utils/constants';
 import cloneTemplate from '../utils/clone-template';
 // import * as moment from 'moment';
-declare var moment: any;
+declare let moment: any;
 
 const render: (p: Array<Record>)=>void =
   function (posts: Array<Record>): void {

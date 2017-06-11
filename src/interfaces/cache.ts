@@ -17,7 +17,6 @@ interface Cache {
   archivesJson: string | null,
   detailJson: cacheRecord,
   details: cacheRecord,
-  currentState: State,
   cache: cacheRecord,
 }
 
