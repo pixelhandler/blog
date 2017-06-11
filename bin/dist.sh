@@ -85,7 +85,10 @@ function dist() {
   fi
 }
 
+./node_modules/.bin/uglifyjs --o $DIST_DIR"/script.js" --compress -- $DIST_DIR"/script.js"
 dist $DIST_DIR"/script.js"
+
+./node_modules/.bin/uglifycss $DIST_DIR"/styles.css" --output $DIST_DIR"/styles.css"
 dist $DIST_DIR"/styles.css"
 
 script='src="\/script'
