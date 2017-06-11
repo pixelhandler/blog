@@ -1,5 +1,5 @@
 // import * as showdown from '@types/showdown'
-declare var showdown: any;
+declare let showdown: any;
 // import * as md5 from '@types/blueimp-md5';
 declare function md5(value: string, key?: string, raw?: boolean): string;
 

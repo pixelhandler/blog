@@ -10,7 +10,7 @@ const resetForm: ()=>void =
     input.value = '';
   };
 
-declare var Promise: any;
+declare let Promise: any;
 
 const render: (q: string)=>Promise<any> =
   function (query: string): Promise<any> {

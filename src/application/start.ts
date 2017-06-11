@@ -20,7 +20,7 @@ export default function start(): Promise<any> {
       });
       const url = location.toString();
       const state: State = { page: url, title: url, url: url };
-      transitionTo(state, false, true);
+      transitionTo(state);
     });
   });
 }

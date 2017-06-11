@@ -10,15 +10,15 @@ export function setupColumnControlListener(): void {
 }
 
 export function teardownEventListeners(): void {
-  var anchors = document.querySelectorAll('a.js-nav');
-  for (var i = 0; i < anchors.length; i++) {
+  const anchors = document.querySelectorAll('a.js-nav');
+  for (let i = 0; i < anchors.length; i++) {
     anchors[i].removeEventListener('click', clickHandler);
   }
 }
 
 export function setupEventListeners(): void {
-  var anchors = document.querySelectorAll('a.js-nav');
-  for (var i = 0; i < anchors.length; i++) {
+  const anchors = document.querySelectorAll('a.js-nav');
+  for (let i = 0; i < anchors.length; i++) {
     anchors[i].addEventListener('click', clickHandler);
   }
 }
@@ -30,10 +30,9 @@ export function setupFormListeners(): void {
 export function setupHistoryListener(): void {
   window.onpopstate = function(evt) {
     const state: State = evt.state;
-    if (state && cache.currentState.url !== state.url) {
-      transitionTo(state, false, false);
-    } else if (state) {
-      window.history.go(-1);
+    if (!state) {
+      return;
     }
+    transitionTo(state, false);
   };
 }

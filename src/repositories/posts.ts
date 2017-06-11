@@ -8,7 +8,7 @@ import Post from '../types/post';
 import { notFoundError, serverError } from '../utils/errors';
 import { resolveRepoPromise, rejectRepoPromise } from '../types/callbacks';
 
-declare var Promise: any;
+declare let Promise: any;
 
 const getArchives: ()=>Promise<Record[]> =
   function (): Promise<Record[]> {
@@ -153,7 +153,7 @@ const getPostBySlug: (s: string)=>Promise<Record> =
   function (slug: string): Promise<Record> {
     return new Promise(function(resolve: any, reject: any) {
       getPosts().then(function(posts: Array<Record>) {
-        var key = 'slug|' + slug;
+        const key = 'slug|' + slug;
         cache.cache[key] = cache.cache[key] || posts.filter(function(post: Record) {
           return post.attributes.slug === slug;
         })[0];

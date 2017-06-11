@@ -5,7 +5,7 @@ import constants from '../utils/constants';
 import cloneTemplate from '../utils/clone-template';
 import markdown from '../utils/markdown';
 // import * as moment from 'moment';
-declare var moment: any;
+declare let moment: any;
 
 const render: (p: Record)=>void =
   function (post: Record): void {

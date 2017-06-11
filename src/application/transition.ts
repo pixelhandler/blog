@@ -22,22 +22,13 @@ const finishLoading: ()=>void =
     }, 100);
   };
 
-const transitionTo: (state: State, replace?: any, push?: any)=>Promise<any> =
-  function (state, replace?, push?) {
+const transitionTo: (state: State, push?: boolean)=>Promise<any> =
+  function (state: State, push?: boolean) {
     startLoading();
-    if (replace === null || replace === undefined || !!replace) {
-      history.replaceState(state, state.title, state.url);
-    }
     return render(state, state.title, state.url).then(function() {
       finishLoading();
-      if (push === null || push === undefined || !!push) {
-        const currentState: State = history.state;
-        if (currentState !== state) {
-          setTimeout(function(_state: State) {
-            history.pushState(_state, _state.title, _state.url);
-            cache.currentState = _state;
-          }, 250, state);
-        }
+      if (push === undefined || push === null || !!push) {
+        history.pushState(state, state.title, state.url);
       }
     });
   };
