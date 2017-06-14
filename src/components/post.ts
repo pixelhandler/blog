@@ -4,8 +4,6 @@ import PostTagComponent from './post-tag';
 import constants from '../utils/constants';
 import cloneTemplate from '../utils/clone-template';
 import markdown from '../utils/markdown';
-// import * as moment from 'moment';
-declare let moment: any;
 
 const render: (p: Record)=>void =
   function (post: Record): void {
@@ -15,9 +13,9 @@ const render: (p: Record)=>void =
     titleEl.innerText = post.attributes.title;
     const authorEl: HTMLElement = node.querySelector('.Blog-post-detail-author');
     authorEl.innerText = post.relationships.author.data.attributes.name.split(' ')[0];
-    const date = moment(post.attributes.date).fromNow();
+    const date = post.attributes.date.replace(/-/g, '/');
     const dateEl: HTMLElement = node.querySelector('.Blog-post-detail-date');
-    dateEl.innerText = '(' + date + ')';
+    dateEl.innerText = date;
     let html = markdown(post.attributes.excerpt);
     const excerptEl: HTMLElement = node.querySelector('.Blog-post-detail-excerpt');
     excerptEl.innerHTML = html;

@@ -2,8 +2,6 @@ import Record from '../types/record';
 import Post from '../types/post';
 import constants from '../utils/constants';
 import cloneTemplate from '../utils/clone-template';
-// import * as moment from 'moment';
-declare let moment: any;
 
 const render: (p: Array<Record>)=>void =
   function (posts: Array<Record>): void {
@@ -17,7 +15,7 @@ const render: (p: Array<Record>)=>void =
 function renderArchiveLink(post: Record): void {
   const attrs: Post = post.attributes;
   const node: Element | any = cloneTemplate(constants.templates.archiveLink);
-  const date = moment(attrs.date).format('YYYY/MM/DD');
+  const date = attrs.date.replace(/-/g, '/');
   node.querySelector('.Blog-list-date').innerText = date;
   const anchor = node.querySelector('.Blog-list-link-anchor');
   anchor.innerText = attrs.title;
