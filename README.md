@@ -33,7 +33,8 @@ Or, use *Nginx*
 *PostCSS* modules
 
 - postcss-cssnext, postcss-import, postcss-nested
-
+../src/fibers.cc:1:
+/home/billheat/.node-gyp/8.9.1/include/node/v8.h
 *Compile* styles, runs in `make build`
 
     ./bin/process-css.js
@@ -47,20 +48,19 @@ Or,
 
 See [webdriver] docs.
 
-*Install* Selenium executable and driver
+- Requires Java, on ubuntu use `sudo apt-get install default-jre`, or
+  see https://java.com/en/download/
 
-    cd test
+*Install* Selenium server 
 
-    curl -O http://selenium-release.storage.googleapis.com/3.0/selenium-server-standalone-3.0.1.jar
+- https://github.com/vvo/selenium-standalone#selenium-standalone---
 
-    curl -L https://github.com/mozilla/geckodriver/releases/download/v0.11.1/geckodriver-v0.11.1-macos.tar.gz | tar xz
-
-Download and install Java SE JDK, e.g `jdk-8u131-macosx-x64.dmg`
-
+    npm install selenium-standalone@latest -g
+    selenium-standalone install
 
 *Start Selenium Server*
 
-    make selenium
+    selenium-standalone start
 
 *Run tests*
 
@@ -70,6 +70,11 @@ Download and install Java SE JDK, e.g `jdk-8u131-macosx-x64.dmg`
 
     make test-repl
     browser.url('https://pixelhandler.com/tags')
+
+For Ubuntu Desktop may need node-gyp and fibers
+
+    npm install -g fibers
+    npm install -g node-gyp
 
 For Ubuntu (e.g. WSL) may need to run headless
 
