@@ -10,15 +10,23 @@
     <title>RSS feed for pixelhandler.com</title>
  </image>
  <atom:link href="https://pixelhandler.com/rss.xml" rel="self" type="application/rss+xml" />
- <lastBuildDate>Mon, 05 Sep 2017 12:00:00 +0000</lastBuildDate>
- <pubDate>Mon, 05 Sep 2017 12:00:00 +0000</pubDate>
+ <lastBuildDate>Thu, 31 May 2018 12:00:00 +0000</lastBuildDate>
+ <pubDate>Thu, 31 May 2018 12:00:00 +0000</pubDate>
  <ttl>600</ttl>
+
+ <item>
+  <title>EmberJS2018 – A Few Suggestions</title>
+  <description>This post is a response to: Ember2018 Roadmap Call for Posts. My backstory… I started developing with Ember.js before the framework hit a 1.0 release. I enjoyed the ride so far. Over the years, the Ember commmunity has impressed me over and over. It is my pleasure to be a part of the community, and to contribute where I can. Most of all, I enjoyed making friends around the world. So, on to the topic…</description>
+  <link>https://pixelhandler.com/posts/emberjs2018-a-few-suggestions</link>
+  <guid isPermaLink="true">https://pixelhandler.com/posts/emberjs2018-a-few-suggestions</guid>
+  <pubDate>Thu, 31 May 2018 12:00:00 +0000</pubDate>
+ </item>
 
  <item>
   <title>Change, everything will be fine</title>
   <description>In 2017 so many parts of my life went through a transition. Change is good, right? How much is too much, I can’t answer that for me change has always been enough. I value the ability to respond to change with a positive attitude and resolve. I think change is constant, change will keep happening, everything will be fine. It is perfectly OK to challenge your assumptions and embrace the new and even the old.
   I remember when the “Think Different” posters came out. Back then, I worked in Desktop Publishing on PC’s and Macs. At the time, my career was entirely in front of me and I resonated with the iconic photo of Albert Einstein with the caption, “Think Different”. As a mantra, that phrase still resonates with me, in many ways - regarding the topics of changes I faced in 2017. This post is my story of the changes I faced over the past year, but also addresses a key principle regarding software craftsmanship (wait for it…).</description>
-  <link>https://pixelhandler.com/posts/practical-deploy-an-ember-app-with-ember-cli-deploy-on-digitalocean</link>
+  <link>https://pixelhandler.com/posts/change-everything-will-be-fine</link>
   <guid isPermaLink="true">https://pixelhandler.com/posts/change-everything-will-be-fine</guid>
   <pubDate>Mon, 05 Sep 2017 12:00:00 +0000</pubDate>
  </item>
