@@ -2,7 +2,7 @@ import postsRepo from '../repositories/posts';
 import Resources from '../types/resources';
 import Record from '../types/record';
 import Post from '../types/post';
-import ExpertsComponent from './excerpts';
+import ExcerptsComponent from './excerpts';
 
 const resetForm: ()=>void =
   function (): void {
@@ -17,7 +17,7 @@ const render: (q: string)=>Promise<any> =
     return new Promise(function(resolve: Function, reject?: Function) {
       if (query === '') {
         postsRepo.getPosts().then(function(posts: Array<Record>) {
-          ExpertsComponent.render(posts);
+          ExcerptsComponent.render(posts);
           resolve();
         });
       } else {
@@ -33,7 +33,7 @@ const renderResults: (q: string, r: Array<Record>)=>void =
   function (query: string, posts: Array<Record>) {
     const el: HTMLInputElement | any = document.getElementById('query');
     el.value = query;
-    ExpertsComponent.render(posts);
+    ExcerptsComponent.render(posts);
   };
 
 const SearchComponent = {
