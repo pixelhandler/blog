@@ -56,7 +56,7 @@
   color: white;
 }
 .u-whiteTxt a, .u-whiteTxt .u-clickable {
-  border-bottom: 1px solid rgba(255, 255, 255, .5);
+  border-bottom: 1px solid var(--paleblue);
 }
 
 .u-blackTxt,
@@ -66,7 +66,7 @@
   color: black;
 }
 .u-blackTxt a, .u-blackTxt .u-clickable {
-  border-bottom: 1px solid var(--gray);
+  border-bottom: 1px solid var(--paleblue);
 }
 
 .u-grayTxt,
@@ -129,14 +129,14 @@
   border-bottom: 1px solid var(--green);
 }
 
-.u-blueTxt,
-.u-blueTxt a,
-.u-blueTxt a:active,
-.u-blueTxt a:hover {
-  color: var(--blue);
+.u-paleblueTxt,
+.u-paleblueTxt a,
+.u-paleblueTxt a:active,
+.u-paleblueTxt a:hover {
+  color: var(--powderblue);
 }
-.u-blueTxt a, .u-blueTxt .u-clickable {
-  border-bottom: 1px solid var(--blue);
+.u-paleblueTxt a, .u-paleblueTxt .u-clickable {
+  border-bottom: 1px solid var(--paleblue);
 }
 
 .u-redTxt,
@@ -163,8 +163,8 @@
   border-left: 2px solid var(--gray);
 }
 
-.u-liteBlueBotBorder {
-  border-bottom: 4px solid var(--lightblue);
+.u-brightblueBotBorder {
+  border-bottom: 4px solid var(--brightblue);
 }
 
 .u-blueTopBorder {
@@ -178,12 +178,8 @@ a.u-noBorder {
 
 /* Backgrounds */
 
-.u-blueBkgBkg {
-  background: linear-gradient(to left, #232526 , #414345);
-}
-
-.u-offWhiteBkg {
-  background-color: var(--offwhite);
+.u-blueGrayBkg {
+  background-color: var(--bluegray);
 }
 
 .u-grayBkg {
@@ -194,16 +190,16 @@ a.u-noBorder {
   background-color: var(--paleblue);
 }
 
-.u-blueBkg {
-  background-color: var(--blue);
+.u-charcoalBkg {
+  background-color: var(--charcoal);
 }
 
 .u-whiteBkg {
   background-color: var(--white);
 }
 
-.u-deepBlueBkg {
-  background-color: var(--deepblue);
+.u-blueBlackBkg {
+  background-color: var(--blueBlack);
 }
 
 .u-blackBkg {
@@ -222,7 +218,7 @@ a.u-noBorder {
   font-size: 1.25rem;
   font-weight: normal;
   font-family: 'Andale Mono', AndaleMono, Consolas, 'Lucida Console', 'Lucida Sans Typewriter', monaco, monospace;
-  background: var(--medblue);
+  background: var(--grayMoss);
   display: inline-block;
   padding: .4em .8em;
   margin-right: .5em;
@@ -240,7 +236,7 @@ a.u-button {
 .u-button:hover {
   background: var(--blue);
   text-shadow: none;
-  color: var(--white)!important;
+  color: var(--charcoal)!important;
 }
 
 .u-button--lg {
@@ -258,8 +254,8 @@ a.u-button {
 
 .u-button--reverse,
 a.u-button--reverse {
-  color: var(--white);
-  background: var(--medgray);
+  color: var(--charcoal);
+  background: var(--offwhite);
 }
 
 .u-button--wide {

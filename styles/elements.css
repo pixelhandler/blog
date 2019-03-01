@@ -24,18 +24,18 @@ h1, h2, h3, h4 {
 }
 h1 {
   font-size: 1.3em;
-  color: var(--deepgray);
+  color: var(--brightblue);
 }
 h2 {
   font-size: 1.2em;
-  color: var(--medgray);
+  color: var(--paleblue);
 }
 h3 {
   font-size: 1.1em;
-  color: var(--medgray);
+  color: var(--aquamarine);
 }
 h4 {
-  color: var(--deepgray);
+  color: var(--offwhite);
 }
 h6, small {
   margin: 0;
@@ -72,7 +72,10 @@ small {
 }
 
 pre, code {
-  color: var(--brightblue);
+  background-color: var(--charcoal);
+  color: var(--white);
+  padding: 4px;
+  border-radius: 3px
 }
 
 code {
