@@ -1,10 +1,10 @@
-# Pixelhandler-com
+# Pixelhandler-dev
 
-Blog (client) application for pixelhandler.com
+Blog (client) application for https://pixelhandler.dev
 
 - Written with [TypeScript][typescript]
 - End-to-end tests with [Webdriver.io][webdriver]
-- Data source: api.pixelhandler.com JSON API
+- Data source: api.pixelhandler.dev JSON API
 
 
 ## Development
@@ -69,7 +69,7 @@ Download and install Java SE JDK, e.g `jdk-8u131-macosx-x64.dmg`
 *Run Webdriver REPL*
 
     make test-repl
-    browser.url('https://pixelhandler.com/tags')
+    browser.url('https://pixelhandler.dev/tags')
 
 For Ubuntu (e.g. WSL) may need to run headless
 

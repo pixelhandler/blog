@@ -71,7 +71,7 @@ exports.config = {
     //
     // Set a base URL in order to shorten url command calls. If your url parameter starts
     // with "/", then the base url gets prepended.
-    // baseUrl: 'https://pixelhandler.com',
+    // baseUrl: 'https://pixelhandler.dev',
     baseUrl: 'http://localhost:8080',
     //
     // Default timeout for all waitFor* commands.

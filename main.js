@@ -20,7 +20,7 @@ app.get('/script.js', (req, res) => res.sendFile(js));
 app.use(express.static(DIR));
 // app.use('/', express.static(path.join(__dirname, DIR)));
 
-const API = ['http://localhost:3000', 'http://api.pixelhandler.com'][0];
+const API = ['http://localhost:3000', 'https://api.pixelhandler.dev'][0];
 
 app.use('/api', proxy({target: API, changeOrigin: true}));
 
