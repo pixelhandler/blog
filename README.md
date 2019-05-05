@@ -1,6 +1,6 @@
-# Pixelhandler-com
+# Pixelhandler.dev
 
-Blog (client) application for pixelhandler.com
+Blog (client) application for https://pixelhandler.dev
 
 - Written with [TypeScript][typescript]
 - End-to-end tests with [Webdriver.io][webdriver]
@@ -45,22 +45,7 @@ Or,
 
 ## Testing
 
-See [webdriver] docs.
-
-*Install* Selenium executable and driver
-
-    cd test
-
-    curl -O http://selenium-release.storage.googleapis.com/3.0/selenium-server-standalone-3.0.1.jar
-
-    curl -L https://github.com/mozilla/geckodriver/releases/download/v0.11.1/geckodriver-v0.11.1-macos.tar.gz | tar xz
-
-Download and install Java SE JDK, e.g `jdk-8u131-macosx-x64.dmg`
-
-
-*Start Selenium Server*
-
-    make selenium
+To setup see [webdriver] docs, use selenium standalone server.
 
 *Run tests*
 
@@ -69,7 +54,7 @@ Download and install Java SE JDK, e.g `jdk-8u131-macosx-x64.dmg`
 *Run Webdriver REPL*
 
     make test-repl
-    browser.url('https://pixelhandler.com/tags')
+    browser.url('https://pixelhandler.dev/tags')
 
 For Ubuntu (e.g. WSL) may need to run headless
 

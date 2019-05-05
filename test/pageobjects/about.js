@@ -10,7 +10,7 @@ class AboutPage extends Page {
 
   get headerText() {
     const header = `${this.contentSelector} h1`;
-    return browser.element(header).getText();
+    return $(header).getText();
   }
 
   get contentSelector() {
@@ -18,7 +18,7 @@ class AboutPage extends Page {
   }
 
   waitForContentLoaded() {
-    browser.waitForExist(this.contentSelector + ' .Blog-about-title');
+    $(this.contentSelector + ' .Blog-about-title').waitForExist(15000);
   }
 }
 

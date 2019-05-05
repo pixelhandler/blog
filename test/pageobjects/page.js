@@ -16,22 +16,22 @@ class Page {
   }
 
   get header() {
-    return browser.element('header a');
+    return browser.$('header a');
   }
 
   get recentPosts() {
-    return browser.element('#content-recent-posts');
+    return browser.$('#content-recent-posts');
   }
 
   get links() {
-    return browser.element('.Blog-nav-list');
+    return browser.$('.Blog-nav-list');
   }
 
   get search() {
-    return browser.element('#query');
+    return browser.$('#query');
   }
   set search(value) {
-    browser.element('#query').setValue(value);
+    browser.$('#query').setValue(value);
   }
 
   enterSearch(query) {
@@ -42,27 +42,27 @@ class Page {
     //   .keys(['Enter'])
     //   .pause(500);
     this.search = query;
-    browser.submitForm('#search');
+    browser.elementSubmit('#search');
   }
 
   clickSubmitButton() {
-    browser.click('#search #submit');
+    browser.$('#search #submit').click();
   }
 
   clickArchiveLink() {
-    browser.click('.Blog-nav-list-item a[href="/posts"]');
+    browser.$('.Blog-nav-list-item a[href="/posts"]').click();
   }
 
   clickAboutLink() {
-    browser.click('.Blog-nav-list-item a[href="/about"]');
+    browser.$('.Blog-nav-list-item a[href="/about"]').click();
   }
 
   clickTagsLink() {
-    browser.click('.Blog-nav-list-item a[href="/tags"]');
+    browser.$('.Blog-nav-list-item a[href="/tags"]').click();
   }
 
   clickBlogLink() {
-    browser.click('.Blog-nav-list-item a[href="/"]');
+    browser.$('.Blog-nav-list-item a[href="/"]').click();
   }
 
   get contentSelector() {
@@ -70,11 +70,11 @@ class Page {
   }
 
   get contentExists() {
-    return browser.isExisting(this.contentSelector);
+    return $(this.contentSelector).isExisting();
   }
 
   waitForContentLoaded() {
-    browser.waitForExist(this.contentSelector);
+    $(this.contentSelector).waitForExist(15000);
   }
 }
 
