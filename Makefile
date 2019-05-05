@@ -8,7 +8,7 @@ clean:
 	rm -fr ./dist/*
 
 install:
-	yarn install
+	npm install
 
 watch: build
 	./node_modules/.bin/webpack --config webpack.config.js --progress --watch
