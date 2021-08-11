@@ -28,7 +28,7 @@ module.exports = {
   resolve: {
     extensions: ['.ts', '.js'],
   },
-  devtool: '#cheap-eval-source-map',
+  devtool: 'eval-source-map',
   watchOptions: {
     aggregateTimeout: 500,
     poll: 1000,
