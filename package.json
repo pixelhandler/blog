@@ -42,7 +42,7 @@
     "style-loader": "^0.23.1",
     "ts-loader": "^5.4.5",
     "typescript": "^3.4.5",
-    "uglify-js": "^3.5.10",
+    "uglify-js": "^3.14.1",
     "uglifycss": "0.0.29",
     "wdio": "^5.0.6",
     "wdio-mocha-framework": "^0.6.4",
