@@ -12,8 +12,8 @@
 
 <channel>
 	<title>Pushin&#039; &#38; pullin&#039; pixels on the net &#187; Podcast Feed</title>
-	<atom:link href="https://pixelhandler.com/?feed=podcast" rel="self" type="application/rss+xml" />
-	<link>https://pixelhandler.com</link>
+	<atom:link href="https://pixelhandler.dev/?feed=podcast" rel="self" type="application/rss+xml" />
+	<link>https://pixelhandler.dev</link>
 	<description>Internet Broadcast : Pushing Text and Pixels on the Net</description>
 	<lastBuildDate>Sun, 24 Jul 2011 20:53:36 +0000</lastBuildDate>
 	<language>en</language>
@@ -21,13 +21,13 @@
 	<sy:updateFrequency>1</sy:updateFrequency>
 	
 	<copyright>2008-2010 </copyright>
-	<managingEditor>no-reply@pixelhandler.com (Bill Heaton)</managingEditor>
-	<webMaster>no-reply@pixelhandler.com (Bill Heaton)</webMaster>
+	<managingEditor>no-reply@pixelhandler.dev (Bill Heaton)</managingEditor>
+	<webMaster>no-reply@pixelhandler.dev (Bill Heaton)</webMaster>
 	<ttl>1440</ttl>
 	<image>
-		<url>https://pixelhandler.com/images/Pixelhandler-art-sm.jpg</url>
+		<url>https://pixelhandler.dev/images/Pixelhandler-art-sm.jpg</url>
 		<title>Pushin&#039; &amp; pullin&#039; pixels on the net &#187; Podcast Feed</title>
-		<link>https://pixelhandler.com</link>
+		<link>https://pixelhandler.dev</link>
 		<width>144</width>
 		<height>144</height>
 	</image>
@@ -38,15 +38,15 @@
 	<itunes:author>Bill Heaton</itunes:author>
 	<itunes:owner>
 		<itunes:name>Bill Heaton</itunes:name>
-		<itunes:email>no-reply@pixelhandler.com</itunes:email>
+		<itunes:email>no-reply@pixelhandler.dev</itunes:email>
 	</itunes:owner>
 	<itunes:block>no</itunes:block>
 	<itunes:explicit>no</itunes:explicit>
-	<itunes:image href="https://pixelhandler.com/images/Pixelhandler-art.jpg" />
+	<itunes:image href="https://pixelhandler.dev/images/Pixelhandler-art.jpg" />
 		<item>
 		<title>Winning the #1 Search Engine Result for Your Key Phrase</title>
-		<link>https://pixelhandler.com/marketing/search-engine-result-number-one-for-your-key-phrase</link>
-		<comments>https://pixelhandler.com/marketing/search-engine-result-number-one-for-your-key-phrase#comments</comments>
+		<link>https://pixelhandler.dev/marketing/search-engine-result-number-one-for-your-key-phrase</link>
+		<comments>https://pixelhandler.dev/marketing/search-engine-result-number-one-for-your-key-phrase#comments</comments>
 		<pubDate>Fri, 04 Jul 2008 21:16:48 +0000</pubDate>
 		<dc:creator>Bill Heaton</dc:creator>
 				<category><![CDATA[Marketing]]></category>
@@ -61,18 +61,18 @@
 		<category><![CDATA[social networking]]></category>
 		<category><![CDATA[Web Design]]></category>
 
-		<guid isPermaLink="false">https://pixelhandler.com/?p=88</guid>
-		<description><![CDATA[Internet Marketing Report and Social Media Highlights Newsletter &#8211; July 2008 This newsletter will mail out the first week of each month, please visit the link below to opt-in http://lists.pixelhandler.com &#8216;Bill&#8217;s Internet Marketing Report&#8217; - Winning the #1 Search Engine Result for Your Key Phrase -&#160; Strategies and topics relating to the happenings I experience in the race of marketing, publishing and selling on the web. Having the top result on Google for your main key phrase  <a class="more" href="https://pixelhandler.com/marketing/search-engine-result-number-one-for-your-key-phrase">
+		<guid isPermaLink="false">https://pixelhandler.dev/?p=88</guid>
+		<description><![CDATA[Internet Marketing Report and Social Media Highlights Newsletter &#8211; July 2008 This newsletter will mail out the first week of each month, please visit the link below to opt-in http://lists.pixelhandler.dev &#8216;Bill&#8217;s Internet Marketing Report&#8217; - Winning the #1 Search Engine Result for Your Key Phrase -&#160; Strategies and topics relating to the happenings I experience in the race of marketing, publishing and selling on the web. Having the top result on Google for your main key phrase  <a class="more" href="https://pixelhandler.dev/marketing/search-engine-result-number-one-for-your-key-phrase">
 	&#187;&#160;Read&#160;more&#160;&#8230;</a>]]></description>
-		<wfw:commentRss>https://pixelhandler.com/marketing/search-engine-result-number-one-for-your-key-phrase/feed</wfw:commentRss>
+		<wfw:commentRss>https://pixelhandler.dev/marketing/search-engine-result-number-one-for-your-key-phrase/feed</wfw:commentRss>
 		<slash:comments>0</slash:comments>
-			<enclosure url="https://pixelhandler.com/podpress_trac/feed/88/0/winning-search-engine-result-number-one.mp3" length="7243946" type="audio/mpeg" />
+			<enclosure url="https://pixelhandler.dev/podpress_trac/feed/88/0/winning-search-engine-result-number-one.mp3" length="7243946" type="audio/mpeg" />
 		<itunes:duration>0:07:30</itunes:duration>
 		<itunes:subtitle>Internet Marketing Report and Social Media Highlights Newsletter &#8211; July 2008
-This newsletter will mail out the first week of each month, please visit the link below to opt-in http://lists.pixelhandler.com
+This newsletter will mail out the first week of each month, please visit the link below to opt-in http://lists.pixelhandler.dev
 &#8216;Bill&#8217;s Internet Marketing[...]</itunes:subtitle>
 		<itunes:summary>Internet Marketing Report and Social Media Highlights Newsletter &#8211; July 2008
-This newsletter will mail out the first week of each month, please visit the link below to opt-in http://lists.pixelhandler.com
+This newsletter will mail out the first week of each month, please visit the link below to opt-in http://lists.pixelhandler.dev
 &#8216;Bill&#8217;s Internet Marketing Report&#8217; - Winning the #1 Search Engine Result for Your Key Phrase
 -&#160; Strategies and topics relating to the happenings I experience in the race of marketing, publishing and selling on the web.
 Having the top result on Google for your main key phrase just feels great! Seriously, in this time of uncertainty, being number one even for a short time is pretty cool. It is also nice when a competitor enters the market and previously held the #1 search result which you now hold.
@@ -117,8 +117,8 @@ Listen the track titled, The Pain Of Numbers by Get Three Coffins Ready &#8211; 
 	</item>
 		<item>
 		<title>Reasons for Business Blogging and Kicking Off a Local Socal Network</title>
-		<link>https://pixelhandler.com/marketing/business-blogging-local-socal-network</link>
-		<comments>https://pixelhandler.com/marketing/business-blogging-local-socal-network#comments</comments>
+		<link>https://pixelhandler.dev/marketing/business-blogging-local-socal-network</link>
+		<comments>https://pixelhandler.dev/marketing/business-blogging-local-socal-network#comments</comments>
 		<pubDate>Fri, 06 Jun 2008 18:57:11 +0000</pubDate>
 		<dc:creator>Bill Heaton</dc:creator>
 				<category><![CDATA[Marketing]]></category>
@@ -130,17 +130,17 @@ Listen the track titled, The Pain Of Numbers by Get Three Coffins Ready &#8211; 
 		<category><![CDATA[social media]]></category>
 
 		<guid isPermaLink="false">http://2019542286</guid>
-		<description><![CDATA[Internet Marketing Report and Social Media Highlights Newsletter &#8211; June 2008 This newsletter will mail out the first week of each month, please visit the link below to opt-in http://lists.pixelhandler.com &#8216;Bill&#8217;s Internet Marketing Report&#8217; - Another good reason for businesses to blog -&#160; Strategies and topics relating to the happenings I experience in the race of marketing, publishing and selling on the web. I&#8217;m currently employed by a medical equipment manufacturer and distributor (I freelance too) and  <a class="more" href="https://pixelhandler.com/marketing/business-blogging-local-socal-network">
+		<description><![CDATA[Internet Marketing Report and Social Media Highlights Newsletter &#8211; June 2008 This newsletter will mail out the first week of each month, please visit the link below to opt-in http://lists.pixelhandler.dev &#8216;Bill&#8217;s Internet Marketing Report&#8217; - Another good reason for businesses to blog -&#160; Strategies and topics relating to the happenings I experience in the race of marketing, publishing and selling on the web. I&#8217;m currently employed by a medical equipment manufacturer and distributor (I freelance too) and  <a class="more" href="https://pixelhandler.dev/marketing/business-blogging-local-socal-network">
 	&#187;&#160;Read&#160;more&#160;&#8230;</a>]]></description>
-		<wfw:commentRss>https://pixelhandler.com/marketing/business-blogging-local-socal-network/feed</wfw:commentRss>
+		<wfw:commentRss>https://pixelhandler.dev/marketing/business-blogging-local-socal-network/feed</wfw:commentRss>
 		<slash:comments>0</slash:comments>
-			<enclosure url="https://pixelhandler.com/podpress_trac/feed/77/0/Business-Blog-Local-Socal-Network.mp3" length="10218251" type="audio/mpeg" />
+			<enclosure url="https://pixelhandler.dev/podpress_trac/feed/77/0/Business-Blog-Local-Socal-Network.mp3" length="10218251" type="audio/mpeg" />
 		<itunes:duration>0:10:36</itunes:duration>
 		<itunes:subtitle>Internet Marketing Report and Social Media Highlights Newsletter &#8211; June 2008 
-This newsletter will mail out the first week of each month, please visit the link below to opt-in http://lists.pixelhandler.com
+This newsletter will mail out the first week of each month, please visit the link below to opt-in http://lists.pixelhandler.dev
 &#8216;Bill&#8217;s Internet Marketin[...]</itunes:subtitle>
 		<itunes:summary>Internet Marketing Report and Social Media Highlights Newsletter &#8211; June 2008 
-This newsletter will mail out the first week of each month, please visit the link below to opt-in http://lists.pixelhandler.com
+This newsletter will mail out the first week of each month, please visit the link below to opt-in http://lists.pixelhandler.dev
 &#8216;Bill&#8217;s Internet Marketing Report&#8217; - Another good reason for businesses to blog
 -&#160; Strategies and topics relating to the happenings I experience in the race of marketing, publishing and selling on the web.
 I&#8217;m currently employed by a medical equipment manufacturer and distributor (I freelance too) and last month some very interesting news was broadcast on news radio and the internet about the LA Laker&#8217;s own Kobe Bryant and his back injury.
@@ -170,8 +170,8 @@ Recently I became interested in social media and networking with other like mind
 	</item>
 		<item>
 		<title>Internet Marketing Report and Social Media Highlights Newsletter &#8211; May &#8217;08</title>
-		<link>https://pixelhandler.com/marketing/internet-marketing-report-and-social-media-highlights-newsletter-may-08</link>
-		<comments>https://pixelhandler.com/marketing/internet-marketing-report-and-social-media-highlights-newsletter-may-08#comments</comments>
+		<link>https://pixelhandler.dev/marketing/internet-marketing-report-and-social-media-highlights-newsletter-may-08</link>
+		<comments>https://pixelhandler.dev/marketing/internet-marketing-report-and-social-media-highlights-newsletter-may-08#comments</comments>
 		<pubDate>Mon, 05 May 2008 15:29:20 +0000</pubDate>
 		<dc:creator>Bill Heaton</dc:creator>
 				<category><![CDATA[Marketing]]></category>
@@ -181,16 +181,16 @@ Recently I became interested in social media and networking with other like mind
 		<category><![CDATA[social media]]></category>
 
 		<guid isPermaLink="false">http://2079207195</guid>
-		<description><![CDATA[Well, it&#8217;s about time! I finally committed myself to personal branding and sharing both professional topics and personal insights/news via an email newsletter. This mailing is managed by an online database for easy opt-in and out-out choices. I am sending you this message since we have been in contact either professionally or personally (friends and family included). This newsletter will mail out the first week of each month, please visit the link below to opt-in http://lists.pixelhandler.com. Internet  <a class="more" href="https://pixelhandler.com/marketing/internet-marketing-report-and-social-media-highlights-newsletter-may-08">
+		<description><![CDATA[Well, it&#8217;s about time! I finally committed myself to personal branding and sharing both professional topics and personal insights/news via an email newsletter. This mailing is managed by an online database for easy opt-in and out-out choices. I am sending you this message since we have been in contact either professionally or personally (friends and family included). This newsletter will mail out the first week of each month, please visit the link below to opt-in http://lists.pixelhandler.dev. Internet  <a class="more" href="https://pixelhandler.dev/marketing/internet-marketing-report-and-social-media-highlights-newsletter-may-08">
 	&#187;&#160;Read&#160;more&#160;&#8230;</a>]]></description>
-		<wfw:commentRss>https://pixelhandler.com/marketing/internet-marketing-report-and-social-media-highlights-newsletter-may-08/feed</wfw:commentRss>
+		<wfw:commentRss>https://pixelhandler.dev/marketing/internet-marketing-report-and-social-media-highlights-newsletter-may-08/feed</wfw:commentRss>
 		<slash:comments>0</slash:comments>
-			<enclosure url="https://pixelhandler.com/podpress_trac/feed/35/0/InternetMarketingReport-Newsletter-007.mp3" length="9335617" type="audio/mpeg" />
+			<enclosure url="https://pixelhandler.dev/podpress_trac/feed/35/0/InternetMarketingReport-Newsletter-007.mp3" length="9335617" type="audio/mpeg" />
 		<itunes:duration>0:07:00</itunes:duration>
 		<itunes:subtitle>Well, it&#8217;s about time! I finally committed myself to personal branding and sharing both professional topics and personal insights/news via an email newsletter. This mailing is managed by an online database for easy opt-in and out-out choices. [...]</itunes:subtitle>
 		<itunes:summary>Well, it&#8217;s about time! I finally committed myself to personal branding and sharing both professional topics and personal insights/news via an email newsletter. This mailing is managed by an online database for easy opt-in and out-out choices. I am sending you this message since we have been in contact either professionally or personally (friends and family included).
 
-This newsletter will mail out the first week of each month, please visit the link below to opt-in http://lists.pixelhandler.com.
+This newsletter will mail out the first week of each month, please visit the link below to opt-in http://lists.pixelhandler.dev.
 
 
 Internet Marketing Report and Social Media Highlights Newsletter&#8230;
@@ -226,8 +226,8 @@ Last month, my wife and I attended a meetup in Irvine on the topic of internet m
 	</item>
 		<item>
 		<title>Answers for Internet Marketing, SEO, Business and Promotion</title>
-		<link>https://pixelhandler.com/marketing/answers-for-internet-marketing-seo-and-business</link>
-		<comments>https://pixelhandler.com/marketing/answers-for-internet-marketing-seo-and-business#comments</comments>
+		<link>https://pixelhandler.dev/marketing/answers-for-internet-marketing-seo-and-business</link>
+		<comments>https://pixelhandler.dev/marketing/answers-for-internet-marketing-seo-and-business#comments</comments>
 		<pubDate>Thu, 10 Apr 2008 05:44:24 +0000</pubDate>
 		<dc:creator>Bill Heaton</dc:creator>
 				<category><![CDATA[Marketing]]></category>
@@ -243,9 +243,9 @@ Last month, my wife and I attended a meetup in Irvine on the topic of internet m
 
 		<guid isPermaLink="false">http://2084574360</guid>
 		<description><![CDATA[This week I spent some time getting social with LinkedIn.com I answered a few questions related to my profession. This episode (6) covers the questions in short form with links to the original questions with the linkedin community answers, you will need to log-in at linkedin.com to view the links in this post. The audio player above includes the additional explanations to these questions and comments on the answers submitted by the linkedin members. Also, I play a song titled, Finish What We Started, by Headway and can be found online at... http://www.podsafemusicnetwork.com]]></description>
-		<wfw:commentRss>https://pixelhandler.com/marketing/answers-for-internet-marketing-seo-and-business/feed</wfw:commentRss>
+		<wfw:commentRss>https://pixelhandler.dev/marketing/answers-for-internet-marketing-seo-and-business/feed</wfw:commentRss>
 		<slash:comments>0</slash:comments>
-			<enclosure url="https://pixelhandler.com/podpress_trac/feed/11/0/Answers-Marketing-SEO-Pixelhandler006.mp3" length="15403531" type="audio/mpeg" />
+			<enclosure url="https://pixelhandler.dev/podpress_trac/feed/11/0/Answers-Marketing-SEO-Pixelhandler006.mp3" length="15403531" type="audio/mpeg" />
 		<itunes:duration>0:16:00</itunes:duration>
 		<itunes:subtitle>This week I spent some time getting social with LinkedIn.com I answered a few questions related to my profession. This episode (6) covers the questions in short form with links to the original questions with the linkedin community answers, you will [...]</itunes:subtitle>
 		<itunes:summary>This week I spent some time getting social with LinkedIn.com I answered a few questions related to my profession. This episode (6) covers the questions in short form with links to the original questions with the linkedin community answers, you will need to log-in at linkedin.com to view the links in this post. The audio player above includes the additional explanations to these questions and comments on the answers submitted by the linkedin members. Also, I play a song titled, Finish What We Started, by Headway and can be found online at... http://www.podsafemusicnetwork.com</itunes:summary>
@@ -256,8 +256,8 @@ Last month, my wife and I attended a meetup in Irvine on the topic of internet m
 	</item>
 		<item>
 		<title>Conversion Optimization by Strategic Design</title>
-		<link>https://pixelhandler.com/marketing/conversion-optimization</link>
-		<comments>https://pixelhandler.com/marketing/conversion-optimization#comments</comments>
+		<link>https://pixelhandler.dev/marketing/conversion-optimization</link>
+		<comments>https://pixelhandler.dev/marketing/conversion-optimization#comments</comments>
 		<pubDate>Wed, 26 Mar 2008 08:01:39 +0000</pubDate>
 		<dc:creator>Bill Heaton</dc:creator>
 				<category><![CDATA[Design]]></category>
@@ -270,9 +270,9 @@ Last month, my wife and I attended a meetup in Irvine on the topic of internet m
 
 		<guid isPermaLink="false">http://356724192</guid>
 		<description><![CDATA[This 10 minute review highlights the key points in the book that helped me learn the process for conversion optimization – converting my site visitors into customers.]]></description>
-		<wfw:commentRss>https://pixelhandler.com/marketing/conversion-optimization/feed</wfw:commentRss>
+		<wfw:commentRss>https://pixelhandler.dev/marketing/conversion-optimization/feed</wfw:commentRss>
 		<slash:comments>0</slash:comments>
-			<enclosure url="https://pixelhandler.com/podpress_trac/feed/10/0/Review_WebDesign4ROI-Pixelhandler005.mp3" length="5109685" type="audio/mpeg" />
+			<enclosure url="https://pixelhandler.dev/podpress_trac/feed/10/0/Review_WebDesign4ROI-Pixelhandler005.mp3" length="5109685" type="audio/mpeg" />
 		<itunes:duration>0:10:33</itunes:duration>
 		<itunes:subtitle>Pixel Handler Radio : Episode 5</itunes:subtitle>
 		<itunes:summary>This 10 minute review highlights the key points in the book that helped me learn the process for conversion optimization – converting my site visitors into customers.</itunes:summary>
@@ -283,8 +283,8 @@ Last month, my wife and I attended a meetup in Irvine on the topic of internet m
 	</item>
 		<item>
 		<title>New Web Site/Domain Indexed by Google in only 3 Days from Launch</title>
-		<link>https://pixelhandler.com/marketing/new-web-sitedomain-indexed-by-google-in-3-days-from-launch</link>
-		<comments>https://pixelhandler.com/marketing/new-web-sitedomain-indexed-by-google-in-3-days-from-launch#comments</comments>
+		<link>https://pixelhandler.dev/marketing/new-web-sitedomain-indexed-by-google-in-3-days-from-launch</link>
+		<comments>https://pixelhandler.dev/marketing/new-web-sitedomain-indexed-by-google-in-3-days-from-launch#comments</comments>
 		<pubDate>Sat, 10 Nov 2007 22:44:11 +0000</pubDate>
 		<dc:creator>Bill Heaton</dc:creator>
 				<category><![CDATA[Marketing]]></category>
@@ -293,11 +293,11 @@ Last month, my wife and I attended a meetup in Irvine on the topic of internet m
 		<category><![CDATA[indexed]]></category>
 		<category><![CDATA[web site]]></category>
 
-		<guid isPermaLink="false">https://pixelhandler.com/?p=9</guid>
+		<guid isPermaLink="false">https://pixelhandler.dev/?p=9</guid>
 		<description><![CDATA[A story based on a web site donated to the charity, Miracle Ranch Orphanage Foundation.]]></description>
-		<wfw:commentRss>https://pixelhandler.com/marketing/new-web-sitedomain-indexed-by-google-in-3-days-from-launch/feed</wfw:commentRss>
+		<wfw:commentRss>https://pixelhandler.dev/marketing/new-web-sitedomain-indexed-by-google-in-3-days-from-launch/feed</wfw:commentRss>
 		<slash:comments>0</slash:comments>
-			<enclosure url="https://pixelhandler.com/podpress_trac/feed/9/0/Indexedin3Days-Pixelhandler004.mp3" length="16871990" type="audio/mpeg" />
+			<enclosure url="https://pixelhandler.dev/podpress_trac/feed/9/0/Indexedin3Days-Pixelhandler004.mp3" length="16871990" type="audio/mpeg" />
 		<itunes:duration>0:22:15</itunes:duration>
 		<itunes:subtitle>Pixel Handler Radio : Episode 4</itunes:subtitle>
 		<itunes:summary>A story based on a web site donated to the charity, Miracle Ranch Orphanage Foundation.</itunes:summary>
@@ -308,8 +308,8 @@ Last month, my wife and I attended a meetup in Irvine on the topic of internet m
 	</item>
 		<item>
 		<title>Twenty Questions to Plan Your Web Site Project</title>
-		<link>https://pixelhandler.com/marketing/web-project-questions</link>
-		<comments>https://pixelhandler.com/marketing/web-project-questions#comments</comments>
+		<link>https://pixelhandler.dev/marketing/web-project-questions</link>
+		<comments>https://pixelhandler.dev/marketing/web-project-questions#comments</comments>
 		<pubDate>Sat, 27 Oct 2007 09:21:16 +0000</pubDate>
 		<dc:creator>Bill Heaton</dc:creator>
 				<category><![CDATA[Design]]></category>
@@ -323,11 +323,11 @@ Last month, my wife and I attended a meetup in Irvine on the topic of internet m
 		<category><![CDATA[web project]]></category>
 
 		<guid isPermaLink="false">http://1816650168</guid>
-		<description><![CDATA[Every Web project needs a solid plan to work through the estimate to the site delivery. Here is a list of project questions to plan your Web site with considerations for marketing, design, SEO, unique selling position, E-commerce, and more&#8230; How would you describe the audience you want to attract? Do you want the design to reflect your organization or your audience? What is the primary message you wish to convey to your audience with this project?  <a class="more" href="https://pixelhandler.com/marketing/web-project-questions">
+		<description><![CDATA[Every Web project needs a solid plan to work through the estimate to the site delivery. Here is a list of project questions to plan your Web site with considerations for marketing, design, SEO, unique selling position, E-commerce, and more&#8230; How would you describe the audience you want to attract? Do you want the design to reflect your organization or your audience? What is the primary message you wish to convey to your audience with this project?  <a class="more" href="https://pixelhandler.dev/marketing/web-project-questions">
 	&#187;&#160;Read&#160;more&#160;&#8230;</a>]]></description>
-		<wfw:commentRss>https://pixelhandler.com/marketing/web-project-questions/feed</wfw:commentRss>
+		<wfw:commentRss>https://pixelhandler.dev/marketing/web-project-questions/feed</wfw:commentRss>
 		<slash:comments>0</slash:comments>
-			<enclosure url="https://pixelhandler.com/podpress_trac/feed/8/0/TwentyProjectQuestions-Pixelhandler-3.mp3" length="5768155" type="audio/mpeg" />
+			<enclosure url="https://pixelhandler.dev/podpress_trac/feed/8/0/TwentyProjectQuestions-Pixelhandler-3.mp3" length="5768155" type="audio/mpeg" />
 		<itunes:duration>0:08:03</itunes:duration>
 		<itunes:subtitle>Every Web project needs a solid plan to work through the estimate to the site delivery. Here is a list of project questions to plan your Web site with considerations for marketing, design, SEO, unique selling position, E-commerce, and more&#8230;
 
@@ -370,8 +370,8 @@ Finally, and perhaps most important, what is your &#8216;unique selling proposit
 	</item>
 		<item>
 		<title>Your Web Project, Marketing Strategy Mash Up</title>
-		<link>https://pixelhandler.com/marketing/your-web-project-marketing-strategy-mash-up</link>
-		<comments>https://pixelhandler.com/marketing/your-web-project-marketing-strategy-mash-up#comments</comments>
+		<link>https://pixelhandler.dev/marketing/your-web-project-marketing-strategy-mash-up</link>
+		<comments>https://pixelhandler.dev/marketing/your-web-project-marketing-strategy-mash-up#comments</comments>
 		<pubDate>Sat, 06 Oct 2007 21:01:29 +0000</pubDate>
 		<dc:creator>Bill Heaton</dc:creator>
 				<category><![CDATA[Design]]></category>
@@ -382,14 +382,14 @@ Finally, and perhaps most important, what is your &#8216;unique selling proposit
 		<category><![CDATA[Web analytics]]></category>
 		<category><![CDATA[Web standards]]></category>
 
-		<guid isPermaLink="false">https://pixelhandler.com/?p=6</guid>
-		<description><![CDATA[Pixel Handler Episode 2, Your Web Project, features web project elements and how they mash up with your marketing strategy. Questions addressed: How do the following mash up to produce results&#8230; design, development, search engine optimization, Web standards, current trends, Web analytics, content, SERPs, usability, marketing strategy, and goal conversions? And, why does it matter? So, what can I do about it? Wrap up: Keep the main thing the main thing! If your unique selling position is  <a class="more" href="https://pixelhandler.com/marketing/your-web-project-marketing-strategy-mash-up">
+		<guid isPermaLink="false">https://pixelhandler.dev/?p=6</guid>
+		<description><![CDATA[Pixel Handler Episode 2, Your Web Project, features web project elements and how they mash up with your marketing strategy. Questions addressed: How do the following mash up to produce results&#8230; design, development, search engine optimization, Web standards, current trends, Web analytics, content, SERPs, usability, marketing strategy, and goal conversions? And, why does it matter? So, what can I do about it? Wrap up: Keep the main thing the main thing! If your unique selling position is  <a class="more" href="https://pixelhandler.dev/marketing/your-web-project-marketing-strategy-mash-up">
 	&#187;&#160;Read&#160;more&#160;&#8230;</a>]]></description>
-		<wfw:commentRss>https://pixelhandler.com/marketing/your-web-project-marketing-strategy-mash-up/feed</wfw:commentRss>
+		<wfw:commentRss>https://pixelhandler.dev/marketing/your-web-project-marketing-strategy-mash-up/feed</wfw:commentRss>
 		<slash:comments>0</slash:comments>
-			<enclosure url="https://pixelhandler.com/podpress_trac/feed/6/0/yourwebproject-pixelhandler-002.mp3" length="13246719" type="audio/mpeg" />
+			<enclosure url="https://pixelhandler.dev/podpress_trac/feed/6/0/yourwebproject-pixelhandler-002.mp3" length="13246719" type="audio/mpeg" />
 		<itunes:duration>0:17:29</itunes:duration>
-		<itunes:subtitle>PixelHandler.com – Episode 2 – Your Web Project</itunes:subtitle>
+		<itunes:subtitle>pixelhandler.dev – Episode 2 – Your Web Project</itunes:subtitle>
 		<itunes:summary>Pixel Handler Episode 2, Your Web Project, features web project elements and how they mash up with your marketing strategy. Questions addressed:
 
 How do the following mash up to produce results&#8230; design, development, search engine optimization, Web standards, current trends, Web analytics, content, SERPs, usability, marketing strategy, and goal conversions?
@@ -404,8 +404,8 @@ Wrap up: Keep the main thing the main thing! If your unique selling position is 
 	</item>
 		<item>
 		<title>Commentary from PodCamp SoCal, event in Ontario, CA</title>
-		<link>https://pixelhandler.com/marketing/commentary-from-podcamp-socal-event-in-ontario-ca</link>
-		<comments>https://pixelhandler.com/marketing/commentary-from-podcamp-socal-event-in-ontario-ca#comments</comments>
+		<link>https://pixelhandler.dev/marketing/commentary-from-podcamp-socal-event-in-ontario-ca</link>
+		<comments>https://pixelhandler.dev/marketing/commentary-from-podcamp-socal-event-in-ontario-ca#comments</comments>
 		<pubDate>Fri, 28 Sep 2007 01:54:39 +0000</pubDate>
 		<dc:creator>Bill Heaton</dc:creator>
 				<category><![CDATA[Marketing]]></category>
@@ -415,13 +415,13 @@ Wrap up: Keep the main thing the main thing! If your unique selling position is 
 		<category><![CDATA[SoCal]]></category>
 
 		<guid isPermaLink="false">http://398144836</guid>
-		<description><![CDATA[Chris Brogan, co-founder of PodCamp, a free unconference that explores the benefits and uses of new media community tools. This clip was recorded live at PodCampSoCal for commentary on pixelhandler.com]]></description>
-		<wfw:commentRss>https://pixelhandler.com/marketing/commentary-from-podcamp-socal-event-in-ontario-ca/feed</wfw:commentRss>
+		<description><![CDATA[Chris Brogan, co-founder of PodCamp, a free unconference that explores the benefits and uses of new media community tools. This clip was recorded live at PodCampSoCal for commentary on pixelhandler.dev]]></description>
+		<wfw:commentRss>https://pixelhandler.dev/marketing/commentary-from-podcamp-socal-event-in-ontario-ca/feed</wfw:commentRss>
 		<slash:comments>1</slash:comments>
-			<enclosure url="https://pixelhandler.com/podpress_trac/feed/4/0/Pixelhandler001-PodCampSoCal-07.mp3" length="4080535" type="audio/mpeg" />
+			<enclosure url="https://pixelhandler.dev/podpress_trac/feed/4/0/Pixelhandler001-PodCampSoCal-07.mp3" length="4080535" type="audio/mpeg" />
 		<itunes:duration>0:05:42</itunes:duration>
-		<itunes:subtitle>Chris Brogan, co-founder of PodCamp, a free unconference that explores the benefits and uses of new media community tools. This clip was recorded live at PodCampSoCal for commentary on pixelhandler.com</itunes:subtitle>
-		<itunes:summary>Chris Brogan, co-founder of PodCamp, a free unconference that explores the benefits and uses of new media community tools. This clip was recorded live at PodCampSoCal for commentary on pixelhandler.com</itunes:summary>
+		<itunes:subtitle>Chris Brogan, co-founder of PodCamp, a free unconference that explores the benefits and uses of new media community tools. This clip was recorded live at PodCampSoCal for commentary on pixelhandler.dev</itunes:subtitle>
+		<itunes:summary>Chris Brogan, co-founder of PodCamp, a free unconference that explores the benefits and uses of new media community tools. This clip was recorded live at PodCampSoCal for commentary on pixelhandler.dev</itunes:summary>
 		<itunes:keywords>Marketing</itunes:keywords>
 		<itunes:author>Bill Heaton</itunes:author>
 		<itunes:explicit>no</itunes:explicit>

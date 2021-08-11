@@ -20,10 +20,10 @@ app.get('/script.js', (req, res) => res.sendFile(js));
 app.use(express.static(DIR));
 // app.use('/', express.static(path.join(__dirname, DIR)));
 
-const API = ['http://localhost:3000', 'https://api.pixelhandler.dev'][0];
+const API = ['http://localhost:3000', 'https://pixelhandler.dev'][1];
 
 app.use('/api', proxy({target: API, changeOrigin: true}));
 
-app.listen(8080, function () {
-  console.log('Running at http://localhost:8080');
+app.listen(8081, function () {
+  console.log('Running at http://localhost:8081');
 });
