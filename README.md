@@ -32,7 +32,7 @@ Or, use *Nginx*
 
 *PostCSS* modules
 
-- postcss-cssnext, postcss-import, postcss-nested
+- postcss-import, postcss-nested
 
 *Compile* styles, runs in `make build`
 
@@ -118,6 +118,11 @@ Content-Encoding
 gzip
 ```
 
+## Troubleshooting
+
+- issue with `node-gyp`
+  `xcode-select --install`
+  `npm install -g node-gyp`
 
 [typescript]: https://www.typescriptlang.org/
 [webdriver]: http://webdriver.io/guide.html

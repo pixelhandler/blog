@@ -5,13 +5,12 @@ const path = require('path');
 const postcss = require('postcss');
 const importcss = require('postcss-import');
 const nestedcss = require('postcss-nested');
-const cssnext = require('postcss-cssnext');
 
 const src = 'styles/app.css';
 const dest = 'dist/styles.css';
 
 fs.readFile(file(src), (err, css) => {
-  postcss([importcss, nestedcss, cssnext])
+  postcss([importcss, nestedcss])
     .process(css, { from: src, to: dest })
     .then(result => {
       fs.writeFileSync(file(dest), result.css);

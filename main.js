@@ -1,5 +1,5 @@
 const express = require('express');
-const proxy = require('http-proxy-middleware');
+const { createProxyMiddleware } = require('http-proxy-middleware');
 const app = express();
 const path = require('path');
 
@@ -20,9 +20,9 @@ app.get('/script.js', (req, res) => res.sendFile(js));
 app.use(express.static(DIR));
 // app.use('/', express.static(path.join(__dirname, DIR)));
 
-const API = ['http://localhost:3000', 'https://pixelhandler.dev'][1];
+const API = ['http://localhost:3000', 'https://pixelhandler.dev'][0];
 
-app.use('/api', proxy({target: API, changeOrigin: true}));
+app.use('/api', createProxyMiddleware({target: API, changeOrigin: true}));
 
 app.listen(8081, function () {
   console.log('Running at http://localhost:8081');
